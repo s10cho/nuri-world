@@ -1,0 +1,10 @@
+{
+  "name": "nuri-hangul-kingdom",
+  "version": "1.0.0",
+  "description": "누리의 한글 왕국 — 미취학 아동을 위한 한글 학습 모험 웹앱",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8000"
+  }
+}

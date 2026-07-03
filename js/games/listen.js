@@ -1,0 +1,87 @@
+// 소리 듣고 글자 찾기 — 듣기 변별 게임
+import { el, cardColor, shuffle, sample, fxBurstAt, sleep } from '../ui.js';
+import { speak, sfx, hasKoreanTTS } from '../audio.js';
+import { JAMO } from '../data.js';
+import { objectParticle } from '../hangul.js';
+
+const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈구나!'];
+const RETRY = ['괜찮아요, 다시 한번 들어 볼까요?', '음, 소리를 한 번 더 들어 보세요!'];
+
+export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
+  return new Promise(resolve => {
+    let round = 0;
+    let mistakes = 0;
+    let seq = 0; // 라운드 순번 — 지연 프롬프트가 다음 라운드로 넘어간 뒤 재생되는 것 방지
+
+    // 한국어 음성이 없으면 목표 글자를 화면에 보여 줘 '찾기'로 진행 (듣기 대체)
+    const showModel = !hasKoreanTTS();
+
+    // 새로 배운 글자(focus)가 골고루 나오도록 출제 순서 구성
+    const targets = [];
+    const focusShuffled = shuffle(focus);
+    for (let i = 0; i < rounds; i++) targets.push(focusShuffled[i % focusShuffled.length]);
+
+    function ask() {
+      const mySeq = ++seq;
+      const target = targets[round];
+      const name = JAMO[target].name;
+      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`);
+
+      // 보기 3개: 정답 + 오답 2개
+      const wrongs = sample(pool.filter(c => c !== target), 2);
+      const options = shuffle([target, ...wrongs]);
+
+      const spk = el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊');
+      let solved = false;
+
+      const cards = options.map((ch, i) =>
+        el('button', {
+          class: `letter-card ${cardColor(i + round)}`,
+          onclick: async e => {
+            if (solved) return;
+            const cardEl = e.currentTarget;
+            if (ch === target) {
+              solved = true;
+              sfx('correct');
+              cardEl.classList.add('correct');
+              cards.forEach(c => { if (c !== cardEl) c.classList.add('dim'); });
+              fxBurstAt(cardEl, ['⭐', '✨', '💛']);
+              await speak(PRAISE[Math.floor(Math.random() * PRAISE.length)]);
+              round += 1;
+              if (round >= rounds) resolve({ mistakes });
+              else ask();
+            } else {
+              mistakes += 1;
+              sfx('wrong');
+              cardEl.classList.add('wrong');
+              setTimeout(() => cardEl.classList.remove('wrong'), 500);
+              speak(RETRY[Math.floor(Math.random() * RETRY.length)]);
+            }
+          },
+        }, ch),
+      );
+
+      // TTS 없을 때만: 찾아야 할 목표 글자를 모델로 표시
+      const modelRow = showModel
+        ? el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' } },
+            el('div', { class: 'ribbon', style: { padding: '4px 18px' } }, '이 글자를 찾아요!'),
+            el('div', { class: `letter-card ${cardColor(round)}`, style: { pointerEvents: 'none' } }, target),
+          )
+        : null;
+
+      area.replaceChildren(...[
+        el('div', { class: 'prompt-bar' }, spk,
+          el('span', {}, showModel ? '같은 글자를 찾아 보세요!' : '어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!')),
+        modelRow,
+        el('div', { class: 'choices' }, cards),
+        el('div', { class: 'round-dots' },
+          targets.map((_, i) => el('span', { class: 'dot' + (i < round ? ' done' : i === round ? ' now' : '') })),
+        ),
+      ].filter(Boolean));
+
+      sleep(400).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+    }
+
+    ask();
+  });
+}

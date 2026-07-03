@@ -1,0 +1,16 @@
+{
+  "name": "누리의 한글 왕국",
+  "short_name": "한글 왕국",
+  "description": "미취학 아동을 위한 한글 학습 모험 게임",
+  "lang": "ko",
+  "start_url": ".",
+  "scope": ".",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#59b8f2",
+  "theme_color": "#59b8f2",
+  "icons": [
+    { "src": "public/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "public/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
