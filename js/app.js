@@ -45,7 +45,39 @@ export function isAlive(screen) {
 }
 
 // ---- 부팅 -------------------------------------------------------------------
+// ---- 에러 경계 -------------------------------------------------------------
+// 자체 완결형 폴백 (CSS·ui.js가 실패해도 보이도록 인라인 스타일). 중복 렌더 방지.
+function renderFatal() {
+  const app = document.getElementById('app');
+  if (!app || document.getElementById('fatal-fallback')) return;
+  app.innerHTML =
+    '<div id="fatal-fallback" style="position:fixed;inset:0;display:flex;flex-direction:column;' +
+    'align-items:center;justify-content:center;gap:20px;background:#2b2036;color:#fff6e3;' +
+    "font-family:'Jua',sans-serif;text-align:center;padding:24px;z-index:9999\">" +
+    '<div style="font-size:4rem">🌧️</div>' +
+    '<div style="font-size:1.4rem;line-height:1.6">앗, 잠깐 문제가 생겼어요!<br>다시 시작해 볼까요?</div>' +
+    '<button id="fatal-reload" style="font-size:1.3rem;padding:14px 40px;border:none;border-radius:999px;' +
+    'background:#ffc93c;color:#5d3a00;font-weight:bold;cursor:pointer">🔄 다시 시작</button></div>';
+  document.getElementById('fatal-reload')?.addEventListener('click', () => location.reload());
+}
+
+// 화면이 하나도 렌더되지 않았으면(초기 부팅 실패) 폴백 표시. 부팅 이후의
+// 런타임 오류는 기록만 하고 UI를 갈아엎지 않는다.
+function maybeFatal() {
+  if (!document.querySelector('.screen')) renderFatal();
+}
+
+window.addEventListener('error', e => {
+  console.error('[nuri] error:', e.error || e.message);
+  maybeFatal();
+});
+window.addEventListener('unhandledrejection', e => {
+  console.error('[nuri] unhandledrejection:', e.reason);
+  maybeFatal();
+});
+
 async function boot() {
+ try {
   // 화면 모듈 로드 (등록 부수효과)
   await Promise.all([
     import('./screens/title.js'),
@@ -92,6 +124,11 @@ async function boot() {
   });
 
   go('title');
+ } catch (e) {
+  // import·초기화 실패 시 영구 백지 대신 재시작 폴백 노출
+  console.error('[nuri] 부팅 실패:', e);
+  renderFatal();
+ }
 }
 
 boot();
