@@ -1,6 +1,13 @@
+// @ts-check
 // DOM 헬퍼 + 공통 UI 컴포넌트 + 이펙트
 
 // el('div', { class: 'panel', onclick: fn }, child1, 'text', ...)
+/**
+ * @param {string} tag
+ * @param {Record<string, any>} [attrs]
+ * @param {...any} children
+ * @returns {HTMLElement}
+ */
 export function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
@@ -24,6 +31,11 @@ export function el(tag, attrs = {}, ...children) {
 
 // 지연. signal이 주어지고 도중에 abort되면 즉시 resolve하고 타이머를 정리한다.
 // (호출부는 이어서 signal.aborted를 확인해 조기 반환) — 화면 이탈 시 타이머 누수 방지.
+/**
+ * @param {number} ms
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<void>}
+ */
 export const sleep = (ms, signal) =>
   new Promise(resolve => {
     if (signal?.aborted) return resolve();
@@ -38,6 +50,11 @@ export const sleep = (ms, signal) =>
     signal?.addEventListener('abort', onAbort, { once: true });
   });
 
+/**
+ * @template T
+ * @param {T[]} arr
+ * @returns {T[]}
+ */
 export function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -48,22 +65,31 @@ export function shuffle(arr) {
 }
 
 // n개 무작위 추출
+/**
+ * @template T
+ * @param {T[]} arr
+ * @param {number} n
+ * @returns {T[]}
+ */
 export function sample(arr, n) {
   return shuffle(arr).slice(0, n);
 }
 
 // 별점 문자열 (채워진 별 / 빈 별)
+/** @param {number} n @param {number} [max] */
 export function starsText(n, max = 3) {
   if (n < 0) return '☆'.repeat(max);
   return '⭐'.repeat(n) + '☆'.repeat(max - n);
 }
 
 // 글자 카드 색상 순환 클래스
+/** @param {number} i */
 export function cardColor(i) {
   return `c${(i % 6) + 1}`;
 }
 
 // ---- 상단 바 --------------------------------------------------------------
+/** @param {{ left?: any[], right?: any[] }} [opts] */
 export function topbar({ left = [], right = [] } = {}) {
   return el('div', { class: 'topbar' },
     el('div', { class: 'side' }, left),
@@ -71,6 +97,7 @@ export function topbar({ left = [], right = [] } = {}) {
   );
 }
 
+/** @param {string} icon @param {string} label @param {EventListener} [onclick] */
 export function iconBtn(icon, label, onclick) {
   return el('button', { class: 'btn-round', onclick, 'aria-label': label },
     el('span', { class: 'ico' }, icon),
@@ -79,6 +106,7 @@ export function iconBtn(icon, label, onclick) {
 }
 
 // ---- 모달 ------------------------------------------------------------------
+/** @param {any} children @param {{ onClose?: () => void }} [opts] */
 export function modal(children, { onClose } = {}) {
   const wrap = el('div', { class: 'modal-wrap' },
     el('div', { class: 'panel modal' }, children),
@@ -103,6 +131,7 @@ function fxLayer() {
 }
 
 // 특정 지점에서 이모지 파티클 팡!
+/** @param {number} x @param {number} y @param {string[]} [emojis] @param {number} [count] */
 export function fxBurst(x, y, emojis = ['✨', '⭐', '💛'], count = 10) {
   const layer = fxLayer();
   for (let i = 0; i < count; i++) {
@@ -124,12 +153,14 @@ export function fxBurst(x, y, emojis = ['✨', '⭐', '💛'], count = 10) {
 }
 
 // 요소 중심에서 팡!
+/** @param {Element} elem @param {string[]} [emojis] @param {number} [count] */
 export function fxBurstAt(elem, emojis, count) {
   const r = elem.getBoundingClientRect();
   fxBurst(r.left + r.width / 2, r.top + r.height / 2, emojis, count);
 }
 
 // 화면 전체 색종이
+/** @param {number} [count] */
 export function fxConfetti(count = 60) {
   const layer = fxLayer();
   const colors = ['#f2708a', '#59b8f2', '#ffb03a', '#6abf4b', '#9b6dd6', '#38c9b0', '#ffd95e'];

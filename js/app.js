@@ -1,17 +1,22 @@
+// @ts-check
 // 앱 진입점 + 화면 라우터
 import { unlockAudio, stopSpeech } from './audio.js';
 import { store } from './store.js';
 
+/** @type {Record<string, ScreenRender>} */
 const screens = {};
+/** @type {AppScreen | null} */
 let current = null;
 let navToken = 0;
 
-// 화면 등록 (각 화면 모듈이 render(params) => HTMLElement 제공)
+// 화면 등록 (각 화면 모듈이 render(params) => AppScreen 제공)
+/** @param {string} name @param {ScreenRender} renderFn */
 export function register(name, renderFn) {
   screens[name] = renderFn;
 }
 
 // 화면 전환
+/** @param {string} name @param {any} [params] */
 export async function go(name, params = {}) {
   const renderFn = screens[name];
   if (!renderFn) throw new Error(`unknown screen: ${name}`);
@@ -19,11 +24,13 @@ export async function go(name, params = {}) {
   stopSpeech();
 
   const app = document.getElementById('app');
+  if (!app) return; // #app은 index.html에 항상 존재 — 방어적 가드
   const next = renderFn(params);
   next.classList.add('screen', 'fade-in');
   // 화면 수명 신호: 이 화면을 떠나면 abort된다. 게임/내레이션은 이 signal로
   // 지연 타이머·TTS·async 루프를 표준적으로 취소한다.
-  next._ac = new AbortController();
+  const ac = new AbortController();
+  next._ac = ac;
 
   if (current) {
     const prev = current;
@@ -38,7 +45,7 @@ export async function go(name, params = {}) {
 
   // 화면의 시작 루틴(onShow)에 수명 signal을 주입. 전환 도중 다른 화면으로
   // 이동했다면(token 불일치) 시작 루틴을 건너뜀.
-  if (next._onShow && token === navToken) next._onShow(next._ac.signal);
+  if (next._onShow && token === navToken) next._onShow(ac.signal);
 }
 
 // ---- 부팅 -------------------------------------------------------------------

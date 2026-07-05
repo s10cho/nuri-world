@@ -4,6 +4,7 @@
 
 // ---- 자모 사전 -----------------------------------------------------------
 // name: 글자 이름(TTS로 읽어줌), words: 예시 단어(이모지 포함)
+/** @type {Record<string, JamoInfo>} */
 export const JAMO = {
   // 기본 자음 14
   'ㄱ': { name: '기역',   words: [{ w: '가방', e: '🎒' }, { w: '고래', e: '🐳' }] },
@@ -51,11 +52,14 @@ export const JAMO = {
   'ㅢ': { name: '의', words: [{ w: '의사', e: '🧑‍⚕️' }, { w: '의자', e: '🪑' }] },
 };
 
+/** @type {string[]} */
 export const ALL_CONSONANTS = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ','ㄲ','ㄸ','ㅃ','ㅆ','ㅉ'];
+/** @type {string[]} */
 export const ALL_VOWELS = ['ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅒ','ㅔ','ㅖ','ㅘ','ㅙ','ㅚ','ㅝ','ㅞ','ㅟ','ㅢ'];
 
 // ---- 글자 조각의 탑: 음절 목표 ------------------------------------------
 // 각 항목: 목표 음절, 연결 단어(뜻 강화)
+/** @type {TowerStage[]} */
 export const TOWER_STAGES = [
   { title: 'ㅏ와 친구들 1', targets: [
     { s: '가', w: '가방', e: '🎒' }, { s: '나', w: '나비', e: '🦋' },
@@ -80,6 +84,7 @@ export const TOWER_STAGES = [
 ];
 
 // ---- 이름 없는 마을: 받침 없는 단어 + 구출할 주민 -------------------------
+/** @type {VillageStage[]} */
 export const VILLAGE_STAGES = [
   { title: '동물 친구들', words: [
     { w: '나비', e: '🦋' }, { w: '오리', e: '🦆' }, { w: '하마', e: '🦛' }, { w: '사자', e: '🦁' },
@@ -99,6 +104,7 @@ export const VILLAGE_STAGES = [
 ];
 
 // ---- 왕국 구성 ------------------------------------------------------------
+/** @type {Record<KingdomId, Kingdom>} */
 export const KINGDOMS = {
   meadow: {
     id: 'meadow', order: 1, type: 'jamo',
@@ -158,9 +164,11 @@ export const KINGDOMS = {
   },
 };
 
+/** @type {KingdomId[]} */
 export const KINGDOM_ORDER = ['meadow', 'lake', 'tower', 'village', 'castle'];
 
 // 월드맵 핫스팟 좌표 (배경 이미지 기준 %)
+/** @type {Record<string, MapSpot>} */
 export const MAP_SPOTS = {
   meadow:   { x: 17, y: 34 },
   lake:     { x: 24, y: 63 },
@@ -171,6 +179,7 @@ export const MAP_SPOTS = {
 };
 
 // ---- 스토리 인트로 --------------------------------------------------------
+/** @type {StoryPanel[]} */
 export const STORY_INTRO = [
   {
     bg: 'public/assets/images/backgrounds/title_screen.jpg',
@@ -193,6 +202,7 @@ export const STORY_INTRO = [
 ];
 
 // 왕국 축제(엔딩)
+/** @type {Festival} */
 export const FESTIVAL = {
   bg: 'public/assets/images/backgrounds/festival_ending.jpg',
   lines: [
@@ -203,6 +213,7 @@ export const FESTIVAL = {
 };
 
 // 캐릭터 이미지 경로
+/** @type {Characters} */
 export const CHARACTERS = {
   nuri:   'public/assets/images/characters/nuri/nuri_web.png',
   pori:   'public/assets/images/characters/pori/pori_web.png',
