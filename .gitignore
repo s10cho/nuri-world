@@ -9,3 +9,13 @@ dist
 .idea
 .vscode/*
 !.vscode/extensions.json
+
+# 배포에 쓰지 않는 원본/중간 이미지 — 서빙되는 파생본(*_web.png, 배경 *.jpg)만 커밋한다.
+# 소스 마스터는 git 히스토리에 남아 있고, 장기적으로 assets-src/ 분리(로드맵 C9) 예정.
+public/assets/images/raw/
+**/*_master_v*.png
+**/*_transparent.png
+public/assets/images/backgrounds/*.png
+public/assets/images/stages/
+public/assets/images/story/*.png
+public/assets/images/ui/*_concept.png
