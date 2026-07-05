@@ -8,6 +8,7 @@ import { STORY_INTRO, CHARACTERS } from '../data.js';
 function render() {
   let idx = 0;
   let autoTimer = null;
+  let signal = null; // 화면 수명 신호 (_onShow에서 주입)
   const s = el('div', {});
 
   const text = el('div', { class: 'panel story-text' });
@@ -34,7 +35,7 @@ function render() {
   }
 
   function advance() {
-    if (s._dead) return;
+    if (signal?.aborted) return;
     clearAuto();
     sfx('whoosh');
     idx += 1;
@@ -59,7 +60,7 @@ function render() {
         el('img', { class: 'char enter', src: CHARACTERS.pori, alt: '포리', style: { left: '26%', height: 'clamp(120px, 26vmin, 290px)' } }),
       );
     }
-    speak(p.text.replace(/\n/g, ' '));
+    speak(p.text.replace(/\n/g, ' '), { signal });
     // 안전장치: 아이가 탭하지 않아도 잠시 뒤 자동으로 다음 장면으로 진행
     clearAuto();
     autoTimer = setTimeout(advance, 9000);
@@ -74,7 +75,12 @@ function render() {
     el('div', { class: 'center-col', style: { justifyContent: 'flex-end', paddingBottom: 'max(28px, 6vh)' } }, text, hint),
   );
 
-  s._onShow = showPanel;
+  s._onShow = sig => {
+    signal = sig;
+    // 화면 이탈 시 자동진행 타이머 정리
+    sig.addEventListener('abort', clearAuto, { once: true });
+    showPanel();
+  };
   return s;
 }
 

@@ -3,7 +3,7 @@ import { el, shuffle, sample, fxBurstAt } from '../ui.js';
 import { speak, sfx } from '../audio.js';
 import { JAMO } from '../data.js';
 
-export function runMatch({ area, screen }, { jamoList }) {
+export function runMatch({ area, signal }, { jamoList }) {
   return new Promise(resolve => {
     // 유아 대상이라 최대 3쌍(6장)으로 부담을 낮춤
     const chosen = sample(jamoList, Math.min(3, jamoList.length));
@@ -14,6 +14,9 @@ export function runMatch({ area, screen }, { jamoList }) {
     let lock = true; // 시작 미리보기 동안 잠금
     let matched = 0;
     let mistakes = 0;
+
+    // 화면 이탈(signal abort) 시 게임 종료
+    signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
 
     const cards = deck.map(ch => {
       const card = el('button', { class: 'mem-card' },
@@ -39,7 +42,7 @@ export function runMatch({ area, screen }, { jamoList }) {
         if (first.dataset.ch === ch) {
           matched += 1;
           setTimeout(() => {
-            if (screen?._dead) return;
+            if (signal.aborted) return;
             sfx('correct');
             first.classList.add('matched');
             card.classList.add('matched');
@@ -54,7 +57,7 @@ export function runMatch({ area, screen }, { jamoList }) {
           mistakes += 1;
           sfx('wrong');
           setTimeout(() => {
-            if (screen?._dead) return;
+            if (signal.aborted) return;
             first.classList.remove('open');
             card.classList.remove('open');
             lock = false;
@@ -76,7 +79,7 @@ export function runMatch({ area, screen }, { jamoList }) {
     cards.forEach(c => c.classList.add('open'));
     speak('잘 봐요! 어디에 같은 글자가 있을까요?');
     setTimeout(() => {
-      if (screen?._dead) return;
+      if (signal.aborted) return;
       cards.forEach(c => c.classList.remove('open'));
       lock = false;
       speak('이제 같은 글자 짝을 찾아 보세요!');

@@ -22,8 +22,9 @@ function makeQuestions() {
   return shuffle(qs);
 }
 
-export function runBoss({ area, screen }, _opts) {
+export function runBoss({ area, signal }, _opts) {
   return new Promise(resolve => {
+    signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
     const questions = makeQuestions();
     let hp = HP_MAX;
     let qIdx = 0;
@@ -56,13 +57,16 @@ export function runBoss({ area, screen }, _opts) {
     }
 
     async function victory() {
-      await speak('안 돼! 내가 지다니! 글자들을 돌려줄게!');
+      await speak('안 돼! 내가 지다니! 글자들을 돌려줄게!', { signal });
+      if (signal.aborted) return;
       boss.classList.add('defeat');
       sfx('fanfare');
-      await sleep(1500);
+      await sleep(1500, signal);
+      if (signal.aborted) return;
       fxConfetti(80);
       sfx('chime');
-      await speak('와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!');
+      await speak('와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!', { signal });
+      if (signal.aborted) return;
       resolve({ mistakes });
     }
 
@@ -86,15 +90,16 @@ export function runBoss({ area, screen }, _opts) {
           class: `letter-card ${cardColor(i)}`,
           style: { width: 'clamp(80px, 12vmin, 128px)', height: 'clamp(80px, 12vmin, 128px)', fontSize: 'clamp(2rem, 6vmin, 3.6rem)', ...extraStyle },
           onclick: async e => {
-            if (solved) return;
+            if (solved || signal.aborted) return;
             const btn = e.currentTarget;
             if (isCorrect(opt)) {
               solved = true;
               sfx('correct');
               cards.forEach(c => { if (c !== btn) c.classList.add('dim'); });
               await hitBoss(btn);
-              await speak(describe(opt));
-              await sleep(300);
+              await speak(describe(opt), { signal });
+              await sleep(300, signal);
+              if (signal.aborted) return;
               next();
             } else {
               mistakes += 1;
@@ -102,7 +107,7 @@ export function runBoss({ area, screen }, _opts) {
               btn.classList.add('wrong');
               // 이미 고른 오답은 흐리게 비활성화해 같은 실수 반복·부정 피드백 누적 방지
               setTimeout(() => { btn.classList.remove('wrong'); btn.classList.add('dim'); }, 500);
-              speak(RETRY[Math.floor(Math.random() * RETRY.length)]);
+              speak(RETRY[Math.floor(Math.random() * RETRY.length)], { signal });
             }
           },
         }, opt),
@@ -122,7 +127,7 @@ export function runBoss({ area, screen }, _opts) {
     function askJamo(q) {
       const mySeq = seq;
       const name = JAMO[q.target].name;
-      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`);
+      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
       const options = shuffle([q.target, ...sample(q.pool.filter(c => c !== q.target), 2)]);
       qArea.replaceChildren(...[
         el('div', { class: 'prompt-bar' },
@@ -132,13 +137,13 @@ export function runBoss({ area, screen }, _opts) {
         modelBadge(q.target),
         el('div', { class: 'choices' }, buildChoices(options, o => o === q.target, o => `${JAMO[o].name}! 명중이에요!`)),
       ].filter(Boolean));
-      sleep(350).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+      sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
     function askSyllable(q) {
       const mySeq = seq;
       const t = q.target; // {s, w, e}
-      const prompt = () => speak(`${t.w}의 ${t.s}! ${t.s}${objectParticle(t.s)} 찾아 공격해요!`);
+      const prompt = () => speak(`${t.w}의 ${t.s}! ${t.s}${objectParticle(t.s)} 찾아 공격해요!`, { signal });
       // 오답: 다른 음절 (헷갈리는 보기)
       const distractors = new Set();
       const all = TOWER_STAGES.flatMap(s => s.targets.map(x => x.s)).filter(s => s !== t.s);
@@ -154,7 +159,7 @@ export function runBoss({ area, screen }, _opts) {
         modelBadge(t.s),
         el('div', { class: 'choices' }, buildChoices(options, o => o === t.s, o => `${o}! 명중이에요!`)),
       ].filter(Boolean));
-      sleep(350).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+      sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
     function askWord(q) {
@@ -163,7 +168,7 @@ export function runBoss({ area, screen }, _opts) {
       const chars = [...w];
       const blankIdx = Math.floor(Math.random() * chars.length);
       const answer = chars[blankIdx];
-      const prompt = () => speak(`${w}! ${w}의 사라진 글자를 찾아 공격해요!`);
+      const prompt = () => speak(`${w}! ${w}의 사라진 글자를 찾아 공격해요!`, { signal });
       const pool = [...new Set(VILLAGE_STAGES.flatMap(s => s.words.flatMap(x => [...x.w])))]
         .filter(s => s !== answer && !chars.includes(s));
       const options = shuffle([answer, ...sample(pool, 2)]);
@@ -182,9 +187,9 @@ export function runBoss({ area, screen }, _opts) {
         ),
         el('div', { class: 'choices' }, buildChoices(options, o => o === answer, () => `${w}! 명중이에요!`)),
       );
-      sleep(350).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+      sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
-    speak('지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!').then(() => { if (!screen?._dead) next(); });
+    speak('지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!', { signal }).then(() => { if (!signal.aborted) next(); });
   });
 }

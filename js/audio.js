@@ -56,21 +56,32 @@ function flushPending() {
 }
 
 // 말하기. rate 살짝 느리게(아이 듣기 편하게). 완료 Promise 반환.
-export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true } = {}) {
+export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal } = {}) {
   return new Promise(resolve => {
-    if (!('speechSynthesis' in window) || !store.get().sound) return resolve();
+    if (!('speechSynthesis' in window) || !store.get().sound || signal?.aborted) return resolve();
     if (!voicesReady) pickKoreanVoice();
 
     // 앞서 예약된(아직 실행 안 된) 발화가 있으면 즉시 정리 — 중첩/중복·대기 방지
     flushPending();
+
+    // signal이 주어지면 화면 이탈 시 이 발화를 취소하고 즉시 resolve
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      signal?.removeEventListener('abort', onAbort);
+      resolve();
+    };
+    const onAbort = () => { speechSynthesis.cancel(); finish(); };
+    signal?.addEventListener('abort', onAbort, { once: true });
 
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'ko-KR';
     if (koVoice) u.voice = koVoice;
     u.rate = rate;
     u.pitch = pitch;
-    u.onend = resolve;
-    u.onerror = resolve;
+    u.onend = finish;
+    u.onerror = finish;
 
     const doSpeak = () => { pendingSpeak = null; pendingResolve = null; speechSynthesis.speak(u); };
 
@@ -80,14 +91,14 @@ export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true } = {})
     if (interrupt && (speechSynthesis.speaking || speechSynthesis.pending || recentlyCancelled)) {
       speechSynthesis.cancel();
       lastCancelAt = Date.now();
-      pendingResolve = resolve; // 실행 전에 다른 발화로 대체되면 즉시 resolve되도록
+      pendingResolve = finish; // 실행 전에 다른 발화로 대체되면 즉시 resolve되도록
       pendingSpeak = setTimeout(doSpeak, CANCEL_GAP);
     } else {
       doSpeak();
     }
 
     // iOS 사파리에서 onend 누락 대비 안전 타이머
-    setTimeout(resolve, 1200 + text.length * 350);
+    setTimeout(finish, 1200 + text.length * 350);
   });
 }
 

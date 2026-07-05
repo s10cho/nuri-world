@@ -21,27 +21,24 @@ export async function go(name, params = {}) {
   const app = document.getElementById('app');
   const next = renderFn(params);
   next.classList.add('screen', 'fade-in');
-  next._token = token;
+  // 화면 수명 신호: 이 화면을 떠나면 abort된다. 게임/내레이션은 이 signal로
+  // 지연 타이머·TTS·async 루프를 표준적으로 취소한다.
+  next._ac = new AbortController();
 
   if (current) {
     const prev = current;
-    // 즉시 '사망' 표시: 실제 DOM 제거는 500ms 뒤(페이드)지만, 진행 중이던
-    // 게임/내레이션 루프가 그 사이에도 이탈을 감지해 멈출 수 있도록 한다.
-    prev._dead = true;
+    // 신호 abort: 진행 중이던 타이머·TTS·async 루프가 곧바로 취소된다.
+    // (실제 DOM 제거는 500ms 뒤 페이드아웃 후)
+    prev._ac?.abort();
     prev.classList.add('fade-out');
     setTimeout(() => prev.remove(), 500);
   }
   current = next;
   app.append(next);
 
-  // 화면이 자체 시작 루틴(onShow)을 가지면 실행 — 전환 도중 다른 화면으로
-  // 이동했다면(token 불일치) 시작 루틴을 건너뜀
-  if (next._onShow && token === navToken) next._onShow();
-}
-
-// 이 화면이 아직 활성 상태인지 (async 루프·지연 콜백이 이탈 여부를 확인할 때 사용)
-export function isAlive(screen) {
-  return !!screen && !screen._dead && screen._token === navToken;
+  // 화면의 시작 루틴(onShow)에 수명 signal을 주입. 전환 도중 다른 화면으로
+  // 이동했다면(token 불일치) 시작 루틴을 건너뜀.
+  if (next._onShow && token === navToken) next._onShow(next._ac.signal);
 }
 
 // ---- 부팅 -------------------------------------------------------------------

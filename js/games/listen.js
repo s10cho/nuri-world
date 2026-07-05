@@ -7,11 +7,14 @@ import { objectParticle } from '../hangul.js';
 const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈구나!'];
 const RETRY = ['괜찮아요, 다시 한번 들어 볼까요?', '음, 소리를 한 번 더 들어 보세요!'];
 
-export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
+export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
   return new Promise(resolve => {
     let round = 0;
     let mistakes = 0;
     let seq = 0; // 라운드 순번 — 지연 프롬프트가 다음 라운드로 넘어간 뒤 재생되는 것 방지
+
+    // 화면 이탈(signal abort) 시 게임을 종료해 stage 루프의 await가 멈추지 않게 한다
+    signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
 
     // 한국어 음성이 없으면 목표 글자를 화면에 보여 줘 '찾기'로 진행 (듣기 대체)
     const showModel = !hasKoreanTTS();
@@ -25,7 +28,7 @@ export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
       const mySeq = ++seq;
       const target = targets[round];
       const name = JAMO[target].name;
-      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`);
+      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`, { signal });
 
       // 보기 3개: 정답 + 오답 2개
       const wrongs = sample(pool.filter(c => c !== target), 2);
@@ -38,7 +41,7 @@ export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
         el('button', {
           class: `letter-card ${cardColor(i + round)}`,
           onclick: async e => {
-            if (solved) return;
+            if (solved || signal.aborted) return;
             const cardEl = e.currentTarget;
             if (ch === target) {
               solved = true;
@@ -46,7 +49,8 @@ export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
               cardEl.classList.add('correct');
               cards.forEach(c => { if (c !== cardEl) c.classList.add('dim'); });
               fxBurstAt(cardEl, ['⭐', '✨', '💛']);
-              await speak(PRAISE[Math.floor(Math.random() * PRAISE.length)]);
+              await speak(PRAISE[Math.floor(Math.random() * PRAISE.length)], { signal });
+              if (signal.aborted) return;
               round += 1;
               if (round >= rounds) resolve({ mistakes });
               else ask();
@@ -55,7 +59,7 @@ export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
               sfx('wrong');
               cardEl.classList.add('wrong');
               setTimeout(() => cardEl.classList.remove('wrong'), 500);
-              speak(RETRY[Math.floor(Math.random() * RETRY.length)]);
+              speak(RETRY[Math.floor(Math.random() * RETRY.length)], { signal });
             }
           },
         }, ch),
@@ -79,7 +83,7 @@ export function runListen({ area, screen }, { pool, focus, rounds = 4 }) {
         ),
       ].filter(Boolean));
 
-      sleep(400).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+      sleep(400, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
     ask();

@@ -9,8 +9,9 @@ const SYLLABLE_POOL = [...new Set(
   VILLAGE_STAGES.flatMap(st => st.words.flatMap(w => [...w.w])),
 )];
 
-export function runWord({ area, screen }, { words }) {
+export function runWord({ area, signal }, { words }) {
   return new Promise(resolve => {
+    signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
     let idx = 0;
     let mistakes = 0;
     let seq = 0; // 문항 순번 — 지연 프롬프트가 다음 문항으로 넘어간 뒤 재생되는 것 방지
@@ -22,7 +23,7 @@ export function runWord({ area, screen }, { words }) {
       const blankIdx = Math.floor(Math.random() * chars.length);
       const answer = chars[blankIdx];
 
-      const prompt = () => speak(`${w}! 사라진 글자를 찾아 ${w} 이름을 완성해 주세요!`);
+      const prompt = () => speak(`${w}! 사라진 글자를 찾아 ${w} 이름을 완성해 주세요!`, { signal });
 
       const tiles = chars.map((ch, i) =>
         el('div', { class: `word-tile ${i === blankIdx ? 'blank' : ''}` }, i === blankIdx ? '?' : ch),
@@ -37,7 +38,7 @@ export function runWord({ area, screen }, { words }) {
           class: `letter-card ${cardColor(i + idx)}`,
           style: { width: 'clamp(80px, 12vmin, 128px)', height: 'clamp(80px, 12vmin, 128px)', fontSize: 'clamp(2.4rem, 6.6vmin, 4rem)' },
           onclick: async ev => {
-            if (solved) return;
+            if (solved || signal.aborted) return;
             const btn = ev.currentTarget;
             if (ch === answer) {
               solved = true;
@@ -50,11 +51,13 @@ export function runWord({ area, screen }, { words }) {
               fxBurstAt(blank, ['⭐', '✨', '💛']);
               const isNew = store.addResident(w);
               sfx('chime');
-              await speak(`${w}! ${isNew ? `${w}를 구했어요! 정말 잘했어요!` : '이름을 완성했어요!'}`);
+              await speak(`${w}! ${isNew ? `${w}를 구했어요! 정말 잘했어요!` : '이름을 완성했어요!'}`, { signal });
+              if (signal.aborted) return;
               idx += 1;
               if (idx >= words.length) {
                 fxConfetti(40);
-                await speak('마을 친구들이 모두 웃을 수 있게 됐어요!');
+                await speak('마을 친구들이 모두 웃을 수 있게 됐어요!', { signal });
+                if (signal.aborted) return;
                 resolve({ mistakes });
               } else ask();
             } else {
@@ -62,7 +65,7 @@ export function runWord({ area, screen }, { words }) {
               sfx('wrong');
               btn.classList.add('wrong');
               setTimeout(() => btn.classList.remove('wrong'), 500);
-              speak('음, 다른 글자 같아요. 소리를 다시 들어 볼까요?');
+              speak('음, 다른 글자 같아요. 소리를 다시 들어 볼까요?', { signal });
             }
           },
         }, ch),
@@ -83,7 +86,7 @@ export function runWord({ area, screen }, { words }) {
         ),
       );
 
-      sleep(400).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+      sleep(400, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
     ask();

@@ -33,21 +33,21 @@ function render() {
     el('img', { class: 'char enter', src: CHARACTERS.pori, alt: '포리', style: { right: '4%', height: 'clamp(120px, 26vmin, 290px)' } }),
   );
 
-  s._onShow = async () => {
+  s._onShow = async signal => {
     store.markFestivalSeen();
     sfx('fanfare');
     for (const line of FESTIVAL.lines) {
-      if (s._dead) return; // 화면을 떠났으면 내레이션·색종이 중단
+      if (signal.aborted) return; // 화면을 떠났으면 내레이션·색종이 중단
       fxConfetti(50);
       textBox.textContent = line;
       textBox.animate(
         [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }],
         { duration: 400, easing: 'ease' },
       );
-      await speak(line);
-      await sleep(700);
+      await speak(line, { signal });
+      await sleep(700, signal);
     }
-    if (s._dead) return;
+    if (signal.aborted) return;
     sfx('chime');
   };
 

@@ -22,7 +22,21 @@ export function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-export const sleep = ms => new Promise(r => setTimeout(r, ms));
+// 지연. signal이 주어지고 도중에 abort되면 즉시 resolve하고 타이머를 정리한다.
+// (호출부는 이어서 signal.aborted를 확인해 조기 반환) — 화면 이탈 시 타이머 누수 방지.
+export const sleep = (ms, signal) =>
+  new Promise(resolve => {
+    if (signal?.aborted) return resolve();
+    const id = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort);
+      resolve();
+    }, ms);
+    function onAbort() {
+      clearTimeout(id);
+      resolve();
+    }
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
 
 export function shuffle(arr) {
   const a = [...arr];

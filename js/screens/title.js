@@ -59,9 +59,10 @@ function render() {
 
   // 부팅 직후엔 사용자 제스처가 없어 TTS가 막히므로, 첫 제스처(app.js unlock)에서
   // 다시 재생되도록 _welcomeOnUnlock에도 등록해 둔다.
-  const welcome = () => speak('누리의 한글 왕국에 온 것을 환영해요!', { rate: 0.95 });
-  s._onShow = welcome;
-  s._welcomeOnUnlock = () => { if (!s._dead) welcome(); };
+  let signal = null;
+  const welcome = () => speak('누리의 한글 왕국에 온 것을 환영해요!', { rate: 0.95, signal });
+  s._onShow = sig => { signal = sig; welcome(); };
+  s._welcomeOnUnlock = () => { if (!signal?.aborted) welcome(); };
   return s;
 }
 

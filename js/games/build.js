@@ -7,8 +7,9 @@ import { ALL_CONSONANTS, ALL_VOWELS } from '../data.js';
 
 const PRAISE = ['글자가 태어났어요!', '우와, 멋진 글자를 만들었어요!', '조각을 딱 맞췄네요, 대단해요!'];
 
-export function runBuild({ area, screen }, { targets }) {
+export function runBuild({ area, signal }, { targets }) {
   return new Promise(resolve => {
+    signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
     let idx = 0;
     let mistakes = 0;
     let seq = 0; // 문항 순번 — 지연 프롬프트가 다음 문항으로 넘어간 뒤 재생되는 것 방지
@@ -20,7 +21,7 @@ export function runBuild({ area, screen }, { targets }) {
       const t = targets[idx];
       const { cho, jung } = decompose(t.s);
 
-      const prompt = () => speak(`${t.s}! ${t.w}의 ${t.s}. 조각을 모아 ${t.s}${objectParticle(t.s)} 만들어 보세요!`);
+      const prompt = () => speak(`${t.s}! ${t.w}의 ${t.s}. 조각을 모아 ${t.s}${objectParticle(t.s)} 만들어 보세요!`, { signal });
 
       // TTS가 없으면 목표 글자를 흐리게 표시, 있으면 '?'로 가려 소리로 유추
       const targetBox = el('div', {
@@ -51,8 +52,9 @@ export function runBuild({ area, screen }, { targets }) {
           { duration: 400, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
         );
         sfx('correct');
-        await speak(`${t.s}! ${t.w}의 ${t.s}! ${PRAISE[idx % PRAISE.length]}`);
-        await sleep(600);
+        await speak(`${t.s}! ${t.w}의 ${t.s}! ${PRAISE[idx % PRAISE.length]}`, { signal });
+        await sleep(600, signal);
+        if (signal.aborted) return;
         idx += 1;
         if (idx >= targets.length) resolve({ mistakes });
         else ask();
@@ -63,7 +65,7 @@ export function runBuild({ area, screen }, { targets }) {
           class: `letter-card ${cardColor(i)}`,
           style: { width: 'clamp(76px, 11vmin, 120px)', height: 'clamp(76px, 11vmin, 120px)', fontSize: 'clamp(2.2rem, 6vmin, 3.6rem)' },
           onclick: e => {
-            if (finished) return;
+            if (finished || signal.aborted) return;
             const elBtn = e.currentTarget;
             const need = kind === 'cho' ? cho : jung;
             const already = kind === 'cho' ? choDone : jungDone;
@@ -83,7 +85,7 @@ export function runBuild({ area, screen }, { targets }) {
               sfx('wrong');
               elBtn.classList.add('wrong');
               setTimeout(() => elBtn.classList.remove('wrong'), 500);
-              speak('그 조각이 아니에요. 다시 골라 볼까요?');
+              speak('그 조각이 아니에요. 다시 골라 볼까요?', { signal });
             }
           },
         }, ch);
@@ -124,7 +126,7 @@ export function runBuild({ area, screen }, { targets }) {
         ),
       );
 
-      sleep(400).then(() => { if (!screen?._dead && mySeq === seq) prompt(); });
+      sleep(400, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
     ask();

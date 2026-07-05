@@ -15,8 +15,10 @@ function introLine(ch) {
   return `${info.name}! ${info.words[0].w}의 ${info.name} 소리예요.`;
 }
 
-export function runLearn({ area, screen }, { jamoList }) {
+export function runLearn({ area, signal }, { jamoList }) {
   return new Promise(resolve => {
+    // 화면 이탈(signal abort) 시 게임 종료
+    signal.addEventListener('abort', () => resolve({ mistakes: 0 }), { once: true });
     let idx = 0;
     let seq = 0; // 현재 카드 순번 — 지연 안내가 다음 카드로 넘어간 뒤 재생되는 것 방지
 
@@ -76,7 +78,7 @@ export function runLearn({ area, screen }, { jamoList }) {
         [{ transform: 'scale(0.5) rotate(-8deg)', opacity: 0 }, { transform: 'scale(1) rotate(0)', opacity: 1 }],
         { duration: 450, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
       );
-      sleep(350).then(() => { if (!screen?._dead && mySeq === seq) speak(introLine(ch)); });
+      sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) speak(introLine(ch), { signal }); });
     }
 
     show();

@@ -1,5 +1,5 @@
 // 스테이지 실행 엔진 — 왕국 유형별 활동(배우기 → 게임들)을 순서대로 진행
-import { register, go, isAlive } from '../app.js';
+import { register, go } from '../app.js';
 import { el, topbar, iconBtn } from '../ui.js';
 import { store } from '../store.js';
 import { sfx } from '../audio.js';
@@ -60,7 +60,7 @@ function render({ kingdom, stageIdx }) {
     area,
   );
 
-  s._onShow = async () => {
+  s._onShow = async signal => {
     let mistakes = 0;
     for (let i = 0; i < activities.length; i++) {
       dots.querySelectorAll('.dot').forEach((d, j) => {
@@ -68,15 +68,15 @@ function render({ kingdom, stageIdx }) {
         d.classList.toggle('done', j < i);
       });
       area.replaceChildren();
-      // 화면을 이탈했으면(다른 화면으로 전환) 진행 중단
-      if (!isAlive(s)) return;
-      const result = await activities[i]({ area, kingdom, stage, screen: s });
-      if (!isAlive(s)) return;
+      // 화면을 이탈했으면(signal abort) 진행 중단
+      if (signal.aborted) return;
+      const result = await activities[i]({ area, kingdom, stage, signal });
+      if (signal.aborted) return;
       mistakes += result?.mistakes || 0;
     }
 
     // 이탈 후 게임 Promise가 뒤늦게 resolve된 경우 별점 기록·화면 이동을 하지 않음
-    if (!isAlive(s)) return;
+    if (signal.aborted) return;
 
     // 별점: 유아 대상이라 관대하게(노력·완주 보상) — 실수 0~1 → 3개, 2~4 → 2개, 그 이상 → 1개.
     // 짝 맞추기 등 기억 게임의 뒤집기 실수까지 포함되므로 문턱을 넉넉히 둔다.

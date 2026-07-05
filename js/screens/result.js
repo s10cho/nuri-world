@@ -49,17 +49,17 @@ function render({ kingdom, stageIdx, stars }) {
     el('img', { class: 'char enter', src: CHARACTERS.pori, alt: '포리', style: { right: '3%', height: 'clamp(110px, 24vmin, 260px)' } }),
   );
 
-  s._onShow = async () => {
+  s._onShow = async signal => {
     fxConfetti(stars * 18);
     sfx('fanfare');
     for (let i = 0; i < stars; i++) {
-      await sleep(450);
-      if (s._dead) return; // '다음 스테이지' 등으로 이미 이탈했으면 연출 중단
+      await sleep(450, signal);
+      if (signal.aborted) return; // '다음 스테이지' 등으로 이미 이탈했으면 연출 중단
       starEls[i].classList.add('on');
       sfx('star');
     }
-    if (s._dead) return;
-    await speak(praise);
+    if (signal.aborted) return;
+    await speak(praise, { signal });
   };
 
   return s;
