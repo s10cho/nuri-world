@@ -5,6 +5,22 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "python3 -m http.server 8000"
+    "start": "python3 -m http.server 8000",
+    "typecheck": "tsc -p jsconfig.json --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"js/**/*.js\" \"*.{json,md}\"",
+    "format:check": "prettier --check \"js/**/*.js\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm run lint && npm run test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.6.0",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   }
 }

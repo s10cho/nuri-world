@@ -16,7 +16,7 @@ function render({ kingdom, stageIdx, stars }) {
   const k = KINGDOMS[kingdom];
   const s = el('div', { style: { backgroundImage: `url(${k.bg})` } });
 
-  const starEls = [0, 1, 2].map(i => el('span', { class: 's' }, '⭐'));
+  const starEls = [0, 1, 2].map(() => el('span', { class: 's' }, '⭐'));
   const isLastStage = stageIdx === k.stages.length - 1;
   const kingdomJustCleared = store.kingdomCleared(kingdom);
   const isBoss = k.type === 'boss';

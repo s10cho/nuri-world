@@ -1,10 +1,18 @@
+// @ts-check
 // 한글 자모 조합/분해 유틸리티
 // 음절 = 0xAC00 + (초성 인덱스 × 21 + 중성 인덱스) × 28 + 종성 인덱스
 
 export const CHOSEONG = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 export const JUNGSEONG = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
 
-// 초성 + 중성 → 받침 없는 음절
+/** @typedef {{ cho: string, jung: string, jong: string }} Decomposed */
+
+/**
+ * 초성 + 중성 → 받침 없는 음절 (조합 불가 시 null)
+ * @param {string} cho 초성
+ * @param {string} jung 중성
+ * @returns {string | null}
+ */
 export function compose(cho, jung) {
   const ci = CHOSEONG.indexOf(cho);
   const ji = JUNGSEONG.indexOf(jung);
@@ -12,7 +20,11 @@ export function compose(cho, jung) {
   return String.fromCharCode(0xAC00 + (ci * 21 + ji) * 28);
 }
 
-// 음절 → { cho, jung, jong } (한글 음절이 아니면 null)
+/**
+ * 음절 → { cho, jung, jong } (한글 음절이 아니면 null)
+ * @param {string} syllable
+ * @returns {Decomposed | null}
+ */
 export function decompose(syllable) {
   const code = syllable.charCodeAt(0) - 0xAC00;
   if (code < 0 || code > 11171) return null;
@@ -24,14 +36,22 @@ export function decompose(syllable) {
   };
 }
 
-// 자모가 들어간 발음 안내용 음절 (자음은 '으' 없이 기본 모음 ㅏ와 결합해 들려줌)
+/**
+ * 자모가 들어간 발음 안내용 음절 (자음은 기본 모음 ㅏ와, 모음은 ㅇ과 결합)
+ * @param {string} jamo
+ * @returns {string}
+ */
 export function demoSyllable(jamo) {
-  if (CHOSEONG.includes(jamo)) return compose(jamo, 'ㅏ');
-  if (JUNGSEONG.includes(jamo)) return compose('ㅇ', jamo);
+  if (CHOSEONG.includes(jamo)) return compose(jamo, 'ㅏ') ?? jamo;
+  if (JUNGSEONG.includes(jamo)) return compose('ㅇ', jamo) ?? jamo;
   return jamo;
 }
 
-// 단어/음절의 받침 유무에 따른 목적격 조사 ('을' / '를')
+/**
+ * 단어/음절의 받침 유무에 따른 목적격 조사 ('을' / '를')
+ * @param {string} word
+ * @returns {'을' | '를'}
+ */
 export function objectParticle(word) {
   const last = word[word.length - 1];
   // 낱자 자모(예: 기역, 니은)는 받침 이름이지만 낱말 자체로 끝소리를 판단
@@ -41,7 +61,11 @@ export function objectParticle(word) {
   return '를';
 }
 
-// 주격 조사 ('이' / '가')
+/**
+ * 주격 조사 ('이' / '가')
+ * @param {string} word
+ * @returns {'이' | '가'}
+ */
 export function subjectParticle(word) {
   const last = word[word.length - 1];
   const info = decompose(last);

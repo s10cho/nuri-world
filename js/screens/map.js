@@ -22,7 +22,6 @@ function render() {
     const k = KINGDOMS[kid];
     const spot = MAP_SPOTS[kid];
     const unlocked = store.kingdomUnlocked(kid);
-    const cleared = store.kingdomCleared(kid);
     const total = k.stages.length * 3;
 
     const node = el('button', {
