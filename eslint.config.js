@@ -22,7 +22,7 @@ export default [
   },
   {
     // 설정·도구·테스트 — Node 환경
-    files: ['*.config.js', 'tools/**/*.js', 'tests/**/*.js', '**/*.test.js'],
+    files: ['*.config.{js,mjs}', 'tools/**/*.{js,mjs}', 'tests/**/*.{js,mjs}', '**/*.test.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',

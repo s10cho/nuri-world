@@ -1,0 +1,41 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages 배포를 직렬화 — 동시 배포 큐 충돌·재시도 방지 (진행 중 배포는 취소하지 않고 대기)
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # 캐시버스팅: 커밋 SHA를 index.html 엔트리 포인트·JS 모듈 import에 스탬프
+      # (체크아웃 사본에만 적용 — 커밋된 소스는 그대로)
+      - name: Cache-bust — stamp commit SHA
+        run: node tools/stamp-version.mjs "${GITHUB_SHA::8}"
+
+      - uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
