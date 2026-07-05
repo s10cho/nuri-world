@@ -139,10 +139,16 @@ export function fxConfetti(count = 60) {
 export function toggleFullscreen() {
   const doc = document;
   if (!doc.fullscreenElement && doc.documentElement.requestFullscreen) {
-    doc.documentElement.requestFullscreen().catch(() => {});
+    doc.documentElement.requestFullscreen()
+      .then(() => {
+        // 가능하면 가로로 잠금 — Android 등 지원 브라우저에서 동작, iOS는 조용히 무시
+        try { screen.orientation?.lock?.('landscape')?.catch(() => {}); } catch { /* 미지원 */ }
+      })
+      .catch(() => {});
     return true;
   }
   if (doc.fullscreenElement && doc.exitFullscreen) {
+    try { screen.orientation?.unlock?.(); } catch { /* noop */ }
     doc.exitFullscreen().catch(() => {});
   }
   return false;

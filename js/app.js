@@ -74,10 +74,16 @@ async function boot() {
     if (e.touches && e.touches.length > 1) e.preventDefault();
   }, { passive: false });
 
-  // 세로 화면 힌트 닫기
+  // 세로 화면 힌트: 닫으면 이번엔 숨기되, 세로로 다시 돌아오면 재노출해 가로 사용을 유도.
+  // (가로에는 영향 없음 — 힌트 자체가 orientation:portrait에서만 표시됨)
+  const rotateHint = document.getElementById('rotate-hint');
   document.getElementById('rotate-dismiss')?.addEventListener('click', () => {
-    document.getElementById('rotate-hint').style.display = 'none';
+    if (rotateHint) rotateHint.style.display = 'none';
   });
+  const portraitMQ = window.matchMedia('(orientation: portrait) and (pointer: coarse)');
+  const reshowHint = () => { if (rotateHint && portraitMQ.matches) rotateHint.style.display = ''; };
+  portraitMQ.addEventListener?.('change', reshowHint);
+  window.addEventListener('orientationchange', () => setTimeout(reshowHint, 250));
 
   // 주요 배경 미리 로드 (전환 시 깜빡임 방지)
   ['title_screen', 'world_map', 'memory_meadow'].forEach(n => {

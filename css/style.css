@@ -711,7 +711,9 @@ button {
 }
 #rotate-hint .phone { font-size: 4rem; animation: rotatePhone 1.8s ease-in-out infinite; }
 @keyframes rotatePhone { 0%, 20% { transform: rotate(0); } 60%, 100% { transform: rotate(90deg); } }
-@media (orientation: portrait) and (max-width: 620px) {
+/* 가로 전용 앱 — 모든 터치 기기(폰·태블릿)의 세로 모드에서 가로 회전을 안내.
+   pointer:coarse로 데스크톱(마우스)은 제외. orientation:portrait 범위라 가로에는 영향 없음. */
+@media (orientation: portrait) and (pointer: coarse) {
   #rotate-hint { display: flex; }
 }
 #rotate-hint .dismiss { margin-top: 10px; }
