@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url || steps.deploy-retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +36,19 @@ jobs:
         with:
           path: .
 
+      # 1차 배포. deploy-pages는 GitHub Pages 백엔드의 일시적 오류
+      # ("try again later")로 간헐 실패하므로 continue-on-error로 잡고 재시도한다.
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: deploy
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before retry
+        if: steps.deploy.outcome == 'failure'
+        run: sleep 20
+
+      # 2차 시도 — 1차가 일시 실패했을 때만. 여기서 실패하면 job도 실패(진짜 문제).
+      - name: Deploy to GitHub Pages (retry)
+        id: deploy-retry
+        if: steps.deploy.outcome == 'failure'
         uses: actions/deploy-pages@v4
