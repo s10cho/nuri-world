@@ -9,8 +9,17 @@ const HP_MAX = 8;
 // 오답 시 부드러운 격려 (유아 대상이라 조롱 대신 응원)
 const RETRY = ['괜찮아요! 다시 한번 들어 볼까요?', '거의 다 왔어요! 한 번 더 들어 봐요!', '천천히 다시 골라 볼까요?'];
 
+/**
+ * 보스전 문제 — type으로 판별하는 유니온
+ * @typedef {{ type: 'jamo', target: string, pool: string[] }
+ *   | { type: 'syllable', target: TowerTarget }
+ *   | { type: 'word', target: Word }} BossQuestion
+ */
+
 // 문제 생성: 배운 내용 전체에서 골고루
+/** @returns {BossQuestion[]} */
 function makeQuestions() {
+  /** @type {BossQuestion[]} */
   const qs = [];
   // 자모 듣기 문제 4개 (자음 2, 모음 2)
   sample(ALL_CONSONANTS, 2).forEach(ch => qs.push({ type: 'jamo', target: ch, pool: ALL_CONSONANTS }));
@@ -22,6 +31,11 @@ function makeQuestions() {
   return shuffle(qs);
 }
 
+/**
+ * @param {GameContext} ctx
+ * @param {any} [_opts]
+ * @returns {Promise<GameResult>}
+ */
 export function runBoss({ area, signal }, _opts) {
   return new Promise(resolve => {
     signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
@@ -46,6 +60,7 @@ export function runBoss({ area, signal }, _opts) {
       qArea,
     );
 
+    /** @param {HTMLElement} [btn] */
     async function hitBoss(btn) {
       hp -= 1;
       hpFill.style.width = `${(hp / HP_MAX) * 100}%`;
@@ -83,15 +98,21 @@ export function runBoss({ area, signal }, _opts) {
       return askWord(q);
     }
 
+    /**
+     * @param {string[]} options
+     * @param {(opt: string) => boolean} isCorrect
+     * @param {(opt: string) => string} describe
+     * @param {Record<string, any>} [extraStyle]
+     */
     function buildChoices(options, isCorrect, describe, extraStyle = {}) {
       let solved = false;
       const cards = options.map((opt, i) =>
         el('button', {
           class: `letter-card ${cardColor(i)}`,
           style: { width: 'clamp(80px, 12vmin, 128px)', height: 'clamp(80px, 12vmin, 128px)', fontSize: 'clamp(2rem, 6vmin, 3.6rem)', ...extraStyle },
-          onclick: async e => {
+          onclick: async (/** @type {Event} */ e) => {
             if (solved || signal.aborted) return;
-            const btn = e.currentTarget;
+            const btn = /** @type {HTMLElement} */ (e.currentTarget);
             if (isCorrect(opt)) {
               solved = true;
               sfx('correct');
@@ -116,6 +137,7 @@ export function runBoss({ area, signal }, _opts) {
     }
 
     // 목표 글자를 시각적으로 보여 주는 모델 (TTS 없을 때만)
+    /** @param {string} glyph @returns {HTMLElement | null} */
     function modelBadge(glyph) {
       if (!showModel) return null;
       return el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } },
@@ -124,44 +146,48 @@ export function runBoss({ area, signal }, _opts) {
       );
     }
 
+    /** @param {{ type: 'jamo', target: string, pool: string[] }} q */
     function askJamo(q) {
       const mySeq = seq;
       const name = JAMO[q.target].name;
       const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
       const options = shuffle([q.target, ...sample(q.pool.filter(c => c !== q.target), 2)]);
-      qArea.replaceChildren(...[
+      qArea.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' },
           el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊'),
           el('span', {}, showModel ? '같은 글자로 공격!' : '소리에 맞는 글자로 공격!'),
         ),
         modelBadge(q.target),
         el('div', { class: 'choices' }, buildChoices(options, o => o === q.target, o => `${JAMO[o].name}! 명중이에요!`)),
-      ].filter(Boolean));
+      ].filter(Boolean)));
       sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
+    /** @param {{ type: 'syllable', target: TowerTarget }} q */
     function askSyllable(q) {
       const mySeq = seq;
       const t = q.target; // {s, w, e}
       const prompt = () => speak(`${t.w}의 ${t.s}! ${t.s}${objectParticle(t.s)} 찾아 공격해요!`, { signal });
       // 오답: 다른 음절 (헷갈리는 보기)
+      /** @type {Set<string>} */
       const distractors = new Set();
       const all = TOWER_STAGES.flatMap(s => s.targets.map(x => x.s)).filter(s => s !== t.s);
       while (distractors.size < 2) {
         distractors.add(all[Math.floor(Math.random() * all.length)]);
       }
       const options = shuffle([t.s, ...distractors]);
-      qArea.replaceChildren(...[
+      qArea.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' },
           el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊'),
           el('span', {}, `${t.e} ${t.w}${showModel ? ` — ${t.s}` : ''}! 글자로 공격!`),
         ),
         modelBadge(t.s),
         el('div', { class: 'choices' }, buildChoices(options, o => o === t.s, o => `${o}! 명중이에요!`)),
-      ].filter(Boolean));
+      ].filter(Boolean)));
       sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }
 
+    /** @param {{ type: 'word', target: Word }} q */
     function askWord(q) {
       const mySeq = seq;
       const { w, e } = q.target;

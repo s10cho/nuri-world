@@ -6,14 +6,15 @@ import { speak, sfx } from '../audio.js';
 import { KINGDOMS, KINGDOM_ORDER, MAP_SPOTS } from '../data.js';
 import { openSettings } from './settings.js';
 
+/** @param {string} k */
 function kingdomStars(k) {
   return store.get().stars[k].reduce((a, b) => a + Math.max(0, b), 0);
 }
 
 function render() {
-  const s = el('div', {
+  const s = /** @type {AppScreen} */ (el('div', {
     style: { backgroundImage: 'url(public/assets/images/backgrounds/world_map.jpg)' },
-  });
+  }));
 
   // 다음에 도전할 왕국 (처음으로 클리어 안 된 왕국)
   const nextKingdom = KINGDOM_ORDER.find(k => !store.kingdomCleared(k));

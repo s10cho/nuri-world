@@ -6,15 +6,17 @@ import { speak, sfx } from '../audio.js';
 import { KINGDOMS, CHARACTERS } from '../data.js';
 
 // 노력 지향 칭찬 (능력 칭찬보다 학습 동기에 효과적)
+/** @type {Record<number, string[]>} */
 const PRAISE = {
   3: ['처음부터 끝까지 정말 열심히 했어요! 완벽해요!', '한 번도 틀리지 않았어요! 최고예요!'],
   2: ['포기하지 않고 끝까지 해냈어요! 멋져요!', '열심히 노력하는 모습이 정말 멋졌어요!'],
   1: ['어려웠지만 끝까지 도전했어요! 대단해요!', '조금씩 계속 연습하면 더 잘하게 될 거예요!'],
 };
 
+/** @param {{ kingdom: KingdomId, stageIdx: number, stars: number }} params */
 function render({ kingdom, stageIdx, stars }) {
   const k = KINGDOMS[kingdom];
-  const s = el('div', { style: { backgroundImage: `url(${k.bg})` } });
+  const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${k.bg})` } }));
 
   const starEls = [0, 1, 2].map(() => el('span', { class: 's' }, '⭐'));
   const isLastStage = stageIdx === k.stages.length - 1;

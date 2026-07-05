@@ -7,13 +7,14 @@ import { CHARACTERS } from '../data.js';
 import { openSettings } from './settings.js';
 
 function render() {
-  const s = el('div', {
+  const s = /** @type {AppScreen} */ (el('div', {
     style: { backgroundImage: 'url(public/assets/images/backgrounds/title_screen.jpg)' },
-  });
+  }));
 
   const soundBtn = iconBtn(store.get().sound ? '🔊' : '🔇', '소리', () => {
     store.setSound(!store.get().sound);
-    soundBtn.querySelector('.ico').textContent = store.get().sound ? '🔊' : '🔇';
+    const ico = soundBtn.querySelector('.ico');
+    if (ico) ico.textContent = store.get().sound ? '🔊' : '🔇';
     sfx('tap');
   });
 
@@ -36,9 +37,9 @@ function render() {
       el('div', { class: 'ribbon' }, '⭐ 글자를 되찾아 왕국을 구해요! ⭐'),
       el('button', {
         class: 'btn-big',
-        onclick: async e => {
+        onclick: async (/** @type {Event} */ e) => {
           sfx('fanfare');
-          e.currentTarget.disabled = true;
+          /** @type {HTMLButtonElement} */ (e.currentTarget).disabled = true;
           if (!store.get().introSeen) {
             go('story');
           } else {
@@ -59,7 +60,8 @@ function render() {
 
   // 부팅 직후엔 사용자 제스처가 없어 TTS가 막히므로, 첫 제스처(app.js unlock)에서
   // 다시 재생되도록 _welcomeOnUnlock에도 등록해 둔다.
-  let signal = null;
+  /** @type {AbortSignal | undefined} */
+  let signal;
   const welcome = () => speak('누리의 한글 왕국에 온 것을 환영해요!', { rate: 0.95, signal });
   s._onShow = sig => { signal = sig; welcome(); };
   s._welcomeOnUnlock = () => { if (!signal?.aborted) welcome(); };

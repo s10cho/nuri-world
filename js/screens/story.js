@@ -7,9 +7,11 @@ import { STORY_INTRO, CHARACTERS } from '../data.js';
 
 function render() {
   let idx = 0;
+  /** @type {ReturnType<typeof setTimeout> | null} */
   let autoTimer = null;
-  let signal = null; // 화면 수명 신호 (_onShow에서 주입)
-  const s = el('div', {});
+  /** @type {AbortSignal | undefined} */
+  let signal; // 화면 수명 신호 (_onShow에서 주입)
+  const s = /** @type {AppScreen} */ (el('div', {}));
 
   const text = el('div', { class: 'panel story-text' });
   // 글을 못 읽는 아이도 알 수 있도록 크게 흔들리는 손 아이콘 + 짧은 안내
@@ -22,7 +24,7 @@ function render() {
   const skipBtn = el('button', {
     class: 'btn-round',
     style: { position: 'absolute', top: 'max(12px, env(safe-area-inset-top))', right: 'calc(16px + env(safe-area-inset-right))', zIndex: '6' },
-    onclick: e => { e.stopPropagation(); finish(); },
+    onclick: (/** @type {Event} */ e) => { e.stopPropagation(); finish(); },
   }, '건너뛰기 ⏩');
 
   function clearAuto() { if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; } }

@@ -3,12 +3,18 @@
 
 import { store } from './store.js';
 
+/** @type {AudioContext | null} */
 let ctx = null;
+/** @type {SpeechSynthesisVoice | null} */
 let koVoice = null;
 let voicesReady = false;
 
 function audioCtx() {
-  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!ctx) {
+    // Safari는 접두사 webkitAudioContext (표준 lib 타입에 없어 캐스트)
+    const AC = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
+    ctx = new AC();
+  }
   // 'suspended'뿐 아니라 iOS의 비표준 'interrupted'(전화·시리·백그라운드 복귀) 상태에서도 재개
   if (ctx.state !== 'running') ctx.resume().catch(() => {});
   return ctx;
@@ -44,7 +50,9 @@ if ('speechSynthesis' in window) {
 }
 
 // 예약된 발화 상태 (cancel과 speak 사이 간격 확보용). 다음 발화가 들어오면 취소.
+/** @type {ReturnType<typeof setTimeout> | null} */
 let pendingSpeak = null;    // 지연 실행 타이머
+/** @type {(() => void) | null} */
 let pendingResolve = null;  // 아직 실행 안 된 발화의 Promise resolve
 let lastCancelAt = 0;       // 마지막 cancel() 시각 (외부 cancel 직후 speak 억제용)
 const CANCEL_GAP = 120;     // cancel 후 speak까지 최소 간격(ms)
@@ -56,6 +64,11 @@ function flushPending() {
 }
 
 // 말하기. rate 살짝 느리게(아이 듣기 편하게). 완료 Promise 반환.
+/**
+ * @param {string} text
+ * @param {{ rate?: number, pitch?: number, interrupt?: boolean, signal?: AbortSignal }} [opts]
+ * @returns {Promise<void>}
+ */
 export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal } = {}) {
   return new Promise(resolve => {
     if (!('speechSynthesis' in window) || !store.get().sound || signal?.aborted) return resolve();
@@ -120,6 +133,12 @@ export function hasKoreanTTS() {
 
 // ---- 합성 효과음 ---------------------------------------------------------
 
+/**
+ * @param {number} freq
+ * @param {number} start
+ * @param {number} dur
+ * @param {{ type?: OscillatorType, gain?: number, glide?: number }} [opts]
+ */
 function tone(freq, start, dur, { type = 'sine', gain = 0.18, glide = 0 } = {}) {
   const ac = audioCtx();
   const t0 = ac.currentTime + start;
@@ -165,6 +184,7 @@ const SFX = {
   chime()   { [1046.5, 1318.5, 1568].forEach((f, i) => tone(f, i * 0.15, 0.5, { type: 'sine', gain: 0.12 })); },
 };
 
+/** @param {keyof typeof SFX} name */
 export function sfx(name) {
   if (!store.get().sound) return;
   try { SFX[name]?.(); } catch { /* 오디오 불가 환경에서는 무음 */ }

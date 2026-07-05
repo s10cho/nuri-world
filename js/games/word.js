@@ -9,6 +9,11 @@ const SYLLABLE_POOL = [...new Set(
   VILLAGE_STAGES.flatMap(st => st.words.flatMap(w => [...w.w])),
 )];
 
+/**
+ * @param {GameContext} ctx
+ * @param {{ words: Word[] }} opts
+ * @returns {Promise<GameResult>}
+ */
 export function runWord({ area, signal }, { words }) {
   return new Promise(resolve => {
     signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
@@ -37,9 +42,9 @@ export function runWord({ area, signal }, { words }) {
         el('button', {
           class: `letter-card ${cardColor(i + idx)}`,
           style: { width: 'clamp(80px, 12vmin, 128px)', height: 'clamp(80px, 12vmin, 128px)', fontSize: 'clamp(2.4rem, 6.6vmin, 4rem)' },
-          onclick: async ev => {
+          onclick: async (/** @type {Event} */ ev) => {
             if (solved || signal.aborted) return;
-            const btn = ev.currentTarget;
+            const btn = /** @type {HTMLElement} */ (ev.currentTarget);
             if (ch === answer) {
               solved = true;
               sfx('correct');

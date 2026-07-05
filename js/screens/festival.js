@@ -6,7 +6,7 @@ import { speak, sfx } from '../audio.js';
 import { FESTIVAL, CHARACTERS, VILLAGE_STAGES } from '../data.js';
 
 function render() {
-  const s = el('div', { style: { backgroundImage: `url(${FESTIVAL.bg})` } });
+  const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${FESTIVAL.bg})` } }));
 
   const textBox = el('div', { class: 'panel story-text' });
   const residents = VILLAGE_STAGES.flatMap(st => st.words).filter(w => store.get().residents.includes(w.w));

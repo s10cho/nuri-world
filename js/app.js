@@ -1,4 +1,3 @@
-// @ts-check
 // 앱 진입점 + 화면 라우터
 import { unlockAudio, stopSpeech } from './audio.js';
 import { store } from './store.js';

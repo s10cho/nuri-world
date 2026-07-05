@@ -7,6 +7,11 @@ import { ALL_CONSONANTS, ALL_VOWELS } from '../data.js';
 
 const PRAISE = ['글자가 태어났어요!', '우와, 멋진 글자를 만들었어요!', '조각을 딱 맞췄네요, 대단해요!'];
 
+/**
+ * @param {GameContext} ctx
+ * @param {{ targets: TowerTarget[] }} opts
+ * @returns {Promise<GameResult>}
+ */
 export function runBuild({ area, signal }, { targets }) {
   return new Promise(resolve => {
     signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
@@ -19,7 +24,9 @@ export function runBuild({ area, signal }, { targets }) {
     function ask() {
       const mySeq = ++seq;
       const t = targets[idx];
-      const { cho, jung } = decompose(t.s);
+      const parts = decompose(t.s);
+      if (!parts) return; // 커리큘럼은 유효 음절만 출제하므로 실제로는 도달하지 않음
+      const { cho, jung } = parts;
 
       const prompt = () => speak(`${t.s}! ${t.w}의 ${t.s}. 조각을 모아 ${t.s}${objectParticle(t.s)} 만들어 보세요!`, { signal });
 
@@ -60,13 +67,14 @@ export function runBuild({ area, signal }, { targets }) {
         else ask();
       }
 
+      /** @param {string} ch @param {'cho'|'jung'} kind @param {number} i */
       function makeChoice(ch, kind, i) {
         return el('button', {
           class: `letter-card ${cardColor(i)}`,
           style: { width: 'clamp(76px, 11vmin, 120px)', height: 'clamp(76px, 11vmin, 120px)', fontSize: 'clamp(2.2rem, 6vmin, 3.6rem)' },
-          onclick: e => {
+          onclick: (/** @type {Event} */ e) => {
             if (finished || signal.aborted) return;
-            const elBtn = e.currentTarget;
+            const elBtn = /** @type {HTMLElement} */ (e.currentTarget);
             const need = kind === 'cho' ? cho : jung;
             const already = kind === 'cho' ? choDone : jungDone;
             if (already) return;

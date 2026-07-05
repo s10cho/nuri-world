@@ -3,6 +3,11 @@ import { el, shuffle, sample, fxBurstAt } from '../ui.js';
 import { speak, sfx } from '../audio.js';
 import { JAMO } from '../data.js';
 
+/**
+ * @param {GameContext} ctx
+ * @param {{ jamoList: string[] }} opts
+ * @returns {Promise<GameResult>}
+ */
 export function runMatch({ area, signal }, { jamoList }) {
   return new Promise(resolve => {
     // 유아 대상이라 최대 3쌍(6장)으로 부담을 낮춤
@@ -10,6 +15,7 @@ export function runMatch({ area, signal }, { jamoList }) {
     const deck = shuffle([...chosen, ...chosen]);
     const cols = deck.length <= 6 ? 3 : 4;
 
+    /** @type {HTMLElement | null} */
     let openCard = null;
     let lock = true; // 시작 미리보기 동안 잠금
     let matched = 0;

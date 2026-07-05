@@ -6,9 +6,10 @@ import { speak, sfx } from '../audio.js';
 import { KINGDOMS, CHARACTERS } from '../data.js';
 import { openSettings } from './settings.js';
 
+/** @param {{ kingdom: KingdomId }} params */
 function render({ kingdom }) {
   const k = KINGDOMS[kingdom];
-  const s = el('div', { style: { backgroundImage: `url(${k.bg})` } });
+  const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${k.bg})` } }));
 
   const pads = k.stages.map((st, i) => {
     const unlocked = store.stageUnlocked(kingdom, i);

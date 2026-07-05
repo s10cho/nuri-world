@@ -1,4 +1,3 @@
-// @ts-check
 // 진행 상황 저장 (localStorage)
 
 /**

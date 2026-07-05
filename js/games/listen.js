@@ -7,6 +7,11 @@ import { objectParticle } from '../hangul.js';
 const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈구나!'];
 const RETRY = ['괜찮아요, 다시 한번 들어 볼까요?', '음, 소리를 한 번 더 들어 보세요!'];
 
+/**
+ * @param {GameContext} ctx
+ * @param {{ pool: string[], focus: string[], rounds?: number }} opts
+ * @returns {Promise<GameResult>}
+ */
 export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
   return new Promise(resolve => {
     let round = 0;
@@ -20,6 +25,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
     const showModel = !hasKoreanTTS();
 
     // 새로 배운 글자(focus)가 골고루 나오도록 출제 순서 구성
+    /** @type {string[]} */
     const targets = [];
     const focusShuffled = shuffle(focus);
     for (let i = 0; i < rounds; i++) targets.push(focusShuffled[i % focusShuffled.length]);
@@ -40,9 +46,9 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
       const cards = options.map((ch, i) =>
         el('button', {
           class: `letter-card ${cardColor(i + round)}`,
-          onclick: async e => {
+          onclick: async (/** @type {Event} */ e) => {
             if (solved || signal.aborted) return;
-            const cardEl = e.currentTarget;
+            const cardEl = /** @type {HTMLElement} */ (e.currentTarget);
             if (ch === target) {
               solved = true;
               sfx('correct');
@@ -73,7 +79,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
           )
         : null;
 
-      area.replaceChildren(...[
+      area.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' }, spk,
           el('span', {}, showModel ? '같은 글자를 찾아 보세요!' : '어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!')),
         modelRow,
@@ -81,7 +87,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
         el('div', { class: 'round-dots' },
           targets.map((_, i) => el('span', { class: 'dot' + (i < round ? ' done' : i === round ? ' now' : '') })),
         ),
-      ].filter(Boolean));
+      ].filter(Boolean)));
 
       sleep(400, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
     }

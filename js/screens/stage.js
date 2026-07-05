@@ -12,10 +12,20 @@ import { runBuild } from '../games/build.js';
 import { runWord } from '../games/word.js';
 import { runBoss } from '../games/boss.js';
 
-// 왕국 유형별 활동 시퀀스 구성
-function buildActivities(k, stage) {
+/** @typedef {(ctx: GameContext) => Promise<GameResult>} Activity */
+
+// 왕국 유형별 활동 시퀀스 구성. k.type으로 왕국을 좁히면 k.stages도 대응 형태로
+// 좁혀져 stage 필드(jamo/targets/words)에 안전하게 접근할 수 있다(판별 유니온).
+/**
+ * @param {Kingdom} k
+ * @param {number} stageIdx
+ * @returns {Activity[]}
+ */
+function buildActivities(k, stageIdx) {
   if (k.type === 'jamo') {
+    const stage = k.stages[stageIdx];
     const pool = [...new Set([...stage.jamo, ...(stage.review || [])])];
+    /** @type {Activity[]} */
     const acts = [
       ctx => runLearn(ctx, { jamoList: stage.jamo }),
       ctx => runListen(ctx, { pool, focus: stage.jamo, rounds: Math.min(4, Math.max(3, stage.jamo.length)) }),
@@ -26,23 +36,24 @@ function buildActivities(k, stage) {
     return acts;
   }
   if (k.type === 'tower') {
+    const stage = k.stages[stageIdx];
     return [ctx => runBuild(ctx, { targets: stage.targets })];
   }
   if (k.type === 'village') {
+    const stage = k.stages[stageIdx];
     return [ctx => runWord(ctx, { words: stage.words })];
   }
-  if (k.type === 'boss') {
-    return [ctx => runBoss(ctx, {})];
-  }
-  return [];
+  // boss (남은 유일한 유형)
+  return [ctx => runBoss(ctx, {})];
 }
 
+/** @param {{ kingdom: KingdomId, stageIdx: number }} params */
 function render({ kingdom, stageIdx }) {
   const k = KINGDOMS[kingdom];
   const stage = k.stages[stageIdx];
-  const s = el('div', { style: { backgroundImage: `url(${k.bg})` } });
+  const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${k.bg})` } }));
 
-  const activities = buildActivities(k, stage);
+  const activities = buildActivities(k, stageIdx);
 
   const dots = el('div', { class: 'round-dots' },
     activities.map((_, i) => el('span', { class: 'dot' + (i === 0 ? ' now' : '') })),

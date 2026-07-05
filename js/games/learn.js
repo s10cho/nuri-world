@@ -4,6 +4,7 @@ import { speak, sfx } from '../audio.js';
 import { store } from '../store.js';
 import { JAMO, ALL_CONSONANTS } from '../data.js';
 
+/** @param {string} ch */
 function introLine(ch) {
   const info = JAMO[ch];
   const word = info.words[0].w;
@@ -15,6 +16,11 @@ function introLine(ch) {
   return `${info.name}! ${info.words[0].w}의 ${info.name} 소리예요.`;
 }
 
+/**
+ * @param {GameContext} ctx
+ * @param {{ jamoList: string[] }} opts
+ * @returns {Promise<GameResult>}
+ */
 export function runLearn({ area, signal }, { jamoList }) {
   return new Promise(resolve => {
     // 화면 이탈(signal abort) 시 게임 종료
@@ -41,9 +47,9 @@ export function runLearn({ area, signal }, { jamoList }) {
           el('button', {
             class: 'panel',
             style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', padding: '14px 22px' },
-            onclick: e => {
+            onclick: (/** @type {Event} */ e) => {
               sfx('tap');
-              fxBurstAt(e.currentTarget, ['💛']);
+              fxBurstAt(/** @type {HTMLElement} */ (e.currentTarget), ['💛']);
               speak(w.w);
             },
           },

@@ -1,4 +1,3 @@
-// @ts-check
 // DOM 헬퍼 + 공통 UI 컴포넌트 + 이펙트
 
 // el('div', { class: 'panel', onclick: fn }, child1, 'text', ...)
