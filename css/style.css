@@ -70,7 +70,8 @@ button {
 }
 
 /* ============ 화면(스크린) 공통 ============ */
-#app { width: 100%; height: 100%; position: relative; }
+/* 모바일 브라우저 툴바 변화를 고려해 동적 뷰포트 높이 사용 (미지원 시 100vh 폴백) */
+#app { width: 100%; height: 100vh; height: 100dvh; position: relative; }
 
 .screen {
   position: absolute;
@@ -748,4 +749,90 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ============================================================
+   짧은 화면(가로 모드 폰 등) 반응형 — 세로 공간이 부족할 때 요소를 vh 기준으로
+   축소해 콘텐츠가 화면 안에 들어오게 한다. 대부분의 크기가 JS 인라인 clamp()로
+   지정돼 있어(px 최소값이 커서 안 줄어듦) !important로 덮어쓴다.
+   높이 560px 초과(태블릿·노트북·PC)에는 적용되지 않는다.
+   ============================================================ */
+@media (max-height: 560px) {
+  :root { font-size: clamp(11px, 2.6vh, 15px); }
+
+  .center-col, .game-area { gap: 1.4vh; padding-top: 1vh; padding-bottom: calc(1vh + env(safe-area-inset-bottom)); }
+
+  /* 상단 바 버튼 */
+  .btn-round { min-width: 9vh; height: 9vh; padding: 0 2.2vh; font-size: 3vh; box-shadow: 0 3px 0 var(--wood-dark); }
+  .btn-round .ico { font-size: 1.2em; }
+
+  /* 큰 액션 버튼 */
+  .btn-big { min-height: 10.5vh; padding: 0.8vh 5vw; font-size: 4.2vh; box-shadow: inset 0 2px 0 rgba(255,255,255,0.55), 0 5px 0 #96660a, var(--shadow-soft); }
+  .btn-big.secondary { min-height: 9vh; padding: 0.6vh 3.5vw; font-size: 3.2vh; }
+
+  /* 타이틀 로고 */
+  .title-logo { font-size: 8.5vh; letter-spacing: 1px; }
+
+  /* 간판·리본·말풍선·프롬프트 */
+  .sign { padding: 1vh 3vw; }
+  .ribbon { padding: 0.6vh 2.6vw; font-size: 3vh; }
+  .bubble { padding: 1vh 2.4vw; font-size: 3.2vh; }
+  .prompt-bar { padding: 1vh 3vw; font-size: 3.2vh; gap: 1.6vh; max-width: 94vw; }
+  .btn-speaker { width: 8vh; height: 8vh; font-size: 3.6vh; }
+
+  /* 글자 카드 (듣기/조합/단어/보스 공용) */
+  .letter-card { width: 15vh !important; height: 15vh !important; font-size: 8vh !important; border-width: 3px; }
+  .letter-card.big { width: 21vh !important; height: 21vh !important; font-size: 12vh !important; }
+
+  /* 배우기·게임 선택지 간격 */
+  .choices { gap: 2vh; }
+
+  /* 스테이지 발판 */
+  .stage-pads { gap: 2vh; }
+  .stage-pad { width: 20vh; padding: 1.2vh 1vh 1vh; }
+  .stage-pad .num { width: 6.5vh; height: 6.5vh; font-size: 3.2vh; }
+
+  /* 글자 조합(탑) */
+  .build-target { width: 21vh !important; height: 21vh !important; font-size: 11vh !important; }
+  .build-slots { gap: 1.6vh; font-size: 4vh; }
+  .build-slot { width: 13vh !important; height: 13vh !important; font-size: 6.5vh !important; }
+
+  /* 단어(마을/보스) */
+  .word-tile { width: 13vh !important; height: 13vh !important; font-size: 6.5vh !important; }
+  .word-emoji { font-size: 11vh !important; }
+  .word-display { gap: 1.2vh; }
+
+  /* 카드 짝맞추기: 카드 크기를 vh로 고정해 2줄이 들어오게 */
+  .memory-grid { width: auto !important; grid-template-columns: repeat(var(--cols, 3), 20vh) !important; gap: 1.4vh; }
+  .mem-card .face { font-size: 8vh; }
+
+  /* 진행 점 */
+  .round-dots { gap: 1.2vh; }
+  .round-dots .dot { width: 2vh; height: 2vh; }
+
+  /* 결과 별 */
+  .result-stars { font-size: 9vh; gap: 2vh; }
+
+  /* 보스 HP·캐릭터 */
+  .boss-hp { height: 3vh; }
+  .boss-char { height: 30vh; }
+
+  /* 스토리 텍스트 */
+  .story-text { font-size: 3.4vh; }
+
+  /* 캐릭터: 인라인 height를 덮어써 화면을 가리지 않게 (모서리 배치 유지) */
+  .char { height: 30vh !important; }
+
+  /* 도감 */
+  .dex-grid { grid-template-columns: repeat(auto-fill, minmax(14vh, 1fr)); gap: 1.2vh; padding: 1.4vh; }
+  .dex-item .g { font-size: 5vh; }
+  .dex-tab { padding: 0.8vh 3vw; font-size: 3vh; }
+}
+
+/* 아주 짧은 화면(≤400px, 소형 폰 가로) — 추가 압축 + 장식 캐릭터 축소 */
+@media (max-height: 400px) {
+  .char { height: 24vh !important; }
+  .btn-big { min-height: 12vh; }
+  .letter-card.big { width: 24vh !important; height: 24vh !important; font-size: 13vh !important; }
+  .build-target { width: 24vh !important; height: 24vh !important; }
 }
