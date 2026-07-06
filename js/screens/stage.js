@@ -2,7 +2,7 @@
 import { register, go } from '../app.js';
 import { el, topbar, iconBtn } from '../ui.js';
 import { store } from '../store.js';
-import { sfx } from '../audio.js';
+import { sfx, whenVoicesReady } from '../audio.js';
 import { KINGDOMS } from '../data.js';
 
 import { runLearn } from '../games/learn.js';
@@ -72,6 +72,10 @@ function render({ kingdom, stageIdx }) {
   );
 
   s._onShow = async signal => {
+    // 음성 목록이 로드된 뒤 게임을 시작해야 각 게임의 showModel(듣기 vs 시각 대체)이
+    // 정확해진다. 보통 이미 로드돼 즉시 통과, 미로드 기기는 최대 2초 대기.
+    await whenVoicesReady();
+    if (signal.aborted) return;
     let mistakes = 0;
     for (let i = 0; i < activities.length; i++) {
       dots.querySelectorAll('.dot').forEach((d, j) => {

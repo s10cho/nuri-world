@@ -32,6 +32,18 @@ if (typeof document !== 'undefined') {
 
 // ---- 한국어 TTS ----------------------------------------------------------
 
+// 음성 목록 로드 완료 신호. Chrome/Android는 getVoices()가 처음엔 비어 있다가
+// voiceschanged 이벤트 뒤에 채워진다. 이 Promise가 해소되기 전에 게임이
+// hasKoreanTTS()로 showModel(듣기 vs 시각 대체)을 확정하면, TTS가 있는데도
+// 시각 모드로 잘못 뜬다 → 게임 시작 전 whenVoicesReady()로 대기하게 한다.
+/** @type {(() => void) | null} */
+let resolveVoices = null;
+/** @type {Promise<void>} */
+const voicesReadyPromise = new Promise(r => { resolveVoices = r; });
+function markVoicesReady() {
+  if (resolveVoices) { resolveVoices(); resolveVoices = null; }
+}
+
 function pickKoreanVoice() {
   const voices = speechSynthesis.getVoices();
   if (!voices.length) return;
@@ -42,12 +54,31 @@ function pickKoreanVoice() {
     voices.find(v => v.lang && v.lang.startsWith('ko')) ||
     null;
   voicesReady = true;
+  markVoicesReady();
 }
 
 if ('speechSynthesis' in window) {
   pickKoreanVoice();
   speechSynthesis.addEventListener?.('voiceschanged', pickKoreanVoice);
+  // voiceschanged를 신뢰할 수 없는 브라우저(늦거나 미발생)에 대비해 음성 목록이
+  // 채워질 때까지 폴링한다. 채워지면 pickKoreanVoice가 정확한 상태로 즉시 해소하고,
+  // 끝내 안 채워지면 ~3초 후 포기하고 진행. 고정 타임아웃 단독은 그 순간 음성이
+  // 아직 미로드면 showModel(듣기 vs 시각)을 잘못 확정할 수 있어 폴링으로 창을 좁힌다.
+  let voiceTries = 0;
+  const voicePoll = setInterval(() => {
+    if (!voicesReady) pickKoreanVoice();
+    if (voicesReady || ++voiceTries >= 12) {
+      clearInterval(voicePoll);
+      markVoicesReady(); // 음성이 끝내 안 뜨는 기기라도 게임이 무한 대기하지 않도록
+    }
+  }, 250);
+} else {
+  markVoicesReady(); // TTS 미지원 기기: 즉시 해소해 게임이 대기하지 않도록
 }
+
+// 음성 목록 로드(또는 타임아웃) 완료를 기다린다. 게임이 showModel을 결정하기 전 호출.
+/** @returns {Promise<void>} */
+export function whenVoicesReady() { return voicesReadyPromise; }
 
 // 예약된 발화 상태 (cancel과 speak 사이 간격 확보용). 다음 발화가 들어오면 취소.
 /** @type {ReturnType<typeof setTimeout> | null} */
@@ -79,9 +110,14 @@ export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal
 
     // signal이 주어지면 화면 이탈 시 이 발화를 취소하고 즉시 resolve
     let done = false;
+    // Chrome은 긴 발화를 ~15초에 조용히 끊는다 — 발화 중 주기적으로 resume()해 유지.
+    // (재생 중 resume()은 no-op이라 무해; 짧은 발화는 finish가 먼저 걸려 한 번도 안 돎)
+    /** @type {ReturnType<typeof setInterval> | null} */
+    let keepAlive = null;
     const finish = () => {
       if (done) return;
       done = true;
+      if (keepAlive) { clearInterval(keepAlive); keepAlive = null; }
       signal?.removeEventListener('abort', onAbort);
       resolve();
     };
@@ -96,7 +132,12 @@ export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal
     u.onend = finish;
     u.onerror = finish;
 
-    const doSpeak = () => { pendingSpeak = null; pendingResolve = null; speechSynthesis.speak(u); };
+    const doSpeak = () => {
+      pendingSpeak = null;
+      pendingResolve = null;
+      speechSynthesis.speak(u);
+      keepAlive = setInterval(() => { try { speechSynthesis.resume(); } catch { /* noop */ } }, 10000);
+    };
 
     // iOS Safari/Android Chrome은 cancel() 직후 같은 틱에 speak()하면 새 발화를 조용히 무시한다.
     // 진행 중 발화가 있거나, (go()의 stopSpeech 등) 직전에 외부 cancel이 있었으면 간격을 두고 speak.
