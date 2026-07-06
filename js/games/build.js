@@ -51,7 +51,7 @@ export function runBuild({ area, signal }, { targets }) {
         // 단어 연결 보여주기
         wordReveal.replaceChildren(
           el('span', { class: 'word-emoji', style: { fontSize: 'clamp(3rem, 8vmin, 5rem)' } }, t.e),
-          el('span', { style: { fontSize: 'clamp(1.2rem, 3vmin, 1.8rem)' } }, t.w),
+          el('span', { class: 'word-label', style: { fontSize: 'clamp(1.2rem, 3vmin, 1.8rem)' } }, t.w),
         );
         wordReveal.style.visibility = 'visible';
         wordReveal.animate(

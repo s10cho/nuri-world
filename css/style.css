@@ -255,7 +255,8 @@ button {
    손글씨체의 획 형태·획수가 달라 학습자에게 혼동을 준다.) UI 텍스트는 Jua 유지.
    Gaegu는 Jua보다 자체가 작아 크기를 약간 키운다. */
 .letter-card, .build-target, .build-slot, .word-tile,
-.mem-card .face, .dex-item .g {
+.mem-card .face, .dex-item .g,
+.word-label, .dex-item .n {
   font-family: 'Gaegu', 'Jua', sans-serif;
   font-weight: 700;
   letter-spacing: 0.02em;

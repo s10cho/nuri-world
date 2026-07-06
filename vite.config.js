@@ -22,7 +22,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'assets/icons/icon-192.png', 'assets/icons/icon-512.png'],
       manifest: {
         name: '누리의 한글 왕국',
-        short_name: '한글 왕국',
+        short_name: '누리의 한글 왕국',
         description: '미취학 아동을 위한 한글 학습 모험 게임',
         lang: 'ko',
         start_url: '.',
