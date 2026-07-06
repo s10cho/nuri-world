@@ -123,7 +123,7 @@ async function boot() {
   // 주요 배경 미리 로드 (전환 시 깜빡임 방지)
   ['title_screen', 'world_map', 'memory_meadow'].forEach(n => {
     const img = new Image();
-    img.src = `public/assets/images/backgrounds/${n}.jpg`;
+    img.src = `assets/images/backgrounds/${n}.jpg`;
   });
 
   go('title');

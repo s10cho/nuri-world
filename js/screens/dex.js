@@ -12,7 +12,7 @@ const RESIDENTS = VILLAGE_STAGES.flatMap(st => st.words);
 
 function render() {
   const s = /** @type {AppScreen} */ (el('div', {
-    style: { backgroundImage: 'url(public/assets/images/backgrounds/world_map.jpg)' },
+    style: { backgroundImage: 'url(assets/images/backgrounds/world_map.jpg)' },
   }));
 
   const grid = el('div', { class: 'dex-grid panel', style: { flex: '1', minHeight: '0', margin: '0 clamp(12px, 4vw, 60px) 16px', padding: '10px' } });

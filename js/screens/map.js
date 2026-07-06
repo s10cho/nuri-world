@@ -13,7 +13,7 @@ function kingdomStars(k) {
 
 function render() {
   const s = /** @type {AppScreen} */ (el('div', {
-    style: { backgroundImage: 'url(public/assets/images/backgrounds/world_map.jpg)' },
+    style: { backgroundImage: 'url(assets/images/backgrounds/world_map.jpg)' },
   }));
 
   // 다음에 도전할 왕국 (처음으로 클리어 안 된 왕국)

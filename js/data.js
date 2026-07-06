@@ -108,7 +108,7 @@ export const KINGDOMS = {
   meadow: {
     id: 'meadow', order: 1, type: 'jamo',
     name: '기억의 초원', subtitle: '자음 왕국',
-    bg: 'public/assets/images/backgrounds/memory_meadow.jpg',
+    bg: 'assets/images/backgrounds/memory_meadow.jpg',
     goal: '자음을 되찾아 초원을 다시 푸르게 만들어요!',
     intro: '여기는 기억의 초원이야. 지우개 몬스터가 자음을 다 지워 버렸어! 소리를 잘 듣고 자음을 찾아줘!',
     // 훈민정음 제자원리 순서: 상형 기본자(ㄱㄴㅁㅅㅇ) → 가획자 → 병서(쌍자음).
@@ -125,7 +125,7 @@ export const KINGDOMS = {
   lake: {
     id: 'lake', order: 2, type: 'jamo',
     name: '울림의 호수', subtitle: '모음 왕국',
-    bg: 'public/assets/images/backgrounds/echo_lake.jpg',
+    bg: 'assets/images/backgrounds/echo_lake.jpg',
     goal: '모음의 소리를 되찾아 호수를 맑게 만들어요!',
     intro: '울림의 호수에 온 걸 환영해! 모음이 사라져서 호수의 노래가 멈췄어. 모음 소리를 되찾아 줘!',
     // 제자원리 순서: 기본자(ㅡㅣ) → 초출자(ㅏㅓㅗㅜ) → 재출자(ㅑㅕㅛㅠ) → 합용
@@ -140,7 +140,7 @@ export const KINGDOMS = {
   tower: {
     id: 'tower', order: 3, type: 'tower',
     name: '글자 조각의 탑', subtitle: '글자 조합 왕국',
-    bg: 'public/assets/images/backgrounds/letter_tower.jpg',
+    bg: 'assets/images/backgrounds/letter_tower.jpg',
     goal: '자음과 모음을 붙여서 글자를 만들어요!',
     intro: '글자 조각의 탑이야! 자음과 모음이 만나면 글자가 태어나. 조각을 맞춰서 글자를 만들어 보자!',
     stages: TOWER_STAGES,
@@ -148,7 +148,7 @@ export const KINGDOMS = {
   village: {
     id: 'village', order: 4, type: 'village',
     name: '이름 없는 마을', subtitle: '받침 없는 단어 왕국',
-    bg: 'public/assets/images/backgrounds/nameless_village.jpg',
+    bg: 'assets/images/backgrounds/nameless_village.jpg',
     goal: '글자를 찾아 주민들의 이름을 되찾아 주세요!',
     intro: '주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어!',
     stages: VILLAGE_STAGES,
@@ -156,7 +156,7 @@ export const KINGDOMS = {
   castle: {
     id: 'castle', order: 5, type: 'boss',
     name: '지우개 몬스터의 성', subtitle: '최종 결전의 장소',
-    bg: 'public/assets/images/backgrounds/monster_castle.jpg',
+    bg: 'assets/images/backgrounds/monster_castle.jpg',
     goal: '배운 글자로 지우개 몬스터를 물리쳐요!',
     intro: '드디어 지우개 몬스터의 성이야! 네가 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구하자!',
     stages: [{ title: '최종 결전!' }],
@@ -181,20 +181,20 @@ export const MAP_SPOTS = {
 /** @type {StoryPanel[]} */
 export const STORY_INTRO = [
   {
-    bg: 'public/assets/images/backgrounds/title_screen.jpg',
+    bg: 'assets/images/backgrounds/title_screen.jpg',
     text: '옛날 옛적, 글자들이 반짝반짝 빛나는\n누리 한글 왕국이 있었어요.',
   },
   {
-    bg: 'public/assets/images/backgrounds/story_intro_dark_kingdom.jpg',
+    bg: 'assets/images/backgrounds/story_intro_dark_kingdom.jpg',
     text: '어느 날, 지우개 몬스터가 나타나\n왕국의 글자들을 지워 버렸어요!',
     char: 'eraser',
   },
   {
-    bg: 'public/assets/images/backgrounds/nameless_village.jpg',
+    bg: 'assets/images/backgrounds/nameless_village.jpg',
     text: '주민들은 이름을 잃어버리고,\n왕국은 엉망이 되어 버렸어요.',
   },
   {
-    bg: 'public/assets/images/backgrounds/world_map.jpg',
+    bg: 'assets/images/backgrounds/world_map.jpg',
     text: '누리와 마법 토끼 포리는 글자를 되찾는\n모험을 떠나기로 했어요!',
     char: 'both',
   },
@@ -203,7 +203,7 @@ export const STORY_INTRO = [
 // 왕국 축제(엔딩)
 /** @type {Festival} */
 export const FESTIVAL = {
-  bg: 'public/assets/images/backgrounds/festival_ending.jpg',
+  bg: 'assets/images/backgrounds/festival_ending.jpg',
   lines: [
     '와! 글자들이 모두 돌아왔어요!',
     '누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요.',
@@ -214,7 +214,7 @@ export const FESTIVAL = {
 // 캐릭터 이미지 경로
 /** @type {Characters} */
 export const CHARACTERS = {
-  nuri:   'public/assets/images/characters/nuri/nuri_web.png',
-  pori:   'public/assets/images/characters/pori/pori_web.png',
-  eraser: 'public/assets/images/characters/eraser/eraser_web.png',
+  nuri:   'assets/images/characters/nuri/nuri_web.png',
+  pori:   'assets/images/characters/pori/pori_web.png',
+  eraser: 'assets/images/characters/eraser/eraser_web.png',
 };

@@ -3,7 +3,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
-  { ignores: ['node_modules/**', 'public/**'] },
+  { ignores: ['node_modules/**', 'public/**', 'dist/**'] },
   js.configs.recommended,
   {
     // 앱 소스 — 브라우저 환경

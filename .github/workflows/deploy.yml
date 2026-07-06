@@ -24,17 +24,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 캐시버스팅: 커밋 SHA를 index.html 엔트리 포인트·JS 모듈 import에 스탬프
-      # (체크아웃 사본에만 적용 — 커밋된 소스는 그대로)
-      - name: Cache-bust — stamp commit SHA
-        run: node tools/stamp-version.mjs "${GITHUB_SHA::8}"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install (clean)
+        run: npm ci
+
+      # Vite 빌드 — 콘텐츠 해시 파일명으로 캐시버스팅을 대체(별도 스탬프 불필요),
+      # base=/nuri-world/ 로 서브패스 경로 처리, dist/로 산출.
+      - name: Build (Vite)
+        run: npm run build
 
       - uses: actions/configure-pages@v5
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
 
       # 1차 배포. deploy-pages는 GitHub Pages 백엔드의 일시적 오류
       # ("try again later")로 간헐 실패하므로 continue-on-error로 잡고 재시도한다.

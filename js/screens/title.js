@@ -8,7 +8,7 @@ import { openSettings } from './settings.js';
 
 function render() {
   const s = /** @type {AppScreen} */ (el('div', {
-    style: { backgroundImage: 'url(public/assets/images/backgrounds/title_screen.jpg)' },
+    style: { backgroundImage: 'url(assets/images/backgrounds/title_screen.jpg)' },
   }));
 
   const soundBtn = iconBtn(store.get().sound ? '🔊' : '🔇', '소리', () => {
