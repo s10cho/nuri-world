@@ -51,7 +51,7 @@ export function runBuild({ area, signal }, { targets }) {
         // 단어 연결 보여주기
         wordReveal.replaceChildren(
           el('span', { class: 'word-emoji', style: { fontSize: 'clamp(3rem, 8vmin, 5rem)' } }, t.e),
-          el('span', { class: 'word-label', style: { fontSize: 'clamp(1.2rem, 3vmin, 1.8rem)' } }, t.w),
+          el('span', { class: 'word-label', style: { fontSize: 'clamp(1.5rem, 3.6vmin, 2.2rem)' } }, t.w),
         );
         wordReveal.style.visibility = 'visible';
         wordReveal.animate(
@@ -70,8 +70,7 @@ export function runBuild({ area, signal }, { targets }) {
       /** @param {string} ch @param {'cho'|'jung'} kind @param {number} i */
       function makeChoice(ch, kind, i) {
         return el('button', {
-          class: `letter-card ${cardColor(i)}`,
-          style: { width: 'clamp(76px, 11vmin, 120px)', height: 'clamp(76px, 11vmin, 120px)', fontSize: 'clamp(2.2rem, 6vmin, 3.6rem)' },
+          class: `letter-card compact ${cardColor(i)}`,
           onclick: (/** @type {Event} */ e) => {
             if (finished || signal.aborted) return;
             const elBtn = /** @type {HTMLElement} */ (e.currentTarget);

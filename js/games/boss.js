@@ -109,7 +109,7 @@ export function runBoss({ area, signal }, _opts) {
       const cards = options.map((opt, i) =>
         el('button', {
           class: `letter-card ${cardColor(i)}`,
-          style: { width: 'clamp(80px, 12vmin, 128px)', height: 'clamp(80px, 12vmin, 128px)', fontSize: 'clamp(2rem, 6vmin, 3.6rem)', ...extraStyle },
+          style: { ...extraStyle },
           onclick: async (/** @type {Event} */ e) => {
             if (solved || signal.aborted) return;
             const btn = /** @type {HTMLElement} */ (e.currentTarget);
@@ -142,7 +142,7 @@ export function runBoss({ area, signal }, _opts) {
       if (!showModel) return null;
       return el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } },
         el('div', { class: 'ribbon', style: { padding: '4px 16px' } }, '이 글자로 공격!'),
-        el('div', { class: 'letter-card c3', style: { pointerEvents: 'none', width: 'clamp(70px, 10vmin, 110px)', height: 'clamp(70px, 10vmin, 110px)', fontSize: 'clamp(2rem, 5.5vmin, 3.2rem)' } }, glyph),
+        el('div', { class: 'letter-card compact c3', style: { pointerEvents: 'none' } }, glyph),
       );
     }
 

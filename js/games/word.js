@@ -41,7 +41,6 @@ export function runWord({ area, signal }, { words }) {
       const choiceCards = options.map((ch, i) =>
         el('button', {
           class: `letter-card ${cardColor(i + idx)}`,
-          style: { width: 'clamp(80px, 12vmin, 128px)', height: 'clamp(80px, 12vmin, 128px)', fontSize: 'clamp(2.4rem, 6.6vmin, 4rem)' },
           onclick: async (/** @type {Event} */ ev) => {
             if (solved || signal.aborted) return;
             const btn = /** @type {HTMLElement} */ (ev.currentTarget);

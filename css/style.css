@@ -38,6 +38,27 @@
   --radius-md: 18px;
   --radius-sm: 12px;
 
+  /* ── 학습 요소 표준 크기 토큰 ─────────────────────────────
+     카드·타일·글자 크기를 한 곳에서 정의해 게임 전반의 크기를 일관되게 맞춘다.
+     화면 규모별(폰 가로·태블릿·PC)로는 아래 미디어 쿼리에서 이 토큰 '값'만
+     덮어써 크기를 조절한다(선택자마다 !important로 싸우지 않는다).
+     폰트는 손글씨체 Gaegu가 Jua보다 글리프가 작아 카드 대비 크게 잡는다. */
+  --sz-card: clamp(84px, 14vmin, 150px);      /* 표준 선택지 카드(듣기·단어·보스) */
+  --sz-card-sm: clamp(76px, 11.5vmin, 118px); /* 조밀 카드(조합 — 한 화면 6장) */
+  --sz-card-big: clamp(150px, 26vmin, 260px); /* 대표 글자(배우기) */
+  --sz-slot: clamp(90px, 13vmin, 130px);      /* 조합 슬롯 */
+  --sz-tile: clamp(80px, 12.5vmin, 130px);    /* 단어 타일 */
+  --sz-target: clamp(140px, 24vmin, 230px);   /* 조합 목표 글자 */
+
+  --fs-card: clamp(3.8rem, 11.5vmin, 6.6rem);
+  --fs-card-sm: clamp(2.8rem, 7.7vmin, 4.6rem);
+  --fs-card-big: clamp(6.4rem, 21vmin, 12.3rem);
+  --fs-slot: clamp(3rem, 9vmin, 5rem);
+  --fs-tile: clamp(3rem, 9vmin, 5.4rem);
+  --fs-target: clamp(4.8rem, 15vmin, 9rem);
+  --fs-mem: clamp(4.6rem, 13vmin, 8rem);
+  --fs-dex: clamp(2.6rem, 5vmin, 3.2rem);
+
   font-size: clamp(14px, 1.6vmin + 8px, 20px);
 }
 
@@ -225,10 +246,10 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(84px, 14vmin, 150px);
-  height: clamp(84px, 14vmin, 150px);
+  width: var(--sz-card);
+  height: var(--sz-card);
   border-radius: var(--radius-lg);
-  font-size: clamp(2.6rem, 8vmin, 4.6rem);
+  font-size: var(--fs-card);
   color: #fff;
   text-shadow: 0 3px 0 rgba(0, 0, 0, 0.22);
   border: 4px solid rgba(255, 255, 255, 0.75);
@@ -244,16 +265,23 @@ button {
 .letter-card.c5 { background: var(--card-5); }
 .letter-card.c6 { background: var(--card-6); }
 
+/* 조밀 카드 — 조합(탑) 게임은 자음·모음 6장을 한 화면에 보여 주므로 조금 작게 */
+.letter-card.compact {
+  width: var(--sz-card-sm);
+  height: var(--sz-card-sm);
+  font-size: var(--fs-card-sm);
+}
+
 .letter-card.big {
-  width: clamp(150px, 26vmin, 260px);
-  height: clamp(150px, 26vmin, 260px);
-  font-size: clamp(4.5rem, 15vmin, 9rem);
+  width: var(--sz-card-big);
+  height: var(--sz-card-big);
+  font-size: var(--fs-card-big);
 }
 
 /* 학습 대상 글자(자모·글자·음절 카드)는 손글씨체 Gaegu로 표시 — ㅈ/ㅊ 등을 인쇄체
    3획이 아닌 실제 펜으로 쓰는 손글씨 2획 형태로 보여 준다. (국립국어원: 인쇄체와
    손글씨체의 획 형태·획수가 달라 학습자에게 혼동을 준다.) UI 텍스트는 Jua 유지.
-   Gaegu는 Jua보다 자체가 작아 크기를 약간 키운다. */
+   Gaegu는 Jua보다 글리프가 작아 폰트 크기(--fs-*)를 카드 대비 크게 잡는다. */
 .letter-card, .build-target, .build-slot, .word-tile,
 .mem-card .face, .dex-item .g,
 .word-label, .dex-item .n {
@@ -261,8 +289,6 @@ button {
   font-weight: 700;
   letter-spacing: 0.02em;
 }
-.letter-card { font-size: clamp(3rem, 9vmin, 5.2rem); }
-.letter-card.big { font-size: clamp(5.2rem, 17vmin, 10rem); }
 
 /* 정답/오답 피드백 */
 @keyframes popCorrect {
@@ -439,7 +465,8 @@ button {
   display: grid;
   grid-template-columns: repeat(var(--cols, 4), 1fr);
   gap: clamp(10px, 2vmin, 20px);
-  width: min(92vw, 150vmin, 860px);
+  /* 6장(3쌍) 기준 카드가 지나치게 커지지 않도록 폭 제한 — 글자가 카드를 충분히 채우게 */
+  width: min(92vw, 96vmin, 560px);
 }
 .mem-card {
   aspect-ratio: 3 / 3.4;
@@ -458,7 +485,7 @@ button {
   border-radius: var(--radius-md);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  font-size: clamp(1.8rem, 6vmin, 3.4rem);
+  font-size: var(--fs-mem);
 }
 .mem-card .back {
   background: linear-gradient(135deg, var(--purple) 0%, var(--purple-deep) 100%);
@@ -481,12 +508,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(140px, 24vmin, 230px);
-  height: clamp(140px, 24vmin, 230px);
+  width: var(--sz-target);
+  height: var(--sz-target);
   border-radius: var(--radius-lg);
   background: rgba(255, 246, 227, 0.5);
   border: 5px dashed var(--wood);
-  font-size: clamp(4rem, 13vmin, 7.5rem);
+  font-size: var(--fs-target);
   color: var(--ink);
 }
 .build-target.done {
@@ -496,13 +523,13 @@ button {
 }
 .build-slots { display: flex; align-items: center; gap: 16px; font-size: 2.2rem; color: #fff; text-shadow: 0 2px 3px rgba(0,0,0,0.4); }
 .build-slot {
-  width: clamp(90px, 13vmin, 130px);
-  height: clamp(90px, 13vmin, 130px);
+  width: var(--sz-slot);
+  height: var(--sz-slot);
   border-radius: var(--radius-md);
   border: 4px dashed rgba(255, 255, 255, 0.85);
   background: rgba(0, 0, 0, 0.18);
   display: flex; align-items: center; justify-content: center;
-  font-size: clamp(2.4rem, 7vmin, 4rem);
+  font-size: var(--fs-slot);
   color: #fff;
 }
 .build-slot.filled { border-style: solid; background: rgba(255, 246, 227, 0.92); color: var(--ink); text-shadow: none; }
@@ -514,14 +541,14 @@ button {
   align-items: center;
 }
 .word-tile {
-  width: clamp(78px, 12.5vmin, 130px);
-  height: clamp(78px, 12.5vmin, 130px);
+  width: var(--sz-tile);
+  height: var(--sz-tile);
   display: flex; align-items: center; justify-content: center;
   border-radius: var(--radius-md);
   background: var(--cream);
   border: 4px solid var(--wood);
   box-shadow: 0 5px 0 var(--wood-dark), var(--shadow-soft);
-  font-size: clamp(2.4rem, 7.4vmin, 4.4rem);
+  font-size: var(--fs-tile);
   color: var(--ink);
 }
 .word-tile.blank {
@@ -628,8 +655,8 @@ button {
   border: 3px solid var(--wood-light);
   text-align: center;
 }
-.dex-item .g { font-size: 2.4rem; line-height: 1.15; }
-.dex-item .n { font-size: 0.92rem; }
+.dex-item .g { font-size: var(--fs-dex); line-height: 1.15; }
+.dex-item .n { font-size: 1rem; }
 .dex-item.locked { filter: grayscale(1); opacity: 0.45; }
 .dex-item.locked .g { filter: blur(2px); }
 
@@ -776,7 +803,24 @@ button {
    높이 560px 초과(태블릿·노트북·PC)에는 적용되지 않는다.
    ============================================================ */
 @media (max-height: 560px) {
-  :root { font-size: clamp(11px, 2.6vh, 15px); }
+  :root {
+    font-size: clamp(11px, 2.6vh, 15px);
+    /* 세로 공간 부족 — 카드·글자를 vh 기준으로 압축(터치 타깃 하한 확보) */
+    --sz-card: max(16vh, 62px);
+    --sz-card-sm: max(14vh, 56px);
+    --sz-card-big: 21vh;
+    --sz-slot: 13vh;
+    --sz-tile: 13vh;
+    --sz-target: 21vh;
+    --fs-card: max(10.5vh, 40px);
+    --fs-card-sm: max(9vh, 34px);
+    --fs-card-big: 15vh;
+    --fs-slot: 8.5vh;
+    --fs-tile: 8.5vh;
+    --fs-target: 13vh;
+    --fs-mem: 13vh;
+    --fs-dex: 6.5vh;
+  }
 
   .center-col, .game-area { gap: 2vh; padding-top: 1vh; padding-bottom: calc(1vh + env(safe-area-inset-bottom)); }
 
@@ -798,9 +842,8 @@ button {
   .prompt-bar { padding: 1vh 3vw; font-size: 3.2vh; gap: 1.6vh; max-width: 94vw; }
   .btn-speaker { width: 8vh; height: 8vh; font-size: 3.6vh; }
 
-  /* 글자 카드 (듣기/조합/단어/보스 공용) — 유아 터치 타깃 하한 ~62px 확보(max로 바닥값) */
-  .letter-card { width: max(16vh, 62px) !important; height: max(16vh, 62px) !important; font-size: max(8vh, 30px) !important; border-width: 3px; }
-  .letter-card.big { width: 21vh !important; height: 21vh !important; font-size: 12vh !important; }
+  /* 글자 카드 두께만 살짝 얇게(크기·폰트는 위 :root 토큰이 담당) */
+  .letter-card { border-width: 3px; }
 
   /* 배우기·게임 선택지 간격 — 밀집 완화(넉넉히) */
   .choices { gap: 2.8vh; }
@@ -811,18 +854,14 @@ button {
   .stage-pad .num { width: 6.5vh; height: 6.5vh; font-size: 3.2vh; }
 
   /* 글자 조합(탑) */
-  .build-target { width: 21vh !important; height: 21vh !important; font-size: 11vh !important; }
   .build-slots { gap: 1.6vh; font-size: 4vh; }
-  .build-slot { width: 13vh !important; height: 13vh !important; font-size: 6.5vh !important; }
 
   /* 단어(마을/보스) */
-  .word-tile { width: 13vh !important; height: 13vh !important; font-size: 6.5vh !important; }
   .word-emoji { font-size: 11vh !important; }
   .word-display { gap: 1.2vh; }
 
   /* 카드 짝맞추기: 카드 크기를 vh로 고정해 2줄이 들어오게 */
   .memory-grid { width: auto !important; grid-template-columns: repeat(var(--cols, 3), 20vh) !important; gap: 1.4vh; }
-  .mem-card .face { font-size: 8vh; }
 
   /* 진행 점 */
   .round-dots { gap: 1.2vh; }
@@ -843,16 +882,14 @@ button {
 
   /* 도감 */
   .dex-grid { grid-template-columns: repeat(auto-fill, minmax(14vh, 1fr)); gap: 1.2vh; padding: 1.4vh; }
-  .dex-item .g { font-size: 5vh; }
   .dex-tab { padding: 0.8vh 3vw; font-size: 3vh; }
 }
 
 /* 아주 짧은 화면(≤400px, 소형 폰 가로) — 추가 압축 + 장식 캐릭터 축소 */
 @media (max-height: 400px) {
+  :root { --sz-card-big: 24vh; --sz-target: 24vh; }
   .char { height: 24vh !important; }
   .btn-big { min-height: 12vh; }
-  .letter-card.big { width: 24vh !important; height: 24vh !important; font-size: 13vh !important; }
-  .build-target { width: 24vh !important; height: 24vh !important; }
 }
 
 /* ============================================================
@@ -862,33 +899,29 @@ button {
    (min-height 조건으로 폰 가로(짧은 화면)는 제외 → 위 max-height 규칙이 담당)
    ============================================================ */
 @media (min-width: 900px) and (min-height: 600px) {
+  :root {
+    /* 넓은 화면 — 학습 카드·글자를 키워 중앙 몰림 방지·공간 활용 */
+    --sz-card: clamp(130px, 17vmin, 210px);
+    --sz-card-sm: clamp(108px, 14vmin, 168px);
+    --sz-card-big: clamp(220px, 32vmin, 380px);
+    --sz-slot: clamp(96px, 14vmin, 160px);
+    --sz-tile: clamp(96px, 14vmin, 160px);
+    --sz-target: clamp(190px, 27vmin, 320px);
+    --fs-card: clamp(5rem, 13vmin, 8.4rem);
+    --fs-card-sm: clamp(3.7rem, 10vmin, 6rem);
+    --fs-card-big: clamp(8rem, 26vmin, 16rem);
+    --fs-slot: clamp(3.8rem, 10vmin, 6.2rem);
+    --fs-tile: clamp(3.8rem, 10vmin, 6.4rem);
+    --fs-target: clamp(6rem, 18vmin, 10.8rem);
+    --fs-mem: clamp(5.4rem, 15vmin, 9.5rem);
+    --fs-dex: clamp(3.2rem, 6vmin, 4rem);
+  }
+
   .game-area, .center-col { gap: clamp(26px, 4.5vmin, 56px); }
   .choices { gap: clamp(26px, 5vmin, 60px); }
 
-  /* 글자 카드류 */
-  .letter-card {
-    width: clamp(130px, 17vmin, 210px) !important;
-    height: clamp(130px, 17vmin, 210px) !important;
-    font-size: clamp(3.8rem, 10vmin, 6.6rem) !important;
-  }
-  .letter-card.big {
-    width: clamp(220px, 32vmin, 380px) !important;
-    height: clamp(220px, 32vmin, 380px) !important;
-    font-size: clamp(6.5rem, 21vmin, 13rem) !important;
-  }
-  .build-target {
-    width: clamp(190px, 27vmin, 320px) !important;
-    height: clamp(190px, 27vmin, 320px) !important;
-    font-size: clamp(5rem, 15vmin, 9rem) !important;
-  }
-  .build-slot, .word-tile {
-    width: clamp(96px, 14vmin, 160px) !important;
-    height: clamp(96px, 14vmin, 160px) !important;
-    font-size: clamp(3rem, 8vmin, 5rem) !important;
-  }
-  .word-emoji { font-size: clamp(3.5rem, 9vmin, 6rem) !important; }
+  .word-emoji { font-size: clamp(3.5rem, 9vmin, 6rem); }
   .memory-grid { gap: clamp(16px, 2.6vmin, 28px); }
-  .mem-card .face { font-size: clamp(2.4rem, 7vmin, 4.4rem); }
 
   /* 프롬프트·버튼 — 크게 하되 텍스트 폭은 제한(가독) */
   .prompt-bar { font-size: clamp(1.4rem, 2.4vmin, 2.1rem); padding: 16px 34px; max-width: min(80vw, 860px); }

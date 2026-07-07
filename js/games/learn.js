@@ -54,7 +54,7 @@ export function runLearn({ area, signal }, { jamoList }) {
             },
           },
             el('span', { style: { fontSize: 'clamp(2.6rem, 7vmin, 4.4rem)', lineHeight: '1' } }, w.e),
-            el('span', { class: 'word-label', style: { fontSize: 'clamp(1.1rem, 2.6vmin, 1.6rem)' } }, w.w),
+            el('span', { class: 'word-label', style: { fontSize: 'clamp(1.4rem, 3.2vmin, 2rem)' } }, w.w),
           ),
         ),
       );
