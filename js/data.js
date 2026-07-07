@@ -110,7 +110,7 @@ export const KINGDOMS = {
     name: '기억의 초원', subtitle: '자음 왕국',
     bg: 'assets/images/backgrounds/memory_meadow.jpg',
     goal: '자음을 되찾아 초원을 다시 푸르게 만들어요!',
-    intro: '여기는 기억의 초원이야. 지우개 몬스터가 자음을 다 지워 버렸어! 소리를 잘 듣고 자음을 찾아줘!',
+    intro: '여기는 기억의 초원이에요. 지우개 몬스터가 자음을 다 지워 버렸어요! 소리를 잘 듣고 자음을 찾아 주세요!',
     // 훈민정음 제자원리 순서: 상형 기본자(ㄱㄴㅁㅅㅇ) → 가획자 → 병서(쌍자음).
     // ㄹ은 엄밀히는 가획자가 아닌 이체자(異體字)지만, ㄴ→ㄷ→ㅌ 계열과 함께
     // 학습 편의상 같은 단계에 배치했다.
@@ -127,7 +127,7 @@ export const KINGDOMS = {
     name: '울림의 호수', subtitle: '모음 왕국',
     bg: 'assets/images/backgrounds/echo_lake.jpg',
     goal: '모음의 소리를 되찾아 호수를 맑게 만들어요!',
-    intro: '울림의 호수에 온 걸 환영해! 모음이 사라져서 호수의 노래가 멈췄어. 모음 소리를 되찾아 줘!',
+    intro: '울림의 호수에 온 걸 환영해요! 모음이 사라져서 호수의 노래가 멈췄어요. 모음 소리를 되찾아 주세요!',
     // 제자원리 순서: 기본자(ㅡㅣ) → 초출자(ㅏㅓㅗㅜ) → 재출자(ㅑㅕㅛㅠ) → 합용
     stages: [
       { title: '기본 모음 친구들', jamo: ['ㅡ', 'ㅣ', 'ㅏ', 'ㅓ'] },
@@ -142,7 +142,7 @@ export const KINGDOMS = {
     name: '글자 조각의 탑', subtitle: '글자 조합 왕국',
     bg: 'assets/images/backgrounds/letter_tower.jpg',
     goal: '자음과 모음을 붙여서 글자를 만들어요!',
-    intro: '글자 조각의 탑이야! 자음과 모음이 만나면 글자가 태어나. 조각을 맞춰서 글자를 만들어 보자!',
+    intro: '글자 조각의 탑이에요! 자음과 모음이 만나면 글자가 태어나요. 조각을 맞춰서 글자를 만들어 보세요!',
     stages: TOWER_STAGES,
   },
   village: {
@@ -150,7 +150,7 @@ export const KINGDOMS = {
     name: '이름 없는 마을', subtitle: '받침 없는 단어 왕국',
     bg: 'assets/images/backgrounds/nameless_village.jpg',
     goal: '글자를 찾아 주민들의 이름을 되찾아 주세요!',
-    intro: '주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어!',
+    intro: '주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어요!',
     stages: VILLAGE_STAGES,
   },
   castle: {
@@ -158,7 +158,7 @@ export const KINGDOMS = {
     name: '지우개 몬스터의 성', subtitle: '최종 결전의 장소',
     bg: 'assets/images/backgrounds/monster_castle.jpg',
     goal: '배운 글자로 지우개 몬스터를 물리쳐요!',
-    intro: '드디어 지우개 몬스터의 성이야! 네가 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구하자!',
+    intro: '드디어 지우개 몬스터의 성이에요! 그동안 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구해요!',
     stages: [{ title: '최종 결전!' }],
   },
 };

@@ -72,7 +72,7 @@ export function runBoss({ area, signal }, _opts) {
     }
 
     async function victory() {
-      await speak('안 돼! 내가 지다니! 글자들을 돌려줄게!', { signal });
+      await speak('안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!', { signal });
       if (signal.aborted) return;
       boss.classList.add('defeat');
       sfx('fanfare');

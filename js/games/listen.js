@@ -4,7 +4,7 @@ import { speak, sfx, hasKoreanTTS } from '../audio.js';
 import { JAMO } from '../data.js';
 import { objectParticle } from '../hangul.js';
 
-const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈구나!'];
+const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈어요!'];
 const RETRY = ['괜찮아요, 다시 한번 들어 볼까요?', '음, 소리를 한 번 더 들어 보세요!'];
 
 /**
