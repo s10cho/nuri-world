@@ -134,6 +134,30 @@ async function boot() {
  }
 }
 
+// ---- PWA 자동 업데이트(설치형 앱 최신 반영) ---------------------------------
+// 새 버전이 배포되면 SW가 백그라운드에서 새로 설치·활성화된다(sw.js는 skipWaiting+
+// clientsClaim). 그 교체가 '업데이트'일 때만(최초 설치는 제외) 화면을 한 번 새로고침해
+// 곧바로 최신 화면을 보여 준다. 등록 자체는 vite-plugin-pwa가 주입한 registerSW.js 담당.
+function setupAutoReload() {
+  try {
+    if (!('serviceWorker' in navigator)) return;
+    // 로드 시점에 이미 SW가 제어 중이었으면, 이후의 controllerchange는 '업데이트' 교체다.
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      // 최초 설치(무→유)나 등록 해제(유→무)에는 새로고침하지 않고, 새 SW로 교체될 때만.
+      if (!hadController || reloading || !navigator.serviceWorker.controller) return;
+      reloading = true;
+      location.reload();
+    });
+    // 오래 열어 둔 세션도 갱신을 감지하도록 주기적으로 업데이트를 확인한다(30분).
+    navigator.serviceWorker.getRegistration()
+      .then(reg => { if (reg) setInterval(() => reg.update().catch(() => {}), 30 * 60 * 1000); })
+      .catch(() => {});
+  } catch { /* SW 미지원·보안 컨텍스트 아님 등은 조용히 무시 */ }
+}
+setupAutoReload();
+
 boot();
 
 export { store };
