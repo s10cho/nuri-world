@@ -3,6 +3,21 @@
 
 import { store } from './store.js';
 
+// Capacitor 네이티브 앱(iOS/Android)에서는 브라우저 speechSynthesis 대신 네이티브 TTS 플러그인을
+// 쓴다 — 특히 Android WebView의 speechSynthesis는 기기 TTS 데이터·WebView 버전에 따라 불안정.
+// 웹/PWA는 이미 정교하게 튜닝된 기존 경로를 그대로 사용. window.Capacitor는 네이티브 런타임에서만
+// 주입되므로 정적 import 없이 감지하고, 플러그인은 네이티브에서만 lazy-load해 웹 번들 영향 최소화.
+const NATIVE = typeof window !== 'undefined' && /** @type {any} */ (window).Capacitor?.isNativePlatform?.() === true;
+/** @type {any} */
+let nativeTTS = null;
+let nativeKoOk = false;
+async function ensureNativeTTS() {
+  if (nativeTTS) return nativeTTS;
+  const mod = await import('@capacitor-community/text-to-speech');
+  nativeTTS = mod.TextToSpeech;
+  return nativeTTS;
+}
+
 /** @type {AudioContext | null} */
 let ctx = null;
 /** @type {SpeechSynthesisVoice | null} */
@@ -57,7 +72,17 @@ function pickKoreanVoice() {
   markVoicesReady();
 }
 
-if ('speechSynthesis' in window) {
+if (NATIVE) {
+  // 네이티브: 한국어 음성 지원 여부를 플러그인으로 확인 후 게임 대기 해제(최대 3초 안전 타임아웃)
+  let settled = false;
+  const finishNative = () => { if (!settled) { settled = true; voicesReady = true; markVoicesReady(); } };
+  ensureNativeTTS()
+    .then(tts => tts.isLanguageSupported({ lang: 'ko-KR' }))
+    .then(res => { nativeKoOk = !!res?.supported; })
+    .catch(() => { nativeKoOk = true; }) // 확인 실패 시 낙관적으로 음성 모드(대개 지원됨)
+    .finally(finishNative);
+  setTimeout(finishNative, 3000);
+} else if ('speechSynthesis' in window) {
   pickKoreanVoice();
   speechSynthesis.addEventListener?.('voiceschanged', pickKoreanVoice);
   // voiceschanged를 신뢰할 수 없는 브라우저(늦거나 미발생)에 대비해 음성 목록이
@@ -102,7 +127,10 @@ function flushPending() {
  */
 export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal } = {}) {
   return new Promise(resolve => {
-    if (!('speechSynthesis' in window) || !store.get().sound || signal?.aborted) return resolve();
+    if (!store.get().sound || signal?.aborted) return resolve();
+    // 네이티브 앱: 플러그인 TTS 경로(브라우저 speechSynthesis 우회)
+    if (NATIVE) { speakNative(text, { rate, pitch, signal }).then(resolve, resolve); return; }
+    if (!('speechSynthesis' in window)) return resolve();
     if (!voicesReady) pickKoreanVoice();
 
     // 앞서 예약된(아직 실행 안 된) 발화가 있으면 즉시 정리 — 중첩/중복·대기 방지
@@ -156,17 +184,41 @@ export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal
   });
 }
 
+// 네이티브(Capacitor) TTS로 말하기. 완료 시 resolve, signal abort 시 중단.
+// 플러그인 speak()는 발화 종료 시 resolve하므로 web 경로의 onend/keepalive 우회가 필요 없다.
+/**
+ * @param {string} text
+ * @param {{ rate?: number, pitch?: number, signal?: AbortSignal }} [opts]
+ * @returns {Promise<void>}
+ */
+async function speakNative(text, { rate = 0.9, pitch = 1.1, signal } = {}) {
+  if (signal?.aborted) return;
+  let tts;
+  try { tts = await ensureNativeTTS(); } catch { return; }
+  if (signal?.aborted) return;
+  const onAbort = () => { tts.stop().catch(() => {}); };
+  signal?.addEventListener('abort', onAbort, { once: true });
+  try {
+    await tts.stop(); // 진행 중 발화 중단(중첩·중복 방지)
+    await tts.speak({ text, lang: 'ko-KR', rate, pitch, volume: 1.0, category: 'playback' });
+  } catch { /* 음성 실패는 무음 처리 */ }
+  signal?.removeEventListener('abort', onAbort);
+}
+
 export function stopSpeech() {
   flushPending();
+  if (NATIVE) { ensureNativeTTS().then(t => t.stop().catch(() => {})).catch(() => {}); return; }
   if ('speechSynthesis' in window) { speechSynthesis.cancel(); lastCancelAt = Date.now(); }
 }
 
 export function hasTTS() {
+  if (NATIVE) return true;
   return 'speechSynthesis' in window;
 }
 
 // 한국어 음성이 실제로 설치돼 있는지 (없으면 게임에서 시각 대안을 노출)
 export function hasKoreanTTS() {
+  if (NATIVE) return nativeKoOk;
   if (!('speechSynthesis' in window)) return false;
   if (!voicesReady) pickKoreanVoice();
   return !!koVoice;

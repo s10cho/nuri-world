@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">누리의 한글 왕국</string>
+    <string name="title_activity_main">누리의 한글 왕국</string>
+    <string name="package_name">com.sycho.nuri.hangulkingdom</string>
+    <string name="custom_url_scheme">com.sycho.nuri.hangulkingdom</string>
+</resources>

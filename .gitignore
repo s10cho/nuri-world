@@ -10,6 +10,15 @@ dist
 .vscode/*
 !.vscode/extensions.json
 
+# Capacitor 네이티브 — 서명 비밀키·로컬 설정은 커밋 금지 (android/ ios/ 소스는 커밋)
+*.keystore
+*.jks
+keystore.properties
+key.properties
+ios/App/Pods/
+ios/App/App/public/
+android/app/src/main/assets/public/
+
 # 배포에 쓰지 않는 원본/중간 이미지 — 서빙되는 파생본(*_web.png, 배경 *.jpg)만 커밋한다.
 # 소스 마스터는 git 히스토리에 남아 있고, 장기적으로 assets-src/ 분리(로드맵 C9) 예정.
 public/assets/images/raw/

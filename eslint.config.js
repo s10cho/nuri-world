@@ -3,7 +3,8 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
-  { ignores: ['node_modules/**', 'public/**', 'dist/**'] },
+  // 네이티브(android/ios)는 Capacitor가 web 번들을 복사·생성하는 폴더라 lint 대상에서 제외
+  { ignores: ['node_modules/**', 'public/**', 'dist/**', 'android/**', 'ios/**'] },
   js.configs.recommended,
   {
     // 앱 소스 — 브라우저 환경

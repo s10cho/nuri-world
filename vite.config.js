@@ -1,12 +1,17 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+// CAP=1 이면 Capacitor(네이티브 앱) 빌드. 앱은 자산을 루트(capacitor://localhost/,
+// https://localhost/)에서 서빙하므로 base:'/' 여야 하고, 오프라인은 네이티브가 자산을
+// 번들해 기본 제공하므로 서비스워커(PWA)는 넣지 않는다(커스텀 스킴에서 SW 등록 불안정).
+const isNative = process.env.CAP === '1';
+
 // GitHub Pages 서브패스(https://s10cho.github.io/nuri-world/)에 배포되므로 base 지정.
 // public/ 는 Vite publicDir(기본값) — 자산은 그대로 dist 루트로 복사되어
 // {base}assets/... 로 서빙된다. 코드는 문서 기준 상대경로 'assets/...' 로 참조하므로
 // dev(/nuri-world/) · preview · 배포 모두 동일하게 해석된다.
 export default defineConfig({
-  base: '/nuri-world/',
+  base: isNative ? '/' : '/nuri-world/',
   build: {
     outDir: 'dist',
     target: 'es2022',
@@ -14,7 +19,7 @@ export default defineConfig({
   },
   server: { port: 5173, host: true },
   preview: { port: 4173, host: true },
-  plugins: [
+  plugins: isNative ? [] : [
     // PWA: 오프라인 동작 + 홈 화면 설치. 앱셸(JS/CSS/HTML)은 프리캐시,
     // 용량 큰 이미지와 Google Fonts는 런타임 캐싱(CacheFirst)해 재방문·오프라인 대비.
     VitePWA({
