@@ -50,14 +50,15 @@
   --sz-tile: clamp(80px, 12.5vmin, 130px);    /* 단어 타일 */
   --sz-target: clamp(140px, 24vmin, 230px);   /* 조합 목표 글자 */
 
-  --fs-card: clamp(3.8rem, 11.5vmin, 6.6rem);
-  --fs-card-sm: clamp(2.8rem, 7.7vmin, 4.6rem);
-  --fs-card-big: clamp(6.4rem, 21vmin, 12.3rem);
-  --fs-slot: clamp(3rem, 9vmin, 5rem);
-  --fs-tile: clamp(3rem, 9vmin, 5.4rem);
-  --fs-target: clamp(4.8rem, 15vmin, 9rem);
-  --fs-mem: clamp(4.6rem, 13vmin, 8rem);
-  --fs-dex: clamp(2.6rem, 5vmin, 3.2rem);
+  /* 폰트 크기는 고딕(Noto Sans KR)에 맞춘 값 — Gaegu(손글씨)보다 글리프가 커서 낮게 잡는다 */
+  --fs-card: clamp(2.6rem, 8vmin, 4.6rem);
+  --fs-card-sm: clamp(2rem, 5.8vmin, 3.5rem);
+  --fs-card-big: clamp(4.4rem, 14.5vmin, 8.6rem);
+  --fs-slot: clamp(2.3rem, 6.8vmin, 4rem);
+  --fs-tile: clamp(2.3rem, 7vmin, 4.2rem);
+  --fs-target: clamp(3.8rem, 12vmin, 7rem);
+  --fs-mem: clamp(3rem, 8.5vmin, 5.4rem);
+  --fs-dex: clamp(2rem, 4vmin, 2.6rem);
 
   font-size: clamp(14px, 1.6vmin + 8px, 20px);
 }
@@ -278,16 +279,17 @@ button {
   font-size: var(--fs-card-big);
 }
 
-/* 학습 대상 글자(자모·글자·음절 카드)는 손글씨체 Gaegu로 표시 — ㅈ/ㅊ 등을 인쇄체
-   3획이 아닌 실제 펜으로 쓰는 손글씨 2획 형태로 보여 준다. (국립국어원: 인쇄체와
-   손글씨체의 획 형태·획수가 달라 학습자에게 혼동을 준다.) UI 텍스트는 Jua 유지.
-   Gaegu는 Jua보다 글리프가 작아 폰트 크기(--fs-*)를 카드 대비 크게 잡는다. */
+/* 학습 대상 글자(자모·글자·음절 카드)는 돋움체(고딕체)로 표시 — 획이 또렷하고
+   표준적인 정자체가 유아 글자 인지에 유리. UI 텍스트(버튼·프롬프트)는 Jua 유지.
+   고딕은 Jua보다 글리프가 커서 폰트 크기(--fs-*)를 그에 맞게 낮춘다. */
 .letter-card, .build-target, .build-slot, .word-tile,
 .mem-card .face, .dex-item .g,
 .word-label, .dex-item .n {
-  font-family: 'Gaegu', 'Jua', sans-serif;
+  /* 학습 글자는 Noto Serif KR(명조/바탕)로 표시 — 정돈된 교과서 느낌이며 ㅈ/ㅊ을
+     2획 형태로 그린다. (깔끔한 고딕은 ㅈ/ㅊ을 인쇄체 3획으로 그려 학습자를 혼동시킨다.) */
+  font-family: 'Noto Serif KR', 'Nanum Myeongjo', 'Apple SD Gothic Neo', serif;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 /* 정답/오답 피드백 */
@@ -585,9 +587,9 @@ button {
   gap: clamp(8px, 1.6vh, 20px);
   padding-top: clamp(6px, 1.5vh, 18px);
   --sz-card: clamp(120px, 17vh, 190px);
-  --fs-card: clamp(5rem, 11vh, 8.4rem);
+  --fs-card: clamp(3.6rem, 8vh, 6rem);
   --sz-tile: clamp(96px, 13vh, 155px);
-  --fs-tile: clamp(3.6rem, 8.5vh, 6rem);
+  --fs-tile: clamp(2.6rem, 6.2vh, 4.4rem);
 }
 .game-area.boss-stage .boss-top { flex: none; }
 /* 프롬프트·스피커도 살짝 낮춰 세로 여유 확보(보스전 한정) */
@@ -831,14 +833,14 @@ button {
     --sz-slot: 13vh;
     --sz-tile: 13vh;
     --sz-target: 21vh;
-    --fs-card: max(10.5vh, 40px);
-    --fs-card-sm: max(9vh, 34px);
-    --fs-card-big: 15vh;
-    --fs-slot: 8.5vh;
-    --fs-tile: 8.5vh;
-    --fs-target: 13vh;
-    --fs-mem: 13vh;
-    --fs-dex: 6.5vh;
+    --fs-card: max(7.8vh, 30px);
+    --fs-card-sm: max(6.6vh, 26px);
+    --fs-card-big: 11vh;
+    --fs-slot: 6.3vh;
+    --fs-tile: 6.3vh;
+    --fs-target: 9.5vh;
+    --fs-mem: 9.5vh;
+    --fs-dex: 5vh;
   }
 
   .center-col, .game-area { gap: 2vh; padding-top: 1vh; padding-bottom: calc(1vh + env(safe-area-inset-bottom)); }
@@ -930,14 +932,14 @@ button {
     --sz-slot: clamp(96px, 14vmin, 160px);
     --sz-tile: clamp(96px, 14vmin, 160px);
     --sz-target: clamp(190px, 27vmin, 320px);
-    --fs-card: clamp(5rem, 13vmin, 8.4rem);
-    --fs-card-sm: clamp(3.7rem, 10vmin, 6rem);
-    --fs-card-big: clamp(8rem, 26vmin, 16rem);
-    --fs-slot: clamp(3.8rem, 10vmin, 6.2rem);
-    --fs-tile: clamp(3.8rem, 10vmin, 6.4rem);
-    --fs-target: clamp(6rem, 18vmin, 10.8rem);
-    --fs-mem: clamp(5.4rem, 15vmin, 9.5rem);
-    --fs-dex: clamp(3.2rem, 6vmin, 4rem);
+    --fs-card: clamp(3.6rem, 9.4vmin, 6rem);
+    --fs-card-sm: clamp(2.7rem, 7.2vmin, 4.3rem);
+    --fs-card-big: clamp(5.8rem, 18.5vmin, 11.5rem);
+    --fs-slot: clamp(2.8rem, 7.2vmin, 4.5rem);
+    --fs-tile: clamp(2.8rem, 7.2vmin, 4.6rem);
+    --fs-target: clamp(4.4rem, 13vmin, 7.8rem);
+    --fs-mem: clamp(3.9rem, 11vmin, 6.8rem);
+    --fs-dex: clamp(2.4rem, 4.4vmin, 3rem);
   }
 
   .game-area, .center-col { gap: clamp(26px, 4.5vmin, 56px); }
@@ -955,49 +957,3 @@ button {
   .stage-pads { gap: clamp(20px, 3.4vmin, 44px); }
 }
 
-/* ============================================================
-   큰 화면(넓은 태블릿 가로·노트북·데스크톱, ≥1200×680) — 콘텐츠가 가운데
-   좁게 몰리지 않도록 요소를 더 키우고(가로는 vw, 세로 제약 요소는 vh 기준)
-   선택지를 넓게 펼쳐 화면을 넉넉히 활용한다. 유아 대상이라 크고 넓은 배치가 유리.
-   위 min-width:900 티어보다 뒤에 있어 이 티어의 토큰이 우선한다.
-   ============================================================ */
-@media (min-width: 1200px) and (min-height: 680px) {
-  :root {
-    --sz-card: clamp(180px, 13.5vw, 240px);
-    --sz-card-sm: clamp(140px, 10.5vw, 185px);
-    --sz-card-big: clamp(280px, 32vh, 420px);   /* 세로 제약 → vh */
-    --sz-slot: clamp(125px, 10vw, 175px);
-    --sz-tile: clamp(125px, 10vw, 175px);
-    --sz-target: clamp(230px, 30vh, 340px);      /* 세로 제약 → vh */
-    --fs-card: clamp(6.5rem, 9vw, 10rem);
-    --fs-card-sm: clamp(5rem, 7vw, 7.6rem);
-    --fs-card-big: clamp(9rem, 21vh, 15rem);
-    --fs-slot: clamp(4.6rem, 6.8vw, 7rem);
-    --fs-tile: clamp(4.6rem, 6.8vw, 7.4rem);
-    --fs-target: clamp(7rem, 18vh, 11rem);
-    --fs-mem: clamp(6.5rem, 11vw, 11rem);
-    --fs-dex: clamp(3rem, 3.4vw, 4.2rem);
-  }
-
-  /* 세로 여백은 vh로 넉넉히(상단 몰림 완화), 선택지는 넓게 펼침 */
-  .game-area, .center-col { gap: clamp(30px, 4.5vh, 64px); }
-  .choices { gap: clamp(48px, 6vw, 130px); }
-  /* 조합(탑) 게임의 내부 조각 줄은 촘촘하게 유지(한 그룹 3장이 붙어 보이게) */
-  .choices .choices { gap: clamp(20px, 2vw, 40px); }
-
-  .prompt-bar { font-size: clamp(1.6rem, 2vw, 2.4rem); padding: 20px 46px; max-width: min(78vw, 1040px); }
-  .btn-speaker { width: 88px; height: 88px; font-size: 2.2rem; }
-  .word-emoji { font-size: clamp(5rem, 8vw, 8rem); }
-
-  /* 기억 게임 그리드도 화면에 맞춰 크게 */
-  .memory-grid { width: min(80vw, 760px); gap: clamp(18px, 2vw, 32px); }
-
-  .round-dots .dot { width: 22px; height: 22px; }
-
-  /* 스테이지 선택 발판도 크게·넓게 */
-  .stage-pad { width: clamp(200px, 16vw, 280px); }
-  .stage-pads { gap: clamp(28px, 3vw, 60px); }
-
-  /* 도감 칸도 넓은 화면에서 조금 크게 */
-  .dex-grid { grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 10vw, 170px), 1fr)); gap: clamp(14px, 1.4vw, 24px); }
-}

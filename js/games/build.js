@@ -71,6 +71,7 @@ export function runBuild({ area, signal }, { targets }) {
       function makeChoice(ch, kind, i) {
         return el('button', {
           class: `letter-card compact ${cardColor(i)}`,
+          dataset: { ch },
           onclick: (/** @type {Event} */ e) => {
             if (finished || signal.aborted) return;
             const elBtn = /** @type {HTMLElement} */ (e.currentTarget);

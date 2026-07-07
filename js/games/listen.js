@@ -46,6 +46,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
       const cards = options.map((ch, i) =>
         el('button', {
           class: `letter-card ${cardColor(i + round)}`,
+          dataset: { ch },
           onclick: async (/** @type {Event} */ e) => {
             if (solved || signal.aborted) return;
             const cardEl = /** @type {HTMLElement} */ (e.currentTarget);
@@ -75,7 +76,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
       const modelRow = showModel
         ? el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' } },
             el('div', { class: 'ribbon', style: { padding: '4px 18px' } }, '이 글자를 찾아요!'),
-            el('div', { class: `letter-card ${cardColor(round)}`, style: { pointerEvents: 'none' } }, target),
+            el('div', { class: `letter-card ${cardColor(round)}`, dataset: { ch: target }, style: { pointerEvents: 'none' } }, target),
           )
         : null;
 

@@ -35,7 +35,7 @@ export function runLearn({ area, signal }, { jamoList }) {
       // 도감에 점진적으로 등록 — 중도에 나가도 만난 글자는 기록됨
       store.addJamo(ch);
 
-      const card = el('button', { class: `letter-card big ${cardColor(idx)}` }, ch);
+      const card = el('button', { class: `letter-card big ${cardColor(idx)}`, dataset: { ch } }, ch);
       card.addEventListener('click', () => {
         sfx('tap');
         fxBurstAt(card, ['✨', '💫']);

@@ -115,6 +115,7 @@ export function runBoss({ area, signal }, _opts) {
       const cards = options.map((opt, i) =>
         el('button', {
           class: `letter-card ${cardColor(i)}`,
+          dataset: { ch: opt },
           style: { ...extraStyle },
           onclick: async (/** @type {Event} */ e) => {
             if (solved || signal.aborted) return;
@@ -148,7 +149,7 @@ export function runBoss({ area, signal }, _opts) {
       if (!showModel) return null;
       return el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } },
         el('div', { class: 'ribbon', style: { padding: '4px 16px' } }, '이 글자로 공격!'),
-        el('div', { class: 'letter-card compact c3', style: { pointerEvents: 'none' } }, glyph),
+        el('div', { class: 'letter-card compact c3', dataset: { ch: glyph }, style: { pointerEvents: 'none' } }, glyph),
       );
     }
 
