@@ -46,14 +46,20 @@ export function runBoss({ area, signal }, _opts) {
     let seq = 0; // 문항 순번 — 지연 프롬프트가 다음 문항으로 넘어간 뒤 재생되는 것 방지
     const showModel = !hasKoreanTTS(); // TTS 없으면 목표 글자를 시각적으로 표시
 
+    // 보스전은 게이지·보스를 상단에 고정하고 아래 문제 영역만 바뀌도록 상단 정렬한다.
+    // (문제 유형에 따라 2줄·3줄로 높이가 달라도 위쪽이 흔들리지 않게)
+    area.classList.add('boss-stage');
+
     const boss = el('img', { class: 'boss-char', src: CHARACTERS.eraser, alt: '지우개 몬스터' });
     const hpFill = el('div', { class: 'fill' });
+    // 문제 영역: 보스 아래 남는 공간을 flex로 모두 차지하고 내용을 세로 중앙 정렬한다.
+    // → 보스·게이지는 위에 고정, 문제는 항상 같은 중앙 밴드에 놓여 2줄·3줄이어도 덜 흔들린다.
     const qArea = el('div', {
-      style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(12px, 2.6vmin, 24px)', width: '100%' },
+      style: { flex: '1 1 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'clamp(12px, 2.6vmin, 24px)', width: '100%' },
     });
 
     area.replaceChildren(
-      el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } },
+      el('div', { class: 'boss-top', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } },
         el('div', { class: 'boss-hp' }, hpFill),
         boss,
       ),

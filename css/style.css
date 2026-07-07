@@ -575,8 +575,27 @@ button {
   background: linear-gradient(180deg, #c467e8, var(--purple-deep));
   transition: width 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
+/* 보스전: 게이지·보스를 상단에 고정하고 문제 영역(qArea, flex:1)이 아래 공간을
+   차지하며 중앙 정렬 → 문제가 2줄·3줄로 바뀌어도 위쪽이 흔들리지 않는다.
+   game-area 기본은 safe center라 콘텐츠 높이에 따라 전체가 위아래로 움직였음.
+   보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡하므로, 이 화면에 한해
+   카드·타일 토큰을 세로(vh) 기준으로 조금 작게 재정의해 3줄 문제도 잘리지 않게 한다. */
+.game-area.boss-stage {
+  justify-content: flex-start;
+  gap: clamp(8px, 1.6vh, 20px);
+  padding-top: clamp(6px, 1.5vh, 18px);
+  --sz-card: clamp(120px, 17vh, 190px);
+  --fs-card: clamp(5rem, 11vh, 8.4rem);
+  --sz-tile: clamp(96px, 13vh, 155px);
+  --fs-tile: clamp(3.6rem, 8.5vh, 6rem);
+}
+.game-area.boss-stage .boss-top { flex: none; }
+/* 프롬프트·스피커도 살짝 낮춰 세로 여유 확보(보스전 한정) */
+.game-area.boss-stage .prompt-bar { padding: 12px 30px; }
+.game-area.boss-stage .btn-speaker { width: 64px; height: 64px; font-size: 1.6rem; }
+
 .boss-char {
-  height: clamp(160px, 34vmin, 360px);
+  height: clamp(130px, 19vmin, 220px);
   filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.5));
   transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -831,6 +850,10 @@ button {
   /* 큰 액션 버튼 */
   .btn-big { min-height: 10.5vh; padding: 0.8vh 5vw; font-size: 4.2vh; box-shadow: inset 0 2px 0 rgba(255,255,255,0.55), 0 5px 0 #96660a, var(--shadow-soft); }
   .btn-big.secondary { min-height: 9vh; padding: 0.6vh 3.5vw; font-size: 3.2vh; }
+
+  /* 타이틀: 모바일에선 center-col gap이 좁아 모험시작 버튼과 보조 버튼(도감·이야기)이
+     너무 붙어 보임 → 보조 버튼 행에만 상단 여백을 더 준다(PC는 gap이 넉넉해 불필요). */
+  .title-actions { margin-top: clamp(12px, 3.5vh, 30px); }
 
   /* 타이틀 로고 */
   .title-logo { font-size: 8.5vh; letter-spacing: 1px; }

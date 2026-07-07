@@ -47,7 +47,7 @@ function render() {
           }
         },
       }, '🚀 모험 시작'),
-      el('div', { style: { display: 'flex', gap: '14px' } },
+      el('div', { class: 'title-actions', style: { display: 'flex', gap: '14px' } },
         el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); go('dex'); } }, '📖 도감'),
         store.get().introSeen
           ? el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); go('story'); } }, '📜 이야기 다시 보기')
