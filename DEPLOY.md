@@ -101,11 +101,15 @@ npm run sync:ios
 - [ ] Google Play Console ($25 1회)
 
 ### 필수 문서/설정 (아동 대상이라 엄격)
-- [ ] **개인정보처리방침 URL** (양 스토어 필수) — GitHub Pages에 `privacy.html` 호스팅
-- [ ] Google Play: 타겟 연령·콘텐츠 설문 → **Designed for Families**, 데이터 안전 양식
-- [ ] Apple: App Privacy 라벨, (선택) Kids 카테고리 — 제3자 분석/광고 금지
-- [ ] **폰트 자체 호스팅 검토** — 현재 Google Fonts 런타임 로드가 유일한 외부 요청.
-      자체 호스팅 시 "데이터 수집 없음"을 깔끔히 선언 + 완전 오프라인
+- [x] **개인정보처리방침** — `public/privacy.html` 작성 완료(한/영, 데이터 미수집).
+      배포 후 URL: `https://s10cho.github.io/nuri-world/privacy.html`.
+      ⚠️ 문의 이메일(`sycho@spectra.co.kr`)이 맞는지 확인·수정할 것.
+- [x] **폰트 자체 호스팅** — Jua·Noto Serif KR을 앱이 쓰는 글자만 서브셋(각 ~160KB)해 `css/fonts/`에 자체 호스팅.
+      외부(Google Fonts) 요청 제거 → "데이터 수집 없음" 선언 + 완전 오프라인.
+      커리큘럼 글자가 늘면 재생성: 원본 폰트(google/fonts) + `pyftsubset --text-file=<쓰는 글자> --flavor=woff2`
+      (Noto는 가변폰트라 `fonttools varLib.instancer ... wght=700` 후 서브셋). @font-face는 `css/style.css` 상단.
+- [ ] Google Play: 타겟 연령·콘텐츠 설문 → **Designed for Families**, 데이터 안전 양식("데이터 미수집")
+- [ ] Apple: App Privacy 라벨("데이터 미수집"), (선택) Kids 카테고리 — 제3자 분석/광고 금지
 
 ### 스토어 등록 자산
 - [ ] 아이콘: ✅ 생성됨 (원본이 512→1024 업스케일이라 소프트함. 크리스프한 1024+ 마스터로 교체 권장 후 `capacitor-assets` 재실행)

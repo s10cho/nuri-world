@@ -42,8 +42,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // 앱셸만 프리캐시(작음). 이미지·오디오는 런타임 캐싱으로 다운로드-온-유즈.
-        globPatterns: ['**/*.{js,css,html}'],
+        // 앱셸 + 서브셋 폰트(작음)를 프리캐시. 이미지는 런타임 캐싱으로 다운로드-온-유즈.
+        // 폰트는 이제 자체 호스팅(해시된 woff2)이라 프리캐시로 완전 오프라인.
+        globPatterns: ['**/*.{js,css,html,woff2}'],
         navigateFallback: 'index.html',
         runtimeCaching: [
           {
@@ -55,17 +56,6 @@ export default defineConfig({
             options: {
               cacheName: 'nuri-images',
               expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 60 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-          {
-            // 어린이 친화 폰트(Jua) — 오프라인에서도 유지
-            urlPattern: ({ url }) =>
-              url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts',
-              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

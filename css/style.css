@@ -3,6 +3,23 @@
    컨셉: 나무 간판, 크림 패널, 둥근 캔디 글자, 동화풍 색감
    ============================================================ */
 
+/* 자체 호스팅 폰트 — 앱이 실제 쓰는 글자만 서브셋(각 ~160KB). 외부(Google Fonts) 요청 제거로
+   개인정보 청정 + 완전 오프라인. 상대경로라 Vite가 web(/nuri-world/)·native(/) base에 맞게 처리. */
+@font-face {
+  font-family: 'Jua';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/Jua-subset.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noto Serif KR';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/NotoSerifKR-700-subset.woff2') format('woff2');
+}
+
 :root {
   /* 팔레트 (컨셉 아트 기준) */
   --wood-dark: #6b4a2b;
