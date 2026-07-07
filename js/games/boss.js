@@ -2,7 +2,7 @@
 import { el, cardColor, shuffle, sample, fxBurstAt, fxConfetti, sleep } from '../ui.js';
 import { speak, sfx, hasKoreanTTS } from '../audio.js';
 import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS } from '../data.js';
-import { objectParticle } from '../hangul.js';
+import { objectParticle, pickDistractors } from '../hangul.js';
 
 const HP_MAX = 8;
 
@@ -158,7 +158,7 @@ export function runBoss({ area, signal }, _opts) {
       const mySeq = seq;
       const name = JAMO[q.target].name;
       const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
-      const options = shuffle([q.target, ...sample(q.pool.filter(c => c !== q.target), 2)]);
+      const options = shuffle([q.target, ...pickDistractors(q.pool, q.target, 2)]);
       qArea.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' },
           el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊'),

@@ -1,8 +1,8 @@
 // 소리 듣고 글자 찾기 — 듣기 변별 게임
-import { el, cardColor, shuffle, sample, fxBurstAt, sleep } from '../ui.js';
+import { el, cardColor, shuffle, fxBurstAt, sleep } from '../ui.js';
 import { speak, sfx, hasKoreanTTS } from '../audio.js';
 import { JAMO } from '../data.js';
-import { objectParticle } from '../hangul.js';
+import { objectParticle, pickDistractors } from '../hangul.js';
 
 const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈어요!'];
 const RETRY = ['괜찮아요, 다시 한번 들어 볼까요?', '음, 소리를 한 번 더 들어 보세요!'];
@@ -36,8 +36,9 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
       const name = JAMO[target].name;
       const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`, { signal });
 
-      // 보기 3개: 정답 + 오답 2개
-      const wrongs = sample(pool.filter(c => c !== target), 2);
+      // 보기 3개: 정답 + 오답 2개. 오답은 정답과 발음이 비슷한 자모(예: ㅖ/ㅒ)를
+      // 제외해 소리로 고르기 어려운 문제가 되지 않게 한다.
+      const wrongs = pickDistractors(pool, target, 2);
       const options = shuffle([target, ...wrongs]);
 
       const spk = el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊');

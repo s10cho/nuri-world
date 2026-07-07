@@ -1,8 +1,8 @@
 // 글자 조합 — 자음 + 모음 조각으로 글자 만들기 (글자 조각의 탑)
-import { el, cardColor, shuffle, sample, fxBurstAt, sleep } from '../ui.js';
+import { el, cardColor, shuffle, fxBurstAt, sleep } from '../ui.js';
 import { speak, sfx, hasKoreanTTS } from '../audio.js';
 import { store } from '../store.js';
-import { decompose, objectParticle } from '../hangul.js';
+import { decompose, objectParticle, pickDistractors } from '../hangul.js';
 import { ALL_CONSONANTS, ALL_VOWELS } from '../data.js';
 
 const PRAISE = ['글자가 태어났어요!', '우와, 멋진 글자를 만들었어요!', '조각을 딱 맞췄네요, 대단해요!'];
@@ -99,8 +99,9 @@ export function runBuild({ area, signal }, { targets }) {
         }, ch);
       }
 
-      const choOptions = shuffle([cho, ...sample(ALL_CONSONANTS.filter(c => c !== cho), 2)]);
-      const jungOptions = shuffle([jung, ...sample(ALL_VOWELS.filter(v => v !== jung), 2)]);
+      // 오답 조각은 정답과 발음이 비슷한 모음(예: ㅖ/ㅒ)을 함께 내지 않는다.
+      const choOptions = shuffle([cho, ...pickDistractors(ALL_CONSONANTS, cho, 2)]);
+      const jungOptions = shuffle([jung, ...pickDistractors(ALL_VOWELS, jung, 2)]);
 
       // 단어 공개 카드 — 목표 글자 옆에 자리를 미리 잡아 두고 성공 시 표시
       const wordReveal = el('div', {

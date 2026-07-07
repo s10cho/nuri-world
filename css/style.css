@@ -843,7 +843,7 @@ button {
     --fs-dex: 5vh;
   }
 
-  .center-col, .game-area { gap: 2vh; padding-top: 1vh; padding-bottom: calc(1vh + env(safe-area-inset-bottom)); }
+  .center-col, .game-area { gap: max(4vh, 16px); padding-top: 1vh; padding-bottom: calc(1vh + env(safe-area-inset-bottom)); }
 
   /* 상단 바 버튼 */
   .btn-round { min-width: 9vh; height: 9vh; padding: 0 2.2vh; font-size: 3vh; box-shadow: 0 3px 0 var(--wood-dark); }
@@ -897,7 +897,17 @@ button {
 
   /* 보스 HP·캐릭터 */
   .boss-hp { height: 3vh; }
-  .boss-char { height: 30vh; }
+  /* 보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡 — 모바일(짧은 화면)에선
+     보스와 카드·타일의 큰 floor를 없애 vh 기준으로 더 작게 해 3줄 문제도 안 넘치게. */
+  .boss-char { height: 18vh; }
+  .game-area.boss-stage {
+    --sz-card: max(14vh, 54px);
+    --fs-card: max(7vh, 30px);
+    --sz-tile: max(12vh, 48px);
+    --fs-tile: max(6.2vh, 26px);
+  }
+  .game-area.boss-stage .prompt-bar { padding: 0.8vh 3vw; }
+  .game-area.boss-stage .btn-speaker { width: 8vh; height: 8vh; font-size: 3.6vh; }
 
   /* 스토리 텍스트 */
   .story-text { font-size: 3.4vh; }

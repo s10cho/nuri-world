@@ -71,3 +71,46 @@ export function subjectParticle(word) {
   if (info) return info.jong ? '이' : '가';
   return '가';
 }
+
+// 현대 한국어에서 발음이 (거의) 같아 소리만으로 구별하기 어려운 자모 그룹.
+// 유아가 듣고 고르기에 불공평하므로 같은 문제의 보기에 함께 내지 않는다.
+// (ㄱ/ㅋ/ㄲ 등 자음은 서로 다른 소리 = 학습 대상이므로 묶지 않는다.)
+const CONFUSABLE_GROUPS = [
+  ['ㅐ', 'ㅔ'],         // [ɛ] ≈ [e]
+  ['ㅒ', 'ㅖ'],         // [jɛ] ≈ [je]
+  ['ㅚ', 'ㅙ', 'ㅞ'],   // 모두 [we]
+];
+
+/**
+ * 주어진 자모와 발음이 비슷한 자모 집합(자기 자신 포함).
+ * @param {string} jamo
+ * @returns {Set<string>}
+ */
+export function confusableSet(jamo) {
+  const group = CONFUSABLE_GROUPS.find(g => g.includes(jamo));
+  return new Set(group || [jamo]);
+}
+
+/**
+ * 정답(target)과 발음이 비슷하지 않은 오답 보기 n개를 pool에서 무작위로 고른다.
+ * 정답뿐 아니라 이미 고른 오답과도 발음이 겹치지 않게 해, 한 문제의 보기끼리 서로
+ * 헷갈리는 발음이 함께 나오지 않도록 한다.
+ * @param {string[]} pool 후보 자모
+ * @param {string} target 정답 자모
+ * @param {number} n 뽑을 오답 개수
+ * @returns {string[]}
+ */
+export function pickDistractors(pool, target, n) {
+  const usedGroups = [confusableSet(target)];
+  const candidates = pool.filter(c => c !== target);
+  /** @type {string[]} */
+  const chosen = [];
+  while (candidates.length && chosen.length < n) {
+    const i = Math.floor(Math.random() * candidates.length);
+    const c = candidates.splice(i, 1)[0];
+    if (usedGroups.some(g => g.has(c))) continue; // 이미 쓰인 발음군과 겹치면 건너뜀
+    chosen.push(c);
+    usedGroups.push(confusableSet(c));
+  }
+  return chosen;
+}
