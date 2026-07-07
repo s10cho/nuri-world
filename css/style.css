@@ -931,3 +931,50 @@ button {
   .stage-pad { width: clamp(160px, 20vmin, 240px); }
   .stage-pads { gap: clamp(20px, 3.4vmin, 44px); }
 }
+
+/* ============================================================
+   큰 화면(넓은 태블릿 가로·노트북·데스크톱, ≥1200×680) — 콘텐츠가 가운데
+   좁게 몰리지 않도록 요소를 더 키우고(가로는 vw, 세로 제약 요소는 vh 기준)
+   선택지를 넓게 펼쳐 화면을 넉넉히 활용한다. 유아 대상이라 크고 넓은 배치가 유리.
+   위 min-width:900 티어보다 뒤에 있어 이 티어의 토큰이 우선한다.
+   ============================================================ */
+@media (min-width: 1200px) and (min-height: 680px) {
+  :root {
+    --sz-card: clamp(180px, 13.5vw, 240px);
+    --sz-card-sm: clamp(140px, 10.5vw, 185px);
+    --sz-card-big: clamp(280px, 32vh, 420px);   /* 세로 제약 → vh */
+    --sz-slot: clamp(125px, 10vw, 175px);
+    --sz-tile: clamp(125px, 10vw, 175px);
+    --sz-target: clamp(230px, 30vh, 340px);      /* 세로 제약 → vh */
+    --fs-card: clamp(6.5rem, 9vw, 10rem);
+    --fs-card-sm: clamp(5rem, 7vw, 7.6rem);
+    --fs-card-big: clamp(9rem, 21vh, 15rem);
+    --fs-slot: clamp(4.6rem, 6.8vw, 7rem);
+    --fs-tile: clamp(4.6rem, 6.8vw, 7.4rem);
+    --fs-target: clamp(7rem, 18vh, 11rem);
+    --fs-mem: clamp(6.5rem, 11vw, 11rem);
+    --fs-dex: clamp(3rem, 3.4vw, 4.2rem);
+  }
+
+  /* 세로 여백은 vh로 넉넉히(상단 몰림 완화), 선택지는 넓게 펼침 */
+  .game-area, .center-col { gap: clamp(30px, 4.5vh, 64px); }
+  .choices { gap: clamp(48px, 6vw, 130px); }
+  /* 조합(탑) 게임의 내부 조각 줄은 촘촘하게 유지(한 그룹 3장이 붙어 보이게) */
+  .choices .choices { gap: clamp(20px, 2vw, 40px); }
+
+  .prompt-bar { font-size: clamp(1.6rem, 2vw, 2.4rem); padding: 20px 46px; max-width: min(78vw, 1040px); }
+  .btn-speaker { width: 88px; height: 88px; font-size: 2.2rem; }
+  .word-emoji { font-size: clamp(5rem, 8vw, 8rem); }
+
+  /* 기억 게임 그리드도 화면에 맞춰 크게 */
+  .memory-grid { width: min(80vw, 760px); gap: clamp(18px, 2vw, 32px); }
+
+  .round-dots .dot { width: 22px; height: 22px; }
+
+  /* 스테이지 선택 발판도 크게·넓게 */
+  .stage-pad { width: clamp(200px, 16vw, 280px); }
+  .stage-pads { gap: clamp(28px, 3vw, 60px); }
+
+  /* 도감 칸도 넓은 화면에서 조금 크게 */
+  .dex-grid { grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 10vw, 170px), 1fr)); gap: clamp(14px, 1.4vw, 24px); }
+}
