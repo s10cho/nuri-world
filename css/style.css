@@ -597,7 +597,7 @@ button {
 .game-area.boss-stage .btn-speaker { width: 64px; height: 64px; font-size: 1.6rem; }
 
 .boss-char {
-  height: clamp(130px, 19vmin, 220px);
+  height: clamp(150px, 24vmin, 290px);
   filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.5));
   transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -899,7 +899,7 @@ button {
   .boss-hp { height: 3vh; }
   /* 보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡 — 모바일(짧은 화면)에선
      보스와 카드·타일의 큰 floor를 없애 vh 기준으로 더 작게 해 3줄 문제도 안 넘치게. */
-  .boss-char { height: 18vh; }
+  .boss-char { height: 26vh; }
   .game-area.boss-stage {
     --sz-card: max(14vh, 54px);
     --fs-card: max(7vh, 30px);

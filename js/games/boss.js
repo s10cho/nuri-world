@@ -55,7 +55,7 @@ export function runBoss({ area, signal }, _opts) {
     // 문제 영역: 보스 아래 남는 공간을 flex로 모두 차지하고 내용을 세로 중앙 정렬한다.
     // → 보스·게이지는 위에 고정, 문제는 항상 같은 중앙 밴드에 놓여 2줄·3줄이어도 덜 흔들린다.
     const qArea = el('div', {
-      style: { flex: '1 1 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'clamp(12px, 2.6vmin, 24px)', width: '100%' },
+      style: { flex: '0.5 0.5 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'clamp(12px, 2.6vmin, 24px)', width: '100%' },
     });
 
     area.replaceChildren(
