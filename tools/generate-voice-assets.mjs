@@ -94,7 +94,7 @@ function uniqueWords(value) {
   return value.replace(/[^\p{Script=Hangul}\s]/gu, '').trim();
 }
 
-function collectVoiceLines() {
+export function collectVoiceLines() {
   /** @type {Map<string, string>} */
   const lines = new Map();
   const add = (id, text) => {
@@ -143,6 +143,13 @@ function collectVoiceLines() {
   add('characters/pori', '포리');
   add('characters/eraser', '지우개 몬스터');
 
+  add('ui/festival-locked', '몬스터를 물리치면 축제가 열려요!');
+  add('ui/previous-stage-locked', '앞의 스테이지를 먼저 깨야 해요!');
+
+  for (const [id, kingdom] of Object.entries(KINGDOMS)) {
+    add(`map-continue/${id}`, `${kingdom.name}에서 모험을 계속해요!`);
+  }
+
   return [...lines.entries()].map(([id, text]) => ({ id, text }));
 }
 
@@ -163,7 +170,7 @@ function voiceScriptsHtml(lines) {
     return `          <tr>
             <td class="num">${index + 1}</td>
             <td><span class="badge">${escapeHtml(category)}</span></td>
-            <td><code>${escapeHtml(`${line.id}.${format}`)}</code></td>
+            <td><button class="file-copy-btn" type="button" data-copy="${escapeHtml(`${line.id}.${format}`)}"><code>${escapeHtml(`${line.id}.${format}`)}</code></button></td>
             <td class="script-cell">
               <span class="script">${escapedText}</span>
               <button class="copy-btn" type="button" data-copy="${escapedText}">복사</button>
@@ -296,6 +303,24 @@ function voiceScriptsHtml(lines) {
       color: #334;
       white-space: nowrap;
     }
+    .file-copy-btn {
+      display: block;
+      max-width: 100%;
+      padding: 4px 6px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+    .file-copy-btn:hover {
+      border-color: #c8bda9;
+      background: #f4efe6;
+    }
+    .file-copy-btn.done {
+      border-color: #6aa36e;
+      background: #e6f5e7;
+    }
     .num {
       width: 56px;
       color: var(--muted);
@@ -346,6 +371,10 @@ function voiceScriptsHtml(lines) {
       th { position: static; }
       .table-wrap, .summary, .groups li { border-color: #aaa; }
       .copy-btn { display: none; }
+      .file-copy-btn {
+        padding: 0;
+        border: 0;
+      }
     }
     @media (max-width: 720px) {
       main {
@@ -425,6 +454,9 @@ function voiceScriptsHtml(lines) {
         display: block;
         white-space: normal;
         overflow-wrap: anywhere;
+      }
+      .file-copy-btn {
+        width: 100%;
         padding: 6px 8px;
         background: #f4efe6;
         border-radius: 6px;
@@ -491,7 +523,7 @@ ${rows}
     rows.forEach(row => {
       row.tabIndex = 0;
       row.addEventListener('click', event => {
-        if (event.target.closest('.copy-btn')) return;
+        if (event.target.closest('.copy-btn, .file-copy-btn')) return;
         setActiveRow(row);
       });
       row.addEventListener('keydown', event => {
@@ -501,26 +533,30 @@ ${rows}
         }
       });
     });
-    document.querySelectorAll('.copy-btn').forEach(button => {
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.style.position = 'fixed';
+        area.style.left = '-9999px';
+        document.body.appendChild(area);
+        area.focus();
+        area.select();
+        document.execCommand('copy');
+        area.remove();
+      }
+    }
+    document.querySelectorAll('.copy-btn, .file-copy-btn').forEach(button => {
       button.addEventListener('click', async () => {
         const text = button.dataset.copy || '';
-        try {
-          await navigator.clipboard.writeText(text);
-        } catch {
-          const area = document.createElement('textarea');
-          area.value = text;
-          area.style.position = 'fixed';
-          area.style.left = '-9999px';
-          document.body.appendChild(area);
-          area.focus();
-          area.select();
-          document.execCommand('copy');
-          area.remove();
-        }
+        await copyText(text);
+        const previousHtml = button.innerHTML;
         button.textContent = '완료';
         button.classList.add('done');
         setTimeout(() => {
-          button.textContent = '복사';
+          button.innerHTML = previousHtml;
           button.classList.remove('done');
         }, 1200);
       });
@@ -627,7 +663,9 @@ async function main() {
   console.log(`Done. Generated ${generated}, skipped ${skipped}. Output: ${path.relative(root, outDir)}`);
 }
 
-main().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

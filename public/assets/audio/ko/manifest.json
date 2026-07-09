@@ -1,0 +1,712 @@
+{
+  "format": "m4a",
+  "importedUntil": "words/ko-c3c6d557d9.mp3",
+  "count": 141,
+  "assets": {
+    "누리의 한글 왕국에 온 것을 환영해요!": {
+      "id": "ui/welcome",
+      "src": "assets/audio/ko/ui/welcome.mp3.m4a",
+      "bytes": 147097
+    },
+    "아직 잠겨 있어요. 이전 왕국을 먼저 구해 주세요!": {
+      "id": "ui/locked-kingdom",
+      "src": "assets/audio/ko/ui/locked-kingdom.mp3.m4a",
+      "bytes": 151181
+    },
+    "와, 모든 왕국을 구했어요! 축제에 가 볼까요?": {
+      "id": "ui/festival-ready",
+      "src": "assets/audio/ko/ui/festival-ready.mp3.m4a",
+      "bytes": 153351
+    },
+    "내가 모은 글자와 친구들이에요. 눌러 보면 소리를 들려줘요!": {
+      "id": "ui/dex-intro",
+      "src": "assets/audio/ko/ui/dex-intro.mp3.m4a",
+      "bytes": 160792
+    },
+    "어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!": {
+      "id": "game/listen-intro",
+      "src": "assets/audio/ko/game/listen-intro.mp3.m4a",
+      "bytes": 145641
+    },
+    "카드를 뒤집어서 같은 글자 짝을 찾아 보세요!": {
+      "id": "game/match-intro",
+      "src": "assets/audio/ko/game/match-intro.mp3.m4a",
+      "bytes": 152889
+    },
+    "잘 봐요! 어디에 같은 글자가 있을까요?": {
+      "id": "game/match-start",
+      "src": "assets/audio/ko/game/match-start.mp3.m4a",
+      "bytes": 142602
+    },
+    "이제 같은 글자 짝을 찾아 보세요!": {
+      "id": "game/match-find",
+      "src": "assets/audio/ko/game/match-find.mp3.m4a",
+      "bytes": 134903
+    },
+    "그 조각이 아니에요. 다시 골라 볼까요?": {
+      "id": "game/build-wrong",
+      "src": "assets/audio/ko/game/build-wrong.mp3.m4a",
+      "bytes": 143335
+    },
+    "음, 다른 글자 같아요. 소리를 다시 들어 볼까요?": {
+      "id": "game/word-wrong",
+      "src": "assets/audio/ko/game/word-wrong.mp3.m4a",
+      "bytes": 150175
+    },
+    "지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!": {
+      "id": "game/boss-intro",
+      "src": "assets/audio/ko/game/boss-intro.mp3.m4a",
+      "bytes": 169097
+    },
+    "안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!": {
+      "id": "game/boss-win-1",
+      "src": "assets/audio/ko/game/boss-win-1.mp3.m4a",
+      "bytes": 185205
+    },
+    "와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!": {
+      "id": "game/boss-win-2",
+      "src": "assets/audio/ko/game/boss-win-2.mp3.m4a",
+      "bytes": 165188
+    },
+    "딩동댕! 잘 찾았어요!": {
+      "id": "praise/correct-01",
+      "src": "assets/audio/ko/praise/correct-01.mp3.m4a",
+      "bytes": 117695
+    },
+    "우와, 정말 잘 들었어요!": {
+      "id": "praise/correct-02",
+      "src": "assets/audio/ko/praise/correct-02.mp3.m4a",
+      "bytes": 115548
+    },
+    "맞아요! 멋져요!": {
+      "id": "praise/correct-03",
+      "src": "assets/audio/ko/praise/correct-03.mp3.m4a",
+      "bytes": 108429
+    },
+    "열심히 듣더니 해냈어요!": {
+      "id": "praise/correct-04",
+      "src": "assets/audio/ko/praise/correct-04.mp3.m4a",
+      "bytes": 121167
+    },
+    "괜찮아요, 다시 한번 들어 볼까요?": {
+      "id": "praise/retry-01",
+      "src": "assets/audio/ko/praise/retry-01.mp3.m4a",
+      "bytes": 137102
+    },
+    "음, 소리를 한 번 더 들어 보세요!": {
+      "id": "praise/retry-02",
+      "src": "assets/audio/ko/praise/retry-02.mp3.m4a",
+      "bytes": 139372
+    },
+    "정말 잘했어요!": {
+      "id": "praise/stage-clear-01",
+      "src": "assets/audio/ko/praise/stage-clear-01.mp3.m4a",
+      "bytes": 107628
+    },
+    "포기하지 않고 끝까지 했어요!": {
+      "id": "praise/stage-clear-02",
+      "src": "assets/audio/ko/praise/stage-clear-02.mp3.m4a",
+      "bytes": 124292
+    },
+    "누리 덕분에 왕국이 더 반짝여요!": {
+      "id": "praise/stage-clear-03",
+      "src": "assets/audio/ko/praise/stage-clear-03.mp3.m4a",
+      "bytes": 131422
+    },
+    "여기는 기억의 초원이에요. 지우개 몬스터가 자음을 다 지워 버렸어요! 소리를 잘 듣고 자음을 찾아 주세요!": {
+      "id": "kingdom/meadow/intro",
+      "src": "assets/audio/ko/kingdom/meadow/intro.mp3.m4a",
+      "bytes": 244713
+    },
+    "자음을 되찾아 초원을 다시 푸르게 만들어요!": {
+      "id": "kingdom/meadow/goal",
+      "src": "assets/audio/ko/kingdom/meadow/goal.mp3.m4a",
+      "bytes": 144350
+    },
+    "울림의 호수에 온 걸 환영해요! 모음이 사라져서 호수의 노래가 멈췄어요. 모음 소리를 되찾아 주세요!": {
+      "id": "kingdom/lake/intro",
+      "src": "assets/audio/ko/kingdom/lake/intro.mp3.m4a",
+      "bytes": 233051
+    },
+    "모음의 소리를 되찾아 호수를 맑게 만들어요!": {
+      "id": "kingdom/lake/goal",
+      "src": "assets/audio/ko/kingdom/lake/goal.mp3.m4a",
+      "bytes": 147078
+    },
+    "글자 조각의 탑이에요! 자음과 모음이 만나면 글자가 태어나요. 조각을 맞춰서 글자를 만들어 보세요!": {
+      "id": "kingdom/tower/intro",
+      "src": "assets/audio/ko/kingdom/tower/intro.mp3.m4a",
+      "bytes": 231672
+    },
+    "자음과 모음을 붙여서 글자를 만들어요!": {
+      "id": "kingdom/tower/goal",
+      "src": "assets/audio/ko/kingdom/tower/goal.mp3.m4a",
+      "bytes": 132852
+    },
+    "주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어요!": {
+      "id": "kingdom/village/intro",
+      "src": "assets/audio/ko/kingdom/village/intro.mp3.m4a",
+      "bytes": 211011
+    },
+    "글자를 찾아 주민들의 이름을 되찾아 주세요!": {
+      "id": "kingdom/village/goal",
+      "src": "assets/audio/ko/kingdom/village/goal.mp3.m4a",
+      "bytes": 141347
+    },
+    "드디어 지우개 몬스터의 성이에요! 그동안 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구해요!": {
+      "id": "kingdom/castle/intro",
+      "src": "assets/audio/ko/kingdom/castle/intro.mp3.m4a",
+      "bytes": 215836
+    },
+    "배운 글자로 지우개 몬스터를 물리쳐요!": {
+      "id": "kingdom/castle/goal",
+      "src": "assets/audio/ko/kingdom/castle/goal.mp3.m4a",
+      "bytes": 130113
+    },
+    "옛날 옛적, 글자들이 반짝반짝 빛나는 누리 한글 왕국이 있었어요.": {
+      "id": "story/intro-01",
+      "src": "assets/audio/ko/story/intro-01.mp3.m4a",
+      "bytes": 179156
+    },
+    "어느 날, 지우개 몬스터가 나타나 왕국의 글자들을 지워 버렸어요!": {
+      "id": "story/intro-02",
+      "src": "assets/audio/ko/story/intro-02.mp3.m4a",
+      "bytes": 165897
+    },
+    "주민들은 이름을 잃어버리고, 왕국은 엉망이 되어 버렸어요.": {
+      "id": "story/intro-03",
+      "src": "assets/audio/ko/story/intro-03.mp3.m4a",
+      "bytes": 161457
+    },
+    "누리와 마법 토끼 포리는 글자를 되찾는 모험을 떠나기로 했어요!": {
+      "id": "story/intro-04",
+      "src": "assets/audio/ko/story/intro-04.mp3.m4a",
+      "bytes": 170549
+    },
+    "와 글자들이 모두 돌아왔어요": {
+      "id": "festival/line-01",
+      "src": "assets/audio/ko/festival/line-01.mp3.m4a",
+      "bytes": 124631
+    },
+    "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요": {
+      "id": "festival/line-02",
+      "src": "assets/audio/ko/festival/line-02.mp3.m4a",
+      "bytes": 138842
+    },
+    "주민들이 축제를 열어 누리를 축하해요": {
+      "id": "festival/line-03",
+      "src": "assets/audio/ko/festival/line-03.mp3.m4a",
+      "bytes": 134502
+    },
+    "기역": {
+      "id": "jamo/ko-67c714efd0",
+      "src": "assets/audio/ko/jamo/ko-67c714efd0.mp3.m4a",
+      "bytes": 92421
+    },
+    "기역! 가, 가방의 첫소리예요.": {
+      "id": "jamo-intro/ko-67c714efd0",
+      "src": "assets/audio/ko/jamo-intro/ko-67c714efd0.mp3.m4a",
+      "bytes": 146316
+    },
+    "가방": {
+      "id": "words/ko-142a302815",
+      "src": "assets/audio/ko/words/ko-142a302815.mp3.m4a",
+      "bytes": 97632
+    },
+    "고래": {
+      "id": "words/ko-872e638f53",
+      "src": "assets/audio/ko/words/ko-872e638f53.mp3.m4a",
+      "bytes": 92503
+    },
+    "니은": {
+      "id": "jamo/ko-4a944dc438",
+      "src": "assets/audio/ko/jamo/ko-4a944dc438.mp3.m4a",
+      "bytes": 88702
+    },
+    "니은! 나, 나비의 첫소리예요.": {
+      "id": "jamo-intro/ko-4a944dc438",
+      "src": "assets/audio/ko/jamo-intro/ko-4a944dc438.mp3.m4a",
+      "bytes": 141418
+    },
+    "나비": {
+      "id": "words/ko-fee57e1fd6",
+      "src": "assets/audio/ko/words/ko-fee57e1fd6.mp3.m4a",
+      "bytes": 89153
+    },
+    "나무": {
+      "id": "words/ko-8eb09d1664",
+      "src": "assets/audio/ko/words/ko-8eb09d1664.mp3.m4a",
+      "bytes": 95580
+    },
+    "디귿": {
+      "id": "jamo/ko-7b2f60ff10",
+      "src": "assets/audio/ko/jamo/ko-7b2f60ff10.mp3.m4a",
+      "bytes": 95004
+    },
+    "디귿! 다, 다리의 첫소리예요.": {
+      "id": "jamo-intro/ko-7b2f60ff10",
+      "src": "assets/audio/ko/jamo-intro/ko-7b2f60ff10.mp3.m4a",
+      "bytes": 139734
+    },
+    "다리": {
+      "id": "words/ko-4cf9cb9723",
+      "src": "assets/audio/ko/words/ko-4cf9cb9723.mp3.m4a",
+      "bytes": 90898
+    },
+    "도넛": {
+      "id": "words/ko-56def3367a",
+      "src": "assets/audio/ko/words/ko-56def3367a.mp3.m4a",
+      "bytes": 94706
+    },
+    "리을": {
+      "id": "jamo/ko-4e3de77253",
+      "src": "assets/audio/ko/jamo/ko-4e3de77253.mp3.m4a",
+      "bytes": 93782
+    },
+    "리을! 로, 로봇의 첫소리예요.": {
+      "id": "jamo-intro/ko-4e3de77253",
+      "src": "assets/audio/ko/jamo-intro/ko-4e3de77253.mp3.m4a",
+      "bytes": 138983
+    },
+    "로봇": {
+      "id": "words/ko-ba46f25d1d",
+      "src": "assets/audio/ko/words/ko-ba46f25d1d.mp3.m4a",
+      "bytes": 90200
+    },
+    "라면": {
+      "id": "words/ko-4b917d2ec4",
+      "src": "assets/audio/ko/words/ko-4b917d2ec4.mp3.m4a",
+      "bytes": 90464
+    },
+    "미음": {
+      "id": "jamo/ko-21cff49381",
+      "src": "assets/audio/ko/jamo/ko-21cff49381.mp3.m4a",
+      "bytes": 91838
+    },
+    "미음! 모, 모자의 첫소리예요.": {
+      "id": "jamo-intro/ko-21cff49381",
+      "src": "assets/audio/ko/jamo-intro/ko-21cff49381.mp3.m4a",
+      "bytes": 144897
+    },
+    "모자": {
+      "id": "words/ko-a35e68beb3",
+      "src": "assets/audio/ko/words/ko-a35e68beb3.mp3.m4a",
+      "bytes": 93480
+    },
+    "무지개": {
+      "id": "words/ko-e70debe270",
+      "src": "assets/audio/ko/words/ko-e70debe270.mp3.m4a",
+      "bytes": 96123
+    },
+    "비읍": {
+      "id": "jamo/ko-38c9576ce5",
+      "src": "assets/audio/ko/jamo/ko-38c9576ce5.mp3.m4a",
+      "bytes": 86658
+    },
+    "비읍! 바, 바나나의 첫소리예요.": {
+      "id": "jamo-intro/ko-38c9576ce5",
+      "src": "assets/audio/ko/jamo-intro/ko-38c9576ce5.mp3.m4a",
+      "bytes": 143408
+    },
+    "바나나": {
+      "id": "words/ko-11c41eebd9",
+      "src": "assets/audio/ko/words/ko-11c41eebd9.mp3.m4a",
+      "bytes": 101276
+    },
+    "비행기": {
+      "id": "words/ko-ae35168837",
+      "src": "assets/audio/ko/words/ko-ae35168837.mp3.m4a",
+      "bytes": 96945
+    },
+    "시옷": {
+      "id": "jamo/ko-1ebd30068e",
+      "src": "assets/audio/ko/jamo/ko-1ebd30068e.mp3.m4a",
+      "bytes": 90327
+    },
+    "시옷! 사, 사자의 첫소리예요.": {
+      "id": "jamo-intro/ko-1ebd30068e",
+      "src": "assets/audio/ko/jamo-intro/ko-1ebd30068e.mp3.m4a",
+      "bytes": 141656
+    },
+    "사자": {
+      "id": "words/ko-97a7500406",
+      "src": "assets/audio/ko/words/ko-97a7500406.mp3.m4a",
+      "bytes": 87791
+    },
+    "수박": {
+      "id": "words/ko-a0a0c5ec57",
+      "src": "assets/audio/ko/words/ko-a0a0c5ec57.mp3.m4a",
+      "bytes": 84836
+    },
+    "이응": {
+      "id": "jamo/ko-f655984129",
+      "src": "assets/audio/ko/jamo/ko-f655984129.mp3.m4a",
+      "bytes": 87839
+    },
+    "이응! 오, 오리의 첫소리예요.": {
+      "id": "jamo-intro/ko-f655984129",
+      "src": "assets/audio/ko/jamo-intro/ko-f655984129.mp3.m4a",
+      "bytes": 130777
+    },
+    "오리": {
+      "id": "words/ko-d96fc2124c",
+      "src": "assets/audio/ko/words/ko-d96fc2124c.mp3.m4a",
+      "bytes": 90902
+    },
+    "우유": {
+      "id": "words/ko-153ff43ea0",
+      "src": "assets/audio/ko/words/ko-153ff43ea0.mp3.m4a",
+      "bytes": 85883
+    },
+    "지읒": {
+      "id": "jamo/ko-067272e3dd",
+      "src": "assets/audio/ko/jamo/ko-067272e3dd.mp3.m4a",
+      "bytes": 89983
+    },
+    "지읒! 자, 자동차의 첫소리예요.": {
+      "id": "jamo-intro/ko-067272e3dd",
+      "src": "assets/audio/ko/jamo-intro/ko-067272e3dd.mp3.m4a",
+      "bytes": 141869
+    },
+    "자동차": {
+      "id": "words/ko-8fb02f3dcc",
+      "src": "assets/audio/ko/words/ko-8fb02f3dcc.mp3.m4a",
+      "bytes": 93116
+    },
+    "주스": {
+      "id": "words/ko-93a74a3b1d",
+      "src": "assets/audio/ko/words/ko-93a74a3b1d.mp3.m4a",
+      "bytes": 94771
+    },
+    "치읓": {
+      "id": "jamo/ko-f7a58944ac",
+      "src": "assets/audio/ko/jamo/ko-f7a58944ac.mp3.m4a",
+      "bytes": 85039
+    },
+    "치읓! 치, 치즈의 첫소리예요.": {
+      "id": "jamo-intro/ko-f7a58944ac",
+      "src": "assets/audio/ko/jamo-intro/ko-f7a58944ac.mp3.m4a",
+      "bytes": 140162
+    },
+    "치즈": {
+      "id": "words/ko-7d880b361b",
+      "src": "assets/audio/ko/words/ko-7d880b361b.mp3.m4a",
+      "bytes": 88827
+    },
+    "초콜릿": {
+      "id": "words/ko-59fbcf973a",
+      "src": "assets/audio/ko/words/ko-59fbcf973a.mp3.m4a",
+      "bytes": 95565
+    },
+    "키읔": {
+      "id": "jamo/ko-c52e73c3c7",
+      "src": "assets/audio/ko/jamo/ko-c52e73c3c7.mp3.m4a",
+      "bytes": 92534
+    },
+    "키읔! 코, 코끼리의 첫소리예요.": {
+      "id": "jamo-intro/ko-c52e73c3c7",
+      "src": "assets/audio/ko/jamo-intro/ko-c52e73c3c7.mp3.m4a",
+      "bytes": 142172
+    },
+    "코끼리": {
+      "id": "words/ko-cbca3e4a95",
+      "src": "assets/audio/ko/words/ko-cbca3e4a95.mp3.m4a",
+      "bytes": 86969
+    },
+    "코": {
+      "id": "words/ko-b357690907",
+      "src": "assets/audio/ko/words/ko-b357690907.mp3.m4a",
+      "bytes": 86812
+    },
+    "티읕": {
+      "id": "jamo/ko-518b43090d",
+      "src": "assets/audio/ko/jamo/ko-518b43090d.mp3.m4a",
+      "bytes": 86192
+    },
+    "티읕! 토, 토끼의 첫소리예요.": {
+      "id": "jamo-intro/ko-518b43090d",
+      "src": "assets/audio/ko/jamo-intro/ko-518b43090d.mp3.m4a",
+      "bytes": 136951
+    },
+    "토끼": {
+      "id": "words/ko-7830e5d546",
+      "src": "assets/audio/ko/words/ko-7830e5d546.mp3.m4a",
+      "bytes": 86119
+    },
+    "토마토": {
+      "id": "words/ko-8d0f492da3",
+      "src": "assets/audio/ko/words/ko-8d0f492da3.mp3.m4a",
+      "bytes": 96091
+    },
+    "피읖": {
+      "id": "jamo/ko-6c18e08383",
+      "src": "assets/audio/ko/jamo/ko-6c18e08383.mp3.m4a",
+      "bytes": 85724
+    },
+    "피읖! 포, 포도의 첫소리예요.": {
+      "id": "jamo-intro/ko-6c18e08383",
+      "src": "assets/audio/ko/jamo-intro/ko-6c18e08383.mp3.m4a",
+      "bytes": 135234
+    },
+    "포도": {
+      "id": "words/ko-4dcf6be28b",
+      "src": "assets/audio/ko/words/ko-4dcf6be28b.mp3.m4a",
+      "bytes": 90306
+    },
+    "피자": {
+      "id": "words/ko-7425750e4b",
+      "src": "assets/audio/ko/words/ko-7425750e4b.mp3.m4a",
+      "bytes": 92823
+    },
+    "히읗": {
+      "id": "jamo/ko-17e5b0e1e3",
+      "src": "assets/audio/ko/jamo/ko-17e5b0e1e3.mp3.m4a",
+      "bytes": 81573
+    },
+    "히읗! 하, 하마의 첫소리예요.": {
+      "id": "jamo-intro/ko-17e5b0e1e3",
+      "src": "assets/audio/ko/jamo-intro/ko-17e5b0e1e3.mp3.m4a",
+      "bytes": 135780
+    },
+    "하마": {
+      "id": "words/ko-a35116d52b",
+      "src": "assets/audio/ko/words/ko-a35116d52b.mp3.m4a",
+      "bytes": 85124
+    },
+    "해": {
+      "id": "words/ko-84ed8394a0",
+      "src": "assets/audio/ko/words/ko-84ed8394a0.mp3.m4a",
+      "bytes": 82673
+    },
+    "쌍기역": {
+      "id": "jamo/ko-9606075f94",
+      "src": "assets/audio/ko/jamo/ko-9606075f94.mp3.m4a",
+      "bytes": 82963
+    },
+    "쌍기역! 꽃, 꽃의 첫소리예요.": {
+      "id": "jamo-intro/ko-9606075f94",
+      "src": "assets/audio/ko/jamo-intro/ko-9606075f94.mp3.m4a",
+      "bytes": 139717
+    },
+    "꽃": {
+      "id": "words/ko-2b12519c6e",
+      "src": "assets/audio/ko/words/ko-2b12519c6e.mp3.m4a",
+      "bytes": 85506
+    },
+    "꿀": {
+      "id": "words/ko-0f686b5833",
+      "src": "assets/audio/ko/words/ko-0f686b5833.mp3.m4a",
+      "bytes": 85497
+    },
+    "쌍디귿": {
+      "id": "jamo/ko-f2706742f4",
+      "src": "assets/audio/ko/jamo/ko-f2706742f4.mp3.m4a",
+      "bytes": 91511
+    },
+    "쌍디귿! 딸, 딸기의 첫소리예요.": {
+      "id": "jamo-intro/ko-f2706742f4",
+      "src": "assets/audio/ko/jamo-intro/ko-f2706742f4.mp3.m4a",
+      "bytes": 148061
+    },
+    "딸기": {
+      "id": "words/ko-ebf008d37b",
+      "src": "assets/audio/ko/words/ko-ebf008d37b.mp3.m4a",
+      "bytes": 92494
+    },
+    "땅콩": {
+      "id": "words/ko-efc0dcfd6c",
+      "src": "assets/audio/ko/words/ko-efc0dcfd6c.mp3.m4a",
+      "bytes": 90884
+    },
+    "쌍비읍": {
+      "id": "jamo/ko-ee307695f3",
+      "src": "assets/audio/ko/jamo/ko-ee307695f3.mp3.m4a",
+      "bytes": 89994
+    },
+    "쌍비읍! 빵, 빵의 첫소리예요.": {
+      "id": "jamo-intro/ko-ee307695f3",
+      "src": "assets/audio/ko/jamo-intro/ko-ee307695f3.mp3.m4a",
+      "bytes": 138755
+    },
+    "빵": {
+      "id": "words/ko-57407f69ac",
+      "src": "assets/audio/ko/words/ko-57407f69ac.mp3.m4a",
+      "bytes": 80922
+    },
+    "뽀뽀": {
+      "id": "words/ko-2671d1f08c",
+      "src": "assets/audio/ko/words/ko-2671d1f08c.mp3.m4a",
+      "bytes": 82063
+    },
+    "쌍시옷": {
+      "id": "jamo/ko-88e65ea48c",
+      "src": "assets/audio/ko/jamo/ko-88e65ea48c.mp3.m4a",
+      "bytes": 91940
+    },
+    "쌍시옷! 씨, 씨앗의 첫소리예요.": {
+      "id": "jamo-intro/ko-88e65ea48c",
+      "src": "assets/audio/ko/jamo-intro/ko-88e65ea48c.mp3.m4a",
+      "bytes": 138836
+    },
+    "씨앗": {
+      "id": "words/ko-9d66b7b35e",
+      "src": "assets/audio/ko/words/ko-9d66b7b35e.mp3.m4a",
+      "bytes": 81562
+    },
+    "쌀": {
+      "id": "words/ko-8ca534dba1",
+      "src": "assets/audio/ko/words/ko-8ca534dba1.mp3.m4a",
+      "bytes": 83840
+    },
+    "쌍지읒": {
+      "id": "jamo/ko-05ea7fb49d",
+      "src": "assets/audio/ko/jamo/ko-05ea7fb49d.mp3.m4a",
+      "bytes": 84509
+    },
+    "쌍지읒! 짜, 짜장면의 첫소리예요.": {
+      "id": "jamo-intro/ko-05ea7fb49d",
+      "src": "assets/audio/ko/jamo-intro/ko-05ea7fb49d.mp3.m4a",
+      "bytes": 143569
+    },
+    "짜장면": {
+      "id": "words/ko-5fbbde123f",
+      "src": "assets/audio/ko/words/ko-5fbbde123f.mp3.m4a",
+      "bytes": 85072
+    },
+    "찌개": {
+      "id": "words/ko-6e02f187f6",
+      "src": "assets/audio/ko/words/ko-6e02f187f6.mp3.m4a",
+      "bytes": 93167
+    },
+    "아": {
+      "id": "jamo/ko-be6b235a02",
+      "src": "assets/audio/ko/jamo/ko-be6b235a02.mp3.m4a",
+      "bytes": 80906
+    },
+    "아! 아기의 아 소리예요.": {
+      "id": "jamo-intro/ko-be6b235a02",
+      "src": "assets/audio/ko/jamo-intro/ko-be6b235a02.mp3.m4a",
+      "bytes": 114635
+    },
+    "아기": {
+      "id": "words/ko-2c96b0a089",
+      "src": "assets/audio/ko/words/ko-2c96b0a089.mp3.m4a",
+      "bytes": 85386
+    },
+    "아이스크림": {
+      "id": "words/ko-a103cde8be",
+      "src": "assets/audio/ko/words/ko-a103cde8be.mp3.m4a",
+      "bytes": 90974
+    },
+    "야": {
+      "id": "jamo/ko-77f4df2c9b",
+      "src": "assets/audio/ko/jamo/ko-77f4df2c9b.mp3.m4a",
+      "bytes": 82841
+    },
+    "야! 야구의 야 소리예요.": {
+      "id": "jamo-intro/ko-77f4df2c9b",
+      "src": "assets/audio/ko/jamo-intro/ko-77f4df2c9b.mp3.m4a",
+      "bytes": 125066
+    },
+    "야구": {
+      "id": "words/ko-97283b0795",
+      "src": "assets/audio/ko/words/ko-97283b0795.mp3.m4a",
+      "bytes": 83288
+    },
+    "야옹 고양이": {
+      "id": "words/ko-fcf70abbc8",
+      "src": "assets/audio/ko/words/ko-fcf70abbc8.mp3.m4a",
+      "bytes": 98695
+    },
+    "어": {
+      "id": "jamo/ko-196c53c8f9",
+      "src": "assets/audio/ko/jamo/ko-196c53c8f9.mp3.m4a",
+      "bytes": 81346
+    },
+    "어! 어항의 어 소리예요.": {
+      "id": "jamo-intro/ko-196c53c8f9",
+      "src": "assets/audio/ko/jamo-intro/ko-196c53c8f9.mp3.m4a",
+      "bytes": 118505
+    },
+    "어항": {
+      "id": "words/ko-3a8c2c168d",
+      "src": "assets/audio/ko/words/ko-3a8c2c168d.mp3.m4a",
+      "bytes": 81481
+    },
+    "엄마": {
+      "id": "words/ko-375c1436c3",
+      "src": "assets/audio/ko/words/ko-375c1436c3.mp3.m4a",
+      "bytes": 85912
+    },
+    "여": {
+      "id": "jamo/ko-445287d4d3",
+      "src": "assets/audio/ko/jamo/ko-445287d4d3.mp3.m4a",
+      "bytes": 79057
+    },
+    "여! 여우의 여 소리예요.": {
+      "id": "jamo-intro/ko-445287d4d3",
+      "src": "assets/audio/ko/jamo-intro/ko-445287d4d3.mp3.m4a",
+      "bytes": 124912
+    },
+    "여우": {
+      "id": "words/ko-cfc2df5c1d",
+      "src": "assets/audio/ko/words/ko-cfc2df5c1d.mp3.m4a",
+      "bytes": 85998
+    },
+    "여름": {
+      "id": "words/ko-bcd8e1c6aa",
+      "src": "assets/audio/ko/words/ko-bcd8e1c6aa.mp3.m4a",
+      "bytes": 82229
+    },
+    "오": {
+      "id": "jamo/ko-4a3ea882ac",
+      "src": "assets/audio/ko/jamo/ko-4a3ea882ac.mp3.m4a",
+      "bytes": 79283
+    },
+    "오! 오리의 오 소리예요.": {
+      "id": "jamo-intro/ko-4a3ea882ac",
+      "src": "assets/audio/ko/jamo-intro/ko-4a3ea882ac.mp3.m4a",
+      "bytes": 121091
+    },
+    "오이": {
+      "id": "words/ko-4672972ea1",
+      "src": "assets/audio/ko/words/ko-4672972ea1.mp3.m4a",
+      "bytes": 79491
+    },
+    "요": {
+      "id": "jamo/ko-e8762a2591",
+      "src": "assets/audio/ko/jamo/ko-e8762a2591.mp3.m4a",
+      "bytes": 80166
+    },
+    "요! 요요의 요 소리예요.": {
+      "id": "jamo-intro/ko-e8762a2591",
+      "src": "assets/audio/ko/jamo-intro/ko-e8762a2591.mp3.m4a",
+      "bytes": 126400
+    },
+    "요요": {
+      "id": "words/ko-ff82f2f635",
+      "src": "assets/audio/ko/words/ko-ff82f2f635.mp3.m4a",
+      "bytes": 80735
+    },
+    "요리": {
+      "id": "words/ko-b96dd98753",
+      "src": "assets/audio/ko/words/ko-b96dd98753.mp3.m4a",
+      "bytes": 89408
+    },
+    "우": {
+      "id": "jamo/ko-4118d67c96",
+      "src": "assets/audio/ko/jamo/ko-4118d67c96.mp3.m4a",
+      "bytes": 84932
+    },
+    "우! 우산의 우 소리예요.": {
+      "id": "jamo-intro/ko-4118d67c96",
+      "src": "assets/audio/ko/jamo-intro/ko-4118d67c96.mp3.m4a",
+      "bytes": 119084
+    },
+    "우산": {
+      "id": "words/ko-c3c6d557d9",
+      "src": "assets/audio/ko/words/ko-c3c6d557d9.mp3.m4a",
+      "bytes": 86133
+    }
+  }
+}

@@ -1,5 +1,4 @@
-// 오디오 엔진: 한국어 TTS(Web Speech API) + WebAudio 합성 효과음
-// 외부 오디오 파일 없이 동작 — GitHub Pages 정적 배포에 최적화
+// 오디오 엔진: 녹음 음성 파일 우선 + 한국어 TTS(Web Speech API) + WebAudio 합성 효과음
 
 import { store } from './store.js';
 
@@ -23,6 +22,10 @@ let ctx = null;
 /** @type {SpeechSynthesisVoice | null} */
 let koVoice = null;
 let voicesReady = false;
+/** @type {Promise<Record<string, { id: string, src: string, bytes?: number }> | null> | null} */
+let voiceManifestPromise = null;
+/** @type {HTMLAudioElement | null} */
+let currentVoiceAsset = null;
 
 function audioCtx() {
   if (!ctx) {
@@ -105,6 +108,70 @@ if (NATIVE) {
 /** @returns {Promise<void>} */
 export function whenVoicesReady() { return voicesReadyPromise; }
 
+/** @param {string} text */
+function voiceKey(text) {
+  return text.replace(/\s+/g, ' ').trim();
+}
+
+async function loadVoiceManifest() {
+  if (!voiceManifestPromise) {
+    voiceManifestPromise = fetch('assets/audio/ko/manifest.json')
+      .then(response => response.ok ? response.json() : null)
+      .then(manifest => manifest?.assets || null)
+      .catch(() => null);
+  }
+  return voiceManifestPromise;
+}
+
+function stopVoiceAsset() {
+  if (!currentVoiceAsset) return;
+  currentVoiceAsset.pause();
+  currentVoiceAsset.currentTime = 0;
+  currentVoiceAsset = null;
+}
+
+/**
+ * @param {string} text
+ * @param {{ interrupt?: boolean, signal?: AbortSignal }} [opts]
+ * @returns {Promise<boolean>} true면 녹음 파일 재생 성공/완료
+ */
+async function playVoiceAsset(text, { interrupt = true, signal } = {}) {
+  if (signal?.aborted || typeof Audio === 'undefined') return false;
+  const assets = await loadVoiceManifest();
+  const asset = assets?.[voiceKey(text)];
+  if (!asset?.src || signal?.aborted) return false;
+
+  if (interrupt) {
+    stopVoiceAsset();
+    if (!NATIVE && 'speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      lastCancelAt = Date.now();
+    }
+  }
+
+  return new Promise(resolve => {
+    const audio = new Audio(asset.src);
+    currentVoiceAsset = audio;
+    let done = false;
+    /** @param {boolean} played */
+    const finish = (played) => {
+      if (done) return;
+      done = true;
+      signal?.removeEventListener('abort', onAbort);
+      if (currentVoiceAsset === audio) currentVoiceAsset = null;
+      resolve(played);
+    };
+    const onAbort = () => {
+      audio.pause();
+      finish(true);
+    };
+    signal?.addEventListener('abort', onAbort, { once: true });
+    audio.onended = () => finish(true);
+    audio.onerror = () => finish(false);
+    audio.play().catch(() => finish(false));
+  });
+}
+
 // 예약된 발화 상태 (cancel과 speak 사이 간격 확보용). 다음 발화가 들어오면 취소.
 /** @type {ReturnType<typeof setTimeout> | null} */
 let pendingSpeak = null;    // 지연 실행 타이머
@@ -125,9 +192,10 @@ function flushPending() {
  * @param {{ rate?: number, pitch?: number, interrupt?: boolean, signal?: AbortSignal }} [opts]
  * @returns {Promise<void>}
  */
-export function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal } = {}) {
+export async function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, signal } = {}) {
+  if (!store.get().sound || signal?.aborted) return;
+  if (await playVoiceAsset(text, { interrupt, signal })) return;
   return new Promise(resolve => {
-    if (!store.get().sound || signal?.aborted) return resolve();
     // 네이티브 앱: 플러그인 TTS 경로(브라우저 speechSynthesis 우회)
     if (NATIVE) { speakNative(text, { rate, pitch, signal }).then(resolve, resolve); return; }
     if (!('speechSynthesis' in window)) return resolve();
@@ -207,6 +275,7 @@ async function speakNative(text, { rate = 0.9, pitch = 1.1, signal } = {}) {
 
 export function stopSpeech() {
   flushPending();
+  stopVoiceAsset();
   if (NATIVE) { ensureNativeTTS().then(t => t.stop().catch(() => {})).catch(() => {}); return; }
   if ('speechSynthesis' in window) { speechSynthesis.cancel(); lastCancelAt = Date.now(); }
 }
