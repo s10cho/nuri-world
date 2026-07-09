@@ -1,0 +1,504 @@
+#!/usr/bin/env node
+
+import { createHash } from 'node:crypto';
+import { mkdir, writeFile, access } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { fileURLToPath } from 'node:url';
+
+import {
+  ALL_CONSONANTS,
+  ALL_VOWELS,
+  FESTIVAL,
+  JAMO,
+  KINGDOMS,
+  STORY_INTRO,
+  TOWER_STAGES,
+  VILLAGE_STAGES,
+} from '../js/data.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(__dirname, '..');
+const outDir = path.join(root, 'public/assets/audio/ko');
+
+const endpoint = process.env.OPENAI_BASE_URL
+  ? `${process.env.OPENAI_BASE_URL.replace(/\/$/, '')}/audio/speech`
+  : 'https://api.openai.com/v1/audio/speech';
+
+const apiKey = process.env.OPENAI_API_KEY;
+const model = process.env.OPENAI_TTS_MODEL || 'gpt-4o-mini-tts';
+const voice = process.env.OPENAI_TTS_VOICE || 'nova';
+const format = process.env.OPENAI_TTS_FORMAT || 'mp3';
+const instructions = process.env.OPENAI_TTS_INSTRUCTIONS ||
+  'Speak Korean naturally for a warm preschool learning app. Use a friendly, clear, gentle tone with child-friendly pacing.';
+
+const args = new Set(process.argv.slice(2));
+const dryRun = args.has('--dry-run') || args.has('--list');
+const force = args.has('--force');
+const htmlPathArg = process.argv.find(arg => arg.startsWith('--html='));
+const htmlPath = htmlPathArg
+  ? htmlPathArg.slice('--html='.length)
+  : args.has('--html')
+    ? 'voice-scripts.html'
+    : null;
+
+/** @type {{ id: string, text: string }[]} */
+const fixedLines = [
+  { id: 'ui/welcome', text: '누리의 한글 왕국에 온 것을 환영해요!' },
+  { id: 'ui/locked-kingdom', text: '아직 잠겨 있어요. 이전 왕국을 먼저 구해 주세요!' },
+  { id: 'ui/festival-ready', text: '와, 모든 왕국을 구했어요! 축제에 가 볼까요?' },
+  { id: 'ui/dex-intro', text: '내가 모은 글자와 친구들이에요. 눌러 보면 소리를 들려줘요!' },
+  { id: 'game/listen-intro', text: '어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!' },
+  { id: 'game/match-intro', text: '카드를 뒤집어서 같은 글자 짝을 찾아 보세요!' },
+  { id: 'game/match-start', text: '잘 봐요! 어디에 같은 글자가 있을까요?' },
+  { id: 'game/match-find', text: '이제 같은 글자 짝을 찾아 보세요!' },
+  { id: 'game/build-wrong', text: '그 조각이 아니에요. 다시 골라 볼까요?' },
+  { id: 'game/word-wrong', text: '음, 다른 글자 같아요. 소리를 다시 들어 볼까요?' },
+  { id: 'game/boss-intro', text: '지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!' },
+  { id: 'game/boss-win-1', text: '안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!' },
+  { id: 'game/boss-win-2', text: '와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!' },
+  { id: 'praise/correct-01', text: '딩동댕! 잘 찾았어요!' },
+  { id: 'praise/correct-02', text: '우와, 정말 잘 들었어요!' },
+  { id: 'praise/correct-03', text: '맞아요! 멋져요!' },
+  { id: 'praise/correct-04', text: '열심히 듣더니 해냈어요!' },
+  { id: 'praise/retry-01', text: '괜찮아요, 다시 한번 들어 볼까요?' },
+  { id: 'praise/retry-02', text: '음, 소리를 한 번 더 들어 보세요!' },
+  { id: 'praise/stage-clear-01', text: '정말 잘했어요!' },
+  { id: 'praise/stage-clear-02', text: '포기하지 않고 끝까지 했어요!' },
+  { id: 'praise/stage-clear-03', text: '누리 덕분에 왕국이 더 반짝여요!' },
+];
+
+/** @param {string} id */
+function shortHash(value) {
+  return createHash('sha1').update(value).digest('hex').slice(0, 10);
+}
+
+/** @param {string} id */
+function safeId(id) {
+  return id
+    .split('/')
+    .map(segment => {
+      const ascii = segment
+        .normalize('NFKD')
+        .replace(/[^\w-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .toLowerCase();
+      return ascii || `ko-${shortHash(segment)}`;
+    })
+    .join('/');
+}
+
+/** @param {string} value */
+function uniqueWords(value) {
+  return value.replace(/[^\p{Script=Hangul}\s]/gu, '').trim();
+}
+
+function collectVoiceLines() {
+  /** @type {Map<string, string>} */
+  const lines = new Map();
+  const add = (id, text) => {
+    const cleanText = text.replace(/\s+/g, ' ').trim();
+    if (cleanText) lines.set(safeId(id), cleanText);
+  };
+
+  for (const line of fixedLines) add(line.id, line.text);
+
+  for (const [id, kingdom] of Object.entries(KINGDOMS)) {
+    add(`kingdom/${id}/intro`, kingdom.intro);
+    add(`kingdom/${id}/goal`, kingdom.goal);
+  }
+
+  STORY_INTRO.forEach((panel, index) => {
+    add(`story/intro-${String(index + 1).padStart(2, '0')}`, panel.text.replace(/\n/g, ' '));
+  });
+
+  FESTIVAL.lines.forEach((line, index) => {
+    add(`festival/line-${String(index + 1).padStart(2, '0')}`, uniqueWords(line));
+  });
+
+  for (const ch of [...ALL_CONSONANTS, ...ALL_VOWELS]) {
+    const info = JAMO[ch];
+    add(`jamo/${info.name}`, info.name);
+    const word = info.words[0].w;
+    const intro = ALL_CONSONANTS.includes(ch)
+      ? `${info.name}! ${word[0]}, ${word}의 첫소리예요.`
+      : `${info.name}! ${word}의 ${info.name} 소리예요.`;
+    add(`jamo-intro/${info.name}`, intro);
+    for (const item of info.words) add(`words/${item.w}`, item.w);
+  }
+
+  for (const stage of TOWER_STAGES) {
+    for (const target of stage.targets) {
+      add(`syllables/${target.s}`, target.s);
+      add(`words/${target.w}`, target.w);
+    }
+  }
+
+  for (const stage of VILLAGE_STAGES) {
+    for (const word of stage.words) add(`words/${word.w}`, word.w);
+  }
+
+  add('characters/nuri', '누리');
+  add('characters/pori', '포리');
+  add('characters/eraser', '지우개 몬스터');
+
+  return [...lines.entries()].map(([id, text]) => ({ id, text }));
+}
+
+/** @param {string} value */
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/** @param {{ id: string, text: string }[]} lines */
+function voiceScriptsHtml(lines) {
+  const rows = lines.map((line, index) => {
+    const category = line.id.split('/')[0];
+    const escapedText = escapeHtml(line.text);
+    return `          <tr>
+            <td class="num">${index + 1}</td>
+            <td><span class="badge">${escapeHtml(category)}</span></td>
+            <td><code>${escapeHtml(`${line.id}.${format}`)}</code></td>
+            <td class="script-cell">
+              <span class="script">${escapedText}</span>
+              <button class="copy-btn" type="button" data-copy="${escapedText}">복사</button>
+            </td>
+          </tr>`;
+  }).join('\n');
+
+  const groups = lines.reduce((acc, line) => {
+    const category = line.id.split('/')[0];
+    acc.set(category, (acc.get(category) || 0) + 1);
+    return acc;
+  }, new Map());
+  const groupItems = [...groups.entries()].map(([category, count]) =>
+    `<li><strong>${escapeHtml(category)}</strong><span>${count}</span></li>`,
+  ).join('\n          ');
+
+  return `<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>누리의 한글 왕국 음성 스크립트</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f5ef;
+      --paper: #fffdf8;
+      --ink: #26231f;
+      --muted: #6d675d;
+      --line: #ded6c8;
+      --accent: #2f7d80;
+      --accent-soft: #dff1ef;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--line);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: 0;
+    }
+    p { margin: 0; color: var(--muted); }
+    .summary {
+      min-width: 220px;
+      padding: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .summary strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+      margin: 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+    .groups li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #efe8dc;
+      color: #3c352d;
+      z-index: 1;
+    }
+    tr:last-child td { border-bottom: 0; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86rem;
+      color: #334;
+      white-space: nowrap;
+    }
+    .num {
+      width: 56px;
+      color: var(--muted);
+      text-align: right;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #245c5f;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .script-cell {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+    }
+    .script {
+      min-width: 360px;
+      font-size: 1.02rem;
+      word-break: keep-all;
+    }
+    .copy-btn {
+      min-width: 58px;
+      padding: 6px 10px;
+      border: 1px solid #9fc7c3;
+      border-radius: 6px;
+      background: #f6fffd;
+      color: #245c5f;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: var(--accent-soft); }
+    .copy-btn:active { transform: translateY(1px); }
+    .copy-btn.done {
+      border-color: #6aa36e;
+      background: #e6f5e7;
+      color: #28622c;
+    }
+    @media print {
+      body { background: white; }
+      main { max-width: none; padding: 20px; }
+      th { position: static; }
+      .table-wrap, .summary, .groups li { border-color: #aaa; }
+      .copy-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>누리의 한글 왕국 음성 스크립트</h1>
+        <p>OpenAI TTS 또는 직접 녹음용 대사 목록입니다. 파일 경로는 생성 스크립트의 출력 경로와 일치합니다.</p>
+      </div>
+      <div class="summary">
+        <strong>${lines.length}</strong>
+        <span>voice assets</span>
+      </div>
+    </header>
+
+    <ul class="groups">
+          ${groupItems}
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>분류</th>
+            <th>파일</th>
+            <th>스크립트</th>
+          </tr>
+        </thead>
+        <tbody>
+${rows}
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', async () => {
+        const text = button.dataset.copy || '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = document.createElement('textarea');
+          area.value = text;
+          area.style.position = 'fixed';
+          area.style.left = '-9999px';
+          document.body.appendChild(area);
+          area.focus();
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        button.textContent = '완료';
+        button.classList.add('done');
+        setTimeout(() => {
+          button.textContent = '복사';
+          button.classList.remove('done');
+        }, 1200);
+      });
+    });
+  </script>
+</body>
+</html>
+`;
+}
+
+async function fileExists(file) {
+  try {
+    await access(file);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function generateSpeech(text) {
+  const body = {
+    model,
+    voice,
+    input: text,
+    response_format: format,
+  };
+  if (process.env.OPENAI_TTS_INSTRUCTIONS || model.includes('gpt-4o')) {
+    body.instructions = instructions;
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(`OpenAI TTS failed: ${response.status} ${response.statusText}${body ? `\n${body}` : ''}`);
+  }
+
+  return Buffer.from(await response.arrayBuffer());
+}
+
+async function main() {
+  const lines = collectVoiceLines();
+
+  if (htmlPath) {
+    const target = path.resolve(root, htmlPath);
+    await mkdir(path.dirname(target), { recursive: true });
+    await writeFile(target, voiceScriptsHtml(lines));
+    console.log(`Wrote ${path.relative(root, target)} (${lines.length} voice assets)`);
+    return;
+  }
+
+  if (dryRun) {
+    for (const line of lines) console.log(`${line.id}.${format}\t${line.text}`);
+    console.log(`\n${lines.length} voice assets`);
+    return;
+  }
+
+  if (!apiKey) {
+    console.error('Missing OPENAI_API_KEY. Example: OPENAI_API_KEY=sk-... npm run generate:voice');
+    process.exitCode = 1;
+    return;
+  }
+
+  await mkdir(outDir, { recursive: true });
+
+  let generated = 0;
+  let skipped = 0;
+  for (const [index, line] of lines.entries()) {
+    const file = path.join(outDir, `${line.id}.${format}`);
+    if (!force && await fileExists(file)) {
+      skipped += 1;
+      console.log(`[skip ${index + 1}/${lines.length}] ${line.id}.${format}`);
+      continue;
+    }
+
+    await mkdir(path.dirname(file), { recursive: true });
+    console.log(`[make ${index + 1}/${lines.length}] ${line.id}.${format} <- ${line.text}`);
+    const audio = await generateSpeech(line.text);
+    await writeFile(file, audio);
+    generated += 1;
+  }
+
+  const manifest = {
+    model,
+    voice,
+    format,
+    assets: Object.fromEntries(lines.map(line => [
+      line.id,
+      {
+        text: line.text,
+        src: `assets/audio/ko/${line.id}.${format}`,
+      },
+    ])),
+  };
+  await writeFile(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+
+  console.log(`Done. Generated ${generated}, skipped ${skipped}. Output: ${path.relative(root, outDir)}`);
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});

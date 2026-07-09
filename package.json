@@ -20,6 +20,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"js/**/*.js\" \"*.{json,md}\"",
     "format:check": "prettier --check \"js/**/*.js\"",
+    "generate:voice": "node tools/generate-voice-assets.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npm run typecheck && npm run lint && npm run test"

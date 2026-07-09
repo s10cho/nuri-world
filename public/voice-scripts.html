@@ -1,0 +1,2370 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>누리의 한글 왕국 음성 스크립트</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f5ef;
+      --paper: #fffdf8;
+      --ink: #26231f;
+      --muted: #6d675d;
+      --line: #ded6c8;
+      --accent: #2f7d80;
+      --accent-soft: #dff1ef;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--line);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: 0;
+    }
+    p { margin: 0; color: var(--muted); }
+    .summary {
+      min-width: 220px;
+      padding: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .summary strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+      margin: 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+    .groups li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #efe8dc;
+      color: #3c352d;
+      z-index: 1;
+    }
+    tr:last-child td { border-bottom: 0; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86rem;
+      color: #334;
+      white-space: nowrap;
+    }
+    .num {
+      width: 56px;
+      color: var(--muted);
+      text-align: right;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #245c5f;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .script-cell {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+    }
+    .script {
+      min-width: 360px;
+      font-size: 1.02rem;
+      word-break: keep-all;
+    }
+    .copy-btn {
+      min-width: 58px;
+      padding: 6px 10px;
+      border: 1px solid #9fc7c3;
+      border-radius: 6px;
+      background: #f6fffd;
+      color: #245c5f;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: var(--accent-soft); }
+    .copy-btn:active { transform: translateY(1px); }
+    .copy-btn.done {
+      border-color: #6aa36e;
+      background: #e6f5e7;
+      color: #28622c;
+    }
+    @media print {
+      body { background: white; }
+      main { max-width: none; padding: 20px; }
+      th { position: static; }
+      .table-wrap, .summary, .groups li { border-color: #aaa; }
+      .copy-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>누리의 한글 왕국 음성 스크립트</h1>
+        <p>OpenAI TTS 또는 직접 녹음용 대사 목록입니다. 파일 경로는 생성 스크립트의 출력 경로와 일치합니다.</p>
+      </div>
+      <div class="summary">
+        <strong>238</strong>
+        <span>voice assets</span>
+      </div>
+    </header>
+
+    <ul class="groups">
+          <li><strong>ui</strong><span>4</span></li>
+          <li><strong>game</strong><span>9</span></li>
+          <li><strong>praise</strong><span>9</span></li>
+          <li><strong>kingdom</strong><span>10</span></li>
+          <li><strong>story</strong><span>4</span></li>
+          <li><strong>festival</strong><span>3</span></li>
+          <li><strong>jamo</strong><span>40</span></li>
+          <li><strong>jamo-intro</strong><span>40</span></li>
+          <li><strong>words</strong><span>91</span></li>
+          <li><strong>syllables</strong><span>25</span></li>
+          <li><strong>characters</strong><span>3</span></li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>분류</th>
+            <th>파일</th>
+            <th>스크립트</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">1</td>
+            <td><span class="badge">ui</span></td>
+            <td><code>ui/welcome.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">누리의 한글 왕국에 온 것을 환영해요!</span>
+              <button class="copy-btn" type="button" data-copy="누리의 한글 왕국에 온 것을 환영해요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">2</td>
+            <td><span class="badge">ui</span></td>
+            <td><code>ui/locked-kingdom.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">아직 잠겨 있어요. 이전 왕국을 먼저 구해 주세요!</span>
+              <button class="copy-btn" type="button" data-copy="아직 잠겨 있어요. 이전 왕국을 먼저 구해 주세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">3</td>
+            <td><span class="badge">ui</span></td>
+            <td><code>ui/festival-ready.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">와, 모든 왕국을 구했어요! 축제에 가 볼까요?</span>
+              <button class="copy-btn" type="button" data-copy="와, 모든 왕국을 구했어요! 축제에 가 볼까요?">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">4</td>
+            <td><span class="badge">ui</span></td>
+            <td><code>ui/dex-intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">내가 모은 글자와 친구들이에요. 눌러 보면 소리를 들려줘요!</span>
+              <button class="copy-btn" type="button" data-copy="내가 모은 글자와 친구들이에요. 눌러 보면 소리를 들려줘요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">5</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/listen-intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!</span>
+              <button class="copy-btn" type="button" data-copy="어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">6</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/match-intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">카드를 뒤집어서 같은 글자 짝을 찾아 보세요!</span>
+              <button class="copy-btn" type="button" data-copy="카드를 뒤집어서 같은 글자 짝을 찾아 보세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">7</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/match-start.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">잘 봐요! 어디에 같은 글자가 있을까요?</span>
+              <button class="copy-btn" type="button" data-copy="잘 봐요! 어디에 같은 글자가 있을까요?">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">8</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/match-find.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이제 같은 글자 짝을 찾아 보세요!</span>
+              <button class="copy-btn" type="button" data-copy="이제 같은 글자 짝을 찾아 보세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">9</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/build-wrong.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">그 조각이 아니에요. 다시 골라 볼까요?</span>
+              <button class="copy-btn" type="button" data-copy="그 조각이 아니에요. 다시 골라 볼까요?">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">10</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/word-wrong.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">음, 다른 글자 같아요. 소리를 다시 들어 볼까요?</span>
+              <button class="copy-btn" type="button" data-copy="음, 다른 글자 같아요. 소리를 다시 들어 볼까요?">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">11</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/boss-intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!</span>
+              <button class="copy-btn" type="button" data-copy="지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">12</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/boss-win-1.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!</span>
+              <button class="copy-btn" type="button" data-copy="안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">13</td>
+            <td><span class="badge">game</span></td>
+            <td><code>game/boss-win-2.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!</span>
+              <button class="copy-btn" type="button" data-copy="와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">14</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/correct-01.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">딩동댕! 잘 찾았어요!</span>
+              <button class="copy-btn" type="button" data-copy="딩동댕! 잘 찾았어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">15</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/correct-02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">우와, 정말 잘 들었어요!</span>
+              <button class="copy-btn" type="button" data-copy="우와, 정말 잘 들었어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">16</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/correct-03.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">맞아요! 멋져요!</span>
+              <button class="copy-btn" type="button" data-copy="맞아요! 멋져요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">17</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/correct-04.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">열심히 듣더니 해냈어요!</span>
+              <button class="copy-btn" type="button" data-copy="열심히 듣더니 해냈어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">18</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/retry-01.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">괜찮아요, 다시 한번 들어 볼까요?</span>
+              <button class="copy-btn" type="button" data-copy="괜찮아요, 다시 한번 들어 볼까요?">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">19</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/retry-02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">음, 소리를 한 번 더 들어 보세요!</span>
+              <button class="copy-btn" type="button" data-copy="음, 소리를 한 번 더 들어 보세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">20</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/stage-clear-01.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">정말 잘했어요!</span>
+              <button class="copy-btn" type="button" data-copy="정말 잘했어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">21</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/stage-clear-02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">포기하지 않고 끝까지 했어요!</span>
+              <button class="copy-btn" type="button" data-copy="포기하지 않고 끝까지 했어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">22</td>
+            <td><span class="badge">praise</span></td>
+            <td><code>praise/stage-clear-03.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">누리 덕분에 왕국이 더 반짝여요!</span>
+              <button class="copy-btn" type="button" data-copy="누리 덕분에 왕국이 더 반짝여요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">23</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/meadow/intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">여기는 기억의 초원이에요. 지우개 몬스터가 자음을 다 지워 버렸어요! 소리를 잘 듣고 자음을 찾아 주세요!</span>
+              <button class="copy-btn" type="button" data-copy="여기는 기억의 초원이에요. 지우개 몬스터가 자음을 다 지워 버렸어요! 소리를 잘 듣고 자음을 찾아 주세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">24</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/meadow/goal.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">자음을 되찾아 초원을 다시 푸르게 만들어요!</span>
+              <button class="copy-btn" type="button" data-copy="자음을 되찾아 초원을 다시 푸르게 만들어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">25</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/lake/intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">울림의 호수에 온 걸 환영해요! 모음이 사라져서 호수의 노래가 멈췄어요. 모음 소리를 되찾아 주세요!</span>
+              <button class="copy-btn" type="button" data-copy="울림의 호수에 온 걸 환영해요! 모음이 사라져서 호수의 노래가 멈췄어요. 모음 소리를 되찾아 주세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">26</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/lake/goal.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">모음의 소리를 되찾아 호수를 맑게 만들어요!</span>
+              <button class="copy-btn" type="button" data-copy="모음의 소리를 되찾아 호수를 맑게 만들어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">27</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/tower/intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">글자 조각의 탑이에요! 자음과 모음이 만나면 글자가 태어나요. 조각을 맞춰서 글자를 만들어 보세요!</span>
+              <button class="copy-btn" type="button" data-copy="글자 조각의 탑이에요! 자음과 모음이 만나면 글자가 태어나요. 조각을 맞춰서 글자를 만들어 보세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">28</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/tower/goal.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">자음과 모음을 붙여서 글자를 만들어요!</span>
+              <button class="copy-btn" type="button" data-copy="자음과 모음을 붙여서 글자를 만들어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">29</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/village/intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어요!</span>
+              <button class="copy-btn" type="button" data-copy="주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">30</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/village/goal.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">글자를 찾아 주민들의 이름을 되찾아 주세요!</span>
+              <button class="copy-btn" type="button" data-copy="글자를 찾아 주민들의 이름을 되찾아 주세요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">31</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/castle/intro.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">드디어 지우개 몬스터의 성이에요! 그동안 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구해요!</span>
+              <button class="copy-btn" type="button" data-copy="드디어 지우개 몬스터의 성이에요! 그동안 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구해요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">32</td>
+            <td><span class="badge">kingdom</span></td>
+            <td><code>kingdom/castle/goal.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">배운 글자로 지우개 몬스터를 물리쳐요!</span>
+              <button class="copy-btn" type="button" data-copy="배운 글자로 지우개 몬스터를 물리쳐요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">33</td>
+            <td><span class="badge">story</span></td>
+            <td><code>story/intro-01.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">옛날 옛적, 글자들이 반짝반짝 빛나는 누리 한글 왕국이 있었어요.</span>
+              <button class="copy-btn" type="button" data-copy="옛날 옛적, 글자들이 반짝반짝 빛나는 누리 한글 왕국이 있었어요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">34</td>
+            <td><span class="badge">story</span></td>
+            <td><code>story/intro-02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">어느 날, 지우개 몬스터가 나타나 왕국의 글자들을 지워 버렸어요!</span>
+              <button class="copy-btn" type="button" data-copy="어느 날, 지우개 몬스터가 나타나 왕국의 글자들을 지워 버렸어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">35</td>
+            <td><span class="badge">story</span></td>
+            <td><code>story/intro-03.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">주민들은 이름을 잃어버리고, 왕국은 엉망이 되어 버렸어요.</span>
+              <button class="copy-btn" type="button" data-copy="주민들은 이름을 잃어버리고, 왕국은 엉망이 되어 버렸어요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">36</td>
+            <td><span class="badge">story</span></td>
+            <td><code>story/intro-04.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">누리와 마법 토끼 포리는 글자를 되찾는 모험을 떠나기로 했어요!</span>
+              <button class="copy-btn" type="button" data-copy="누리와 마법 토끼 포리는 글자를 되찾는 모험을 떠나기로 했어요!">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">37</td>
+            <td><span class="badge">festival</span></td>
+            <td><code>festival/line-01.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">와 글자들이 모두 돌아왔어요</span>
+              <button class="copy-btn" type="button" data-copy="와 글자들이 모두 돌아왔어요">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">38</td>
+            <td><span class="badge">festival</span></td>
+            <td><code>festival/line-02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요</span>
+              <button class="copy-btn" type="button" data-copy="누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">39</td>
+            <td><span class="badge">festival</span></td>
+            <td><code>festival/line-03.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">주민들이 축제를 열어 누리를 축하해요</span>
+              <button class="copy-btn" type="button" data-copy="주민들이 축제를 열어 누리를 축하해요">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">40</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-67c714efd0.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">기역</span>
+              <button class="copy-btn" type="button" data-copy="기역">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">41</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-67c714efd0.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">기역! 가, 가방의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="기역! 가, 가방의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">42</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-142a302815.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">가방</span>
+              <button class="copy-btn" type="button" data-copy="가방">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">43</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-872e638f53.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">고래</span>
+              <button class="copy-btn" type="button" data-copy="고래">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">44</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-4a944dc438.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">니은</span>
+              <button class="copy-btn" type="button" data-copy="니은">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">45</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-4a944dc438.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">니은! 나, 나비의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="니은! 나, 나비의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">46</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-fee57e1fd6.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">나비</span>
+              <button class="copy-btn" type="button" data-copy="나비">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">47</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-8eb09d1664.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">나무</span>
+              <button class="copy-btn" type="button" data-copy="나무">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">48</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-7b2f60ff10.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">디귿</span>
+              <button class="copy-btn" type="button" data-copy="디귿">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">49</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-7b2f60ff10.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">디귿! 다, 다리의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="디귿! 다, 다리의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">50</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-4cf9cb9723.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">다리</span>
+              <button class="copy-btn" type="button" data-copy="다리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">51</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-56def3367a.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">도넛</span>
+              <button class="copy-btn" type="button" data-copy="도넛">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">52</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-4e3de77253.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">리을</span>
+              <button class="copy-btn" type="button" data-copy="리을">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">53</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-4e3de77253.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">리을! 로, 로봇의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="리을! 로, 로봇의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">54</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-ba46f25d1d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">로봇</span>
+              <button class="copy-btn" type="button" data-copy="로봇">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">55</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-4b917d2ec4.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">라면</span>
+              <button class="copy-btn" type="button" data-copy="라면">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">56</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-21cff49381.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">미음</span>
+              <button class="copy-btn" type="button" data-copy="미음">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">57</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-21cff49381.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">미음! 모, 모자의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="미음! 모, 모자의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">58</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-a35e68beb3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">모자</span>
+              <button class="copy-btn" type="button" data-copy="모자">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">59</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-e70debe270.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">무지개</span>
+              <button class="copy-btn" type="button" data-copy="무지개">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">60</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-38c9576ce5.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">비읍</span>
+              <button class="copy-btn" type="button" data-copy="비읍">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">61</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-38c9576ce5.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">비읍! 바, 바나나의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="비읍! 바, 바나나의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">62</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-11c41eebd9.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">바나나</span>
+              <button class="copy-btn" type="button" data-copy="바나나">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">63</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-ae35168837.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">비행기</span>
+              <button class="copy-btn" type="button" data-copy="비행기">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">64</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-1ebd30068e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">시옷</span>
+              <button class="copy-btn" type="button" data-copy="시옷">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">65</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-1ebd30068e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">시옷! 사, 사자의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="시옷! 사, 사자의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">66</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-97a7500406.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">사자</span>
+              <button class="copy-btn" type="button" data-copy="사자">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">67</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-a0a0c5ec57.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">수박</span>
+              <button class="copy-btn" type="button" data-copy="수박">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">68</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-f655984129.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이응</span>
+              <button class="copy-btn" type="button" data-copy="이응">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">69</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-f655984129.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이응! 오, 오리의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="이응! 오, 오리의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">70</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-d96fc2124c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">오리</span>
+              <button class="copy-btn" type="button" data-copy="오리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">71</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-153ff43ea0.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">우유</span>
+              <button class="copy-btn" type="button" data-copy="우유">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">72</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-067272e3dd.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">지읒</span>
+              <button class="copy-btn" type="button" data-copy="지읒">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">73</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-067272e3dd.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">지읒! 자, 자동차의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="지읒! 자, 자동차의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">74</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-8fb02f3dcc.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">자동차</span>
+              <button class="copy-btn" type="button" data-copy="자동차">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">75</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-93a74a3b1d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">주스</span>
+              <button class="copy-btn" type="button" data-copy="주스">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">76</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-f7a58944ac.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">치읓</span>
+              <button class="copy-btn" type="button" data-copy="치읓">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">77</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-f7a58944ac.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">치읓! 치, 치즈의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="치읓! 치, 치즈의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">78</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7d880b361b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">치즈</span>
+              <button class="copy-btn" type="button" data-copy="치즈">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">79</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-59fbcf973a.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">초콜릿</span>
+              <button class="copy-btn" type="button" data-copy="초콜릿">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">80</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-c52e73c3c7.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">키읔</span>
+              <button class="copy-btn" type="button" data-copy="키읔">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">81</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-c52e73c3c7.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">키읔! 코, 코끼리의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="키읔! 코, 코끼리의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">82</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-cbca3e4a95.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">코끼리</span>
+              <button class="copy-btn" type="button" data-copy="코끼리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">83</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-b357690907.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">코</span>
+              <button class="copy-btn" type="button" data-copy="코">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">84</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-518b43090d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">티읕</span>
+              <button class="copy-btn" type="button" data-copy="티읕">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">85</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-518b43090d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">티읕! 토, 토끼의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="티읕! 토, 토끼의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">86</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7830e5d546.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">토끼</span>
+              <button class="copy-btn" type="button" data-copy="토끼">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">87</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-8d0f492da3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">토마토</span>
+              <button class="copy-btn" type="button" data-copy="토마토">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">88</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-6c18e08383.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">피읖</span>
+              <button class="copy-btn" type="button" data-copy="피읖">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">89</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-6c18e08383.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">피읖! 포, 포도의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="피읖! 포, 포도의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">90</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-4dcf6be28b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">포도</span>
+              <button class="copy-btn" type="button" data-copy="포도">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">91</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7425750e4b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">피자</span>
+              <button class="copy-btn" type="button" data-copy="피자">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">92</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-17e5b0e1e3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">히읗</span>
+              <button class="copy-btn" type="button" data-copy="히읗">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">93</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-17e5b0e1e3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">히읗! 하, 하마의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="히읗! 하, 하마의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">94</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-a35116d52b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">하마</span>
+              <button class="copy-btn" type="button" data-copy="하마">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">95</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-84ed8394a0.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">해</span>
+              <button class="copy-btn" type="button" data-copy="해">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">96</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-9606075f94.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍기역</span>
+              <button class="copy-btn" type="button" data-copy="쌍기역">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">97</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-9606075f94.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍기역! 꽃, 꽃의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="쌍기역! 꽃, 꽃의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">98</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-2b12519c6e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">꽃</span>
+              <button class="copy-btn" type="button" data-copy="꽃">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">99</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-0f686b5833.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">꿀</span>
+              <button class="copy-btn" type="button" data-copy="꿀">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">100</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-f2706742f4.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍디귿</span>
+              <button class="copy-btn" type="button" data-copy="쌍디귿">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">101</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-f2706742f4.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍디귿! 딸, 딸기의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="쌍디귿! 딸, 딸기의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">102</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-ebf008d37b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">딸기</span>
+              <button class="copy-btn" type="button" data-copy="딸기">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">103</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-efc0dcfd6c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">땅콩</span>
+              <button class="copy-btn" type="button" data-copy="땅콩">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">104</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-ee307695f3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍비읍</span>
+              <button class="copy-btn" type="button" data-copy="쌍비읍">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">105</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-ee307695f3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍비읍! 빵, 빵의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="쌍비읍! 빵, 빵의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">106</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-57407f69ac.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">빵</span>
+              <button class="copy-btn" type="button" data-copy="빵">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">107</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-2671d1f08c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">뽀뽀</span>
+              <button class="copy-btn" type="button" data-copy="뽀뽀">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">108</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-88e65ea48c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍시옷</span>
+              <button class="copy-btn" type="button" data-copy="쌍시옷">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">109</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-88e65ea48c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍시옷! 씨, 씨앗의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="쌍시옷! 씨, 씨앗의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">110</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-9d66b7b35e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">씨앗</span>
+              <button class="copy-btn" type="button" data-copy="씨앗">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">111</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-8ca534dba1.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌀</span>
+              <button class="copy-btn" type="button" data-copy="쌀">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">112</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-05ea7fb49d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍지읒</span>
+              <button class="copy-btn" type="button" data-copy="쌍지읒">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">113</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-05ea7fb49d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">쌍지읒! 짜, 짜장면의 첫소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="쌍지읒! 짜, 짜장면의 첫소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">114</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-5fbbde123f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">짜장면</span>
+              <button class="copy-btn" type="button" data-copy="짜장면">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">115</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-6e02f187f6.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">찌개</span>
+              <button class="copy-btn" type="button" data-copy="찌개">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">116</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-be6b235a02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">아</span>
+              <button class="copy-btn" type="button" data-copy="아">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">117</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-be6b235a02.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">아! 아기의 아 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="아! 아기의 아 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">118</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-2c96b0a089.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">아기</span>
+              <button class="copy-btn" type="button" data-copy="아기">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">119</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-a103cde8be.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">아이스크림</span>
+              <button class="copy-btn" type="button" data-copy="아이스크림">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">120</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-77f4df2c9b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">야</span>
+              <button class="copy-btn" type="button" data-copy="야">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">121</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-77f4df2c9b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">야! 야구의 야 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="야! 야구의 야 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">122</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-97283b0795.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">야구</span>
+              <button class="copy-btn" type="button" data-copy="야구">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">123</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-fcf70abbc8.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">야옹 고양이</span>
+              <button class="copy-btn" type="button" data-copy="야옹 고양이">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">124</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-196c53c8f9.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">어</span>
+              <button class="copy-btn" type="button" data-copy="어">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">125</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-196c53c8f9.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">어! 어항의 어 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="어! 어항의 어 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">126</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-3a8c2c168d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">어항</span>
+              <button class="copy-btn" type="button" data-copy="어항">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">127</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-375c1436c3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">엄마</span>
+              <button class="copy-btn" type="button" data-copy="엄마">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">128</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-445287d4d3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">여</span>
+              <button class="copy-btn" type="button" data-copy="여">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">129</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-445287d4d3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">여! 여우의 여 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="여! 여우의 여 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">130</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-cfc2df5c1d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">여우</span>
+              <button class="copy-btn" type="button" data-copy="여우">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">131</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-bcd8e1c6aa.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">여름</span>
+              <button class="copy-btn" type="button" data-copy="여름">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">132</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-4a3ea882ac.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">오</span>
+              <button class="copy-btn" type="button" data-copy="오">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">133</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-4a3ea882ac.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">오! 오리의 오 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="오! 오리의 오 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">134</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-4672972ea1.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">오이</span>
+              <button class="copy-btn" type="button" data-copy="오이">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">135</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-e8762a2591.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">요</span>
+              <button class="copy-btn" type="button" data-copy="요">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">136</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-e8762a2591.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">요! 요요의 요 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="요! 요요의 요 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">137</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-ff82f2f635.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">요요</span>
+              <button class="copy-btn" type="button" data-copy="요요">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">138</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-b96dd98753.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">요리</span>
+              <button class="copy-btn" type="button" data-copy="요리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">139</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-4118d67c96.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">우</span>
+              <button class="copy-btn" type="button" data-copy="우">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">140</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-4118d67c96.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">우! 우산의 우 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="우! 우산의 우 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">141</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-c3c6d557d9.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">우산</span>
+              <button class="copy-btn" type="button" data-copy="우산">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">142</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-71c706d652.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">유</span>
+              <button class="copy-btn" type="button" data-copy="유">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">143</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-71c706d652.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">유! 유니콘의 유 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="유! 유니콘의 유 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">144</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-e4eca19f73.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">유니콘</span>
+              <button class="copy-btn" type="button" data-copy="유니콘">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">145</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-f71cd6660d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">유령</span>
+              <button class="copy-btn" type="button" data-copy="유령">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">146</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-08906e2255.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">으</span>
+              <button class="copy-btn" type="button" data-copy="으">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">147</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-08906e2255.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">으! 으쓱으쓱의 으 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="으! 으쓱으쓱의 으 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">148</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-827ee6a2d4.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">으쓱으쓱</span>
+              <button class="copy-btn" type="button" data-copy="으쓱으쓱">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">149</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-4e71ce81ea.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">음악</span>
+              <button class="copy-btn" type="button" data-copy="음악">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">150</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-6c0cd2af1e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이</span>
+              <button class="copy-btn" type="button" data-copy="이">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">151</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-6c0cd2af1e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이! 이불의 이 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="이! 이불의 이 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">152</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-2764b9db33.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이불</span>
+              <button class="copy-btn" type="button" data-copy="이불">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">153</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-f65ec1457c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">이빨</span>
+              <button class="copy-btn" type="button" data-copy="이빨">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">154</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-963156802b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">애</span>
+              <button class="copy-btn" type="button" data-copy="애">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">155</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-963156802b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">애! 애벌레의 애 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="애! 애벌레의 애 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">156</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-9f97015d2e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">애벌레</span>
+              <button class="copy-btn" type="button" data-copy="애벌레">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">157</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-81a0ae3b01.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">새</span>
+              <button class="copy-btn" type="button" data-copy="새">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">158</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-bf5b12f28a.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">얘</span>
+              <button class="copy-btn" type="button" data-copy="얘">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">159</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-bf5b12f28a.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">얘! 얘기의 얘 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="얘! 얘기의 얘 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">160</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-f55282967c.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">얘기</span>
+              <button class="copy-btn" type="button" data-copy="얘기">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">161</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-52a52ee90b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">얘들아</span>
+              <button class="copy-btn" type="button" data-copy="얘들아">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">162</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-735c1e670f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">에</span>
+              <button class="copy-btn" type="button" data-copy="에">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">163</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-735c1e670f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">에! 게의 에 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="에! 게의 에 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">164</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-40375799c4.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">게</span>
+              <button class="copy-btn" type="button" data-copy="게">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">165</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-d9e754e5d6.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">레몬</span>
+              <button class="copy-btn" type="button" data-copy="레몬">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">166</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-a842629afd.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">예</span>
+              <button class="copy-btn" type="button" data-copy="예">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">167</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-a842629afd.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">예! 시계의 예 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="예! 시계의 예 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">168</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-8fcd164546.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">시계</span>
+              <button class="copy-btn" type="button" data-copy="시계">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">169</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7acb0fe679.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">예쁜 꽃</span>
+              <button class="copy-btn" type="button" data-copy="예쁜 꽃">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">170</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-20bdcf5c8f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">와</span>
+              <button class="copy-btn" type="button" data-copy="와">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">171</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-20bdcf5c8f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">와! 와플의 와 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="와! 와플의 와 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">172</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-56e333976d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">와플</span>
+              <button class="copy-btn" type="button" data-copy="와플">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">173</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-21d0647c24.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">과자</span>
+              <button class="copy-btn" type="button" data-copy="과자">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">174</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-9687375425.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">왜</span>
+              <button class="copy-btn" type="button" data-copy="왜">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">175</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-9687375425.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">왜! 돼지의 왜 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="왜! 돼지의 왜 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">176</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-72ed1e10fc.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">돼지</span>
+              <button class="copy-btn" type="button" data-copy="돼지">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">177</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-35b5a6cd32.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">왜?</span>
+              <button class="copy-btn" type="button" data-copy="왜?">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">178</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-7eec619024.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">외</span>
+              <button class="copy-btn" type="button" data-copy="외">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">179</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-7eec619024.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">외! 참외의 외 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="외! 참외의 외 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">180</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7f7aed27fb.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">참외</span>
+              <button class="copy-btn" type="button" data-copy="참외">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">181</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-ce552b4f56.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">외투</span>
+              <button class="copy-btn" type="button" data-copy="외투">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">182</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-b8b2f2af85.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">워</span>
+              <button class="copy-btn" type="button" data-copy="워">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">183</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-b8b2f2af85.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">워! 원숭이의 워 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="워! 원숭이의 워 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">184</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-d508fd2f58.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">원숭이</span>
+              <button class="copy-btn" type="button" data-copy="원숭이">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">185</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-c3e541e483.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">샤워</span>
+              <button class="copy-btn" type="button" data-copy="샤워">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">186</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-3990e5c4d6.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">웨</span>
+              <button class="copy-btn" type="button" data-copy="웨">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">187</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-3990e5c4d6.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">웨! 스웨터의 웨 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="웨! 스웨터의 웨 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">188</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-a10bd2c969.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">스웨터</span>
+              <button class="copy-btn" type="button" data-copy="스웨터">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">189</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-0fd36d3be7.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">웨하스</span>
+              <button class="copy-btn" type="button" data-copy="웨하스">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">190</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-b44963f67f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">위</span>
+              <button class="copy-btn" type="button" data-copy="위">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">191</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-b44963f67f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">위! 귀의 위 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="위! 귀의 위 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">192</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-91344d8e72.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">귀</span>
+              <button class="copy-btn" type="button" data-copy="귀">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">193</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-b44963f67f.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">위</span>
+              <button class="copy-btn" type="button" data-copy="위">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">194</td>
+            <td><span class="badge">jamo</span></td>
+            <td><code>jamo/ko-cbf1df6a6d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">의</span>
+              <button class="copy-btn" type="button" data-copy="의">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">195</td>
+            <td><span class="badge">jamo-intro</span></td>
+            <td><code>jamo-intro/ko-cbf1df6a6d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">의! 의사의 의 소리예요.</span>
+              <button class="copy-btn" type="button" data-copy="의! 의사의 의 소리예요.">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">196</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-3135f62c00.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">의사</span>
+              <button class="copy-btn" type="button" data-copy="의사">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">197</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-f9a9e084c8.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">의자</span>
+              <button class="copy-btn" type="button" data-copy="의자">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">198</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-efd23dd5ed.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">가</span>
+              <button class="copy-btn" type="button" data-copy="가">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">199</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-811e029344.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">나</span>
+              <button class="copy-btn" type="button" data-copy="나">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-c94aacfd94.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">다</span>
+              <button class="copy-btn" type="button" data-copy="다">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">201</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-0563a51431.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">라</span>
+              <button class="copy-btn" type="button" data-copy="라">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">202</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-9b7d34baf2.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">마</span>
+              <button class="copy-btn" type="button" data-copy="마">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">203</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7a83acced4.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">마늘</span>
+              <button class="copy-btn" type="button" data-copy="마늘">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">204</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-2f4621ed19.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">바</span>
+              <button class="copy-btn" type="button" data-copy="바">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">205</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-ec488add9d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">사</span>
+              <button class="copy-btn" type="button" data-copy="사">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">206</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-a862646b2e.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">자</span>
+              <button class="copy-btn" type="button" data-copy="자">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">207</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-9e4bb560ba.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">차</span>
+              <button class="copy-btn" type="button" data-copy="차">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">208</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-9e4bb560ba.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">차</span>
+              <button class="copy-btn" type="button" data-copy="차">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">209</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-7dcadffb90.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">카</span>
+              <button class="copy-btn" type="button" data-copy="카">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">210</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-7dedeb8297.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">카드</span>
+              <button class="copy-btn" type="button" data-copy="카드">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">211</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-e30db5c581.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">고</span>
+              <button class="copy-btn" type="button" data-copy="고">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">212</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-62e01cc977.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">노</span>
+              <button class="copy-btn" type="button" data-copy="노">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">213</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-8a04a60438.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">노래</span>
+              <button class="copy-btn" type="button" data-copy="노래">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">214</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-de8b6c7871.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">도</span>
+              <button class="copy-btn" type="button" data-copy="도">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">215</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-15e22a52f3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">로</span>
+              <button class="copy-btn" type="button" data-copy="로">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">216</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-8f4dc1b65b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">모</span>
+              <button class="copy-btn" type="button" data-copy="모">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">217</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-e8b701a283.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">구</span>
+              <button class="copy-btn" type="button" data-copy="구">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">218</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-38fd921c75.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">구름</span>
+              <button class="copy-btn" type="button" data-copy="구름">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">219</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-402adcf5c0.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">두</span>
+              <button class="copy-btn" type="button" data-copy="두">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">220</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-07d25c799d.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">두부</span>
+              <button class="copy-btn" type="button" data-copy="두부">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">221</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-56c5af5b9b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">무</span>
+              <button class="copy-btn" type="button" data-copy="무">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">222</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-e5c60ff0a8.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">기</span>
+              <button class="copy-btn" type="button" data-copy="기">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">223</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-c008697771.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">기차</span>
+              <button class="copy-btn" type="button" data-copy="기차">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">224</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-0cb419946b.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">지</span>
+              <button class="copy-btn" type="button" data-copy="지">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">225</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-fce33eef53.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">지구</span>
+              <button class="copy-btn" type="button" data-copy="지구">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">226</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-4a3ea882ac.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">오</span>
+              <button class="copy-btn" type="button" data-copy="오">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">227</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-4118d67c96.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">우</span>
+              <button class="copy-btn" type="button" data-copy="우">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">228</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-95471f6b0a.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">소</span>
+              <button class="copy-btn" type="button" data-copy="소">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">229</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-95471f6b0a.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">소</span>
+              <button class="copy-btn" type="button" data-copy="소">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">230</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-b357690907.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">코</span>
+              <button class="copy-btn" type="button" data-copy="코">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">231</td>
+            <td><span class="badge">syllables</span></td>
+            <td><code>syllables/ko-ce05326dba.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">하</span>
+              <button class="copy-btn" type="button" data-copy="하">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">232</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-2b58295206.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">바다</span>
+              <button class="copy-btn" type="button" data-copy="바다">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">233</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-df9183dd87.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">소파</span>
+              <button class="copy-btn" type="button" data-copy="소파">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">234</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-1b53e275a3.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">비누</span>
+              <button class="copy-btn" type="button" data-copy="비누">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">235</td>
+            <td><span class="badge">words</span></td>
+            <td><code>words/ko-0b46112d32.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">너구리</span>
+              <button class="copy-btn" type="button" data-copy="너구리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">236</td>
+            <td><span class="badge">characters</span></td>
+            <td><code>characters/nuri.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">누리</span>
+              <button class="copy-btn" type="button" data-copy="누리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">237</td>
+            <td><span class="badge">characters</span></td>
+            <td><code>characters/pori.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">포리</span>
+              <button class="copy-btn" type="button" data-copy="포리">복사</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="num">238</td>
+            <td><span class="badge">characters</span></td>
+            <td><code>characters/eraser.mp3</code></td>
+            <td class="script-cell">
+              <span class="script">지우개 몬스터</span>
+              <button class="copy-btn" type="button" data-copy="지우개 몬스터">복사</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', async () => {
+        const text = button.dataset.copy || '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = document.createElement('textarea');
+          area.value = text;
+          area.style.position = 'fixed';
+          area.style.left = '-9999px';
+          document.body.appendChild(area);
+          area.focus();
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        button.textContent = '완료';
+        button.classList.add('done');
+        setTimeout(() => {
+          button.textContent = '복사';
+          button.classList.remove('done');
+        }, 1200);
+      });
+    });
+  </script>
+</body>
+</html>

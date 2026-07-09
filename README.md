@@ -35,6 +35,19 @@ python3 -m http.server 8000
 
 (ES 모듈이라 file:// 로는 열 수 없고 HTTP 서버가 필요합니다)
 
+## 음성 파일 생성
+
+자연스러운 안내 음성은 OpenAI TTS로 미리 생성해 `public/assets/audio/ko/`에 저장할 수 있습니다.
+
+```bash
+npm run generate:voice -- --dry-run
+OPENAI_API_KEY=sk-... npm run generate:voice
+```
+
+- 기본 모델은 `gpt-4o-mini-tts`, 기본 voice는 `nova`입니다.
+- 변경 예: `OPENAI_TTS_MODEL=tts-1 OPENAI_TTS_VOICE=shimmer npm run generate:voice`
+- 이미 생성된 파일은 건너뛰며, 다시 만들려면 `npm run generate:voice -- --force`를 사용합니다.
+
 ## GitHub Pages 배포
 
 1. GitHub 저장소에 push
