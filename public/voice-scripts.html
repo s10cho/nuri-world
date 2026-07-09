@@ -154,6 +154,98 @@
       .table-wrap, .summary, .groups li { border-color: #aaa; }
       .copy-btn { display: none; }
     }
+    @media (max-width: 720px) {
+      main {
+        padding: 24px 14px 40px;
+      }
+      header {
+        display: block;
+        padding-bottom: 18px;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      .summary {
+        margin-top: 16px;
+        min-width: 0;
+      }
+      .groups {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin: 18px 0;
+      }
+      .groups li {
+        padding: 9px 10px;
+        font-size: 0.92rem;
+      }
+      .table-wrap {
+        overflow: visible;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+      }
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+      table {
+        min-width: 0;
+      }
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+      tr {
+        margin-bottom: 12px;
+        padding: 12px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+      td {
+        padding: 0;
+        border: 0;
+      }
+      td + td {
+        margin-top: 8px;
+      }
+      .num {
+        width: auto;
+        text-align: left;
+        font-weight: 700;
+      }
+      .num::before {
+        content: "#";
+      }
+      code {
+        display: block;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        padding: 6px 8px;
+        background: #f4efe6;
+        border-radius: 6px;
+      }
+      .script-cell {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .script {
+        min-width: 0;
+        font-size: 1rem;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
+      .copy-btn {
+        width: 100%;
+        min-height: 42px;
+      }
+    }
   </style>
 </head>
 <body>
