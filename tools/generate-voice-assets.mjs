@@ -279,6 +279,17 @@ function voiceScriptsHtml(lines) {
       z-index: 1;
     }
     tr:last-child td { border-bottom: 0; }
+    tbody tr {
+      cursor: pointer;
+    }
+    tbody tr.active {
+      background: #fff5cf;
+      box-shadow: inset 4px 0 0 #e3a11a;
+    }
+    tbody tr.active .script {
+      font-weight: 800;
+      color: #1d1a17;
+    }
     code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.86rem;
@@ -390,6 +401,11 @@ function voiceScriptsHtml(lines) {
         border: 1px solid var(--line);
         border-radius: 8px;
       }
+      tr.active {
+        background: #fff5cf;
+        border-color: #e3a11a;
+        box-shadow: inset 4px 0 0 #e3a11a;
+      }
       td {
         padding: 0;
         border: 0;
@@ -464,6 +480,27 @@ ${rows}
     </div>
   </main>
   <script>
+    const rows = Array.from(document.querySelectorAll('tbody tr'));
+    function setActiveRow(row) {
+      rows.forEach(item => {
+        item.classList.toggle('active', item === row);
+        if (item === row) item.setAttribute('aria-current', 'true');
+        else item.removeAttribute('aria-current');
+      });
+    }
+    rows.forEach(row => {
+      row.tabIndex = 0;
+      row.addEventListener('click', event => {
+        if (event.target.closest('.copy-btn')) return;
+        setActiveRow(row);
+      });
+      row.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setActiveRow(row);
+        }
+      });
+    });
     document.querySelectorAll('.copy-btn').forEach(button => {
       button.addEventListener('click', async () => {
         const text = button.dataset.copy || '';
