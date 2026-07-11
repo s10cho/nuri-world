@@ -62,10 +62,19 @@ function render() {
         el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { left: '26%', height: 'clamp(105px, 22vmin, 260px)' } }),
       );
     }
-    speak(p.text.replace(/\n/g, ' '), { signal });
-    // 안전장치: 아이가 탭하지 않아도 잠시 뒤 자동으로 다음 장면으로 진행
+    
+    // 음성 재생 완료 후 자동으로 다음 장면 진행
+    // (녹음 파일이든 TTS든 상관없이 재생 완료 후 진행)
     clearAuto();
-    autoTimer = setTimeout(advance, 9000);
+    speak(p.text.replace(/\n/g, ' '), { signal }).then(() => {
+      if (signal?.aborted) return;
+      // 안전장치: 음성 재생이 완료된 후 최대 2초 더 기다린 후 자동 진행
+      autoTimer = setTimeout(advance, 2000);
+    }).catch(() => {
+      // 음성 재생 실패 시에도 진행
+      if (signal?.aborted) return;
+      autoTimer = setTimeout(advance, 9000);
+    });
   }
 
   s.addEventListener('click', advance);
