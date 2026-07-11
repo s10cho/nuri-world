@@ -29,8 +29,8 @@ function render() {
         el('button', { class: 'btn-big', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 지도로'),
       ),
     ),
-    el('img', { class: 'char enter', src: CHARACTERS.nuri, alt: '누리', style: { left: '4%', height: 'clamp(150px, 32vmin, 360px)' } }),
-    el('img', { class: 'char enter', src: CHARACTERS.pori, alt: '포리', style: { right: '4%', height: 'clamp(120px, 26vmin, 290px)' } }),
+    el('img', { class: 'char enter char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '4%', height: 'clamp(180px, 38vmin, 420px)' } }),
+    el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { right: '4%', height: 'clamp(105px, 22vmin, 260px)' } }),
   );
 
   s._onShow = async signal => {

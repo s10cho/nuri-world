@@ -47,8 +47,8 @@ function render({ kingdom, stageIdx, stars }) {
         ),
       ),
     ),
-    el('img', { class: 'char enter', src: CHARACTERS.nuri, alt: '누리', style: { left: '3%', height: 'clamp(140px, 30vmin, 330px)' } }),
-    el('img', { class: 'char enter', src: CHARACTERS.pori, alt: '포리', style: { right: '3%', height: 'clamp(110px, 24vmin, 260px)' } }),
+    el('img', { class: 'char enter char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '3%', height: 'clamp(180px, 38vmin, 420px)' } }),
+    el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { right: '3%', height: 'clamp(105px, 22vmin, 260px)' } }),
   );
 
   s._onShow = async signal => {

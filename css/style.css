@@ -931,6 +931,8 @@ button {
 
   /* 캐릭터: 인라인 height를 덮어써 화면을 가리지 않게 (모서리 배치 유지) */
   .char { height: 30vh !important; }
+  .char-nuri { height: 34vh !important; }
+  .char-pori { height: 24vh !important; }
 
   /* 도감 */
   .dex-grid { grid-template-columns: repeat(auto-fill, minmax(14vh, 1fr)); gap: 1.2vh; padding: 1.4vh; }
@@ -941,6 +943,8 @@ button {
 @media (max-height: 400px) {
   :root { --sz-card-big: 24vh; --sz-target: 24vh; }
   .char { height: 24vh !important; }
+  .char-nuri { height: 30vh !important; }
+  .char-pori { height: 21vh !important; }
   .btn-big { min-height: 12vh; }
 }
 
@@ -983,4 +987,3 @@ button {
   .stage-pad { width: clamp(160px, 20vmin, 240px); }
   .stage-pads { gap: clamp(20px, 3.4vmin, 44px); }
 }
-

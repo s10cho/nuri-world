@@ -58,8 +58,8 @@ function render() {
       charLayer.append(el('img', { class: 'char enter', src: CHARACTERS.eraser, alt: '지우개 몬스터', style: { right: '6%' } }));
     } else if (p.char === 'both') {
       charLayer.append(
-        el('img', { class: 'char enter', src: CHARACTERS.nuri, alt: '누리', style: { left: '6%' } }),
-        el('img', { class: 'char enter', src: CHARACTERS.pori, alt: '포리', style: { left: '26%', height: 'clamp(120px, 26vmin, 290px)' } }),
+        el('img', { class: 'char enter char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '6%' } }),
+        el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { left: '26%', height: 'clamp(105px, 22vmin, 260px)' } }),
       );
     }
     speak(p.text.replace(/\n/g, ' '), { signal });
