@@ -7,8 +7,6 @@ import { STORY_INTRO, CHARACTERS } from '../data.js';
 
 function render() {
   let idx = 0;
-  /** @type {ReturnType<typeof setTimeout> | null} */
-  let autoTimer = null;
   /** @type {AbortSignal | undefined} */
   let signal; // 화면 수명 신호 (_onShow에서 주입)
   const s = /** @type {AppScreen} */ (el('div', {}));
@@ -27,10 +25,7 @@ function render() {
     onclick: (/** @type {Event} */ e) => { e.stopPropagation(); finish(); },
   }, '건너뛰기 ⏩');
 
-  function clearAuto() { if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; } }
-
   function finish() {
-    clearAuto();
     stopSpeech();
     store.markIntroSeen();
     go('map');
@@ -38,7 +33,6 @@ function render() {
 
   function advance() {
     if (signal?.aborted) return;
-    clearAuto();
     sfx('whoosh');
     idx += 1;
     if (idx >= STORY_INTRO.length) return finish();
@@ -63,18 +57,8 @@ function render() {
       );
     }
     
-    // 음성 재생 완료 후 자동으로 다음 장면 진행
-    // (녹음 파일이든 TTS든 상관없이 재생 완료 후 진행)
-    clearAuto();
-    speak(p.text.replace(/\n/g, ' '), { signal }).then(() => {
-      if (signal?.aborted) return;
-      // 안전장치: 음성 재생이 완료된 후 최대 2초 더 기다린 후 자동 진행
-      autoTimer = setTimeout(advance, 2000);
-    }).catch(() => {
-      // 음성 재생 실패 시에도 진행
-      if (signal?.aborted) return;
-      autoTimer = setTimeout(advance, 9000);
-    });
+    // 음성만 재생 (자동 진행 없음)
+    speak(p.text.replace(/\n/g, ' '), { signal });
   }
 
   s.addEventListener('click', advance);
@@ -88,8 +72,6 @@ function render() {
 
   s._onShow = sig => {
     signal = sig;
-    // 화면 이탈 시 자동진행 타이머 정리
-    sig.addEventListener('abort', clearAuto, { once: true });
     showPanel();
   };
   return s;
