@@ -641,10 +641,10 @@ button {
 /* 보스전 배틀 히어로 — 누리·포리가 왼쪽 아래에서 마법으로 공격 */
 .battle-hero {
   position: absolute;
-  left: max(1%, env(safe-area-inset-left));
-  bottom: calc(2% + env(safe-area-inset-bottom));
-  height: clamp(120px, 24vmin, 260px);
-  z-index: 1; /* 선택지(z-index:2) 뒤에 두어 카드 탭을 가리지 않음 */
+  left: max(0.5%, env(safe-area-inset-left));
+  bottom: calc(1% + env(safe-area-inset-bottom));
+  height: clamp(170px, 34vmin, 460px);
+  z-index: 1; /* 선택지(z-index:2) 뒤에 두어 카드 탭을 가리지 않음(포인터 통과) */
   pointer-events: none;
   filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
   animation: heroBob 2.4s ease-in-out infinite;
@@ -663,20 +663,33 @@ button {
 }
 .battle-hero.cheering { animation: heroCheer 0.7s ease-in-out infinite; }
 
-/* 결과 화면 축하 일러스트 — 누리·포리가 함께 기뻐하는 장면(팝인) */
+/* 결과 화면 축하 일러스트 — 누리·포리가 함께 기뻐하는 장면(팝인).
+   높이는 뷰포트 높이(vh) 기준으로 제한해 아래 패널과 합쳐도 화면을 넘지 않게 한다
+   (넘으면 세로 스크롤이 생김). 폭·높이 둘 다 상한을 둬 어느 기기에서도 스크롤 없이 보이게. */
 .celebrate-hero {
-  width: min(86vw, 600px);
-  max-height: 38vh;
+  width: min(64vw, 420px);
+  max-height: min(30vh, 300px);
   object-fit: contain;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
   pointer-events: none;
+  flex: none; /* flex 컨테이너에서 축소/확대되지 않게 고정 */
 }
 @keyframes celebratePop {
   0% { transform: scale(0.4) rotate(-8deg); opacity: 0; }
   60% { transform: scale(1.08) rotate(3deg); opacity: 1; }
   100% { transform: scale(1) rotate(0); }
 }
-.celebrate-hero.enter { animation: celebratePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+/* 팝인 후에도 정적으로 멈추지 않고 계속 둥실둥실 흔들며 축하 분위기를 낸다.
+   (팝인 0.7s → 이후 무한 플로팅으로 자연스럽게 이어짐) */
+@keyframes celebrateFloat {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-14px) rotate(1.5deg); }
+}
+.celebrate-hero.enter {
+  animation:
+    celebratePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    celebrateFloat 2.8s ease-in-out 0.7s infinite;
+}
 
 /* 로딩 화면 — 음성·이미지 프리로드 진행 표시 + 시작 버튼 */
 .load-hero {
@@ -995,13 +1008,16 @@ button {
 
   /* 결과 별 */
   .result-stars { font-size: 9vh; gap: 2vh; }
+  /* 축하 일러스트 — 짧은 화면에선 패널과 함께 들어오도록 더 작게(스크롤 방지) */
+  .celebrate-hero { max-height: 26vh; }
+  .center-col { gap: clamp(8px, 1.6vh, 20px); }
 
   /* 보스 HP·캐릭터 */
   .boss-hp { height: 3vh; }
   /* 보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡 — 모바일(짧은 화면)에선
      보스와 카드·타일의 큰 floor를 없애 vh 기준으로 더 작게 해 3줄 문제도 안 넘치게. */
   .boss-char { height: 26vh; }
-  .battle-hero { height: 20vh; }
+  .battle-hero { height: 34vh; }
   .game-area.boss-stage {
     --sz-card: max(14vh, 54px);
     --fs-card: max(7vh, 30px);
@@ -1031,6 +1047,7 @@ button {
   .char-nuri { height: 30vh !important; }
   .char-pori { height: 18vh !important; }
   .battle-hero { display: none; } /* 아주 짧은 화면에선 선택지 공간 확보 위해 숨김 */
+  .celebrate-hero { max-height: 22vh; } /* 아주 짧은 화면에서도 패널과 함께 보이게 */
   .btn-big { min-height: 12vh; }
 }
 
@@ -1072,4 +1089,7 @@ button {
   /* 스테이지 선택 발판·본문 여백 */
   .stage-pad { width: clamp(160px, 20vmin, 240px); }
   .stage-pads { gap: clamp(20px, 3.4vmin, 44px); }
+
+  /* 보스전 배틀 히어로 — PC·태블릿에선 크게 (누리·포리가 또렷이 보이게) */
+  .battle-hero { height: clamp(300px, 46vmin, 620px); }
 }

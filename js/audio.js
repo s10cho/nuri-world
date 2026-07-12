@@ -24,6 +24,8 @@ let koVoice = null;
 let voicesReady = false;
 /** @type {Promise<Record<string, { id: string, src: string, bytes?: number }> | null> | null} */
 let voiceManifestPromise = null;
+/** @type {Record<string, { id: string, src: string, bytes?: number }> | null} 매니페스트 해소 후 동기 조회용 캐시 */
+let voiceManifestData = null;
 /** @type {HTMLAudioElement | null} */
 let currentVoiceAsset = null;
 
@@ -119,8 +121,17 @@ async function loadVoiceManifest() {
       .then(response => response.ok ? response.json() : null)
       .then(manifest => manifest?.assets || null)
       .catch(() => null);
+    // 해소되면 동기 조회(hasVoiceAsset)용으로 캐시
+    voiceManifestPromise.then(data => { voiceManifestData = data; });
   }
   return voiceManifestPromise;
+}
+
+// 해당 문구의 녹음 파일이 있는지(매니페스트 로드 후) 동기 확인. 게임이 TTS 대신
+// 녹음을 우선 재생하거나, 녹음·TTS가 모두 없을 때 시각 대체를 켜는 판단에 쓴다.
+/** @param {string} text @returns {boolean} */
+export function hasVoiceAsset(text) {
+  return !!voiceManifestData && !!voiceManifestData[voiceKey(text)];
 }
 
 // 최초 실행 시 녹음 음성 파일을 모두 미리 받아 브라우저 캐시에 넣어 둔다. 이렇게 하면
@@ -383,9 +394,22 @@ export function sfx(name) {
 }
 
 // 사용자 첫 제스처에서 오디오 잠금 해제 (iOS/모바일 필수)
+let ttsWarmed = false;
 export function unlockAudio() {
   try {
     audioCtx();
-    if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume();
+    if ('speechSynthesis' in window) {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      // 첫 사용자 제스처 안에서 speechSynthesis를 무음으로 한 번 깨워 둔다. 최신 크롬은
+      // speechSynthesis.speak()에도 사용자 활성화를 요구해, 게임이 프롬프트를 지연 후
+      // '자동' 재생하면 not-allowed로 조용히 막힌다(녹음 파일은 재생되는데 TTS만 무음).
+      // 제스처 안에서 한 번 speak를 성사시켜 두면 이후 지연 발화의 자동재생 차단이 풀린다.
+      if (!ttsWarmed) {
+        ttsWarmed = true;
+        const warm = new SpeechSynthesisUtterance('​'); // zero-width — 발음할 게 없어 무음
+        warm.volume = 0;
+        try { speechSynthesis.speak(warm); } catch { /* noop */ }
+      }
+    }
   } catch { /* noop */ }
 }

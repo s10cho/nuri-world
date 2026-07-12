@@ -1,6 +1,6 @@
 // 최종 보스전 — 배운 글자로 지우개 몬스터 물리치기
 import { el, cardColor, shuffle, sample, fxBurstAt, fxConfetti, sleep } from '../ui.js';
-import { speak, sfx, hasKoreanTTS } from '../audio.js';
+import { speak, sfx, hasKoreanTTS, hasVoiceAsset } from '../audio.js';
 import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS, BATTLE_HERO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
 
@@ -151,10 +151,10 @@ export function runBoss({ area, signal }, _opts) {
       return cards;
     }
 
-    // 목표 글자를 시각적으로 보여 주는 모델 (TTS 없을 때만)
-    /** @param {string} glyph @returns {HTMLElement | null} */
-    function modelBadge(glyph) {
-      if (!showModel) return null;
+    // 목표 글자를 시각적으로 보여 주는 모델 (TTS 없을 때 또는 녹음이 없어 무음 위험일 때)
+    /** @param {string} glyph @param {boolean} [force] @returns {HTMLElement | null} */
+    function modelBadge(glyph, force) {
+      if (!showModel && !force) return null;
       return el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } },
         el('div', { class: 'ribbon', style: { padding: '4px 16px' } }, '이 글자로 공격!'),
         el('div', { class: 'letter-card compact c3', dataset: { ch: glyph }, style: { pointerEvents: 'none' } }, glyph),
@@ -165,14 +165,20 @@ export function runBoss({ area, signal }, _opts) {
     function askJamo(q) {
       const mySeq = seq;
       const name = JAMO[q.target].name;
-      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
+      // 자모 이름 단독 녹음이 있으면 그걸 재생(TTS 무음 기기 대비). 없으면 문장 TTS로 폴백하되
+      // 목표 글자를 화면에도 보여 줘 소리 없이도 공격할 수 있게 한다.
+      const nameRecorded = hasVoiceAsset(name);
+      const prompt = () => nameRecorded
+        ? speak(name, { signal })
+        : speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
+      const showGlyph = showModel || !nameRecorded;
       const options = shuffle([q.target, ...pickDistractors(q.pool, q.target, 2)]);
       qArea.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' },
           el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊'),
-          el('span', {}, showModel ? '같은 글자로 공격!' : '소리에 맞는 글자로 공격!'),
+          el('span', {}, showGlyph ? '같은 글자로 공격!' : '소리에 맞는 글자로 공격!'),
         ),
-        modelBadge(q.target),
+        modelBadge(q.target, showGlyph),
         el('div', { class: 'choices' }, buildChoices(options, o => o === q.target, o => `${JAMO[o].name}! 명중이에요!`)),
       ].filter(Boolean)));
       sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
