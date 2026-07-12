@@ -28,6 +28,8 @@ let voiceManifestPromise = null;
 let voiceManifestData = null;
 /** @type {HTMLAudioElement | null} */
 let currentVoiceAsset = null;
+/** @type {(() => void) | null} 진행 중 녹음을 즉시 멈추고 그 Promise를 완료 처리하는 콜백 */
+let currentVoiceStop = null;
 
 function audioCtx() {
   if (!ctx) {
@@ -164,11 +166,13 @@ export async function preloadVoiceAssets(onProgress) {
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, total) }, worker));
 }
 
+// 진행 중이던 녹음 재생을 즉시 멈춘다. 멈출 때 그 재생의 Promise도 완료 처리해
+// 대기 중이던 speak()가 매달리지 않게 한다(누수·정지 방지).
 function stopVoiceAsset() {
-  if (!currentVoiceAsset) return;
-  currentVoiceAsset.pause();
-  currentVoiceAsset.currentTime = 0;
+  const stop = currentVoiceStop;
+  currentVoiceStop = null;
   currentVoiceAsset = null;
+  if (stop) stop();
 }
 
 /**
@@ -178,21 +182,24 @@ function stopVoiceAsset() {
  */
 async function playVoiceAsset(text, { interrupt = true, signal } = {}) {
   if (signal?.aborted || typeof Audio === 'undefined') return false;
-  const assets = await loadVoiceManifest();
-  const asset = assets?.[voiceKey(text)];
-  if (!asset?.src || signal?.aborted) return false;
 
+  // interrupt: 새 발화가 녹음이든 TTS든, 진행 중이던 소리를 '항상 먼저' 끊는다.
+  // (기존엔 새 텍스트에 녹음이 없으면 아래 asset 확인에서 일찍 반환해 이전 녹음을
+  //  못 끊어, 이전 프롬프트 녹음과 새 TTS 칭찬이 동시에 겹쳐 나던 버그가 있었다.)
   if (interrupt) {
     stopVoiceAsset();
-    if (!NATIVE && 'speechSynthesis' in window) {
+    if (!NATIVE && 'speechSynthesis' in window && (speechSynthesis.speaking || speechSynthesis.pending)) {
       speechSynthesis.cancel();
       lastCancelAt = Date.now();
     }
   }
 
+  const assets = await loadVoiceManifest();
+  const asset = assets?.[voiceKey(text)];
+  if (!asset?.src || signal?.aborted) return false;
+
   return new Promise(resolve => {
     const audio = new Audio(asset.src);
-    currentVoiceAsset = audio;
     let done = false;
     /** @param {boolean} played */
     const finish = (played) => {
@@ -200,12 +207,13 @@ async function playVoiceAsset(text, { interrupt = true, signal } = {}) {
       done = true;
       signal?.removeEventListener('abort', onAbort);
       if (currentVoiceAsset === audio) currentVoiceAsset = null;
+      if (currentVoiceStop === stop) currentVoiceStop = null;
       resolve(played);
     };
-    const onAbort = () => {
-      audio.pause();
-      finish(true);
-    };
+    const stop = () => { audio.pause(); audio.currentTime = 0; finish(true); };
+    const onAbort = () => stop();
+    currentVoiceAsset = audio;
+    currentVoiceStop = stop;
     signal?.addEventListener('abort', onAbort, { once: true });
     audio.onended = () => finish(true);
     audio.onerror = () => finish(false);
