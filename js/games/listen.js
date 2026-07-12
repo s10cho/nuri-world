@@ -1,6 +1,6 @@
 // 소리 듣고 글자 찾기 — 듣기 변별 게임
 import { el, cardColor, shuffle, fxBurstAt, sleep } from '../ui.js';
-import { speak, sfx, hasVoiceAsset } from '../audio.js';
+import { speak, sfx, hasKoreanTTS, hasVoiceAsset } from '../audio.js';
 import { JAMO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
 
@@ -21,6 +21,10 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
     // 화면 이탈(signal abort) 시 게임을 종료해 stage 루프의 await가 멈추지 않게 한다
     signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
 
+    // 목표 글자를 화면에 보여 주는 '시각 대체'는 한국어 TTS 자체가 없어 소리를 낼 방법이
+    // 아예 없을 때만 켠다. 녹음이 없어도 TTS가 있으면 소리로 들려주는 게 듣기 문제의 취지다.
+    const showModel = !hasKoreanTTS();
+
     // 새로 배운 글자(focus)가 골고루 나오도록 출제 순서 구성
     /** @type {string[]} */
     const targets = [];
@@ -32,15 +36,11 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
       const target = targets[round];
       const name = JAMO[target].name;
       // 자모 이름 단독 녹음(예: "이응")이 있으면 그걸 재생 — TTS가 불안정/무음인 기기에서도
-      // 목표 소리가 확실히 들리게 한다. 문장 프롬프트는 녹음이 없어 TTS에만 의존해 무음 위험.
+      // 목표 소리가 확실히 들리게 한다. 녹음이 없는 자모(유·으·이)는 TTS로 문장을 읽어 준다.
       const nameRecorded = hasVoiceAsset(name);
       const prompt = () => nameRecorded
         ? speak(name, { signal })
         : speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`, { signal });
-      // 녹음 파일이 유일하게 보장되는 소리원(源) — 녹음이 있으면 그 소리를 재생(모델 숨김),
-      // 없으면(예: 유·으·이) TTS에만 의존해 무음일 수 있으니 목표 글자를 화면에 보여 줘
-      // 소리 없이도 반드시 풀 수 있게 한다.
-      const showModel = !nameRecorded;
 
       // 보기 3개: 정답 + 오답 2개. 오답은 정답과 발음이 비슷한 자모(예: ㅖ/ㅒ)를
       // 제외해 소리로 고르기 어려운 문제가 되지 않게 한다.
