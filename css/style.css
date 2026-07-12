@@ -429,10 +429,14 @@ button {
   font-family: 'Jua', system-ui, sans-serif;
   font-weight: 700;
   line-height: 1;
-  text-shadow:
-    2px 2px 0 rgba(0, 0, 0, 0.18),
-    0 3px 6px rgba(0, 0, 0, 0.28),
-    0 0 2px rgba(255, 255, 255, 0.6);
+  /* 스티커처럼 또렷하게: 두꺼운 흰 테두리(글자 뒤로) + 바깥 진한 외곽선 + 입체 그림자.
+     두께/그림자를 em 단위로 둬서 글자 크기에 비례한다. 어떤 배경 위에서도 도드라진다. */
+  -webkit-text-stroke: 0.11em #ffffff;
+  paint-order: stroke fill;
+  filter:
+    drop-shadow(0 0 0.03em rgba(70, 45, 10, 0.65))   /* 흰 테두리 바깥의 얇은 진한 선 */
+    drop-shadow(0 0.09em 0.02em rgba(0, 0, 0, 0.28)) /* 아래쪽 도톰한 입체감 */
+    drop-shadow(0 0.16em 0.16em rgba(0, 0, 0, 0.38)); /* 부드러운 낙하 그림자 */
   will-change: transform;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
