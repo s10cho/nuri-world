@@ -1,7 +1,7 @@
 // 최종 보스전 — 배운 글자로 지우개 몬스터 물리치기
 import { el, cardColor, shuffle, sample, fxBurstAt, fxConfetti, sleep } from '../ui.js';
-import { speak, sfx, hasKoreanTTS } from '../audio.js';
-import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS } from '../data.js';
+import { speak, sfx, hasKoreanTTS, hasVoiceAsset } from '../audio.js';
+import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS, BATTLE_HERO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
 
 const HP_MAX = 8;
@@ -51,6 +51,8 @@ export function runBoss({ area, signal }, _opts) {
     area.classList.add('boss-stage');
 
     const boss = el('img', { class: 'boss-char', src: CHARACTERS.eraser, alt: '지우개 몬스터' });
+    // 누리·포리 배틀 히어로 — 왼쪽 아래에서 마법으로 몬스터를 공격(정답 명중 시 돌진 연출)
+    const heroes = el('img', { class: 'battle-hero', src: BATTLE_HERO, alt: '누리와 포리' });
     const hpFill = el('div', { class: 'fill' });
     // 문제 영역: 보스 아래 남는 공간을 flex로 모두 차지하고 내용을 세로 중앙 정렬한다.
     // → 보스·게이지는 위에 고정, 문제는 항상 같은 중앙 밴드에 놓여 2줄·3줄이어도 덜 흔들린다.
@@ -59,6 +61,7 @@ export function runBoss({ area, signal }, _opts) {
     });
 
     area.replaceChildren(
+      heroes,
       el('div', { class: 'boss-top', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } },
         el('div', { class: 'boss-hp' }, hpFill),
         boss,
@@ -72,8 +75,12 @@ export function runBoss({ area, signal }, _opts) {
       hpFill.style.width = `${(hp / HP_MAX) * 100}%`;
       sfx('hit');
       boss.classList.add('hurt');
+      // 누리·포리 돌진 공격 연출 + 마법 파티클
+      heroes.classList.add('attacking');
+      fxBurstAt(heroes, ['✨', '⭐', '💫']);
       fxBurstAt(boss, ['💥', '⚡', '✨']);
       setTimeout(() => boss.classList.remove('hurt'), 700);
+      setTimeout(() => heroes.classList.remove('attacking'), 600);
       if (btn) btn.classList.add('correct');
     }
 
@@ -81,6 +88,7 @@ export function runBoss({ area, signal }, _opts) {
       await speak('안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!', { signal });
       if (signal.aborted) return;
       boss.classList.add('defeat');
+      heroes.classList.add('cheering');
       sfx('fanfare');
       await sleep(1500, signal);
       if (signal.aborted) return;
@@ -143,7 +151,7 @@ export function runBoss({ area, signal }, _opts) {
       return cards;
     }
 
-    // 목표 글자를 시각적으로 보여 주는 모델 (TTS 없을 때만)
+    // 목표 글자를 시각적으로 보여 주는 모델 (한국어 TTS 자체가 없을 때만)
     /** @param {string} glyph @returns {HTMLElement | null} */
     function modelBadge(glyph) {
       if (!showModel) return null;
@@ -157,7 +165,11 @@ export function runBoss({ area, signal }, _opts) {
     function askJamo(q) {
       const mySeq = seq;
       const name = JAMO[q.target].name;
-      const prompt = () => speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
+      // 자모 이름 단독 녹음이 있으면 그걸 재생(TTS 무음 기기 대비). 녹음이 없는 자모는 TTS로 읽어 준다.
+      const nameRecorded = hasVoiceAsset(name);
+      const prompt = () => nameRecorded
+        ? speak(name, { signal })
+        : speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
       const options = shuffle([q.target, ...pickDistractors(q.pool, q.target, 2)]);
       qArea.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' },

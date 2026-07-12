@@ -3,7 +3,7 @@ import { register, go } from '../app.js';
 import { el, fxConfetti, sleep } from '../ui.js';
 import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
-import { KINGDOMS, CHARACTERS } from '../data.js';
+import { KINGDOMS, CELEBRATIONS } from '../data.js';
 
 // 노력 지향 칭찬 (능력 칭찬보다 학습 동기에 효과적)
 /** @type {Record<number, string[]>} */
@@ -24,6 +24,8 @@ function render({ kingdom, stageIdx, stars }) {
   const isBoss = k.type === 'boss';
 
   const praise = PRAISE[stars][Math.floor(Math.random() * PRAISE[stars].length)];
+  // 누리·포리가 함께 기뻐하는 축하 일러스트 (매번 다르게 랜덤)
+  const celebration = CELEBRATIONS[Math.floor(Math.random() * CELEBRATIONS.length)];
 
   const nextBtn = isBoss
     ? el('button', { class: 'btn-big', onclick: () => { sfx('fanfare'); go('festival'); } }, '🎉 왕국 축제로!')
@@ -37,6 +39,7 @@ function render({ kingdom, stageIdx, stars }) {
   s.append(
     el('div', { class: 'scrim' }),
     el('div', { class: 'center-col' },
+      el('img', { class: 'celebrate-hero enter', src: celebration, alt: '누리와 포리가 축하해요' }),
       el('div', { class: 'panel', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '18px', textAlign: 'center', maxWidth: 'min(92vw, 640px)' } },
         el('div', { class: 'sign' }, `${k.stages[stageIdx].title} 완료!`),
         el('div', { class: 'result-stars' }, starEls),
@@ -47,8 +50,6 @@ function render({ kingdom, stageIdx, stars }) {
         ),
       ),
     ),
-    el('img', { class: 'char enter char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '3%', height: 'clamp(180px, 38vmin, 420px)' } }),
-    el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { right: '3%', height: 'clamp(105px, 22vmin, 260px)' } }),
   );
 
   s._onShow = async signal => {

@@ -24,8 +24,12 @@ let koVoice = null;
 let voicesReady = false;
 /** @type {Promise<Record<string, { id: string, src: string, bytes?: number }> | null> | null} */
 let voiceManifestPromise = null;
+/** @type {Record<string, { id: string, src: string, bytes?: number }> | null} 매니페스트 해소 후 동기 조회용 캐시 */
+let voiceManifestData = null;
 /** @type {HTMLAudioElement | null} */
 let currentVoiceAsset = null;
+/** @type {(() => void) | null} 진행 중 녹음을 즉시 멈추고 그 Promise를 완료 처리하는 콜백 */
+let currentVoiceStop = null;
 
 function audioCtx() {
   if (!ctx) {
@@ -119,15 +123,56 @@ async function loadVoiceManifest() {
       .then(response => response.ok ? response.json() : null)
       .then(manifest => manifest?.assets || null)
       .catch(() => null);
+    // 해소되면 동기 조회(hasVoiceAsset)용으로 캐시
+    voiceManifestPromise.then(data => { voiceManifestData = data; });
   }
   return voiceManifestPromise;
 }
 
+// 해당 문구의 녹음 파일이 있는지(매니페스트 로드 후) 동기 확인. 게임이 TTS 대신
+// 녹음을 우선 재생하거나, 녹음·TTS가 모두 없을 때 시각 대체를 켜는 판단에 쓴다.
+/** @param {string} text @returns {boolean} */
+export function hasVoiceAsset(text) {
+  return !!voiceManifestData && !!voiceManifestData[voiceKey(text)];
+}
+
+// 최초 실행 시 녹음 음성 파일을 모두 미리 받아 브라우저 캐시에 넣어 둔다. 이렇게 하면
+// 이후 speak()가 new Audio(src).play()를 호출할 때 네트워크 지연 없이 즉시 재생된다
+// (미리 로드 안 하면 특정 문구를 처음 말할 때 파일을 그때 받아오느라 소리가 늦거나,
+//  화면 전환으로 signal이 먼저 abort되면 아예 안 들리는 문제가 있었다).
+/**
+ * @param {(fraction: number) => void} [onProgress] 0~1 진행률 콜백
+ * @returns {Promise<void>}
+ */
+export async function preloadVoiceAssets(onProgress) {
+  if (typeof fetch === 'undefined') { onProgress?.(1); return; }
+  const assets = await loadVoiceManifest();
+  const list = assets ? Object.values(assets) : [];
+  const total = list.length;
+  if (!total) { onProgress?.(1); return; }
+  let done = 0;
+  let idx = 0;
+  // 동시 다운로드 수 제한 — 모바일에서 141개를 한꺼번에 여는 것을 방지
+  const CONCURRENCY = 6;
+  async function worker() {
+    while (idx < total) {
+      const asset = list[idx++];
+      // 본문까지 읽어야(다운로드 완료) HTTP 캐시에 저장된다. 실패는 무시(재생 시 TTS 폴백).
+      try { await fetch(asset.src).then(r => r.arrayBuffer()); } catch { /* 개별 실패 무시 */ }
+      done += 1;
+      onProgress?.(done / total);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, total) }, worker));
+}
+
+// 진행 중이던 녹음 재생을 즉시 멈춘다. 멈출 때 그 재생의 Promise도 완료 처리해
+// 대기 중이던 speak()가 매달리지 않게 한다(누수·정지 방지).
 function stopVoiceAsset() {
-  if (!currentVoiceAsset) return;
-  currentVoiceAsset.pause();
-  currentVoiceAsset.currentTime = 0;
+  const stop = currentVoiceStop;
+  currentVoiceStop = null;
   currentVoiceAsset = null;
+  if (stop) stop();
 }
 
 /**
@@ -137,21 +182,24 @@ function stopVoiceAsset() {
  */
 async function playVoiceAsset(text, { interrupt = true, signal } = {}) {
   if (signal?.aborted || typeof Audio === 'undefined') return false;
-  const assets = await loadVoiceManifest();
-  const asset = assets?.[voiceKey(text)];
-  if (!asset?.src || signal?.aborted) return false;
 
+  // interrupt: 새 발화가 녹음이든 TTS든, 진행 중이던 소리를 '항상 먼저' 끊는다.
+  // (기존엔 새 텍스트에 녹음이 없으면 아래 asset 확인에서 일찍 반환해 이전 녹음을
+  //  못 끊어, 이전 프롬프트 녹음과 새 TTS 칭찬이 동시에 겹쳐 나던 버그가 있었다.)
   if (interrupt) {
     stopVoiceAsset();
-    if (!NATIVE && 'speechSynthesis' in window) {
+    if (!NATIVE && 'speechSynthesis' in window && (speechSynthesis.speaking || speechSynthesis.pending)) {
       speechSynthesis.cancel();
       lastCancelAt = Date.now();
     }
   }
 
+  const assets = await loadVoiceManifest();
+  const asset = assets?.[voiceKey(text)];
+  if (!asset?.src || signal?.aborted) return false;
+
   return new Promise(resolve => {
     const audio = new Audio(asset.src);
-    currentVoiceAsset = audio;
     let done = false;
     /** @param {boolean} played */
     const finish = (played) => {
@@ -159,12 +207,13 @@ async function playVoiceAsset(text, { interrupt = true, signal } = {}) {
       done = true;
       signal?.removeEventListener('abort', onAbort);
       if (currentVoiceAsset === audio) currentVoiceAsset = null;
+      if (currentVoiceStop === stop) currentVoiceStop = null;
       resolve(played);
     };
-    const onAbort = () => {
-      audio.pause();
-      finish(true);
-    };
+    const stop = () => { audio.pause(); audio.currentTime = 0; finish(true); };
+    const onAbort = () => stop();
+    currentVoiceAsset = audio;
+    currentVoiceStop = stop;
     signal?.addEventListener('abort', onAbort, { once: true });
     audio.onended = () => finish(true);
     audio.onerror = () => finish(false);
@@ -353,9 +402,22 @@ export function sfx(name) {
 }
 
 // 사용자 첫 제스처에서 오디오 잠금 해제 (iOS/모바일 필수)
+let ttsWarmed = false;
 export function unlockAudio() {
   try {
     audioCtx();
-    if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume();
+    if ('speechSynthesis' in window) {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      // 첫 사용자 제스처 안에서 speechSynthesis를 무음으로 한 번 깨워 둔다. 최신 크롬은
+      // speechSynthesis.speak()에도 사용자 활성화를 요구해, 게임이 프롬프트를 지연 후
+      // '자동' 재생하면 not-allowed로 조용히 막힌다(녹음 파일은 재생되는데 TTS만 무음).
+      // 제스처 안에서 한 번 speak를 성사시켜 두면 이후 지연 발화의 자동재생 차단이 풀린다.
+      if (!ttsWarmed) {
+        ttsWarmed = true;
+        const warm = new SpeechSynthesisUtterance('​'); // zero-width — 발음할 게 없어 무음
+        warm.volume = 0;
+        try { speechSynthesis.speak(warm); } catch { /* noop */ }
+      }
+    }
   } catch { /* noop */ }
 }

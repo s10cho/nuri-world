@@ -83,6 +83,7 @@ async function boot() {
  try {
   // 화면 모듈 로드 (등록 부수효과)
   await Promise.all([
+    import('./screens/loading.js'),
     import('./screens/title.js'),
     import('./screens/story.js'),
     import('./screens/map.js'),
@@ -126,7 +127,8 @@ async function boot() {
     img.src = `assets/images/backgrounds/${n}.jpg`;
   });
 
-  go('title');
+  // 로딩 화면에서 음성·이미지를 모두 미리 받은 뒤 '시작하기' 탭으로 타이틀에 진입한다.
+  go('loading');
  } catch (e) {
   // import·초기화 실패 시 영구 백지 대신 재시작 폴백 노출
   console.error('[nuri] 부팅 실패:', e);

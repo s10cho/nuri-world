@@ -218,3 +218,14 @@ export const CHARACTERS = {
   pori:   'assets/images/characters/pori/pori_web.png',
   eraser: 'assets/images/characters/eraser/eraser_web.png',
 };
+
+// 스테이지 클리어 축하 일러스트 — 누리·포리가 함께 기뻐하는 장면(결과 화면에서 랜덤 노출)
+/** @type {string[]} */
+export const CELEBRATIONS = [
+  'assets/images/celebrations/nuri-pori-celebrate-jump.png',
+  'assets/images/celebrations/nuri-pori-celebrate-listen.png',
+  'assets/images/celebrations/nuri-pori-celebrate-puzzle.png',
+];
+
+// 보스전 배틀 일러스트 — 누리·포리가 마법 지팡이로 몬스터를 공격
+export const BATTLE_HERO = 'assets/images/celebrations/nuri-pori-magic.png';
