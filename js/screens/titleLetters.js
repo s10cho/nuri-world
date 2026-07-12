@@ -27,11 +27,20 @@ function parseCSV(text) {
 }
 
 // size(vmin 기준 숫자) → 반응형 font-size clamp 문자열
+// 하한(px)을 넉넉히 둬서 vmin이 작은 모바일에서도 글자가 충분히 크게 보이도록 한다.
 /** @param {number} size */
 function fontSizeFor(size) {
-  const min = Math.round(size * 3.4);
-  const max = Math.round(size * 8);
+  const min = Math.round(size * 4.2);
+  const max = Math.round(size * 9);
   return `clamp(${min}px, ${size}vmin, ${max}px)`;
+}
+
+// CSV의 anim 값 → 허용된 움직임 클래스(오타/미지정 시 drift로 폴백)
+const ANIMS = new Set(['drift', 'sway', 'orbit', 'bob', 'wobble']);
+/** @param {string} anim */
+function animClass(anim) {
+  const key = (anim || '').trim();
+  return `jamo--${ANIMS.has(key) ? key : 'drift'}`;
 }
 
 /**
@@ -41,7 +50,7 @@ function fontSizeFor(size) {
  */
 function makeLetter(row) {
   const node = el('span', {
-    class: 'jamo',
+    class: `jamo ${animClass(row.anim)}`,
     'aria-hidden': 'true',
     style: {
       left: `${row.left}%`,

@@ -429,20 +429,53 @@ button {
   font-family: 'Jua', system-ui, sans-serif;
   font-weight: 700;
   line-height: 1;
-  /* 흔들림 각의 중간값에서 시작하도록 초기 회전값 지정(--rot는 JS에서 주입) */
-  transform: rotate(0deg);
   text-shadow:
     2px 2px 0 rgba(0, 0, 0, 0.18),
     0 3px 6px rgba(0, 0, 0, 0.28),
     0 0 2px rgba(255, 255, 255, 0.6);
   will-change: transform;
-  animation-name: jamoDrift;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
+/* 움직임 폭은 em(글자 크기 비례) 단위 → 큰 글자·작은 화면 모두에서 또렷하게 보인다.
+   각 글자는 CSV의 anim 값에 따라 서로 다른 패턴으로 움직여 단조로움을 없앤다.
+   --rot(흔들림 각)은 JS에서 글자별로 주입한다. */
+
+/* 위아래로 둥실 */
+.jamo--drift { animation-name: jamoDrift; }
 @keyframes jamoDrift {
-  0%, 100% { transform: translateY(4%) rotate(calc(var(--rot, 0deg) * -1)); }
-  50%      { transform: translateY(-14%) rotate(var(--rot, 0deg)); }
+  0%, 100% { transform: translateY(0.28em) rotate(calc(var(--rot, 0deg) * -1)); }
+  50%      { transform: translateY(-0.55em) rotate(var(--rot, 0deg)); }
+}
+/* 좌우로 살랑 */
+.jamo--sway { animation-name: jamoSway; }
+@keyframes jamoSway {
+  0%, 100% { transform: translateX(-0.5em) rotate(calc(var(--rot, 0deg) * -1)); }
+  50%      { transform: translateX(0.5em)  rotate(var(--rot, 0deg)); }
+}
+/* 원을 그리며 빙글 */
+.jamo--orbit { animation-name: jamoOrbit; animation-timing-function: linear; }
+@keyframes jamoOrbit {
+  0%   { transform: translate(0, 0)            rotate(0deg); }
+  25%  { transform: translate(0.55em, -0.45em) rotate(var(--rot, 0deg)); }
+  50%  { transform: translate(0, -0.9em)       rotate(0deg); }
+  75%  { transform: translate(-0.55em, -0.45em) rotate(calc(var(--rot, 0deg) * -1)); }
+  100% { transform: translate(0, 0)            rotate(0deg); }
+}
+/* 콩콩 뛰며 커졌다 작아졌다 */
+.jamo--bob { animation-name: jamoBob; }
+@keyframes jamoBob {
+  0%, 100% { transform: translateY(0.3em) scale(0.9)  rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-0.6em) scale(1.12) rotate(calc(var(--rot, 0deg) * -1)); }
+}
+/* 좌우로 갸우뚱갸우뚱 */
+.jamo--wobble { animation-name: jamoWobble; }
+@keyframes jamoWobble {
+  0%   { transform: rotate(calc(var(--rot, 0deg) * -1)) translateY(0); }
+  25%  { transform: rotate(var(--rot, 0deg))            translateY(-0.35em); }
+  50%  { transform: rotate(calc(var(--rot, 0deg) * -1)) translateY(0); }
+  75%  { transform: rotate(var(--rot, 0deg))            translateY(-0.35em); }
+  100% { transform: rotate(calc(var(--rot, 0deg) * -1)) translateY(0); }
 }
 
 /* ============ 게임 공통 레이아웃 ============ */
