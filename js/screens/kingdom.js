@@ -47,8 +47,8 @@ function render({ kingdom }) {
       el('div', { class: 'stage-pads', style: { marginTop: 'auto', marginBottom: 'auto' } }, pads),
     ),
     el('img', {
-      class: 'char floaty', src: CHARACTERS.pori, alt: '포리',
-      style: { left: '2%', height: 'clamp(110px, 22vmin, 250px)' },
+      class: 'char floaty char-pori', src: CHARACTERS.pori, alt: '포리',
+      style: { left: '2%' },
     }),
   );
 

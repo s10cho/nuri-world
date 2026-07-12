@@ -1,7 +1,7 @@
 // 최종 보스전 — 배운 글자로 지우개 몬스터 물리치기
 import { el, cardColor, shuffle, sample, fxBurstAt, fxConfetti, sleep } from '../ui.js';
 import { speak, sfx, hasKoreanTTS } from '../audio.js';
-import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS } from '../data.js';
+import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS, BATTLE_HERO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
 
 const HP_MAX = 8;
@@ -51,6 +51,8 @@ export function runBoss({ area, signal }, _opts) {
     area.classList.add('boss-stage');
 
     const boss = el('img', { class: 'boss-char', src: CHARACTERS.eraser, alt: '지우개 몬스터' });
+    // 누리·포리 배틀 히어로 — 왼쪽 아래에서 마법으로 몬스터를 공격(정답 명중 시 돌진 연출)
+    const heroes = el('img', { class: 'battle-hero', src: BATTLE_HERO, alt: '누리와 포리' });
     const hpFill = el('div', { class: 'fill' });
     // 문제 영역: 보스 아래 남는 공간을 flex로 모두 차지하고 내용을 세로 중앙 정렬한다.
     // → 보스·게이지는 위에 고정, 문제는 항상 같은 중앙 밴드에 놓여 2줄·3줄이어도 덜 흔들린다.
@@ -59,6 +61,7 @@ export function runBoss({ area, signal }, _opts) {
     });
 
     area.replaceChildren(
+      heroes,
       el('div', { class: 'boss-top', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } },
         el('div', { class: 'boss-hp' }, hpFill),
         boss,
@@ -72,8 +75,12 @@ export function runBoss({ area, signal }, _opts) {
       hpFill.style.width = `${(hp / HP_MAX) * 100}%`;
       sfx('hit');
       boss.classList.add('hurt');
+      // 누리·포리 돌진 공격 연출 + 마법 파티클
+      heroes.classList.add('attacking');
+      fxBurstAt(heroes, ['✨', '⭐', '💫']);
       fxBurstAt(boss, ['💥', '⚡', '✨']);
       setTimeout(() => boss.classList.remove('hurt'), 700);
+      setTimeout(() => heroes.classList.remove('attacking'), 600);
       if (btn) btn.classList.add('correct');
     }
 
@@ -81,6 +88,7 @@ export function runBoss({ area, signal }, _opts) {
       await speak('안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!', { signal });
       if (signal.aborted) return;
       boss.classList.add('defeat');
+      heroes.classList.add('cheering');
       sfx('fanfare');
       await sleep(1500, signal);
       if (signal.aborted) return;

@@ -54,8 +54,8 @@ function render() {
           : null,
       ),
     ),
-    el('img', { class: 'char floaty char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '4%', height: 'clamp(180px, 38vmin, 420px)' } }),
-    el('img', { class: 'char floaty char-pori', src: CHARACTERS.pori, alt: '포리', style: { right: '4%', height: 'clamp(105px, 22vmin, 260px)', animationDelay: '0.6s' } }),
+    el('img', { class: 'char floaty char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '4%' } }),
+    el('img', { class: 'char floaty char-pori', src: CHARACTERS.pori, alt: '포리', style: { right: '4%', animationDelay: '0.6s' } }),
   );
 
   // 부팅 직후엔 사용자 제스처가 없어 TTS가 막히므로, 첫 제스처(app.js unlock)에서

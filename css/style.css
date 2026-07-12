@@ -413,6 +413,10 @@ button {
   100% { transform: translateY(0) scale(1); }
 }
 .char.enter { animation: charBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+/* 누리·포리 크기 단일 기준 — 축하/배틀 일러스트의 실제 비율(포리 ≈ 누리의 0.6)에 맞춤.
+   모든 화면이 이 클래스를 쓰므로 씬마다 인라인 height를 두지 않고 여기서 일괄 관리한다. */
+.char-nuri { height: clamp(180px, 38vmin, 420px); }
+.char-pori { height: clamp(112px, 23vmin, 254px); }
 
 /* ============ 게임 공통 레이아웃 ============ */
 .game-area {
@@ -633,6 +637,86 @@ button {
   100% { transform: scale(0.1) rotate(360deg) translateY(80px); opacity: 0; }
 }
 .boss-char.defeat { animation: bossDefeat 1.6s ease-in both; }
+
+/* 보스전 배틀 히어로 — 누리·포리가 왼쪽 아래에서 마법으로 공격 */
+.battle-hero {
+  position: absolute;
+  left: max(1%, env(safe-area-inset-left));
+  bottom: calc(2% + env(safe-area-inset-bottom));
+  height: clamp(120px, 24vmin, 260px);
+  z-index: 1; /* 선택지(z-index:2) 뒤에 두어 카드 탭을 가리지 않음 */
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+  animation: heroBob 2.4s ease-in-out infinite;
+}
+@keyframes heroBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes heroAttack {
+  0% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(20px, -12px) scale(1.09) rotate(-3deg); filter: drop-shadow(0 0 18px #ffe38a); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.battle-hero.attacking { animation: heroAttack 0.55s ease both; }
+@keyframes heroCheer {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-16px) rotate(-5deg); }
+  75% { transform: translateY(-12px) rotate(5deg); }
+}
+.battle-hero.cheering { animation: heroCheer 0.7s ease-in-out infinite; }
+
+/* 결과 화면 축하 일러스트 — 누리·포리가 함께 기뻐하는 장면(팝인) */
+.celebrate-hero {
+  width: min(86vw, 600px);
+  max-height: 38vh;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+@keyframes celebratePop {
+  0% { transform: scale(0.4) rotate(-8deg); opacity: 0; }
+  60% { transform: scale(1.08) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+.celebrate-hero.enter { animation: celebratePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* 로딩 화면 — 음성·이미지 프리로드 진행 표시 + 시작 버튼 */
+.load-hero {
+  height: clamp(140px, 30vmin, 320px);
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4));
+  animation: charFloat 2.6s ease-in-out infinite;
+}
+.load-msg {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1.3rem, 3.4vmin, 2rem);
+  color: #fff6e3;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+.load-bar {
+  width: min(72vw, 520px);
+  height: clamp(16px, 2.4vmin, 26px);
+  background: rgba(0, 0, 0, 0.35);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.load-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffd95e, var(--gold, #ffb03a));
+  transition: width 0.3s ease;
+}
+.load-pct {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1rem, 2.4vmin, 1.4rem);
+  color: #fff6e3;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.load-start { display: none; }
+.screen.load-done .load-start { display: inline-flex; animation: startPulse 1s ease-in-out infinite; }
+.screen.load-done .load-bar, .screen.load-done .load-pct { display: none; }
+@keyframes startPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 
 /* ============ 결과(별) 화면 ============ */
 .result-stars { display: flex; gap: 20px; justify-content: center; font-size: clamp(3.4rem, 9vmin, 6rem); }
@@ -917,6 +1001,7 @@ button {
   /* 보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡 — 모바일(짧은 화면)에선
      보스와 카드·타일의 큰 floor를 없애 vh 기준으로 더 작게 해 3줄 문제도 안 넘치게. */
   .boss-char { height: 26vh; }
+  .battle-hero { height: 20vh; }
   .game-area.boss-stage {
     --sz-card: max(14vh, 54px);
     --fs-card: max(7vh, 30px);
@@ -929,10 +1014,10 @@ button {
   /* 스토리 텍스트 */
   .story-text { font-size: 3.4vh; }
 
-  /* 캐릭터: 인라인 height를 덮어써 화면을 가리지 않게 (모서리 배치 유지) */
+  /* 캐릭터: 짧은 화면에서 축소 (포리 ≈ 누리의 0.6 비율 유지) */
   .char { height: 30vh !important; }
   .char-nuri { height: 34vh !important; }
-  .char-pori { height: 24vh !important; }
+  .char-pori { height: 21vh !important; }
 
   /* 도감 */
   .dex-grid { grid-template-columns: repeat(auto-fill, minmax(14vh, 1fr)); gap: 1.2vh; padding: 1.4vh; }
@@ -944,7 +1029,8 @@ button {
   :root { --sz-card-big: 24vh; --sz-target: 24vh; }
   .char { height: 24vh !important; }
   .char-nuri { height: 30vh !important; }
-  .char-pori { height: 21vh !important; }
+  .char-pori { height: 18vh !important; }
+  .battle-hero { display: none; } /* 아주 짧은 화면에선 선택지 공간 확보 위해 숨김 */
   .btn-big { min-height: 12vh; }
 }
 

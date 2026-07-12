@@ -53,7 +53,7 @@ function render() {
     } else if (p.char === 'both') {
       charLayer.append(
         el('img', { class: 'char enter char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '6%' } }),
-        el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { left: '26%', height: 'clamp(105px, 22vmin, 260px)' } }),
+        el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { left: '26%' } }),
       );
     }
     

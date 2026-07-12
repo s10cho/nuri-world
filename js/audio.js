@@ -123,6 +123,36 @@ async function loadVoiceManifest() {
   return voiceManifestPromise;
 }
 
+// 최초 실행 시 녹음 음성 파일을 모두 미리 받아 브라우저 캐시에 넣어 둔다. 이렇게 하면
+// 이후 speak()가 new Audio(src).play()를 호출할 때 네트워크 지연 없이 즉시 재생된다
+// (미리 로드 안 하면 특정 문구를 처음 말할 때 파일을 그때 받아오느라 소리가 늦거나,
+//  화면 전환으로 signal이 먼저 abort되면 아예 안 들리는 문제가 있었다).
+/**
+ * @param {(fraction: number) => void} [onProgress] 0~1 진행률 콜백
+ * @returns {Promise<void>}
+ */
+export async function preloadVoiceAssets(onProgress) {
+  if (typeof fetch === 'undefined') { onProgress?.(1); return; }
+  const assets = await loadVoiceManifest();
+  const list = assets ? Object.values(assets) : [];
+  const total = list.length;
+  if (!total) { onProgress?.(1); return; }
+  let done = 0;
+  let idx = 0;
+  // 동시 다운로드 수 제한 — 모바일에서 141개를 한꺼번에 여는 것을 방지
+  const CONCURRENCY = 6;
+  async function worker() {
+    while (idx < total) {
+      const asset = list[idx++];
+      // 본문까지 읽어야(다운로드 완료) HTTP 캐시에 저장된다. 실패는 무시(재생 시 TTS 폴백).
+      try { await fetch(asset.src).then(r => r.arrayBuffer()); } catch { /* 개별 실패 무시 */ }
+      done += 1;
+      onProgress?.(done / total);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, total) }, worker));
+}
+
 function stopVoiceAsset() {
   if (!currentVoiceAsset) return;
   currentVoiceAsset.pause();
