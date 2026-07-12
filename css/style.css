@@ -414,6 +414,37 @@ button {
 }
 .char.enter { animation: charBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 
+/* ============ 타이틀 떠다니는 자모 ============ */
+/* 배경에서 뺀 글자들을 화면 위에서 둥실둥실 떠다니게. 로고/버튼(z-index:2)보다
+   아래에 두어 가독성을 해치지 않는다. 데이터는 title_letters.csv에서 온다. */
+.jamo-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.jamo {
+  position: absolute;
+  font-family: 'Jua', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  /* 흔들림 각의 중간값에서 시작하도록 초기 회전값 지정(--rot는 JS에서 주입) */
+  transform: rotate(0deg);
+  text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.18),
+    0 3px 6px rgba(0, 0, 0, 0.28),
+    0 0 2px rgba(255, 255, 255, 0.6);
+  will-change: transform;
+  animation-name: jamoDrift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes jamoDrift {
+  0%, 100% { transform: translateY(4%) rotate(calc(var(--rot, 0deg) * -1)); }
+  50%      { transform: translateY(-14%) rotate(var(--rot, 0deg)); }
+}
+
 /* ============ 게임 공통 레이아웃 ============ */
 .game-area {
   position: relative;
