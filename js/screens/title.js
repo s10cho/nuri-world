@@ -5,6 +5,7 @@ import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
 import { CHARACTERS } from '../data.js';
 import { openSettings } from './settings.js';
+import { floatingLetters } from './titleLetters.js';
 
 function render() {
   const s = /** @type {AppScreen} */ (el('div', {
@@ -25,6 +26,7 @@ function render() {
 
   s.append(
     el('div', { class: 'scrim' }),
+    floatingLetters(),
     topbar({ left: [soundBtn], right: rightBtns }),
     el('div', { class: 'center-col' },
       el('h1', { class: 'title-logo' },
