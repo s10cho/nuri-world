@@ -1,7 +1,9 @@
 {
-  "format": "m4a",
-  "importedUntil": "words/ko-c3c6d557d9.mp3",
-  "count": 141,
+  "format": "mp3",
+  "model": "gpt-4o-mini-tts",
+  "voice": "marin",
+  "count": 593,
+  "recorded": 144,
   "assets": {
     "누리의 한글 왕국에 온 것을 환영해요!": {
       "id": "ui/welcome",
@@ -183,17 +185,17 @@
       "src": "assets/audio/ko/story/intro-04.mp3.m4a",
       "bytes": 170549
     },
-    "와 글자들이 모두 돌아왔어요": {
+    "와! 글자들이 모두 돌아왔어요!": {
       "id": "festival/line-01",
       "src": "assets/audio/ko/festival/line-01.mp3.m4a",
       "bytes": 124631
     },
-    "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요": {
+    "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요.": {
       "id": "festival/line-02",
       "src": "assets/audio/ko/festival/line-02.mp3.m4a",
       "bytes": 138842
     },
-    "주민들이 축제를 열어 누리를 축하해요": {
+    "주민들이 축제를 열어 누리를 축하해요! 🎉": {
       "id": "festival/line-03",
       "src": "assets/audio/ko/festival/line-03.mp3.m4a",
       "bytes": 134502
@@ -707,6 +709,2266 @@
       "id": "words/ko-c3c6d557d9",
       "src": "assets/audio/ko/words/ko-c3c6d557d9.mp3.m4a",
       "bytes": 86133
+    },
+    "유": {
+      "id": "jamo/ko-71c706d652",
+      "src": "assets/audio/ko/jamo/ko-71c706d652.mp3",
+      "bytes": 15360
+    },
+    "유! 유니콘의 유 소리예요.": {
+      "id": "jamo-intro/ko-71c706d652",
+      "src": "assets/audio/ko/jamo-intro/ko-71c706d652.mp3",
+      "bytes": 46464
+    },
+    "유니콘": {
+      "id": "words/ko-e4eca19f73",
+      "src": "assets/audio/ko/words/ko-e4eca19f73.mp3",
+      "bytes": 29568
+    },
+    "유령": {
+      "id": "words/ko-f71cd6660d",
+      "src": "assets/audio/ko/words/ko-f71cd6660d.mp3",
+      "bytes": 21888
+    },
+    "으": {
+      "id": "jamo/ko-08906e2255",
+      "src": "assets/audio/ko/jamo/ko-08906e2255.mp3",
+      "bytes": 34560
+    },
+    "으! 으쓱으쓱의 으 소리예요.": {
+      "id": "jamo-intro/ko-08906e2255",
+      "src": "assets/audio/ko/jamo-intro/ko-08906e2255.mp3",
+      "bytes": 84864
+    },
+    "으쓱으쓱": {
+      "id": "words/ko-827ee6a2d4",
+      "src": "assets/audio/ko/words/ko-827ee6a2d4.mp3",
+      "bytes": 39168
+    },
+    "음악": {
+      "id": "words/ko-4e71ce81ea",
+      "src": "assets/audio/ko/words/ko-4e71ce81ea.mp3",
+      "bytes": 16896
+    },
+    "이": {
+      "id": "jamo/ko-6c0cd2af1e",
+      "src": "assets/audio/ko/jamo/ko-6c0cd2af1e.mp3",
+      "bytes": 18432
+    },
+    "이! 이불의 이 소리예요.": {
+      "id": "jamo-intro/ko-6c0cd2af1e",
+      "src": "assets/audio/ko/jamo-intro/ko-6c0cd2af1e.mp3",
+      "bytes": 44928
+    },
+    "이불": {
+      "id": "words/ko-2764b9db33",
+      "src": "assets/audio/ko/words/ko-2764b9db33.mp3",
+      "bytes": 24192
+    },
+    "이빨": {
+      "id": "words/ko-f65ec1457c",
+      "src": "assets/audio/ko/words/ko-f65ec1457c.mp3",
+      "bytes": 18432
+    },
+    "애": {
+      "id": "jamo/ko-963156802b",
+      "src": "assets/audio/ko/jamo/ko-963156802b.mp3",
+      "bytes": 14592
+    },
+    "애! 애벌레의 애 소리예요.": {
+      "id": "jamo-intro/ko-963156802b",
+      "src": "assets/audio/ko/jamo-intro/ko-963156802b.mp3",
+      "bytes": 53760
+    },
+    "애벌레": {
+      "id": "words/ko-9f97015d2e",
+      "src": "assets/audio/ko/words/ko-9f97015d2e.mp3",
+      "bytes": 30720
+    },
+    "새": {
+      "id": "words/ko-81a0ae3b01",
+      "src": "assets/audio/ko/words/ko-81a0ae3b01.mp3",
+      "bytes": 19200
+    },
+    "얘": {
+      "id": "jamo/ko-bf5b12f28a",
+      "src": "assets/audio/ko/jamo/ko-bf5b12f28a.mp3",
+      "bytes": 23424
+    },
+    "얘! 얘기의 얘 소리예요.": {
+      "id": "jamo-intro/ko-bf5b12f28a",
+      "src": "assets/audio/ko/jamo-intro/ko-bf5b12f28a.mp3",
+      "bytes": 50688
+    },
+    "얘기": {
+      "id": "words/ko-f55282967c",
+      "src": "assets/audio/ko/words/ko-f55282967c.mp3",
+      "bytes": 25728
+    },
+    "얘들아": {
+      "id": "words/ko-52a52ee90b",
+      "src": "assets/audio/ko/words/ko-52a52ee90b.mp3",
+      "bytes": 21120
+    },
+    "에": {
+      "id": "jamo/ko-735c1e670f",
+      "src": "assets/audio/ko/jamo/ko-735c1e670f.mp3",
+      "bytes": 18432
+    },
+    "에! 게의 에 소리예요.": {
+      "id": "jamo-intro/ko-735c1e670f",
+      "src": "assets/audio/ko/jamo-intro/ko-735c1e670f.mp3",
+      "bytes": 60288
+    },
+    "게": {
+      "id": "words/ko-40375799c4",
+      "src": "assets/audio/ko/words/ko-40375799c4.mp3",
+      "bytes": 19968
+    },
+    "레몬": {
+      "id": "words/ko-d9e754e5d6",
+      "src": "assets/audio/ko/words/ko-d9e754e5d6.mp3",
+      "bytes": 23424
+    },
+    "예": {
+      "id": "jamo/ko-a842629afd",
+      "src": "assets/audio/ko/jamo/ko-a842629afd.mp3",
+      "bytes": 13824
+    },
+    "예! 시계의 예 소리예요.": {
+      "id": "jamo-intro/ko-a842629afd",
+      "src": "assets/audio/ko/jamo-intro/ko-a842629afd.mp3",
+      "bytes": 48768
+    },
+    "시계": {
+      "id": "words/ko-8fcd164546",
+      "src": "assets/audio/ko/words/ko-8fcd164546.mp3",
+      "bytes": 14592
+    },
+    "예쁜 꽃": {
+      "id": "words/ko-7acb0fe679",
+      "src": "assets/audio/ko/words/ko-7acb0fe679.mp3",
+      "bytes": 26496
+    },
+    "와": {
+      "id": "jamo/ko-20bdcf5c8f",
+      "src": "assets/audio/ko/jamo/ko-20bdcf5c8f.mp3",
+      "bytes": 25728
+    },
+    "와! 와플의 와 소리예요.": {
+      "id": "jamo-intro/ko-20bdcf5c8f",
+      "src": "assets/audio/ko/jamo-intro/ko-20bdcf5c8f.mp3",
+      "bytes": 50688
+    },
+    "와플": {
+      "id": "words/ko-56e333976d",
+      "src": "assets/audio/ko/words/ko-56e333976d.mp3",
+      "bytes": 16128
+    },
+    "과자": {
+      "id": "words/ko-21d0647c24",
+      "src": "assets/audio/ko/words/ko-21d0647c24.mp3",
+      "bytes": 32256
+    },
+    "왜": {
+      "id": "jamo/ko-9687375425",
+      "src": "assets/audio/ko/jamo/ko-9687375425.mp3",
+      "bytes": 5760
+    },
+    "왜! 돼지의 왜 소리예요.": {
+      "id": "jamo-intro/ko-9687375425",
+      "src": "assets/audio/ko/jamo-intro/ko-9687375425.mp3",
+      "bytes": 59520
+    },
+    "돼지": {
+      "id": "words/ko-72ed1e10fc",
+      "src": "assets/audio/ko/words/ko-72ed1e10fc.mp3",
+      "bytes": 18432
+    },
+    "왜?": {
+      "id": "words/ko-35b5a6cd32",
+      "src": "assets/audio/ko/words/ko-35b5a6cd32.mp3",
+      "bytes": 14592
+    },
+    "외": {
+      "id": "jamo/ko-7eec619024",
+      "src": "assets/audio/ko/jamo/ko-7eec619024.mp3",
+      "bytes": 29568
+    },
+    "외! 참외의 외 소리예요.": {
+      "id": "jamo-intro/ko-7eec619024",
+      "src": "assets/audio/ko/jamo-intro/ko-7eec619024.mp3",
+      "bytes": 51456
+    },
+    "참외": {
+      "id": "words/ko-7f7aed27fb",
+      "src": "assets/audio/ko/words/ko-7f7aed27fb.mp3",
+      "bytes": 26496
+    },
+    "외투": {
+      "id": "words/ko-ce552b4f56",
+      "src": "assets/audio/ko/words/ko-ce552b4f56.mp3",
+      "bytes": 33792
+    },
+    "워": {
+      "id": "jamo/ko-b8b2f2af85",
+      "src": "assets/audio/ko/jamo/ko-b8b2f2af85.mp3",
+      "bytes": 13824
+    },
+    "워! 원숭이의 워 소리예요.": {
+      "id": "jamo-intro/ko-b8b2f2af85",
+      "src": "assets/audio/ko/jamo-intro/ko-b8b2f2af85.mp3",
+      "bytes": 47232
+    },
+    "원숭이": {
+      "id": "words/ko-d508fd2f58",
+      "src": "assets/audio/ko/words/ko-d508fd2f58.mp3",
+      "bytes": 24960
+    },
+    "샤워": {
+      "id": "words/ko-c3e541e483",
+      "src": "assets/audio/ko/words/ko-c3e541e483.mp3",
+      "bytes": 17664
+    },
+    "웨": {
+      "id": "jamo/ko-3990e5c4d6",
+      "src": "assets/audio/ko/jamo/ko-3990e5c4d6.mp3",
+      "bytes": 16128
+    },
+    "웨! 스웨터의 웨 소리예요.": {
+      "id": "jamo-intro/ko-3990e5c4d6",
+      "src": "assets/audio/ko/jamo-intro/ko-3990e5c4d6.mp3",
+      "bytes": 53760
+    },
+    "스웨터": {
+      "id": "words/ko-a10bd2c969",
+      "src": "assets/audio/ko/words/ko-a10bd2c969.mp3",
+      "bytes": 33024
+    },
+    "웨하스": {
+      "id": "words/ko-0fd36d3be7",
+      "src": "assets/audio/ko/words/ko-0fd36d3be7.mp3",
+      "bytes": 28032
+    },
+    "위": {
+      "id": "words/ko-b44963f67f",
+      "src": "assets/audio/ko/words/ko-b44963f67f.mp3",
+      "bytes": 14592
+    },
+    "위! 귀의 위 소리예요.": {
+      "id": "jamo-intro/ko-b44963f67f",
+      "src": "assets/audio/ko/jamo-intro/ko-b44963f67f.mp3",
+      "bytes": 53760
+    },
+    "귀": {
+      "id": "words/ko-91344d8e72",
+      "src": "assets/audio/ko/words/ko-91344d8e72.mp3",
+      "bytes": 15360
+    },
+    "의": {
+      "id": "jamo/ko-cbf1df6a6d",
+      "src": "assets/audio/ko/jamo/ko-cbf1df6a6d.mp3",
+      "bytes": 11520
+    },
+    "의! 의사의 의 소리예요.": {
+      "id": "jamo-intro/ko-cbf1df6a6d",
+      "src": "assets/audio/ko/jamo-intro/ko-cbf1df6a6d.mp3",
+      "bytes": 61824
+    },
+    "의사": {
+      "id": "words/ko-3135f62c00",
+      "src": "assets/audio/ko/words/ko-3135f62c00.mp3",
+      "bytes": 17664
+    },
+    "의자": {
+      "id": "words/ko-f9a9e084c8",
+      "src": "assets/audio/ko/words/ko-f9a9e084c8.mp3",
+      "bytes": 15360
+    },
+    "가": {
+      "id": "syllables/ko-efd23dd5ed",
+      "src": "assets/audio/ko/syllables/ko-efd23dd5ed.mp3",
+      "bytes": 19968
+    },
+    "나": {
+      "id": "syllables/ko-811e029344",
+      "src": "assets/audio/ko/syllables/ko-811e029344.mp3",
+      "bytes": 13056
+    },
+    "다": {
+      "id": "syllables/ko-c94aacfd94",
+      "src": "assets/audio/ko/syllables/ko-c94aacfd94.mp3",
+      "bytes": 10368
+    },
+    "라": {
+      "id": "syllables/ko-0563a51431",
+      "src": "assets/audio/ko/syllables/ko-0563a51431.mp3",
+      "bytes": 22656
+    },
+    "마": {
+      "id": "syllables/ko-9b7d34baf2",
+      "src": "assets/audio/ko/syllables/ko-9b7d34baf2.mp3",
+      "bytes": 13824
+    },
+    "마늘": {
+      "id": "words/ko-7a83acced4",
+      "src": "assets/audio/ko/words/ko-7a83acced4.mp3",
+      "bytes": 27264
+    },
+    "바": {
+      "id": "syllables/ko-2f4621ed19",
+      "src": "assets/audio/ko/syllables/ko-2f4621ed19.mp3",
+      "bytes": 16128
+    },
+    "사": {
+      "id": "syllables/ko-ec488add9d",
+      "src": "assets/audio/ko/syllables/ko-ec488add9d.mp3",
+      "bytes": 14592
+    },
+    "자": {
+      "id": "syllables/ko-a862646b2e",
+      "src": "assets/audio/ko/syllables/ko-a862646b2e.mp3",
+      "bytes": 28032
+    },
+    "차": {
+      "id": "words/ko-9e4bb560ba",
+      "src": "assets/audio/ko/words/ko-9e4bb560ba.mp3",
+      "bytes": 21888
+    },
+    "카": {
+      "id": "syllables/ko-7dcadffb90",
+      "src": "assets/audio/ko/syllables/ko-7dcadffb90.mp3",
+      "bytes": 16896
+    },
+    "카드": {
+      "id": "words/ko-7dedeb8297",
+      "src": "assets/audio/ko/words/ko-7dedeb8297.mp3",
+      "bytes": 21120
+    },
+    "고": {
+      "id": "syllables/ko-e30db5c581",
+      "src": "assets/audio/ko/syllables/ko-e30db5c581.mp3",
+      "bytes": 22656
+    },
+    "노": {
+      "id": "syllables/ko-62e01cc977",
+      "src": "assets/audio/ko/syllables/ko-62e01cc977.mp3",
+      "bytes": 18432
+    },
+    "노래": {
+      "id": "words/ko-8a04a60438",
+      "src": "assets/audio/ko/words/ko-8a04a60438.mp3",
+      "bytes": 21120
+    },
+    "도": {
+      "id": "syllables/ko-de8b6c7871",
+      "src": "assets/audio/ko/syllables/ko-de8b6c7871.mp3",
+      "bytes": 25728
+    },
+    "로": {
+      "id": "syllables/ko-15e22a52f3",
+      "src": "assets/audio/ko/syllables/ko-15e22a52f3.mp3",
+      "bytes": 13056
+    },
+    "모": {
+      "id": "syllables/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/syllables/ko-8f4dc1b65b.mp3",
+      "bytes": 18432
+    },
+    "구": {
+      "id": "syllables/ko-e8b701a283",
+      "src": "assets/audio/ko/syllables/ko-e8b701a283.mp3",
+      "bytes": 16896
+    },
+    "구름": {
+      "id": "words/ko-38fd921c75",
+      "src": "assets/audio/ko/words/ko-38fd921c75.mp3",
+      "bytes": 21888
+    },
+    "두": {
+      "id": "syllables/ko-402adcf5c0",
+      "src": "assets/audio/ko/syllables/ko-402adcf5c0.mp3",
+      "bytes": 21120
+    },
+    "두부": {
+      "id": "words/ko-07d25c799d",
+      "src": "assets/audio/ko/words/ko-07d25c799d.mp3",
+      "bytes": 17664
+    },
+    "무": {
+      "id": "syllables/ko-56c5af5b9b",
+      "src": "assets/audio/ko/syllables/ko-56c5af5b9b.mp3",
+      "bytes": 15360
+    },
+    "기": {
+      "id": "syllables/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/syllables/ko-e5c60ff0a8.mp3",
+      "bytes": 13824
+    },
+    "기차": {
+      "id": "words/ko-c008697771",
+      "src": "assets/audio/ko/words/ko-c008697771.mp3",
+      "bytes": 33792
+    },
+    "지": {
+      "id": "syllables/ko-0cb419946b",
+      "src": "assets/audio/ko/syllables/ko-0cb419946b.mp3",
+      "bytes": 29568
+    },
+    "지구": {
+      "id": "words/ko-fce33eef53",
+      "src": "assets/audio/ko/words/ko-fce33eef53.mp3",
+      "bytes": 27264
+    },
+    "소": {
+      "id": "words/ko-95471f6b0a",
+      "src": "assets/audio/ko/words/ko-95471f6b0a.mp3",
+      "bytes": 25728
+    },
+    "하": {
+      "id": "syllables/ko-ce05326dba",
+      "src": "assets/audio/ko/syllables/ko-ce05326dba.mp3",
+      "bytes": 13824
+    },
+    "바다": {
+      "id": "words/ko-2b58295206",
+      "src": "assets/audio/ko/words/ko-2b58295206.mp3",
+      "bytes": 19968
+    },
+    "소파": {
+      "id": "words/ko-df9183dd87",
+      "src": "assets/audio/ko/words/ko-df9183dd87.mp3",
+      "bytes": 19968
+    },
+    "비누": {
+      "id": "words/ko-1b53e275a3",
+      "src": "assets/audio/ko/words/ko-1b53e275a3.mp3",
+      "bytes": 17664
+    },
+    "너구리": {
+      "id": "words/ko-0b46112d32",
+      "src": "assets/audio/ko/words/ko-0b46112d32.mp3",
+      "bytes": 27264
+    },
+    "누리": {
+      "id": "characters/nuri",
+      "src": "assets/audio/ko/characters/nuri.mp3",
+      "bytes": 16128
+    },
+    "포리": {
+      "id": "characters/pori",
+      "src": "assets/audio/ko/characters/pori.mp3",
+      "bytes": 28032
+    },
+    "지우개 몬스터": {
+      "id": "characters/eraser",
+      "src": "assets/audio/ko/characters/eraser.mp3",
+      "bytes": 31488
+    },
+    "몬스터를 물리치면 축제가 열려요!": {
+      "id": "ui/festival-locked",
+      "src": "assets/audio/ko/ui/festival-locked.mp3",
+      "bytes": 49920
+    },
+    "앞의 스테이지를 먼저 깨야 해요!": {
+      "id": "ui/previous-stage-locked",
+      "src": "assets/audio/ko/ui/previous-stage-locked.mp3",
+      "bytes": 46464
+    },
+    "기억의 초원에서 모험을 계속해요!": {
+      "id": "map-continue/meadow",
+      "src": "assets/audio/ko/map-continue/meadow.mp3",
+      "bytes": 61056
+    },
+    "울림의 호수에서 모험을 계속해요!": {
+      "id": "map-continue/lake",
+      "src": "assets/audio/ko/map-continue/lake.mp3",
+      "bytes": 48768
+    },
+    "글자 조각의 탑에서 모험을 계속해요!": {
+      "id": "map-continue/tower",
+      "src": "assets/audio/ko/map-continue/tower.mp3",
+      "bytes": 62592
+    },
+    "이름 없는 마을에서 모험을 계속해요!": {
+      "id": "map-continue/village",
+      "src": "assets/audio/ko/map-continue/village.mp3",
+      "bytes": 62592
+    },
+    "지우개 몬스터의 성에서 모험을 계속해요!": {
+      "id": "map-continue/castle",
+      "src": "assets/audio/ko/map-continue/castle.mp3",
+      "bytes": 61824
+    },
+    "기역! 가방의 가.": {
+      "id": "dex/jamo/ko-67c714efd0",
+      "src": "assets/audio/ko/dex/jamo/ko-67c714efd0.mp3",
+      "bytes": 53760
+    },
+    "기역! 짝을 찾았어요!": {
+      "id": "praise/match/ko-67c714efd0",
+      "src": "assets/audio/ko/praise/match/ko-67c714efd0.mp3",
+      "bytes": 46464
+    },
+    "기역! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-67c714efd0",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-67c714efd0.mp3",
+      "bytes": 52224
+    },
+    "니은! 나비의 나.": {
+      "id": "dex/jamo/ko-4a944dc438",
+      "src": "assets/audio/ko/dex/jamo/ko-4a944dc438.mp3",
+      "bytes": 42624
+    },
+    "니은! 짝을 찾았어요!": {
+      "id": "praise/match/ko-4a944dc438",
+      "src": "assets/audio/ko/praise/match/ko-4a944dc438.mp3",
+      "bytes": 39168
+    },
+    "니은! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-4a944dc438",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-4a944dc438.mp3",
+      "bytes": 35328
+    },
+    "디귿! 다리의 다.": {
+      "id": "dex/jamo/ko-7b2f60ff10",
+      "src": "assets/audio/ko/dex/jamo/ko-7b2f60ff10.mp3",
+      "bytes": 36864
+    },
+    "디귿! 짝을 찾았어요!": {
+      "id": "praise/match/ko-7b2f60ff10",
+      "src": "assets/audio/ko/praise/match/ko-7b2f60ff10.mp3",
+      "bytes": 43392
+    },
+    "디귿! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-7b2f60ff10",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-7b2f60ff10.mp3",
+      "bytes": 39168
+    },
+    "리을! 로봇의 라.": {
+      "id": "dex/jamo/ko-4e3de77253",
+      "src": "assets/audio/ko/dex/jamo/ko-4e3de77253.mp3",
+      "bytes": 51456
+    },
+    "리을! 짝을 찾았어요!": {
+      "id": "praise/match/ko-4e3de77253",
+      "src": "assets/audio/ko/praise/match/ko-4e3de77253.mp3",
+      "bytes": 41856
+    },
+    "리을! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-4e3de77253",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-4e3de77253.mp3",
+      "bytes": 37632
+    },
+    "미음! 모자의 마.": {
+      "id": "dex/jamo/ko-21cff49381",
+      "src": "assets/audio/ko/dex/jamo/ko-21cff49381.mp3",
+      "bytes": 38400
+    },
+    "미음! 짝을 찾았어요!": {
+      "id": "praise/match/ko-21cff49381",
+      "src": "assets/audio/ko/praise/match/ko-21cff49381.mp3",
+      "bytes": 45696
+    },
+    "미음! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-21cff49381",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-21cff49381.mp3",
+      "bytes": 35328
+    },
+    "비읍! 바나나의 바.": {
+      "id": "dex/jamo/ko-38c9576ce5",
+      "src": "assets/audio/ko/dex/jamo/ko-38c9576ce5.mp3",
+      "bytes": 37632
+    },
+    "비읍! 짝을 찾았어요!": {
+      "id": "praise/match/ko-38c9576ce5",
+      "src": "assets/audio/ko/praise/match/ko-38c9576ce5.mp3",
+      "bytes": 41856
+    },
+    "비읍! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-38c9576ce5",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-38c9576ce5.mp3",
+      "bytes": 50688
+    },
+    "시옷! 사자의 사.": {
+      "id": "dex/jamo/ko-1ebd30068e",
+      "src": "assets/audio/ko/dex/jamo/ko-1ebd30068e.mp3",
+      "bytes": 45696
+    },
+    "시옷! 짝을 찾았어요!": {
+      "id": "praise/match/ko-1ebd30068e",
+      "src": "assets/audio/ko/praise/match/ko-1ebd30068e.mp3",
+      "bytes": 49920
+    },
+    "시옷! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-1ebd30068e",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-1ebd30068e.mp3",
+      "bytes": 31488
+    },
+    "이응! 오리의 아.": {
+      "id": "dex/jamo/ko-f655984129",
+      "src": "assets/audio/ko/dex/jamo/ko-f655984129.mp3",
+      "bytes": 51456
+    },
+    "이응! 짝을 찾았어요!": {
+      "id": "praise/match/ko-f655984129",
+      "src": "assets/audio/ko/praise/match/ko-f655984129.mp3",
+      "bytes": 42624
+    },
+    "이응! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-f655984129",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-f655984129.mp3",
+      "bytes": 32256
+    },
+    "지읒! 자동차의 자.": {
+      "id": "dex/jamo/ko-067272e3dd",
+      "src": "assets/audio/ko/dex/jamo/ko-067272e3dd.mp3",
+      "bytes": 49920
+    },
+    "지읒! 짝을 찾았어요!": {
+      "id": "praise/match/ko-067272e3dd",
+      "src": "assets/audio/ko/praise/match/ko-067272e3dd.mp3",
+      "bytes": 46464
+    },
+    "지읒! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-067272e3dd",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-067272e3dd.mp3",
+      "bytes": 36864
+    },
+    "치읓! 치즈의 차.": {
+      "id": "dex/jamo/ko-f7a58944ac",
+      "src": "assets/audio/ko/dex/jamo/ko-f7a58944ac.mp3",
+      "bytes": 38400
+    },
+    "치읓! 짝을 찾았어요!": {
+      "id": "praise/match/ko-f7a58944ac",
+      "src": "assets/audio/ko/praise/match/ko-f7a58944ac.mp3",
+      "bytes": 37632
+    },
+    "치읓! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-f7a58944ac",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-f7a58944ac.mp3",
+      "bytes": 46464
+    },
+    "키읔! 코끼리의 카.": {
+      "id": "dex/jamo/ko-c52e73c3c7",
+      "src": "assets/audio/ko/dex/jamo/ko-c52e73c3c7.mp3",
+      "bytes": 40320
+    },
+    "키읔! 짝을 찾았어요!": {
+      "id": "praise/match/ko-c52e73c3c7",
+      "src": "assets/audio/ko/praise/match/ko-c52e73c3c7.mp3",
+      "bytes": 36096
+    },
+    "키읔! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-c52e73c3c7",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-c52e73c3c7.mp3",
+      "bytes": 34560
+    },
+    "티읕! 토끼의 타.": {
+      "id": "dex/jamo/ko-518b43090d",
+      "src": "assets/audio/ko/dex/jamo/ko-518b43090d.mp3",
+      "bytes": 32256
+    },
+    "티읕! 짝을 찾았어요!": {
+      "id": "praise/match/ko-518b43090d",
+      "src": "assets/audio/ko/praise/match/ko-518b43090d.mp3",
+      "bytes": 48768
+    },
+    "티읕! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-518b43090d",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-518b43090d.mp3",
+      "bytes": 41088
+    },
+    "피읖! 포도의 파.": {
+      "id": "dex/jamo/ko-6c18e08383",
+      "src": "assets/audio/ko/dex/jamo/ko-6c18e08383.mp3",
+      "bytes": 36096
+    },
+    "피읖! 짝을 찾았어요!": {
+      "id": "praise/match/ko-6c18e08383",
+      "src": "assets/audio/ko/praise/match/ko-6c18e08383.mp3",
+      "bytes": 32256
+    },
+    "피읖! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-6c18e08383",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-6c18e08383.mp3",
+      "bytes": 47232
+    },
+    "히읗! 하마의 하.": {
+      "id": "dex/jamo/ko-17e5b0e1e3",
+      "src": "assets/audio/ko/dex/jamo/ko-17e5b0e1e3.mp3",
+      "bytes": 48000
+    },
+    "히읗! 짝을 찾았어요!": {
+      "id": "praise/match/ko-17e5b0e1e3",
+      "src": "assets/audio/ko/praise/match/ko-17e5b0e1e3.mp3",
+      "bytes": 46464
+    },
+    "히읗! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-17e5b0e1e3",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-17e5b0e1e3.mp3",
+      "bytes": 38400
+    },
+    "쌍기역! 꽃의 까.": {
+      "id": "dex/jamo/ko-9606075f94",
+      "src": "assets/audio/ko/dex/jamo/ko-9606075f94.mp3",
+      "bytes": 46464
+    },
+    "쌍기역! 짝을 찾았어요!": {
+      "id": "praise/match/ko-9606075f94",
+      "src": "assets/audio/ko/praise/match/ko-9606075f94.mp3",
+      "bytes": 47232
+    },
+    "쌍기역! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-9606075f94",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-9606075f94.mp3",
+      "bytes": 44928
+    },
+    "쌍디귿! 딸기의 따.": {
+      "id": "dex/jamo/ko-f2706742f4",
+      "src": "assets/audio/ko/dex/jamo/ko-f2706742f4.mp3",
+      "bytes": 48000
+    },
+    "쌍디귿! 짝을 찾았어요!": {
+      "id": "praise/match/ko-f2706742f4",
+      "src": "assets/audio/ko/praise/match/ko-f2706742f4.mp3",
+      "bytes": 52224
+    },
+    "쌍디귿! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-f2706742f4",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-f2706742f4.mp3",
+      "bytes": 47232
+    },
+    "쌍비읍! 빵의 빠.": {
+      "id": "dex/jamo/ko-ee307695f3",
+      "src": "assets/audio/ko/dex/jamo/ko-ee307695f3.mp3",
+      "bytes": 40320
+    },
+    "쌍비읍! 짝을 찾았어요!": {
+      "id": "praise/match/ko-ee307695f3",
+      "src": "assets/audio/ko/praise/match/ko-ee307695f3.mp3",
+      "bytes": 48000
+    },
+    "쌍비읍! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-ee307695f3",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-ee307695f3.mp3",
+      "bytes": 48768
+    },
+    "쌍시옷! 씨앗의 싸.": {
+      "id": "dex/jamo/ko-88e65ea48c",
+      "src": "assets/audio/ko/dex/jamo/ko-88e65ea48c.mp3",
+      "bytes": 56832
+    },
+    "쌍시옷! 짝을 찾았어요!": {
+      "id": "praise/match/ko-88e65ea48c",
+      "src": "assets/audio/ko/praise/match/ko-88e65ea48c.mp3",
+      "bytes": 44160
+    },
+    "쌍시옷! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-88e65ea48c",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-88e65ea48c.mp3",
+      "bytes": 52224
+    },
+    "쌍지읒! 짜장면의 짜.": {
+      "id": "dex/jamo/ko-05ea7fb49d",
+      "src": "assets/audio/ko/dex/jamo/ko-05ea7fb49d.mp3",
+      "bytes": 46464
+    },
+    "쌍지읒! 짝을 찾았어요!": {
+      "id": "praise/match/ko-05ea7fb49d",
+      "src": "assets/audio/ko/praise/match/ko-05ea7fb49d.mp3",
+      "bytes": 40320
+    },
+    "쌍지읒! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-05ea7fb49d",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-05ea7fb49d.mp3",
+      "bytes": 47232
+    },
+    "아! 아기의 아.": {
+      "id": "dex/jamo/ko-be6b235a02",
+      "src": "assets/audio/ko/dex/jamo/ko-be6b235a02.mp3",
+      "bytes": 38400
+    },
+    "아! 짝을 찾았어요!": {
+      "id": "praise/match/ko-be6b235a02",
+      "src": "assets/audio/ko/praise/match/ko-be6b235a02.mp3",
+      "bytes": 42624
+    },
+    "아! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-be6b235a02",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-be6b235a02.mp3",
+      "bytes": 37632
+    },
+    "야! 야구의 야.": {
+      "id": "dex/jamo/ko-77f4df2c9b",
+      "src": "assets/audio/ko/dex/jamo/ko-77f4df2c9b.mp3",
+      "bytes": 50688
+    },
+    "야! 짝을 찾았어요!": {
+      "id": "praise/match/ko-77f4df2c9b",
+      "src": "assets/audio/ko/praise/match/ko-77f4df2c9b.mp3",
+      "bytes": 32256
+    },
+    "야! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-77f4df2c9b",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-77f4df2c9b.mp3",
+      "bytes": 40320
+    },
+    "어! 어항의 어.": {
+      "id": "dex/jamo/ko-196c53c8f9",
+      "src": "assets/audio/ko/dex/jamo/ko-196c53c8f9.mp3",
+      "bytes": 34560
+    },
+    "어! 짝을 찾았어요!": {
+      "id": "praise/match/ko-196c53c8f9",
+      "src": "assets/audio/ko/praise/match/ko-196c53c8f9.mp3",
+      "bytes": 36864
+    },
+    "어! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-196c53c8f9",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-196c53c8f9.mp3",
+      "bytes": 33792
+    },
+    "여! 여우의 여.": {
+      "id": "dex/jamo/ko-445287d4d3",
+      "src": "assets/audio/ko/dex/jamo/ko-445287d4d3.mp3",
+      "bytes": 34560
+    },
+    "여! 짝을 찾았어요!": {
+      "id": "praise/match/ko-445287d4d3",
+      "src": "assets/audio/ko/praise/match/ko-445287d4d3.mp3",
+      "bytes": 49920
+    },
+    "여! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-445287d4d3",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-445287d4d3.mp3",
+      "bytes": 34560
+    },
+    "오! 오리의 오.": {
+      "id": "dex/syllable/ko-4a3ea882ac",
+      "src": "assets/audio/ko/dex/syllable/ko-4a3ea882ac.mp3",
+      "bytes": 35328
+    },
+    "오! 짝을 찾았어요!": {
+      "id": "praise/match/ko-4a3ea882ac",
+      "src": "assets/audio/ko/praise/match/ko-4a3ea882ac.mp3",
+      "bytes": 44928
+    },
+    "오! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-4a3ea882ac",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-4a3ea882ac.mp3",
+      "bytes": 36096
+    },
+    "요! 요요의 요.": {
+      "id": "dex/jamo/ko-e8762a2591",
+      "src": "assets/audio/ko/dex/jamo/ko-e8762a2591.mp3",
+      "bytes": 47232
+    },
+    "요! 짝을 찾았어요!": {
+      "id": "praise/match/ko-e8762a2591",
+      "src": "assets/audio/ko/praise/match/ko-e8762a2591.mp3",
+      "bytes": 36864
+    },
+    "요! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-e8762a2591",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-e8762a2591.mp3",
+      "bytes": 29568
+    },
+    "우! 우산의 우.": {
+      "id": "dex/syllable/ko-4118d67c96",
+      "src": "assets/audio/ko/dex/syllable/ko-4118d67c96.mp3",
+      "bytes": 36864
+    },
+    "우! 짝을 찾았어요!": {
+      "id": "praise/match/ko-4118d67c96",
+      "src": "assets/audio/ko/praise/match/ko-4118d67c96.mp3",
+      "bytes": 38400
+    },
+    "우! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-4118d67c96",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-4118d67c96.mp3",
+      "bytes": 38400
+    },
+    "유! 유니콘의 유.": {
+      "id": "dex/jamo/ko-71c706d652",
+      "src": "assets/audio/ko/dex/jamo/ko-71c706d652.mp3",
+      "bytes": 37632
+    },
+    "유! 짝을 찾았어요!": {
+      "id": "praise/match/ko-71c706d652",
+      "src": "assets/audio/ko/praise/match/ko-71c706d652.mp3",
+      "bytes": 41088
+    },
+    "유! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-71c706d652",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-71c706d652.mp3",
+      "bytes": 33792
+    },
+    "으! 으쓱으쓱의 으.": {
+      "id": "dex/jamo/ko-08906e2255",
+      "src": "assets/audio/ko/dex/jamo/ko-08906e2255.mp3",
+      "bytes": 41088
+    },
+    "으! 짝을 찾았어요!": {
+      "id": "praise/match/ko-08906e2255",
+      "src": "assets/audio/ko/praise/match/ko-08906e2255.mp3",
+      "bytes": 38400
+    },
+    "으! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-08906e2255",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-08906e2255.mp3",
+      "bytes": 34560
+    },
+    "이! 이불의 이.": {
+      "id": "dex/jamo/ko-6c0cd2af1e",
+      "src": "assets/audio/ko/dex/jamo/ko-6c0cd2af1e.mp3",
+      "bytes": 31488
+    },
+    "이! 짝을 찾았어요!": {
+      "id": "praise/match/ko-6c0cd2af1e",
+      "src": "assets/audio/ko/praise/match/ko-6c0cd2af1e.mp3",
+      "bytes": 52224
+    },
+    "이! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-6c0cd2af1e",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-6c0cd2af1e.mp3",
+      "bytes": 32256
+    },
+    "애! 애벌레의 애.": {
+      "id": "dex/jamo/ko-963156802b",
+      "src": "assets/audio/ko/dex/jamo/ko-963156802b.mp3",
+      "bytes": 46464
+    },
+    "애! 짝을 찾았어요!": {
+      "id": "praise/match/ko-963156802b",
+      "src": "assets/audio/ko/praise/match/ko-963156802b.mp3",
+      "bytes": 52992
+    },
+    "애! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-963156802b",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-963156802b.mp3",
+      "bytes": 28800
+    },
+    "얘! 얘기의 얘.": {
+      "id": "dex/jamo/ko-bf5b12f28a",
+      "src": "assets/audio/ko/dex/jamo/ko-bf5b12f28a.mp3",
+      "bytes": 37632
+    },
+    "얘! 짝을 찾았어요!": {
+      "id": "praise/match/ko-bf5b12f28a",
+      "src": "assets/audio/ko/praise/match/ko-bf5b12f28a.mp3",
+      "bytes": 38400
+    },
+    "얘! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-bf5b12f28a",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-bf5b12f28a.mp3",
+      "bytes": 40320
+    },
+    "에! 게의 에.": {
+      "id": "dex/jamo/ko-735c1e670f",
+      "src": "assets/audio/ko/dex/jamo/ko-735c1e670f.mp3",
+      "bytes": 32256
+    },
+    "에! 짝을 찾았어요!": {
+      "id": "praise/match/ko-735c1e670f",
+      "src": "assets/audio/ko/praise/match/ko-735c1e670f.mp3",
+      "bytes": 53760
+    },
+    "에! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-735c1e670f",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-735c1e670f.mp3",
+      "bytes": 38400
+    },
+    "예! 시계의 예.": {
+      "id": "dex/jamo/ko-a842629afd",
+      "src": "assets/audio/ko/dex/jamo/ko-a842629afd.mp3",
+      "bytes": 40320
+    },
+    "예! 짝을 찾았어요!": {
+      "id": "praise/match/ko-a842629afd",
+      "src": "assets/audio/ko/praise/match/ko-a842629afd.mp3",
+      "bytes": 52224
+    },
+    "예! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-a842629afd",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-a842629afd.mp3",
+      "bytes": 38400
+    },
+    "와! 와플의 와.": {
+      "id": "dex/jamo/ko-20bdcf5c8f",
+      "src": "assets/audio/ko/dex/jamo/ko-20bdcf5c8f.mp3",
+      "bytes": 38400
+    },
+    "와! 짝을 찾았어요!": {
+      "id": "praise/match/ko-20bdcf5c8f",
+      "src": "assets/audio/ko/praise/match/ko-20bdcf5c8f.mp3",
+      "bytes": 41088
+    },
+    "와! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-20bdcf5c8f",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-20bdcf5c8f.mp3",
+      "bytes": 33792
+    },
+    "왜! 돼지의 왜.": {
+      "id": "dex/jamo/ko-9687375425",
+      "src": "assets/audio/ko/dex/jamo/ko-9687375425.mp3",
+      "bytes": 41088
+    },
+    "왜! 짝을 찾았어요!": {
+      "id": "praise/match/ko-9687375425",
+      "src": "assets/audio/ko/praise/match/ko-9687375425.mp3",
+      "bytes": 49920
+    },
+    "왜! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-9687375425",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-9687375425.mp3",
+      "bytes": 36096
+    },
+    "외! 참외의 외.": {
+      "id": "dex/jamo/ko-7eec619024",
+      "src": "assets/audio/ko/dex/jamo/ko-7eec619024.mp3",
+      "bytes": 44928
+    },
+    "외! 짝을 찾았어요!": {
+      "id": "praise/match/ko-7eec619024",
+      "src": "assets/audio/ko/praise/match/ko-7eec619024.mp3",
+      "bytes": 42624
+    },
+    "외! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-7eec619024",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-7eec619024.mp3",
+      "bytes": 35328
+    },
+    "워! 원숭이의 워.": {
+      "id": "dex/jamo/ko-b8b2f2af85",
+      "src": "assets/audio/ko/dex/jamo/ko-b8b2f2af85.mp3",
+      "bytes": 36096
+    },
+    "워! 짝을 찾았어요!": {
+      "id": "praise/match/ko-b8b2f2af85",
+      "src": "assets/audio/ko/praise/match/ko-b8b2f2af85.mp3",
+      "bytes": 38400
+    },
+    "워! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-b8b2f2af85",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-b8b2f2af85.mp3",
+      "bytes": 33792
+    },
+    "웨! 스웨터의 웨.": {
+      "id": "dex/jamo/ko-3990e5c4d6",
+      "src": "assets/audio/ko/dex/jamo/ko-3990e5c4d6.mp3",
+      "bytes": 46464
+    },
+    "웨! 짝을 찾았어요!": {
+      "id": "praise/match/ko-3990e5c4d6",
+      "src": "assets/audio/ko/praise/match/ko-3990e5c4d6.mp3",
+      "bytes": 44160
+    },
+    "웨! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-3990e5c4d6",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-3990e5c4d6.mp3",
+      "bytes": 35328
+    },
+    "위! 귀의 위.": {
+      "id": "dex/jamo/ko-b44963f67f",
+      "src": "assets/audio/ko/dex/jamo/ko-b44963f67f.mp3",
+      "bytes": 43392
+    },
+    "위! 짝을 찾았어요!": {
+      "id": "praise/match/ko-b44963f67f",
+      "src": "assets/audio/ko/praise/match/ko-b44963f67f.mp3",
+      "bytes": 36096
+    },
+    "위! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-b44963f67f",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-b44963f67f.mp3",
+      "bytes": 30720
+    },
+    "의! 의사의 의.": {
+      "id": "dex/jamo/ko-cbf1df6a6d",
+      "src": "assets/audio/ko/dex/jamo/ko-cbf1df6a6d.mp3",
+      "bytes": 38400
+    },
+    "의! 짝을 찾았어요!": {
+      "id": "praise/match/ko-cbf1df6a6d",
+      "src": "assets/audio/ko/praise/match/ko-cbf1df6a6d.mp3",
+      "bytes": 44160
+    },
+    "의! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-cbf1df6a6d",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-cbf1df6a6d.mp3",
+      "bytes": 42624
+    },
+    "가! 가방의 가. 조각을 모아 가를 만들어 보세요!": {
+      "id": "build/prompt/ko-efd23dd5ed",
+      "src": "assets/audio/ko/build/prompt/ko-efd23dd5ed.mp3",
+      "bytes": 83328
+    },
+    "가! 가방의 가! 글자가 태어났어요!": {
+      "id": "build/praise/ko-efd23dd5ed",
+      "src": "assets/audio/ko/build/praise/ko-efd23dd5ed.mp3",
+      "bytes": 70656
+    },
+    "가방의 가! 가를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-efd23dd5ed",
+      "src": "assets/audio/ko/boss-syllable/ko-efd23dd5ed.mp3",
+      "bytes": 56832
+    },
+    "가! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-efd23dd5ed",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-efd23dd5ed.mp3",
+      "bytes": 39168
+    },
+    "가! 가방의 가.": {
+      "id": "dex/syllable/ko-efd23dd5ed",
+      "src": "assets/audio/ko/dex/syllable/ko-efd23dd5ed.mp3",
+      "bytes": 44928
+    },
+    "나! 나비의 나. 조각을 모아 나를 만들어 보세요!": {
+      "id": "build/prompt/ko-811e029344",
+      "src": "assets/audio/ko/build/prompt/ko-811e029344.mp3",
+      "bytes": 77568
+    },
+    "나! 나비의 나! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-811e029344",
+      "src": "assets/audio/ko/build/praise/ko-811e029344.mp3",
+      "bytes": 96768
+    },
+    "나비의 나! 나를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-811e029344",
+      "src": "assets/audio/ko/boss-syllable/ko-811e029344.mp3",
+      "bytes": 45696
+    },
+    "나! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-811e029344",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-811e029344.mp3",
+      "bytes": 38400
+    },
+    "나! 나비의 나.": {
+      "id": "dex/syllable/ko-811e029344",
+      "src": "assets/audio/ko/dex/syllable/ko-811e029344.mp3",
+      "bytes": 32256
+    },
+    "다! 다리의 다. 조각을 모아 다를 만들어 보세요!": {
+      "id": "build/prompt/ko-c94aacfd94",
+      "src": "assets/audio/ko/build/prompt/ko-c94aacfd94.mp3",
+      "bytes": 81792
+    },
+    "다! 다리의 다! 조각을 딱 맞췄네요, 대단해요!": {
+      "id": "build/praise/ko-c94aacfd94",
+      "src": "assets/audio/ko/build/praise/ko-c94aacfd94.mp3",
+      "bytes": 88320
+    },
+    "다리의 다! 다를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-c94aacfd94",
+      "src": "assets/audio/ko/boss-syllable/ko-c94aacfd94.mp3",
+      "bytes": 51456
+    },
+    "다! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-c94aacfd94",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-c94aacfd94.mp3",
+      "bytes": 39168
+    },
+    "다! 다리의 다.": {
+      "id": "dex/syllable/ko-c94aacfd94",
+      "src": "assets/audio/ko/dex/syllable/ko-c94aacfd94.mp3",
+      "bytes": 52224
+    },
+    "라! 라면의 라. 조각을 모아 라를 만들어 보세요!": {
+      "id": "build/prompt/ko-0563a51431",
+      "src": "assets/audio/ko/build/prompt/ko-0563a51431.mp3",
+      "bytes": 91392
+    },
+    "라! 라면의 라! 글자가 태어났어요!": {
+      "id": "build/praise/ko-0563a51431",
+      "src": "assets/audio/ko/build/praise/ko-0563a51431.mp3",
+      "bytes": 72192
+    },
+    "라면의 라! 라를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-0563a51431",
+      "src": "assets/audio/ko/boss-syllable/ko-0563a51431.mp3",
+      "bytes": 56832
+    },
+    "라! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-0563a51431",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-0563a51431.mp3",
+      "bytes": 38400
+    },
+    "라! 라면의 라.": {
+      "id": "dex/syllable/ko-0563a51431",
+      "src": "assets/audio/ko/dex/syllable/ko-0563a51431.mp3",
+      "bytes": 39168
+    },
+    "마! 마늘의 마. 조각을 모아 마를 만들어 보세요!": {
+      "id": "build/prompt/ko-9b7d34baf2",
+      "src": "assets/audio/ko/build/prompt/ko-9b7d34baf2.mp3",
+      "bytes": 76800
+    },
+    "마! 마늘의 마! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-9b7d34baf2",
+      "src": "assets/audio/ko/build/praise/ko-9b7d34baf2.mp3",
+      "bytes": 90624
+    },
+    "마늘의 마! 마를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-9b7d34baf2",
+      "src": "assets/audio/ko/boss-syllable/ko-9b7d34baf2.mp3",
+      "bytes": 58368
+    },
+    "마! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-9b7d34baf2",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-9b7d34baf2.mp3",
+      "bytes": 39168
+    },
+    "마! 마늘의 마.": {
+      "id": "dex/syllable/ko-9b7d34baf2",
+      "src": "assets/audio/ko/dex/syllable/ko-9b7d34baf2.mp3",
+      "bytes": 30720
+    },
+    "바! 바나나의 바. 조각을 모아 바를 만들어 보세요!": {
+      "id": "build/prompt/ko-2f4621ed19",
+      "src": "assets/audio/ko/build/prompt/ko-2f4621ed19.mp3",
+      "bytes": 81024
+    },
+    "바! 바나나의 바! 글자가 태어났어요!": {
+      "id": "build/praise/ko-2f4621ed19",
+      "src": "assets/audio/ko/build/praise/ko-2f4621ed19.mp3",
+      "bytes": 71424
+    },
+    "바나나의 바! 바를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-2f4621ed19",
+      "src": "assets/audio/ko/boss-syllable/ko-2f4621ed19.mp3",
+      "bytes": 59520
+    },
+    "바! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-2f4621ed19",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-2f4621ed19.mp3",
+      "bytes": 33024
+    },
+    "바! 바나나의 바.": {
+      "id": "dex/syllable/ko-2f4621ed19",
+      "src": "assets/audio/ko/dex/syllable/ko-2f4621ed19.mp3",
+      "bytes": 37632
+    },
+    "사! 사자의 사. 조각을 모아 사를 만들어 보세요!": {
+      "id": "build/prompt/ko-ec488add9d",
+      "src": "assets/audio/ko/build/prompt/ko-ec488add9d.mp3",
+      "bytes": 79488
+    },
+    "사! 사자의 사! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-ec488add9d",
+      "src": "assets/audio/ko/build/praise/ko-ec488add9d.mp3",
+      "bytes": 90624
+    },
+    "사자의 사! 사를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-ec488add9d",
+      "src": "assets/audio/ko/boss-syllable/ko-ec488add9d.mp3",
+      "bytes": 75264
+    },
+    "사! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-ec488add9d",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-ec488add9d.mp3",
+      "bytes": 38400
+    },
+    "사! 사자의 사.": {
+      "id": "dex/syllable/ko-ec488add9d",
+      "src": "assets/audio/ko/dex/syllable/ko-ec488add9d.mp3",
+      "bytes": 33024
+    },
+    "자! 자동차의 자. 조각을 모아 자를 만들어 보세요!": {
+      "id": "build/prompt/ko-a862646b2e",
+      "src": "assets/audio/ko/build/prompt/ko-a862646b2e.mp3",
+      "bytes": 89856
+    },
+    "자! 자동차의 자! 조각을 딱 맞췄네요, 대단해요!": {
+      "id": "build/praise/ko-a862646b2e",
+      "src": "assets/audio/ko/build/praise/ko-a862646b2e.mp3",
+      "bytes": 76032
+    },
+    "자동차의 자! 자를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-a862646b2e",
+      "src": "assets/audio/ko/boss-syllable/ko-a862646b2e.mp3",
+      "bytes": 70656
+    },
+    "자! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-a862646b2e",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-a862646b2e.mp3",
+      "bytes": 34560
+    },
+    "자! 자동차의 자.": {
+      "id": "dex/syllable/ko-a862646b2e",
+      "src": "assets/audio/ko/dex/syllable/ko-a862646b2e.mp3",
+      "bytes": 43392
+    },
+    "차! 차의 차. 조각을 모아 차를 만들어 보세요!": {
+      "id": "build/prompt/ko-9e4bb560ba",
+      "src": "assets/audio/ko/build/prompt/ko-9e4bb560ba.mp3",
+      "bytes": 89088
+    },
+    "차! 차의 차! 글자가 태어났어요!": {
+      "id": "build/praise/ko-9e4bb560ba",
+      "src": "assets/audio/ko/build/praise/ko-9e4bb560ba.mp3",
+      "bytes": 59520
+    },
+    "차의 차! 차를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-9e4bb560ba",
+      "src": "assets/audio/ko/boss-syllable/ko-9e4bb560ba.mp3",
+      "bytes": 55296
+    },
+    "차! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-9e4bb560ba",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-9e4bb560ba.mp3",
+      "bytes": 32256
+    },
+    "차! 차의 차.": {
+      "id": "dex/syllable/ko-9e4bb560ba",
+      "src": "assets/audio/ko/dex/syllable/ko-9e4bb560ba.mp3",
+      "bytes": 46464
+    },
+    "카! 카드의 카. 조각을 모아 카를 만들어 보세요!": {
+      "id": "build/prompt/ko-7dcadffb90",
+      "src": "assets/audio/ko/build/prompt/ko-7dcadffb90.mp3",
+      "bytes": 79488
+    },
+    "카! 카드의 카! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-7dcadffb90",
+      "src": "assets/audio/ko/build/praise/ko-7dcadffb90.mp3",
+      "bytes": 81024
+    },
+    "카드의 카! 카를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-7dcadffb90",
+      "src": "assets/audio/ko/boss-syllable/ko-7dcadffb90.mp3",
+      "bytes": 54528
+    },
+    "카! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-7dcadffb90",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-7dcadffb90.mp3",
+      "bytes": 33792
+    },
+    "카! 카드의 카.": {
+      "id": "dex/syllable/ko-7dcadffb90",
+      "src": "assets/audio/ko/dex/syllable/ko-7dcadffb90.mp3",
+      "bytes": 41856
+    },
+    "고! 고래의 고. 조각을 모아 고를 만들어 보세요!": {
+      "id": "build/prompt/ko-e30db5c581",
+      "src": "assets/audio/ko/build/prompt/ko-e30db5c581.mp3",
+      "bytes": 95232
+    },
+    "고! 고래의 고! 글자가 태어났어요!": {
+      "id": "build/praise/ko-e30db5c581",
+      "src": "assets/audio/ko/build/praise/ko-e30db5c581.mp3",
+      "bytes": 81024
+    },
+    "고래의 고! 고를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-e30db5c581",
+      "src": "assets/audio/ko/boss-syllable/ko-e30db5c581.mp3",
+      "bytes": 56832
+    },
+    "고! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-e30db5c581",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-e30db5c581.mp3",
+      "bytes": 43392
+    },
+    "고! 고래의 고.": {
+      "id": "dex/syllable/ko-e30db5c581",
+      "src": "assets/audio/ko/dex/syllable/ko-e30db5c581.mp3",
+      "bytes": 48768
+    },
+    "노! 노래의 노. 조각을 모아 노를 만들어 보세요!": {
+      "id": "build/prompt/ko-62e01cc977",
+      "src": "assets/audio/ko/build/prompt/ko-62e01cc977.mp3",
+      "bytes": 76032
+    },
+    "노! 노래의 노! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-62e01cc977",
+      "src": "assets/audio/ko/build/praise/ko-62e01cc977.mp3",
+      "bytes": 94464
+    },
+    "노래의 노! 노를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-62e01cc977",
+      "src": "assets/audio/ko/boss-syllable/ko-62e01cc977.mp3",
+      "bytes": 56064
+    },
+    "노! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-62e01cc977",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-62e01cc977.mp3",
+      "bytes": 51456
+    },
+    "노! 노래의 노.": {
+      "id": "dex/syllable/ko-62e01cc977",
+      "src": "assets/audio/ko/dex/syllable/ko-62e01cc977.mp3",
+      "bytes": 45696
+    },
+    "도! 도넛의 도. 조각을 모아 도를 만들어 보세요!": {
+      "id": "build/prompt/ko-de8b6c7871",
+      "src": "assets/audio/ko/build/prompt/ko-de8b6c7871.mp3",
+      "bytes": 100224
+    },
+    "도! 도넛의 도! 조각을 딱 맞췄네요, 대단해요!": {
+      "id": "build/praise/ko-de8b6c7871",
+      "src": "assets/audio/ko/build/praise/ko-de8b6c7871.mp3",
+      "bytes": 83328
+    },
+    "도넛의 도! 도를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-de8b6c7871",
+      "src": "assets/audio/ko/boss-syllable/ko-de8b6c7871.mp3",
+      "bytes": 72192
+    },
+    "도! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-de8b6c7871",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-de8b6c7871.mp3",
+      "bytes": 45696
+    },
+    "도! 도넛의 도.": {
+      "id": "dex/syllable/ko-de8b6c7871",
+      "src": "assets/audio/ko/dex/syllable/ko-de8b6c7871.mp3",
+      "bytes": 54528
+    },
+    "로! 로봇의 로. 조각을 모아 로를 만들어 보세요!": {
+      "id": "build/prompt/ko-15e22a52f3",
+      "src": "assets/audio/ko/build/prompt/ko-15e22a52f3.mp3",
+      "bytes": 81792
+    },
+    "로! 로봇의 로! 글자가 태어났어요!": {
+      "id": "build/praise/ko-15e22a52f3",
+      "src": "assets/audio/ko/build/praise/ko-15e22a52f3.mp3",
+      "bytes": 60288
+    },
+    "로봇의 로! 로를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-15e22a52f3",
+      "src": "assets/audio/ko/boss-syllable/ko-15e22a52f3.mp3",
+      "bytes": 56064
+    },
+    "로! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-15e22a52f3",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-15e22a52f3.mp3",
+      "bytes": 39168
+    },
+    "로! 로봇의 로.": {
+      "id": "dex/syllable/ko-15e22a52f3",
+      "src": "assets/audio/ko/dex/syllable/ko-15e22a52f3.mp3",
+      "bytes": 39168
+    },
+    "모! 모자의 모. 조각을 모아 모를 만들어 보세요!": {
+      "id": "build/prompt/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/build/prompt/ko-8f4dc1b65b.mp3",
+      "bytes": 81024
+    },
+    "모! 모자의 모! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/build/praise/ko-8f4dc1b65b.mp3",
+      "bytes": 104832
+    },
+    "모자의 모! 모를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/boss-syllable/ko-8f4dc1b65b.mp3",
+      "bytes": 54528
+    },
+    "모! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-8f4dc1b65b.mp3",
+      "bytes": 34560
+    },
+    "모! 모자의 모.": {
+      "id": "dex/syllable/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/dex/syllable/ko-8f4dc1b65b.mp3",
+      "bytes": 52992
+    },
+    "구! 구름의 구. 조각을 모아 구를 만들어 보세요!": {
+      "id": "build/prompt/ko-e8b701a283",
+      "src": "assets/audio/ko/build/prompt/ko-e8b701a283.mp3",
+      "bytes": 76032
+    },
+    "구! 구름의 구! 글자가 태어났어요!": {
+      "id": "build/praise/ko-e8b701a283",
+      "src": "assets/audio/ko/build/praise/ko-e8b701a283.mp3",
+      "bytes": 60288
+    },
+    "구름의 구! 구를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-e8b701a283",
+      "src": "assets/audio/ko/boss-syllable/ko-e8b701a283.mp3",
+      "bytes": 52224
+    },
+    "구! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-e8b701a283",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-e8b701a283.mp3",
+      "bytes": 30720
+    },
+    "구! 구름의 구.": {
+      "id": "dex/syllable/ko-e8b701a283",
+      "src": "assets/audio/ko/dex/syllable/ko-e8b701a283.mp3",
+      "bytes": 40320
+    },
+    "두! 두부의 두. 조각을 모아 두를 만들어 보세요!": {
+      "id": "build/prompt/ko-402adcf5c0",
+      "src": "assets/audio/ko/build/prompt/ko-402adcf5c0.mp3",
+      "bytes": 96768
+    },
+    "두! 두부의 두! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-402adcf5c0",
+      "src": "assets/audio/ko/build/praise/ko-402adcf5c0.mp3",
+      "bytes": 106368
+    },
+    "두부의 두! 두를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-402adcf5c0",
+      "src": "assets/audio/ko/boss-syllable/ko-402adcf5c0.mp3",
+      "bytes": 57600
+    },
+    "두! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-402adcf5c0",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-402adcf5c0.mp3",
+      "bytes": 33024
+    },
+    "두! 두부의 두.": {
+      "id": "dex/syllable/ko-402adcf5c0",
+      "src": "assets/audio/ko/dex/syllable/ko-402adcf5c0.mp3",
+      "bytes": 33024
+    },
+    "무! 무지개의 무. 조각을 모아 무를 만들어 보세요!": {
+      "id": "build/prompt/ko-56c5af5b9b",
+      "src": "assets/audio/ko/build/prompt/ko-56c5af5b9b.mp3",
+      "bytes": 92160
+    },
+    "무! 무지개의 무! 조각을 딱 맞췄네요, 대단해요!": {
+      "id": "build/praise/ko-56c5af5b9b",
+      "src": "assets/audio/ko/build/praise/ko-56c5af5b9b.mp3",
+      "bytes": 87168
+    },
+    "무지개의 무! 무를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-56c5af5b9b",
+      "src": "assets/audio/ko/boss-syllable/ko-56c5af5b9b.mp3",
+      "bytes": 67200
+    },
+    "무! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-56c5af5b9b",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-56c5af5b9b.mp3",
+      "bytes": 31488
+    },
+    "무! 무지개의 무.": {
+      "id": "dex/syllable/ko-56c5af5b9b",
+      "src": "assets/audio/ko/dex/syllable/ko-56c5af5b9b.mp3",
+      "bytes": 42624
+    },
+    "기! 기차의 기. 조각을 모아 기를 만들어 보세요!": {
+      "id": "build/prompt/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/build/prompt/ko-e5c60ff0a8.mp3",
+      "bytes": 95232
+    },
+    "기! 기차의 기! 글자가 태어났어요!": {
+      "id": "build/praise/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/build/praise/ko-e5c60ff0a8.mp3",
+      "bytes": 59520
+    },
+    "기차의 기! 기를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/boss-syllable/ko-e5c60ff0a8.mp3",
+      "bytes": 49920
+    },
+    "기! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-e5c60ff0a8.mp3",
+      "bytes": 38400
+    },
+    "기! 기차의 기.": {
+      "id": "dex/syllable/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/dex/syllable/ko-e5c60ff0a8.mp3",
+      "bytes": 37632
+    },
+    "지! 지구의 지. 조각을 모아 지를 만들어 보세요!": {
+      "id": "build/prompt/ko-0cb419946b",
+      "src": "assets/audio/ko/build/prompt/ko-0cb419946b.mp3",
+      "bytes": 80256
+    },
+    "지! 지구의 지! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-0cb419946b",
+      "src": "assets/audio/ko/build/praise/ko-0cb419946b.mp3",
+      "bytes": 81792
+    },
+    "지구의 지! 지를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-0cb419946b",
+      "src": "assets/audio/ko/boss-syllable/ko-0cb419946b.mp3",
+      "bytes": 57600
+    },
+    "지! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-0cb419946b",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-0cb419946b.mp3",
+      "bytes": 44928
+    },
+    "지! 지구의 지.": {
+      "id": "dex/syllable/ko-0cb419946b",
+      "src": "assets/audio/ko/dex/syllable/ko-0cb419946b.mp3",
+      "bytes": 41856
+    },
+    "오! 오리의 오. 조각을 모아 오를 만들어 보세요!": {
+      "id": "build/prompt/ko-4a3ea882ac",
+      "src": "assets/audio/ko/build/prompt/ko-4a3ea882ac.mp3",
+      "bytes": 82560
+    },
+    "오! 오리의 오! 글자가 태어났어요!": {
+      "id": "build/praise/ko-4a3ea882ac",
+      "src": "assets/audio/ko/build/praise/ko-4a3ea882ac.mp3",
+      "bytes": 64128
+    },
+    "오리의 오! 오를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-4a3ea882ac",
+      "src": "assets/audio/ko/boss-syllable/ko-4a3ea882ac.mp3",
+      "bytes": 62592
+    },
+    "우! 우산의 우. 조각을 모아 우를 만들어 보세요!": {
+      "id": "build/prompt/ko-4118d67c96",
+      "src": "assets/audio/ko/build/prompt/ko-4118d67c96.mp3",
+      "bytes": 80256
+    },
+    "우! 우산의 우! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-4118d67c96",
+      "src": "assets/audio/ko/build/praise/ko-4118d67c96.mp3",
+      "bytes": 87168
+    },
+    "우산의 우! 우를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-4118d67c96",
+      "src": "assets/audio/ko/boss-syllable/ko-4118d67c96.mp3",
+      "bytes": 54528
+    },
+    "소! 소의 소. 조각을 모아 소를 만들어 보세요!": {
+      "id": "build/prompt/ko-95471f6b0a",
+      "src": "assets/audio/ko/build/prompt/ko-95471f6b0a.mp3",
+      "bytes": 72192
+    },
+    "소! 소의 소! 조각을 딱 맞췄네요, 대단해요!": {
+      "id": "build/praise/ko-95471f6b0a",
+      "src": "assets/audio/ko/build/praise/ko-95471f6b0a.mp3",
+      "bytes": 84096
+    },
+    "소의 소! 소를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-95471f6b0a",
+      "src": "assets/audio/ko/boss-syllable/ko-95471f6b0a.mp3",
+      "bytes": 55296
+    },
+    "소! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-95471f6b0a",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-95471f6b0a.mp3",
+      "bytes": 36096
+    },
+    "소! 소의 소.": {
+      "id": "dex/syllable/ko-95471f6b0a",
+      "src": "assets/audio/ko/dex/syllable/ko-95471f6b0a.mp3",
+      "bytes": 46464
+    },
+    "코! 코의 코. 조각을 모아 코를 만들어 보세요!": {
+      "id": "build/prompt/ko-b357690907",
+      "src": "assets/audio/ko/build/prompt/ko-b357690907.mp3",
+      "bytes": 84864
+    },
+    "코! 코의 코! 글자가 태어났어요!": {
+      "id": "build/praise/ko-b357690907",
+      "src": "assets/audio/ko/build/praise/ko-b357690907.mp3",
+      "bytes": 73728
+    },
+    "코의 코! 코를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-b357690907",
+      "src": "assets/audio/ko/boss-syllable/ko-b357690907.mp3",
+      "bytes": 56832
+    },
+    "코! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-b357690907",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-b357690907.mp3",
+      "bytes": 52992
+    },
+    "코! 코의 코.": {
+      "id": "dex/syllable/ko-b357690907",
+      "src": "assets/audio/ko/dex/syllable/ko-b357690907.mp3",
+      "bytes": 36096
+    },
+    "하! 하마의 하. 조각을 모아 하를 만들어 보세요!": {
+      "id": "build/prompt/ko-ce05326dba",
+      "src": "assets/audio/ko/build/prompt/ko-ce05326dba.mp3",
+      "bytes": 92928
+    },
+    "하! 하마의 하! 우와, 멋진 글자를 만들었어요!": {
+      "id": "build/praise/ko-ce05326dba",
+      "src": "assets/audio/ko/build/praise/ko-ce05326dba.mp3",
+      "bytes": 81024
+    },
+    "하마의 하! 하를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-ce05326dba",
+      "src": "assets/audio/ko/boss-syllable/ko-ce05326dba.mp3",
+      "bytes": 61056
+    },
+    "하! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-ce05326dba",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-ce05326dba.mp3",
+      "bytes": 39168
+    },
+    "하! 하마의 하.": {
+      "id": "dex/syllable/ko-ce05326dba",
+      "src": "assets/audio/ko/dex/syllable/ko-ce05326dba.mp3",
+      "bytes": 31488
+    },
+    "나비! 사라진 글자를 찾아 나비 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-fee57e1fd6",
+      "src": "assets/audio/ko/word-game/prompt/ko-fee57e1fd6.mp3",
+      "bytes": 81792
+    },
+    "나비! 나비를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-fee57e1fd6",
+      "src": "assets/audio/ko/word-game/rescued/ko-fee57e1fd6.mp3",
+      "bytes": 69888
+    },
+    "나비! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-fee57e1fd6",
+      "src": "assets/audio/ko/word-game/complete/ko-fee57e1fd6.mp3",
+      "bytes": 56832
+    },
+    "나비! 나비의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-fee57e1fd6",
+      "src": "assets/audio/ko/boss-word/ko-fee57e1fd6.mp3",
+      "bytes": 67200
+    },
+    "나비! 명중이에요!": {
+      "id": "praise/hit-word/ko-fee57e1fd6",
+      "src": "assets/audio/ko/praise/hit-word/ko-fee57e1fd6.mp3",
+      "bytes": 42624
+    },
+    "오리! 사라진 글자를 찾아 오리 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-d96fc2124c",
+      "src": "assets/audio/ko/word-game/prompt/ko-d96fc2124c.mp3",
+      "bytes": 85632
+    },
+    "오리! 오리를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-d96fc2124c",
+      "src": "assets/audio/ko/word-game/rescued/ko-d96fc2124c.mp3",
+      "bytes": 82560
+    },
+    "오리! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-d96fc2124c",
+      "src": "assets/audio/ko/word-game/complete/ko-d96fc2124c.mp3",
+      "bytes": 38400
+    },
+    "오리! 오리의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-d96fc2124c",
+      "src": "assets/audio/ko/boss-word/ko-d96fc2124c.mp3",
+      "bytes": 73728
+    },
+    "오리! 명중이에요!": {
+      "id": "praise/hit-word/ko-d96fc2124c",
+      "src": "assets/audio/ko/praise/hit-word/ko-d96fc2124c.mp3",
+      "bytes": 39168
+    },
+    "하마! 사라진 글자를 찾아 하마 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-a35116d52b",
+      "src": "assets/audio/ko/word-game/prompt/ko-a35116d52b.mp3",
+      "bytes": 90624
+    },
+    "하마! 하마를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-a35116d52b",
+      "src": "assets/audio/ko/word-game/rescued/ko-a35116d52b.mp3",
+      "bytes": 81792
+    },
+    "하마! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-a35116d52b",
+      "src": "assets/audio/ko/word-game/complete/ko-a35116d52b.mp3",
+      "bytes": 45696
+    },
+    "하마! 하마의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-a35116d52b",
+      "src": "assets/audio/ko/boss-word/ko-a35116d52b.mp3",
+      "bytes": 61056
+    },
+    "하마! 명중이에요!": {
+      "id": "praise/hit-word/ko-a35116d52b",
+      "src": "assets/audio/ko/praise/hit-word/ko-a35116d52b.mp3",
+      "bytes": 35328
+    },
+    "사자! 사라진 글자를 찾아 사자 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-97a7500406",
+      "src": "assets/audio/ko/word-game/prompt/ko-97a7500406.mp3",
+      "bytes": 84096
+    },
+    "사자! 사자를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-97a7500406",
+      "src": "assets/audio/ko/word-game/rescued/ko-97a7500406.mp3",
+      "bytes": 48768
+    },
+    "사자! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-97a7500406",
+      "src": "assets/audio/ko/word-game/complete/ko-97a7500406.mp3",
+      "bytes": 48768
+    },
+    "사자! 사자의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-97a7500406",
+      "src": "assets/audio/ko/boss-word/ko-97a7500406.mp3",
+      "bytes": 72192
+    },
+    "사자! 명중이에요!": {
+      "id": "praise/hit-word/ko-97a7500406",
+      "src": "assets/audio/ko/praise/hit-word/ko-97a7500406.mp3",
+      "bytes": 34560
+    },
+    "나무! 사라진 글자를 찾아 나무 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-8eb09d1664",
+      "src": "assets/audio/ko/word-game/prompt/ko-8eb09d1664.mp3",
+      "bytes": 82560
+    },
+    "나무! 나무를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-8eb09d1664",
+      "src": "assets/audio/ko/word-game/rescued/ko-8eb09d1664.mp3",
+      "bytes": 75264
+    },
+    "나무! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-8eb09d1664",
+      "src": "assets/audio/ko/word-game/complete/ko-8eb09d1664.mp3",
+      "bytes": 55296
+    },
+    "나무! 나무의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-8eb09d1664",
+      "src": "assets/audio/ko/boss-word/ko-8eb09d1664.mp3",
+      "bytes": 67200
+    },
+    "나무! 명중이에요!": {
+      "id": "praise/hit-word/ko-8eb09d1664",
+      "src": "assets/audio/ko/praise/hit-word/ko-8eb09d1664.mp3",
+      "bytes": 40320
+    },
+    "바다! 사라진 글자를 찾아 바다 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-2b58295206",
+      "src": "assets/audio/ko/word-game/prompt/ko-2b58295206.mp3",
+      "bytes": 80256
+    },
+    "바다! 바다를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-2b58295206",
+      "src": "assets/audio/ko/word-game/rescued/ko-2b58295206.mp3",
+      "bytes": 76800
+    },
+    "바다! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-2b58295206",
+      "src": "assets/audio/ko/word-game/complete/ko-2b58295206.mp3",
+      "bytes": 49920
+    },
+    "바다! 바다의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-2b58295206",
+      "src": "assets/audio/ko/boss-word/ko-2b58295206.mp3",
+      "bytes": 58368
+    },
+    "바다! 명중이에요!": {
+      "id": "praise/hit-word/ko-2b58295206",
+      "src": "assets/audio/ko/praise/hit-word/ko-2b58295206.mp3",
+      "bytes": 35328
+    },
+    "무지개! 사라진 글자를 찾아 무지개 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-e70debe270",
+      "src": "assets/audio/ko/word-game/prompt/ko-e70debe270.mp3",
+      "bytes": 83328
+    },
+    "무지개! 무지개를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-e70debe270",
+      "src": "assets/audio/ko/word-game/rescued/ko-e70debe270.mp3",
+      "bytes": 69888
+    },
+    "무지개! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-e70debe270",
+      "src": "assets/audio/ko/word-game/complete/ko-e70debe270.mp3",
+      "bytes": 42624
+    },
+    "무지개! 무지개의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-e70debe270",
+      "src": "assets/audio/ko/boss-word/ko-e70debe270.mp3",
+      "bytes": 69120
+    },
+    "무지개! 명중이에요!": {
+      "id": "praise/hit-word/ko-e70debe270",
+      "src": "assets/audio/ko/praise/hit-word/ko-e70debe270.mp3",
+      "bytes": 44928
+    },
+    "다리! 사라진 글자를 찾아 다리 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-4cf9cb9723",
+      "src": "assets/audio/ko/word-game/prompt/ko-4cf9cb9723.mp3",
+      "bytes": 89856
+    },
+    "다리! 다리를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-4cf9cb9723",
+      "src": "assets/audio/ko/word-game/rescued/ko-4cf9cb9723.mp3",
+      "bytes": 72960
+    },
+    "다리! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-4cf9cb9723",
+      "src": "assets/audio/ko/word-game/complete/ko-4cf9cb9723.mp3",
+      "bytes": 59520
+    },
+    "다리! 다리의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-4cf9cb9723",
+      "src": "assets/audio/ko/boss-word/ko-4cf9cb9723.mp3",
+      "bytes": 77568
+    },
+    "다리! 명중이에요!": {
+      "id": "praise/hit-word/ko-4cf9cb9723",
+      "src": "assets/audio/ko/praise/hit-word/ko-4cf9cb9723.mp3",
+      "bytes": 36864
+    },
+    "포도! 사라진 글자를 찾아 포도 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-4dcf6be28b",
+      "src": "assets/audio/ko/word-game/prompt/ko-4dcf6be28b.mp3",
+      "bytes": 88320
+    },
+    "포도! 포도를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-4dcf6be28b",
+      "src": "assets/audio/ko/word-game/rescued/ko-4dcf6be28b.mp3",
+      "bytes": 77568
+    },
+    "포도! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-4dcf6be28b",
+      "src": "assets/audio/ko/word-game/complete/ko-4dcf6be28b.mp3",
+      "bytes": 52224
+    },
+    "포도! 포도의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-4dcf6be28b",
+      "src": "assets/audio/ko/boss-word/ko-4dcf6be28b.mp3",
+      "bytes": 74496
+    },
+    "포도! 명중이에요!": {
+      "id": "praise/hit-word/ko-4dcf6be28b",
+      "src": "assets/audio/ko/praise/hit-word/ko-4dcf6be28b.mp3",
+      "bytes": 61056
+    },
+    "바나나! 사라진 글자를 찾아 바나나 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-11c41eebd9",
+      "src": "assets/audio/ko/word-game/prompt/ko-11c41eebd9.mp3",
+      "bytes": 87168
+    },
+    "바나나! 바나나를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-11c41eebd9",
+      "src": "assets/audio/ko/word-game/rescued/ko-11c41eebd9.mp3",
+      "bytes": 81024
+    },
+    "바나나! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-11c41eebd9",
+      "src": "assets/audio/ko/word-game/complete/ko-11c41eebd9.mp3",
+      "bytes": 55296
+    },
+    "바나나! 바나나의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-11c41eebd9",
+      "src": "assets/audio/ko/boss-word/ko-11c41eebd9.mp3",
+      "bytes": 79488
+    },
+    "바나나! 명중이에요!": {
+      "id": "praise/hit-word/ko-11c41eebd9",
+      "src": "assets/audio/ko/praise/hit-word/ko-11c41eebd9.mp3",
+      "bytes": 34560
+    },
+    "치즈! 사라진 글자를 찾아 치즈 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-7d880b361b",
+      "src": "assets/audio/ko/word-game/prompt/ko-7d880b361b.mp3",
+      "bytes": 100992
+    },
+    "치즈! 치즈를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-7d880b361b",
+      "src": "assets/audio/ko/word-game/rescued/ko-7d880b361b.mp3",
+      "bytes": 76032
+    },
+    "치즈! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-7d880b361b",
+      "src": "assets/audio/ko/word-game/complete/ko-7d880b361b.mp3",
+      "bytes": 49920
+    },
+    "치즈! 치즈의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-7d880b361b",
+      "src": "assets/audio/ko/boss-word/ko-7d880b361b.mp3",
+      "bytes": 67200
+    },
+    "치즈! 명중이에요!": {
+      "id": "praise/hit-word/ko-7d880b361b",
+      "src": "assets/audio/ko/praise/hit-word/ko-7d880b361b.mp3",
+      "bytes": 44928
+    },
+    "피자! 사라진 글자를 찾아 피자 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-7425750e4b",
+      "src": "assets/audio/ko/word-game/prompt/ko-7425750e4b.mp3",
+      "bytes": 81792
+    },
+    "피자! 피자를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-7425750e4b",
+      "src": "assets/audio/ko/word-game/rescued/ko-7425750e4b.mp3",
+      "bytes": 69888
+    },
+    "피자! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-7425750e4b",
+      "src": "assets/audio/ko/word-game/complete/ko-7425750e4b.mp3",
+      "bytes": 50688
+    },
+    "피자! 피자의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-7425750e4b",
+      "src": "assets/audio/ko/boss-word/ko-7425750e4b.mp3",
+      "bytes": 63360
+    },
+    "피자! 명중이에요!": {
+      "id": "praise/hit-word/ko-7425750e4b",
+      "src": "assets/audio/ko/praise/hit-word/ko-7425750e4b.mp3",
+      "bytes": 41856
+    },
+    "모자! 사라진 글자를 찾아 모자 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-a35e68beb3",
+      "src": "assets/audio/ko/word-game/prompt/ko-a35e68beb3.mp3",
+      "bytes": 84864
+    },
+    "모자! 모자를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-a35e68beb3",
+      "src": "assets/audio/ko/word-game/rescued/ko-a35e68beb3.mp3",
+      "bytes": 86400
+    },
+    "모자! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-a35e68beb3",
+      "src": "assets/audio/ko/word-game/complete/ko-a35e68beb3.mp3",
+      "bytes": 48768
+    },
+    "모자! 모자의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-a35e68beb3",
+      "src": "assets/audio/ko/boss-word/ko-a35e68beb3.mp3",
+      "bytes": 64896
+    },
+    "모자! 명중이에요!": {
+      "id": "praise/hit-word/ko-a35e68beb3",
+      "src": "assets/audio/ko/praise/hit-word/ko-a35e68beb3.mp3",
+      "bytes": 36864
+    },
+    "의자! 사라진 글자를 찾아 의자 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-f9a9e084c8",
+      "src": "assets/audio/ko/word-game/prompt/ko-f9a9e084c8.mp3",
+      "bytes": 88320
+    },
+    "의자! 의자를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-f9a9e084c8",
+      "src": "assets/audio/ko/word-game/rescued/ko-f9a9e084c8.mp3",
+      "bytes": 72960
+    },
+    "의자! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-f9a9e084c8",
+      "src": "assets/audio/ko/word-game/complete/ko-f9a9e084c8.mp3",
+      "bytes": 52224
+    },
+    "의자! 의자의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-f9a9e084c8",
+      "src": "assets/audio/ko/boss-word/ko-f9a9e084c8.mp3",
+      "bytes": 71424
+    },
+    "의자! 명중이에요!": {
+      "id": "praise/hit-word/ko-f9a9e084c8",
+      "src": "assets/audio/ko/praise/hit-word/ko-f9a9e084c8.mp3",
+      "bytes": 39168
+    },
+    "소파! 사라진 글자를 찾아 소파 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-df9183dd87",
+      "src": "assets/audio/ko/word-game/prompt/ko-df9183dd87.mp3",
+      "bytes": 91392
+    },
+    "소파! 소파를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-df9183dd87",
+      "src": "assets/audio/ko/word-game/rescued/ko-df9183dd87.mp3",
+      "bytes": 66432
+    },
+    "소파! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-df9183dd87",
+      "src": "assets/audio/ko/word-game/complete/ko-df9183dd87.mp3",
+      "bytes": 52992
+    },
+    "소파! 소파의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-df9183dd87",
+      "src": "assets/audio/ko/boss-word/ko-df9183dd87.mp3",
+      "bytes": 67200
+    },
+    "소파! 명중이에요!": {
+      "id": "praise/hit-word/ko-df9183dd87",
+      "src": "assets/audio/ko/praise/hit-word/ko-df9183dd87.mp3",
+      "bytes": 46464
+    },
+    "비누! 사라진 글자를 찾아 비누 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-1b53e275a3",
+      "src": "assets/audio/ko/word-game/prompt/ko-1b53e275a3.mp3",
+      "bytes": 89088
+    },
+    "비누! 비누를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-1b53e275a3",
+      "src": "assets/audio/ko/word-game/rescued/ko-1b53e275a3.mp3",
+      "bytes": 72192
+    },
+    "비누! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-1b53e275a3",
+      "src": "assets/audio/ko/word-game/complete/ko-1b53e275a3.mp3",
+      "bytes": 53760
+    },
+    "비누! 비누의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-1b53e275a3",
+      "src": "assets/audio/ko/boss-word/ko-1b53e275a3.mp3",
+      "bytes": 69888
+    },
+    "비누! 명중이에요!": {
+      "id": "praise/hit-word/ko-1b53e275a3",
+      "src": "assets/audio/ko/praise/hit-word/ko-1b53e275a3.mp3",
+      "bytes": 46464
+    },
+    "코끼리! 사라진 글자를 찾아 코끼리 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-cbca3e4a95",
+      "src": "assets/audio/ko/word-game/prompt/ko-cbca3e4a95.mp3",
+      "bytes": 89856
+    },
+    "코끼리! 코끼리를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-cbca3e4a95",
+      "src": "assets/audio/ko/word-game/rescued/ko-cbca3e4a95.mp3",
+      "bytes": 64128
+    },
+    "코끼리! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-cbca3e4a95",
+      "src": "assets/audio/ko/word-game/complete/ko-cbca3e4a95.mp3",
+      "bytes": 44160
+    },
+    "코끼리! 코끼리의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-cbca3e4a95",
+      "src": "assets/audio/ko/boss-word/ko-cbca3e4a95.mp3",
+      "bytes": 76800
+    },
+    "코끼리! 명중이에요!": {
+      "id": "praise/hit-word/ko-cbca3e4a95",
+      "src": "assets/audio/ko/praise/hit-word/ko-cbca3e4a95.mp3",
+      "bytes": 36096
+    },
+    "여우! 사라진 글자를 찾아 여우 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-cfc2df5c1d",
+      "src": "assets/audio/ko/word-game/prompt/ko-cfc2df5c1d.mp3",
+      "bytes": 93696
+    },
+    "여우! 여우를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-cfc2df5c1d",
+      "src": "assets/audio/ko/word-game/rescued/ko-cfc2df5c1d.mp3",
+      "bytes": 44928
+    },
+    "여우! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-cfc2df5c1d",
+      "src": "assets/audio/ko/word-game/complete/ko-cfc2df5c1d.mp3",
+      "bytes": 49920
+    },
+    "여우! 여우의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-cfc2df5c1d",
+      "src": "assets/audio/ko/boss-word/ko-cfc2df5c1d.mp3",
+      "bytes": 81792
+    },
+    "여우! 명중이에요!": {
+      "id": "praise/hit-word/ko-cfc2df5c1d",
+      "src": "assets/audio/ko/praise/hit-word/ko-cfc2df5c1d.mp3",
+      "bytes": 40320
+    },
+    "토끼! 사라진 글자를 찾아 토끼 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-7830e5d546",
+      "src": "assets/audio/ko/word-game/prompt/ko-7830e5d546.mp3",
+      "bytes": 88320
+    },
+    "토끼! 토끼를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-7830e5d546",
+      "src": "assets/audio/ko/word-game/rescued/ko-7830e5d546.mp3",
+      "bytes": 81024
+    },
+    "토끼! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-7830e5d546",
+      "src": "assets/audio/ko/word-game/complete/ko-7830e5d546.mp3",
+      "bytes": 44928
+    },
+    "토끼! 토끼의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-7830e5d546",
+      "src": "assets/audio/ko/boss-word/ko-7830e5d546.mp3",
+      "bytes": 79488
+    },
+    "토끼! 명중이에요!": {
+      "id": "praise/hit-word/ko-7830e5d546",
+      "src": "assets/audio/ko/praise/hit-word/ko-7830e5d546.mp3",
+      "bytes": 42624
+    },
+    "너구리! 사라진 글자를 찾아 너구리 이름을 완성해 주세요!": {
+      "id": "word-game/prompt/ko-0b46112d32",
+      "src": "assets/audio/ko/word-game/prompt/ko-0b46112d32.mp3",
+      "bytes": 84096
+    },
+    "너구리! 너구리를 구했어요! 정말 잘했어요!": {
+      "id": "word-game/rescued/ko-0b46112d32",
+      "src": "assets/audio/ko/word-game/rescued/ko-0b46112d32.mp3",
+      "bytes": 72192
+    },
+    "너구리! 이름을 완성했어요!": {
+      "id": "word-game/complete/ko-0b46112d32",
+      "src": "assets/audio/ko/word-game/complete/ko-0b46112d32.mp3",
+      "bytes": 44160
+    },
+    "너구리! 너구리의 사라진 글자를 찾아 공격해요!": {
+      "id": "boss-word/ko-0b46112d32",
+      "src": "assets/audio/ko/boss-word/ko-0b46112d32.mp3",
+      "bytes": 70656
+    },
+    "너구리! 명중이에요!": {
+      "id": "praise/hit-word/ko-0b46112d32",
+      "src": "assets/audio/ko/praise/hit-word/ko-0b46112d32.mp3",
+      "bytes": 45696
+    },
+    "마을 친구들이 모두 웃을 수 있게 됐어요!": {
+      "id": "game/word-all-saved",
+      "src": "assets/audio/ko/game/word-all-saved.mp3",
+      "bytes": 60288
+    },
+    "괜찮아요! 다시 한번 들어 볼까요?": {
+      "id": "praise/boss-retry-01",
+      "src": "assets/audio/ko/praise/boss-retry-01.mp3",
+      "bytes": 46464
+    },
+    "거의 다 왔어요! 한 번 더 들어 봐요!": {
+      "id": "praise/boss-retry-02",
+      "src": "assets/audio/ko/praise/boss-retry-02.mp3",
+      "bytes": 78720
+    },
+    "천천히 다시 골라 볼까요?": {
+      "id": "praise/boss-retry-03",
+      "src": "assets/audio/ko/praise/boss-retry-03.mp3",
+      "bytes": 49920
+    },
+    "처음부터 끝까지 정말 열심히 했어요! 완벽해요!": {
+      "id": "praise/result-3-1",
+      "src": "assets/audio/ko/praise/result-3-1.mp3",
+      "bytes": 81792
+    },
+    "한 번도 틀리지 않았어요! 최고예요!": {
+      "id": "praise/result-3-2",
+      "src": "assets/audio/ko/praise/result-3-2.mp3",
+      "bytes": 59520
+    },
+    "포기하지 않고 끝까지 해냈어요! 멋져요!": {
+      "id": "praise/result-2-1",
+      "src": "assets/audio/ko/praise/result-2-1.mp3",
+      "bytes": 72192
+    },
+    "열심히 노력하는 모습이 정말 멋졌어요!": {
+      "id": "praise/result-2-2",
+      "src": "assets/audio/ko/praise/result-2-2.mp3",
+      "bytes": 66432
+    },
+    "어려웠지만 끝까지 도전했어요! 대단해요!": {
+      "id": "praise/result-1-1",
+      "src": "assets/audio/ko/praise/result-1-1.mp3",
+      "bytes": 43392
+    },
+    "조금씩 계속 연습하면 더 잘하게 될 거예요!": {
+      "id": "praise/result-1-2",
+      "src": "assets/audio/ko/praise/result-1-2.mp3",
+      "bytes": 71424
+    },
+    "와 글자들이 모두 돌아왔어요": {
+      "id": "festival/line-01",
+      "src": "assets/audio/ko/festival/line-01.mp3.m4a",
+      "bytes": 124631
+    },
+    "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요": {
+      "id": "festival/line-02",
+      "src": "assets/audio/ko/festival/line-02.mp3.m4a",
+      "bytes": 138842
+    },
+    "주민들이 축제를 열어 누리를 축하해요": {
+      "id": "festival/line-03",
+      "src": "assets/audio/ko/festival/line-03.mp3.m4a",
+      "bytes": 134502
     }
   }
 }

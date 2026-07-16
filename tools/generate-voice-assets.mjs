@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from 'node:crypto';
-import { mkdir, writeFile, access } from 'node:fs/promises';
+import { mkdir, writeFile, access, stat, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
@@ -16,25 +16,72 @@ import {
   TOWER_STAGES,
   VILLAGE_STAGES,
 } from '../js/data.js';
+import { demoSyllable, objectParticle } from '../js/hangul.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
-const outDir = path.join(root, 'public/assets/audio/ko');
+const defaultOutDir = path.join(root, 'public/assets/audio/ko');
 
 const endpoint = process.env.OPENAI_BASE_URL
   ? `${process.env.OPENAI_BASE_URL.replace(/\/$/, '')}/audio/speech`
   : 'https://api.openai.com/v1/audio/speech';
 
 const apiKey = process.env.OPENAI_API_KEY;
+// 고정 스냅샷: 이전 세대보다 다국어 WER이 개선된 버전. 음성은 marin이 한국어에서 가장 자연스러웠다.
 const model = process.env.OPENAI_TTS_MODEL || 'gpt-4o-mini-tts';
-const voice = process.env.OPENAI_TTS_VOICE || 'nova';
+const voice = process.env.OPENAI_TTS_VOICE || 'marin';
 const format = process.env.OPENAI_TTS_FORMAT || 'mp3';
+const speed = Number(process.env.OPENAI_TTS_SPEED || 1);
+// 공통 페르소나 (v2 — 청취 비교에서 최종 선택된 버전): 20대 초반의 부드럽고 다정한 유치원 선생님.
+const PERSONA = 'You are a Korean kindergarten teacher in her early twenties with a soft, sweet, youthful voice, ' +
+  'talking to a preschooler you adore. Speak very gently and kindly — warm, soothing, and natural, ' +
+  'with a light, slightly high pitch. Never sound robotic or announcer-like; ' +
+  'sound like a real person smiling while she speaks, leaving generous short pauses between phrases. ';
 const instructions = process.env.OPENAI_TTS_INSTRUCTIONS ||
-  'Speak Korean naturally for a warm preschool learning app. Use a friendly, clear, gentle tone with child-friendly pacing.';
+  PERSONA +
+  'Speak Korean naturally with a friendly, clear, lively tone. ' +
+  'Speak a little slower than normal adult conversation (about 85% speed), like narrating a picture book to a young child.';
+
+// 대사 분류(id 첫 세그먼트)별 지시문 오버라이드. 연구 근거: 균일한 감속이 아니라
+// '학습 목표 항목(자모 이름·낱말·음절)만 문장보다 더 느리게' 하는 속도 대비가
+// 아동의 단어 학습을 예측한다. 칭찬은 거의 정상 속도로 경쾌하게 해 대비를 만든다.
+// 자모 이름의 평음/격음/경음 발음 지시. TTS가 ㅂ/ㅍ 같은 대립을 뭉개지 않도록
+// 이름 첫 글자로 계열을 판별해 조음 힌트를 덧붙인다.
+const ASPIRATED_FIRST = new Set(['피', '티', '키', '치', '히']); // 피읖 티읕 키읔 치읓 히읗
+/** @param {string} text 자모 이름(예: 비읍, 피읖, 쌍비읍) */
+function articulationHint(text) {
+  const name = text.split(/[!,\s]/)[0];
+  if (name.startsWith('쌍')) {
+    return 'The initial consonant is a Korean tense (fortis) consonant: pronounce it tight and pressed, with NO puff of air. ';
+  }
+  if (ASPIRATED_FIRST.has(name[0])) {
+    return 'The initial consonant is a Korean aspirated consonant: pronounce it with a strong, clearly audible puff of air, so it can never be confused with its plain counterpart. ';
+  }
+  return 'The initial consonant is a Korean plain (lax) consonant: pronounce it soft and gentle, with NO puff of air, so it can never be confused with its aspirated counterpart. ';
+}
+
+// 대사 분류(id 첫 세그먼트)별 보조 지시. 연구 근거: 균일한 감속이 아니라
+// '학습 목표 항목(자모 이름·낱말·음절)만 문장보다 더 느리게' 하는 속도 대비가
+// 아동의 단어 학습을 예측한다.
+const INSTRUCTIONS_BY_CATEGORY = {
+  jamo: PERSONA + 'Speak this single Korean letter name very slowly and clearly for a child learning Hangul. Articulate each syllable distinctly, bright and encouraging. ',
+  words: PERSONA + 'Speak this single Korean word slowly and very clearly for a child learning to read. Articulate each syllable distinctly, bright and warm. ',
+  syllables: PERSONA + 'Speak this single Korean syllable slowly and very clearly for a child learning to read. Bright and warm. ',
+  'jamo-intro': PERSONA + 'Say the letter name at the start slowly and clearly, then the rest of the sentence at a lively storybook pace. ',
+  praise: PERSONA + 'Speak Korean joyfully and energetically at a natural pace — you are excitedly praising a child who just answered correctly. ',
+};
 
 const args = new Set(process.argv.slice(2));
 const dryRun = args.has('--dry-run') || args.has('--list');
 const force = args.has('--force');
+const limitArg = process.argv.find(arg => arg.startsWith('--limit='));
+const limit = limitArg ? Number(limitArg.slice('--limit='.length)) : Infinity;
+const outArg = process.argv.find(arg => arg.startsWith('--out='));
+// --out=DIR: 샘플 청취용 별도 폴더로 출력 (manifest는 건드리지 않음)
+const outDir = outArg ? path.resolve(root, outArg.slice('--out='.length)) : defaultOutDir;
+// --only=id1,id2: 해당 id의 대사만 생성 (샘플용)
+const onlyArg = process.argv.find(arg => arg.startsWith('--only='));
+const only = onlyArg ? new Set(onlyArg.slice('--only='.length).split(',')) : null;
 const htmlPathArg = process.argv.find(arg => arg.startsWith('--html='));
 const htmlPath = htmlPathArg
   ? htmlPathArg.slice('--html='.length)
@@ -89,11 +136,6 @@ function safeId(id) {
     .join('/');
 }
 
-/** @param {string} value */
-function uniqueWords(value) {
-  return value.replace(/[^\p{Script=Hangul}\s]/gu, '').trim();
-}
-
 export function collectVoiceLines() {
   /** @type {Map<string, string>} */
   const lines = new Map();
@@ -113,8 +155,10 @@ export function collectVoiceLines() {
     add(`story/intro-${String(index + 1).padStart(2, '0')}`, panel.text.replace(/\n/g, ' '));
   });
 
+  // 축제 대사는 앱이 원문 그대로 speak()하므로 구두점·이모지를 유지한 원문을 키로 쓴다
+  // (이모지는 toSpeechText에서 TTS 입력에서만 제거된다)
   FESTIVAL.lines.forEach((line, index) => {
-    add(`festival/line-${String(index + 1).padStart(2, '0')}`, uniqueWords(line));
+    add(`festival/line-${String(index + 1).padStart(2, '0')}`, line);
   });
 
   for (const ch of [...ALL_CONSONANTS, ...ALL_VOWELS]) {
@@ -150,6 +194,58 @@ export function collectVoiceLines() {
     add(`map-continue/${id}`, `${kingdom.name}에서 모험을 계속해요!`);
   }
 
+  // ── 게임이 실행 중 조합해 말하는 문장들 ─────────────────────────────
+  // 앱의 speak() 호출 문자열과 한 글자도 다르지 않아야 파일이 재생된다.
+  // (다르면 조용히 TTS로 떨어진다 — js/audio.js voiceKey 매칭)
+
+  // 도감(dex.js)·짝 맞추기(match.js)·보스 자모 명중(boss.js askJamo)
+  // (한글은 safeId에서 해시로 바뀌므로 항목별 고유성을 위해 별도 세그먼트로 둔다)
+  for (const ch of [...ALL_CONSONANTS, ...ALL_VOWELS]) {
+    const info = JAMO[ch];
+    add(`dex/jamo/${info.name}`, `${info.name}! ${info.words[0].w}의 ${demoSyllable(ch)}.`);
+    add(`praise/match/${info.name}`, `${info.name}! 짝을 찾았어요!`);
+    add(`praise/hit-jamo/${info.name}`, `${info.name}! 명중이에요!`);
+  }
+
+  // 글자 조각의 탑: 조립 게임(build.js)·보스 음절 문제(boss.js askSyllable)·도감 음절
+  const BUILD_PRAISE = ['글자가 태어났어요!', '우와, 멋진 글자를 만들었어요!', '조각을 딱 맞췄네요, 대단해요!'];
+  for (const stage of TOWER_STAGES) {
+    stage.targets.forEach((t, i) => {
+      add(`build/prompt/${t.s}`, `${t.s}! ${t.w}의 ${t.s}. 조각을 모아 ${t.s}${objectParticle(t.s)} 만들어 보세요!`);
+      // build.js는 스테이지 내 문항 순번(idx)으로 칭찬을 고른다 — 같은 규칙으로 열거
+      add(`build/praise/${t.s}`, `${t.s}! ${t.w}의 ${t.s}! ${BUILD_PRAISE[i % BUILD_PRAISE.length]}`);
+      add(`boss-syllable/${t.s}`, `${t.w}의 ${t.s}! ${t.s}${objectParticle(t.s)} 찾아 공격해요!`);
+      add(`praise/hit-syllable/${t.s}`, `${t.s}! 명중이에요!`);
+      add(`dex/syllable/${t.s}`, `${t.s}! ${t.w}의 ${t.s}.`);
+    });
+  }
+
+  // 이름 없는 마을: 낱말 게임(word.js)·보스 낱말 문제(boss.js askWord)
+  for (const stage of VILLAGE_STAGES) {
+    for (const word of stage.words) {
+      const w = word.w;
+      add(`word-game/prompt/${w}`, `${w}! 사라진 글자를 찾아 ${w} 이름을 완성해 주세요!`);
+      add(`word-game/rescued/${w}`, `${w}! ${w}를 구했어요! 정말 잘했어요!`);
+      add(`word-game/complete/${w}`, `${w}! 이름을 완성했어요!`);
+      add(`boss-word/${w}`, `${w}! ${w}의 사라진 글자를 찾아 공격해요!`);
+      add(`praise/hit-word/${w}`, `${w}! 명중이에요!`);
+    }
+  }
+  add('game/word-all-saved', '마을 친구들이 모두 웃을 수 있게 됐어요!');
+
+  // 보스전 오답 격려(boss.js RETRY — listen.js와 다른 문구)
+  add('praise/boss-retry-01', '괜찮아요! 다시 한번 들어 볼까요?');
+  add('praise/boss-retry-02', '거의 다 왔어요! 한 번 더 들어 봐요!');
+  add('praise/boss-retry-03', '천천히 다시 골라 볼까요?');
+
+  // 결과 화면 칭찬(result.js PRAISE — 별 개수별 2종)
+  add('praise/result-3-1', '처음부터 끝까지 정말 열심히 했어요! 완벽해요!');
+  add('praise/result-3-2', '한 번도 틀리지 않았어요! 최고예요!');
+  add('praise/result-2-1', '포기하지 않고 끝까지 해냈어요! 멋져요!');
+  add('praise/result-2-2', '열심히 노력하는 모습이 정말 멋졌어요!');
+  add('praise/result-1-1', '어려웠지만 끝까지 도전했어요! 대단해요!');
+  add('praise/result-1-2', '조금씩 계속 연습하면 더 잘하게 될 거예요!');
+
   return [...lines.entries()].map(([id, text]) => ({ id, text }));
 }
 
@@ -162,21 +258,31 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
-/** @param {{ id: string, text: string }[]} lines */
-function voiceScriptsHtml(lines) {
+/**
+ * @param {{ id: string, text: string }[]} lines
+ * @param {Map<string, string>} recordedMap voiceKey(대사) → 녹음 파일 경로
+ */
+function voiceScriptsHtml(lines, recordedMap = new Map()) {
   const rows = lines.map((line, index) => {
     const category = line.id.split('/')[0];
     const escapedText = escapeHtml(line.text);
+    const recordedSrc = recordedMap.get(voiceKey(line.text));
+    const file = recordedSrc ? recordedSrc.replace(/^assets\/audio\/ko\//, '') : `${line.id}.${format}`;
+    const sourceBadge = recordedSrc
+      ? '<span class="badge rec">🎙️ 녹음</span>'
+      : '<span class="badge tts">🤖 TTS</span>';
     return `          <tr>
             <td class="num">${index + 1}</td>
             <td><span class="badge">${escapeHtml(category)}</span></td>
-            <td><button class="file-copy-btn" type="button" data-copy="${escapeHtml(`${line.id}.${format}`)}"><code>${escapeHtml(`${line.id}.${format}`)}</code></button></td>
+            <td>${sourceBadge}</td>
+            <td><button class="file-copy-btn" type="button" data-copy="${escapeHtml(file)}"><code>${escapeHtml(file)}</code></button></td>
             <td class="script-cell">
               <span class="script">${escapedText}</span>
               <button class="copy-btn" type="button" data-copy="${escapedText}">복사</button>
             </td>
           </tr>`;
   }).join('\n');
+  const recordedCount = lines.filter(line => recordedMap.has(voiceKey(line.text))).length;
 
   const groups = lines.reduce((acc, line) => {
     const category = line.id.split('/')[0];
@@ -334,7 +440,10 @@ function voiceScriptsHtml(lines) {
       color: #245c5f;
       font-size: 0.82rem;
       font-weight: 700;
+      white-space: nowrap;
     }
+    .badge.rec { background: #fdeef0; color: #a83a4e; }
+    .badge.tts { background: #eef1fb; color: #3f4e9c; }
     .script-cell {
       display: grid;
       grid-template-columns: minmax(320px, 1fr) auto;
@@ -488,6 +597,7 @@ function voiceScriptsHtml(lines) {
       <div class="summary">
         <strong>${lines.length}</strong>
         <span>voice assets</span>
+        <div style="margin-top:8px; font-size:0.92rem;">🎙️ 녹음 ${recordedCount} · 🤖 TTS ${lines.length - recordedCount}</div>
       </div>
     </header>
 
@@ -501,6 +611,7 @@ function voiceScriptsHtml(lines) {
           <tr>
             <th>#</th>
             <th>분류</th>
+            <th>음원</th>
             <th>파일</th>
             <th>스크립트</th>
           </tr>
@@ -576,15 +687,23 @@ async function fileExists(file) {
   }
 }
 
-async function generateSpeech(text) {
+async function generateSpeech(id, text) {
+  const speechText = toSpeechText(text);
   const body = {
     model,
     voice,
-    input: text,
+    input: speechText,
     response_format: format,
+    speed,
   };
   if (process.env.OPENAI_TTS_INSTRUCTIONS || model.includes('gpt-4o')) {
-    body.instructions = instructions;
+    const category = id.split('/')[0];
+    let inst = INSTRUCTIONS_BY_CATEGORY[category] || instructions;
+    if (speechText !== text) {
+      inst += '\n\n입력 문장은 한국어 실제 발음에 맞게 전처리되어 있습니다. 입력된 발음 표기를 표준 철자로 복원하거나 임의로 바꾸지 말고, 적혀 있는 한글 음절을 그대로 정확하게 읽어주세요.';
+    }
+    if (category === 'jamo' || category === 'jamo-intro') inst += articulationHint(text);
+    body.instructions = inst;
   }
 
   const response = await fetch(endpoint, {
@@ -604,14 +723,49 @@ async function generateSpeech(text) {
   return Buffer.from(await response.arrayBuffer());
 }
 
+/** js/audio.js voiceKey()와 동일한 정규화 — manifest 키로 쓰인다. @param {string} text */
+function voiceKey(text) {
+  return text.replace(/\s+/g, ' ').trim();
+}
+
+// 발음 예외 사전: 화면 표기와 TTS에 보내는 발음 표기를 분리한다.
+// manifest 키·앱 텍스트는 원문 유지, TTS 입력만 발음 표기로 바꾼다.
+/** @type {Record<string, string>} */
+let pronunciationOverrides = {};
+try {
+  const raw = JSON.parse(await readFile(path.join(__dirname, 'pronunciation-overrides.json'), 'utf8'));
+  pronunciationOverrides = raw?.overrides || {};
+} catch { /* 파일이 없으면 예외 사전 없이 진행 */ }
+
+/** @param {string} text @returns {string} TTS에 보낼 발음 표기 */
+function toSpeechText(text) {
+  // 긴 표현부터 치환해 부분 치환 충돌을 줄인다
+  const entries = Object.entries(pronunciationOverrides).sort((a, b) => b[0].length - a[0].length);
+  let result = text;
+  for (const [source, pronunciation] of entries) result = result.split(source).join(pronunciation);
+  // 이모지는 TTS가 읽거나 어색한 쉼을 만들 수 있어 입력에서만 제거 (manifest 키는 원문 유지)
+  return result.replace(/[\p{Extended_Pictographic}️]/gu, '').replace(/\s+/g, ' ').trim();
+}
+
 async function main() {
-  const lines = collectVoiceLines();
+  let lines = collectVoiceLines();
+  if (only) lines = lines.filter(line => only.has(line.id));
+  if (Number.isFinite(limit)) lines = lines.slice(0, limit);
 
   if (htmlPath) {
+    // 녹음 파일 유무 표시용 — 실제 파일이 있는 항목만 '녹음'으로 표시
+    /** @type {Map<string, string>} */
+    const recordedMap = new Map();
+    try {
+      const recorded = JSON.parse(await readFile(path.join(__dirname, 'recorded-assets.json'), 'utf8'))?.assets || {};
+      for (const [text, asset] of Object.entries(recorded)) {
+        if (await fileExists(path.join(root, 'public', asset.src))) recordedMap.set(voiceKey(text), asset.src);
+      }
+    } catch { /* 녹음 목록이 없으면 전부 TTS로 표시 */ }
     const target = path.resolve(root, htmlPath);
     await mkdir(path.dirname(target), { recursive: true });
-    await writeFile(target, voiceScriptsHtml(lines));
-    console.log(`Wrote ${path.relative(root, target)} (${lines.length} voice assets)`);
+    await writeFile(target, voiceScriptsHtml(lines, recordedMap));
+    console.log(`Wrote ${path.relative(root, target)} (${lines.length} voice assets, 녹음 ${[...new Set([...recordedMap.keys()].filter(k => lines.some(l => voiceKey(l.text) === k)))].length})`);
     return;
   }
 
@@ -631,34 +785,53 @@ async function main() {
 
   let generated = 0;
   let skipped = 0;
+  /** @type {Map<string, { id: string, src: string, bytes: number }>} */
+  const assets = new Map();
   for (const [index, line] of lines.entries()) {
     const file = path.join(outDir, `${line.id}.${format}`);
     if (!force && await fileExists(file)) {
       skipped += 1;
+      const bytes = (await stat(file)).size;
+      assets.set(voiceKey(line.text), { id: line.id, src: `assets/audio/ko/${line.id}.${format}`, bytes });
       console.log(`[skip ${index + 1}/${lines.length}] ${line.id}.${format}`);
       continue;
     }
 
     await mkdir(path.dirname(file), { recursive: true });
     console.log(`[make ${index + 1}/${lines.length}] ${line.id}.${format} <- ${line.text}`);
-    const audio = await generateSpeech(line.text);
+    const audio = await generateSpeech(line.id, line.text);
     await writeFile(file, audio);
+    assets.set(voiceKey(line.text), { id: line.id, src: `assets/audio/ko/${line.id}.${format}`, bytes: audio.length });
     generated += 1;
   }
 
-  const manifest = {
-    model,
-    voice,
-    format,
-    assets: Object.fromEntries(lines.map(line => [
-      line.id,
-      {
-        text: line.text,
-        src: `assets/audio/ko/${line.id}.${format}`,
-      },
-    ])),
-  };
-  await writeFile(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  // 샘플(--out) 모드에서는 앱이 읽는 manifest를 건드리지 않는다
+  if (outDir === defaultOutDir) {
+    // 직접 녹음한 육성 파일이 있는 대사는 녹음을 우선 사용하고, TTS 생성본은 그 외에만 쓴다
+    const merged = Object.fromEntries(assets);
+    let recordedCount = 0;
+    try {
+      const recorded = JSON.parse(await readFile(path.join(__dirname, 'recorded-assets.json'), 'utf8'))?.assets || {};
+      for (const [text, asset] of Object.entries(recorded)) {
+        if (await fileExists(path.join(root, 'public', asset.src))) {
+          merged[voiceKey(text)] = asset;
+          recordedCount += 1;
+        }
+      }
+    } catch { /* 녹음 목록이 없으면 TTS 생성본만 사용 */ }
+
+    // js/audio.js가 읽는 형식: assets를 정규화된 '대사 텍스트'로 키잉
+    const manifest = {
+      format,
+      model,
+      voice,
+      count: Object.keys(merged).length,
+      recorded: recordedCount,
+      assets: merged,
+    };
+    await writeFile(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+    console.log(`manifest.json 갱신 (${manifest.count}개, 육성 녹음 우선 ${recordedCount}개)`);
+  }
 
   console.log(`Done. Generated ${generated}, skipped ${skipped}. Output: ${path.relative(root, outDir)}`);
 }
