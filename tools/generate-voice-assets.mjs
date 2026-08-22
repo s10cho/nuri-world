@@ -269,11 +269,13 @@ function voiceScriptsHtml(lines, recordedMap = new Map()) {
     const recordedSrc = recordedMap.get(voiceKey(line.text));
     const file = recordedSrc ? recordedSrc.replace(/^assets\/audio\/ko\//, '') : `${line.id}.${format}`;
     const sourceBadge = recordedSrc
-      ? '<span class="badge rec">🎙️ 녹음</span>'
-      : '<span class="badge tts">🤖 TTS</span>';
-    return `          <tr>
+      ? '<span class="badge rec source-badge">🎙️ 녹음</span>'
+      : '<span class="badge tts source-badge">🤖 TTS</span>';
+    // data-* 는 녹음 UI(public/voice-recorder.js)가 읽는다: 어떤 대사를 어느 파일로 저장할지
+    return `          <tr data-id="${escapeHtml(line.id)}" data-text="${escapedText}" data-src="${escapeHtml(recordedSrc || '')}" data-tts="${escapeHtml(`${line.id}.${format}`)}" data-recorded="${recordedSrc ? 1 : 0}">
             <td class="num">${index + 1}</td>
             <td><span class="badge">${escapeHtml(category)}</span></td>
+            <td><span class="rec-dot" title="녹음 상태"></span></td>
             <td>${sourceBadge}</td>
             <td><button class="file-copy-btn" type="button" data-copy="${escapeHtml(file)}"><code>${escapeHtml(file)}</code></button></td>
             <td class="script-cell">
@@ -299,6 +301,7 @@ function voiceScriptsHtml(lines, recordedMap = new Map()) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>누리의 한글 왕국 음성 스크립트</title>
+  <link rel="stylesheet" href="voice-recorder.css">
   <style>
     :root {
       color-scheme: light;
@@ -593,6 +596,9 @@ function voiceScriptsHtml(lines, recordedMap = new Map()) {
       <div>
         <h1>누리의 한글 왕국 음성 스크립트</h1>
         <p>OpenAI TTS 또는 직접 녹음용 대사 목록입니다. 파일 경로는 생성 스크립트의 출력 경로와 일치합니다.</p>
+        <p style="margin-top:6px"><code>npm run dev</code> 로 연 페이지에서는 아래 녹음 바로 바로 녹음·저장할 수 있습니다.
+          저장하면 <code>public/assets/audio/ko/</code> 와 <code>manifest.json</code> 이 갱신되어 앱이 즉시 그 육성을 사용합니다.
+          단축키 — <kbd>Space</kbd> 녹음/정지 · <kbd>Enter</kbd> 듣기 · <kbd>Backspace</kbd> 버리기 · <kbd>S</kbd> 저장 · <kbd>↑</kbd><kbd>↓</kbd> 대사 이동</p>
       </div>
       <div class="summary">
         <strong>${lines.length}</strong>
@@ -611,6 +617,7 @@ function voiceScriptsHtml(lines, recordedMap = new Map()) {
           <tr>
             <th>#</th>
             <th>분류</th>
+            <th>상태</th>
             <th>음원</th>
             <th>파일</th>
             <th>스크립트</th>
@@ -673,6 +680,7 @@ ${rows}
       });
     });
   </script>
+  <script type="module" src="voice-recorder.js"></script>
 </body>
 </html>
 `;

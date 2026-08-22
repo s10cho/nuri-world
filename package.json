@@ -22,6 +22,8 @@
     "format:check": "prettier --check \"js/**/*.js\"",
     "generate:voice": "node tools/generate-voice-assets.mjs",
     "import:voice": "node tools/import-recorded-voice-assets.mjs",
+    "convert:voice": "node tools/convert-recorded-voice.mjs",
+    "record:voice": "vite --open /nuri-world/voice-scripts.html",
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npm run typecheck && npm run lint && npm run test"

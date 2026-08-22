@@ -4,11 +4,12 @@ import globals from 'globals';
 
 export default [
   // 네이티브(android/ios)는 Capacitor가 web 번들을 복사·생성하는 폴더라 lint 대상에서 제외
-  { ignores: ['node_modules/**', 'public/**', 'dist/**', 'android/**', 'ios/**'] },
+  // public/ 는 생성·정적 자산 폴더라 제외하되, 손으로 쓰는 녹음 UI 스크립트는 검사한다
+  { ignores: ['node_modules/**', 'public/*', 'public/*/**', '!public/voice-recorder.js', 'dist/**', 'android/**', 'ios/**'] },
   js.configs.recommended,
   {
-    // 앱 소스 — 브라우저 환경
-    files: ['js/**/*.js'],
+    // 앱 소스 + 녹음 페이지 UI — 브라우저 환경
+    files: ['js/**/*.js', 'public/voice-recorder.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',

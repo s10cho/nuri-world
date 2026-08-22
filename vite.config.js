@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+import { voiceRecorderPlugin } from './tools/vite-plugin-voice-recorder.mjs';
+
 // CAP=1 이면 Capacitor(네이티브 앱) 빌드. 앱은 자산을 루트(capacitor://localhost/,
 // https://localhost/)에서 서빙하므로 base:'/' 여야 하고, 오프라인은 네이티브가 자산을
 // 번들해 기본 제공하므로 서비스워커(PWA)는 넣지 않는다(커스텀 스킴에서 SW 등록 불안정).
@@ -19,7 +21,11 @@ export default defineConfig({
   },
   server: { port: 5173, host: true },
   preview: { port: 4173, host: true },
-  plugins: isNative ? [] : [
+  plugins: [
+    // 개발 서버 전용: 녹음 페이지(/voice-scripts.html)가 녹음한 음성을
+    // public/assets/audio/ko/ 에 저장하고 manifest를 갱신하는 API. 빌드에는 포함되지 않는다.
+    voiceRecorderPlugin(),
+    ...(isNative ? [] : [
     // PWA: 오프라인 동작 + 홈 화면 설치. 앱셸(JS/CSS/HTML)은 프리캐시,
     // 용량 큰 이미지와 Google Fonts는 런타임 캐싱(CacheFirst)해 재방문·오프라인 대비.
     VitePWA({
@@ -62,5 +68,6 @@ export default defineConfig({
         ],
       },
     }),
+    ]),
   ],
 });
