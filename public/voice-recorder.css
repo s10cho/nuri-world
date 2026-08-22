@@ -1,0 +1,234 @@
+/* 녹음 페이지(voice-scripts.html) 전용 UI — 개발/녹음 작업용이라 앱 스타일과 분리한다. */
+
+:root {
+  --rec-red: #c8402f;
+  --rec-green: #2f7d55;
+}
+
+/* ── 상단 도구 막대 ───────────────────────────────────────────── */
+.rec-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 8px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.rec-toolbar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.rec-toolbar select,
+.rec-toolbar input[type='search'] {
+  max-width: 240px;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.rec-progress {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.rec-progress-bar {
+  height: 8px;
+  margin-top: 4px;
+  overflow: hidden;
+  background: #e7e0d3;
+  border-radius: 999px;
+}
+
+.rec-progress-bar > i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.rec-server {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  border-radius: 999px;
+}
+
+.rec-server.ok { color: #1f5c3d; background: #ddf2e4; }
+.rec-server.off { color: #7a3417; background: #fbe3d3; }
+
+.rec-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #8a5a2b;
+}
+
+/* ── 표: 녹음 상태 열 ─────────────────────────────────────────── */
+.rec-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #ded6c8;
+  border-radius: 50%;
+}
+
+tr[data-recorded='1'] .rec-dot { background: var(--rec-green); }
+tr.rec-active .rec-dot { box-shadow: 0 0 0 3px rgba(227, 161, 26, 0.35); }
+tr.rec-recording .rec-dot { background: var(--rec-red); animation: rec-pulse 0.9s infinite; }
+tr.rec-pending .rec-dot { background: #e3a11a; }
+tr[hidden] { display: none; }
+
+@keyframes rec-pulse {
+  50% { opacity: 0.25; }
+}
+
+/* ── 하단 녹음 바 ─────────────────────────────────────────────── */
+.rec-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: #fffdf8;
+  border-top: 2px solid var(--line);
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.rec-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.rec-bar-text {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.rec-bar-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.rec-bar-meta code { font-size: 0.8rem; }
+
+.rec-bar-script {
+  margin-top: 2px;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.rec-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.rec-btn {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.rec-btn:hover:not(:disabled) { background: #f4efe4; }
+.rec-btn:disabled { color: #a9a294; cursor: default; opacity: 0.6; }
+.rec-btn kbd {
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: #f1ece1;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.rec-btn.primary {
+  color: #fff;
+  background: var(--rec-red);
+  border-color: #a5301f;
+}
+
+.rec-btn.primary:hover:not(:disabled) { background: #b0361f; }
+.rec-btn.primary.recording { background: #2a2724; border-color: #14110f; }
+.rec-btn.save { color: #fff; background: var(--rec-green); border-color: #24603f; }
+.rec-btn.save:hover:not(:disabled) { background: #276b48; }
+.rec-btn.danger { color: #8d2f1f; }
+
+.rec-level {
+  position: relative;
+  flex: 0 0 90px;
+  height: 8px;
+  overflow: hidden;
+  background: #e7e0d3;
+  border-radius: 999px;
+}
+
+.rec-level > i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #2f7d55, #e3a11a 75%, #c8402f);
+}
+
+.rec-timer {
+  min-width: 52px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.rec-status {
+  flex-basis: 100%;
+  min-height: 1.2em;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.rec-status.error { font-weight: 600; color: #a5301f; }
+.rec-status.done { color: var(--rec-green); }
+
+/* 하단 바에 가리지 않도록 본문 여백 확보 (JS가 실제 높이로 덮어쓴다) */
+body.rec-enabled main { padding-bottom: 220px; }
+
+@media (max-width: 720px) {
+  .rec-bar-script { font-size: 1.1rem; }
+  .rec-btn { flex: 1 1 auto; justify-content: center; }
+  .rec-btn kbd { display: none; }
+}

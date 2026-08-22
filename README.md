@@ -48,6 +48,38 @@ OPENAI_API_KEY=sk-... npm run generate:voice
 - 변경 예: `OPENAI_TTS_MODEL=tts-1 OPENAI_TTS_VOICE=shimmer npm run generate:voice`
 - 이미 생성된 파일은 건너뛰며, 다시 만들려면 `npm run generate:voice -- --force`를 사용합니다.
 
+## 음성 직접 녹음 (육성)
+
+TTS 대신 직접 녹음한 목소리를 쓰고 싶은 대사는 브라우저에서 바로 녹음할 수 있습니다.
+녹음본이 있는 대사는 앱이 TTS보다 우선해서 재생합니다.
+
+```bash
+npm run record:voice   # = vite --open /nuri-world/voice-scripts.html
+```
+
+- 대사 목록 아래 **녹음 바**에서 진행합니다. 단축키: `Space` 녹음/정지 · `Enter` 듣기 ·
+  `Backspace` 방금 녹음 버리기 · `S` 저장 · `↑`/`↓` 대사 이동.
+- **저장**하면 개발 서버가 `public/assets/audio/ko/<id>.m4a` 에 파일을 쓰고
+  `tools/recorded-assets.json` 과 `public/assets/audio/ko/manifest.json` 을 갱신합니다.
+  앱을 새로 고치면 곧바로 그 육성이 재생됩니다(`js/audio.js` 가 manifest를 읽습니다).
+- **녹음 삭제**를 누르면 파일을 지우고 manifest를 TTS 생성본으로 되돌립니다.
+- 기본값은 *정지하면 자동 저장* + *저장 후 다음 미녹음으로* 라 계속 읽어 나가기만 하면 됩니다.
+  끄면 들어보고 마음에 들 때만 저장할 수 있습니다.
+- 형식: Safari와 최신 Chrome은 `audio/mp4`(AAC)로 녹음해 그대로 `.m4a` 로 저장됩니다.
+  webm(opus)로만 녹음되는 브라우저에서는 서버가 ffmpeg로 변환하고, ffmpeg가 없으면 경고와 함께
+  webm으로 저장합니다(iOS 앱에서 재생 안 될 수 있음) — 나중에 아래 명령으로 한 번에 변환하세요.
+
+```bash
+brew install ffmpeg
+npm run convert:voice            # webm/ogg/wav 녹음을 m4a로 변환 + json 갱신
+npm run convert:voice -- --dry-run
+```
+
+- 개발 서버가 아닌 곳에서 페이지를 열면 저장 대신 `분류:파일.mp3.m4a` 이름으로 내려받고,
+  `npm run import:voice` 로 반입할 수 있습니다.
+- 페이지 자체는 생성물이라 대사가 바뀌면 다시 만들어야 합니다:
+  `npm run generate:voice -- --html=public/voice-scripts.html`
+
 ## GitHub Pages 배포
 
 1. GitHub 저장소에 push
