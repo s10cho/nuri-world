@@ -21,10 +21,20 @@ const rows = [];
 const state = {
   active: 0,
   recording: false,
+  arming: false,     // 카운트인 대기 중
   server: false,
-  ffmpeg: false,
+  converter: null,   // 서버에서 쓸 수 있는 m4a 변환기(ffmpeg | afconvert | null)
   mimeType: '',
-  settings: { autoSave: true, autoNext: true, filter: 'all', query: '', deviceId: '' },
+  settings: {
+    autoSave: true,
+    autoNext: true,
+    autoStop: true,  // 말이 끝나면 저절로 정지 — 정지 키를 누르지 않게 해 키보드 소리를 막는다
+    trim: true,      // 앞뒤 무음·클릭 다듬기
+    leadInMs: 500,   // 녹음 시작 전 대기
+    filter: 'all',
+    query: '',
+    deviceId: '',
+  },
 };
 
 /** @type {MediaStream | null} */
@@ -37,7 +47,12 @@ let audioCtx = null;
 let analyser = null;
 let levelRaf = 0;
 let timerId = 0;
+let armTimer = 0;
 let startedAt = 0;
+let speechAt = 0;        // 마지막으로 소리가 감지된 시각
+let speechSeen = false;  // 이번 테이크에서 말이 한 번이라도 감지됐나
+/** @type {{ auto?: boolean, silent?: boolean }} */
+let stopReason = {};
 let deleteArmedFor = '';
 const player = new Audio();
 
@@ -148,7 +163,9 @@ async function ensureStream() {
   };
   stream = await navigator.mediaDevices.getUserMedia(constraints);
   audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') await audioCtx.resume();
+  // 자동재생 정책상 사용자 제스처 전에는 resume()이 무한 대기할 수 있으므로 기다리지 않는다
+  // (녹음 자체는 AudioContext와 무관하다 — 레벨 미터·무음 감지만 영향을 받는다)
+  if (audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
   analyser = audioCtx.createAnalyser();
   analyser.fftSize = 1024;
   audioCtx.createMediaStreamSource(stream).connect(analyser);
@@ -173,24 +190,58 @@ async function listDevices() {
   el.device.value = state.settings.deviceId || '';
 }
 
-function drawLevel() {
-  if (!analyser) return;
+// 레벨 미터 + 무음 감지. 말이 한 번 감지된 뒤 SILENCE_MS 동안 조용하면 스스로 멈춘다 —
+// 이렇게 하면 정지하려고 스페이스바를 누를 일이 없어 키보드 소리가 녹음에 섞이지 않는다.
+const SILENCE_RMS = 0.012;   // 이 값 아래면 무음으로 본다(정규화 진폭)
+const SILENCE_MS = 1000;     // 말이 끝난 뒤 이만큼 조용하면 정지
+const NO_SPEECH_MS = 8000;   // 아무 소리도 없으면 이만큼 뒤 포기
+const MAX_TAKE_MS = 20000;   // 안전장치 — 무한 녹음 방지
+
+/** 현재 입력 세기(0~1). @returns {{ peak: number, rms: number }} */
+function readLevel() {
   const data = new Uint8Array(analyser.fftSize);
   analyser.getByteTimeDomainData(data);
   let peak = 0;
-  for (const value of data) peak = Math.max(peak, Math.abs(value - 128));
-  el.levelFill.style.width = `${Math.min(100, (peak / 128) * 140)}%`;
+  let sum = 0;
+  for (const value of data) {
+    const amplitude = Math.abs(value - 128) / 128;
+    peak = Math.max(peak, amplitude);
+    sum += amplitude * amplitude;
+  }
+  return { peak, rms: Math.sqrt(sum / data.length) };
+}
+
+// 눈에 보이는 레벨 미터만 rAF로 그린다(탭이 숨으면 멈춰도 무방).
+function drawLevel() {
+  if (!analyser) return;
+  el.levelFill.style.width = `${Math.min(100, readLevel().peak * 140)}%`;
   levelRaf = requestAnimationFrame(drawLevel);
 }
 
+// 타이머 + 무음 감지. rAF가 아니라 setInterval에 두는 이유: 탭을 잠깐 다른 데로 옮겨도
+// (rAF는 아예 멈춘다) 자동 정지와 최대 길이 제한이 계속 동작해야 하기 때문.
 function tickTimer() {
-  const seconds = (Date.now() - startedAt) / 1000;
-  el.timer.textContent = `${seconds.toFixed(1)}s`;
+  const now = Date.now();
+  const elapsed = now - startedAt;
+  el.timer.textContent = `${(elapsed / 1000).toFixed(1)}s`;
+  // 오디오 컨텍스트가 아직 안 깨어났으면 세기를 못 재니 자동 정지도 하지 않는다(오판 방지)
+  if (!state.recording || !analyser || audioCtx?.state !== 'running') return;
+
+  if (readLevel().rms > SILENCE_RMS) {
+    speechAt = now;
+    speechSeen = true;
+  }
+  if (elapsed > MAX_TAKE_MS) stopRecording({ auto: true });
+  else if (state.settings.autoStop) {
+    if (speechSeen && now - speechAt > SILENCE_MS) stopRecording({ auto: true });
+    else if (!speechSeen && elapsed > NO_SPEECH_MS) stopRecording({ auto: true, silent: true });
+  }
 }
 
+// 스페이스바를 누른 '그 순간'의 키 소리가 앞머리에 물리지 않도록 잠깐 기다렸다 시작한다.
 async function startRecording() {
   const row = current();
-  if (!row || state.recording) return;
+  if (!row || state.recording || state.arming) return;
   try {
     await ensureStream();
   } catch (error) {
@@ -205,24 +256,61 @@ async function startRecording() {
   discardPending(row);
   player.pause();
 
+  const leadIn = Number(state.settings.leadInMs) || 0;
+  if (!leadIn) return beginRecording(row);
+
+  state.arming = true;
+  renderBar();
+  const readyAt = Date.now() + leadIn;
+  const countdown = () => {
+    const left = readyAt - Date.now();
+    if (!state.arming) return;
+    if (left <= 0) {
+      state.arming = false;
+      beginRecording(row);
+      return;
+    }
+    el.timer.textContent = `${(left / 1000).toFixed(1)}s`;
+    setStatus('잠시 후 시작해요… (키보드 소리를 피하려고 기다리는 중)');
+    armTimer = setTimeout(countdown, 50);
+  };
+  countdown();
+}
+
+/** @param {typeof rows[number]} row */
+function cancelArming() {
+  if (!state.arming) return;
+  state.arming = false;
+  clearTimeout(armTimer);
+  setStatus('시작을 취소했습니다.');
+  renderBar();
+}
+
+/** @param {typeof rows[number]} row */
+function beginRecording(row) {
   /** @type {BlobPart[]} */
   const chunks = [];
   state.mimeType = pickMimeType();
   recorder = new MediaRecorder(stream, state.mimeType ? { mimeType: state.mimeType } : undefined);
   recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
-  recorder.onstop = () => {
+  recorder.onstop = async () => {
     const type = recorder?.mimeType || state.mimeType || 'audio/webm';
-    const blob = new Blob(chunks, { type });
+    const raw = new Blob(chunks, { type });
+    const manual = !stopReason.auto;
+    const silent = !!stopReason.silent;
     state.recording = false;
     row.tr.classList.remove('rec-recording');
     cancelAnimationFrame(levelRaf);
     clearInterval(timerId);
     el.levelFill.style.width = '0';
-    if (!blob.size) {
-      setStatus('녹음된 소리가 없습니다. 마이크를 확인해 주세요.', 'error');
+
+    if (!raw.size || silent) {
+      setStatus(silent ? '소리가 들리지 않아 멈췄습니다. 마이크를 확인해 주세요.' : '녹음된 소리가 없습니다.', 'error');
       renderBar();
       return;
     }
+
+    const blob = state.settings.trim ? await trimTake(raw, manual) : raw;
     row.pending = { blob, url: URL.createObjectURL(blob) };
     row.tr.classList.add('rec-pending');
     renderBar();
@@ -236,17 +324,113 @@ async function startRecording() {
   recorder.start();
   state.recording = true;
   startedAt = Date.now();
+  speechAt = Date.now();
+  speechSeen = false;
+  stopReason = {};
   row.tr.classList.add('rec-recording');
   row.tr.classList.remove('rec-pending');
   timerId = setInterval(tickTimer, 100);
   drawLevel();
-  setStatus('녹음 중… 다 읽으면 스페이스바로 정지하세요.');
+  setStatus(state.settings.autoStop
+    ? '녹음 중… 다 읽고 잠깐 기다리면 저절로 멈춥니다.'
+    : '녹음 중… 다 읽으면 스페이스바로 정지하세요.');
   renderBar();
 }
 
-function stopRecording() {
+function toggleRecording() {
+  if (state.arming) cancelArming();
+  else if (state.recording) stopRecording();
+  else startRecording();
+}
+
+/** @param {{ auto?: boolean, silent?: boolean }} [reason] */
+function stopRecording(reason = {}) {
+  if (state.arming) return cancelArming();
   if (!state.recording || !recorder) return;
+  // 정지 요청이 여러 번 들어와도(무음 감지가 연속으로 걸릴 수 있다) 한 번만 처리한다
+  if (recorder.state !== 'recording') return;
+  stopReason = reason;
   recorder.stop();
+}
+
+/**
+ * 앞뒤 무음(과 수동 정지 시 끝의 키보드 클릭)을 잘라 낸다.
+ * 컨테이너를 직접 자를 수는 없으니 PCM으로 디코드해 다듬고 WAV로 다시 만든다.
+ * 서버가 ffmpeg 또는 macOS afconvert로 m4a로 변환한다.
+ * @param {Blob} blob @param {boolean} manualStop
+ * @returns {Promise<Blob>}
+ */
+async function trimTake(blob, manualStop) {
+  try {
+    const ctx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const buffer = await ctx.decodeAudioData(await blob.arrayBuffer());
+    const rate = buffer.sampleRate;
+
+    // 모노로 합친다
+    const mono = new Float32Array(buffer.length);
+    for (let ch = 0; ch < buffer.numberOfChannels; ch += 1) {
+      const data = buffer.getChannelData(ch);
+      for (let i = 0; i < data.length; i += 1) mono[i] += data[i] / buffer.numberOfChannels;
+    }
+
+    // 수동 정지면 끝부분에 키 누르는 소리가 남아 있으니 먼저 잘라 낸다
+    const usable = manualStop ? Math.max(0, mono.length - Math.round(rate * 0.18)) : mono.length;
+
+    const frame = Math.round(rate * 0.01); // 10ms 단위로 세기 측정
+    let peak = 0;
+    const levels = [];
+    for (let i = 0; i < usable; i += frame) {
+      let sum = 0;
+      const end = Math.min(i + frame, usable);
+      for (let j = i; j < end; j += 1) sum += mono[j] * mono[j];
+      const rms = Math.sqrt(sum / Math.max(1, end - i));
+      levels.push(rms);
+      peak = Math.max(peak, rms);
+    }
+    if (!peak) return blob;
+
+    const threshold = Math.max(peak * 0.08, 0.004);
+    const first = levels.findIndex(level => level > threshold);
+    let last = -1;
+    for (let i = levels.length - 1; i >= 0; i -= 1) {
+      if (levels[i] > threshold) { last = i; break; }
+    }
+    if (first < 0 || last < 0) return blob;
+
+    const start = Math.max(0, (first * frame) - Math.round(rate * 0.06)); // 앞 여유 60ms
+    const stop = Math.min(usable, ((last + 1) * frame) + Math.round(rate * 0.18)); // 뒤 여유 180ms
+    if (stop - start < rate * 0.15) return blob; // 너무 짧으면 원본 유지
+
+    return encodeWav(mono.subarray(start, stop), rate);
+  } catch {
+    return blob; // 디코드 실패 시 원본 그대로 — 저장은 되게 한다
+  }
+}
+
+/** Float32 모노 PCM → 16bit WAV Blob. @param {Float32Array} samples @param {number} rate */
+function encodeWav(samples, rate) {
+  const buffer = new ArrayBuffer(44 + samples.length * 2);
+  const view = new DataView(buffer);
+  const ascii = (offset, text) => {
+    for (let i = 0; i < text.length; i += 1) view.setUint8(offset + i, text.charCodeAt(i));
+  };
+  ascii(0, 'RIFF');
+  view.setUint32(4, 36 + samples.length * 2, true);
+  ascii(8, 'WAVEfmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);          // PCM
+  view.setUint16(22, 1, true);          // 모노
+  view.setUint32(24, rate, true);
+  view.setUint32(28, rate * 2, true);   // byte rate
+  view.setUint16(32, 2, true);          // block align
+  view.setUint16(34, 16, true);         // bits
+  ascii(36, 'data');
+  view.setUint32(40, samples.length * 2, true);
+  for (let i = 0; i < samples.length; i += 1) {
+    const value = Math.max(-1, Math.min(1, samples[i]));
+    view.setInt16(44 + i * 2, value < 0 ? value * 0x8000 : value * 0x7fff, true);
+  }
+  return new Blob([buffer], { type: 'audio/wav' });
 }
 
 /** @param {typeof rows[number]} row */
@@ -374,8 +558,10 @@ function renderBar() {
   el.script.textContent = row.text;
 
   const pending = !!row.pending;
-  el.record.classList.toggle('recording', state.recording);
-  el.record.firstChild.textContent = state.recording ? '■ 정지' : pending ? '● 다시 녹음' : '● 녹음';
+  el.record.classList.toggle('recording', state.recording || state.arming);
+  el.record.firstChild.textContent = state.arming
+    ? '× 취소'
+    : state.recording ? '■ 정지' : pending ? '● 다시 녹음' : '● 녹음';
   el.play.disabled = !pending && !row.savedSrc;
   el.play.firstChild.textContent = pending ? '▶ 방금 녹음' : '▶ 저장본';
   el.discard.disabled = !pending;
@@ -384,7 +570,7 @@ function renderBar() {
   el.delete.disabled = !row.savedSrc;
   el.delete.firstChild.textContent = deleteArmedFor === row.id ? '🗑 정말 삭제' : '🗑 삭제';
   el.tts.disabled = !row.tr.dataset.tts;
-  if (!state.recording) el.timer.textContent = pending ? '녹음됨' : row.savedSrc ? '저장됨' : '—';
+  if (!state.recording && !state.arming) el.timer.textContent = pending ? '녹음됨' : row.savedSrc ? '저장됨' : '—';
 }
 
 function applyFilter() {
@@ -423,6 +609,17 @@ function buildToolbar() {
     <label><input type="search" data-role="query" placeholder="대사·파일 검색"></label>
     <label><input type="checkbox" data-role="auto-save"> 정지하면 자동 저장</label>
     <label><input type="checkbox" data-role="auto-next"> 저장 후 다음 미녹음으로</label>
+    <label><input type="checkbox" data-role="auto-stop"> 말 끝나면 자동 정지</label>
+    <label><input type="checkbox" data-role="trim"> 앞뒤 무음·키 소리 다듬기</label>
+    <label>카운트인
+      <select data-role="lead-in">
+        <option value="0">없음</option>
+        <option value="300">0.3초</option>
+        <option value="500">0.5초</option>
+        <option value="800">0.8초</option>
+        <option value="1200">1.2초</option>
+      </select>
+    </label>
     <p class="rec-note" data-role="note" hidden></p>`;
   return toolbar;
 }
@@ -463,7 +660,7 @@ async function checkServer() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const result = await response.json();
     state.server = true;
-    state.ffmpeg = !!result.ffmpeg;
+    state.converter = result.converter ?? (result.ffmpeg ? 'ffmpeg' : null);
     el.server.textContent = '개발 서버 연결됨 · 저장 시 앱에 바로 반영';
     el.server.className = 'rec-server ok';
     // 서버가 아는 실제 파일 목록으로 배지를 맞춘다(HTML 생성 이후 바뀌었을 수 있음).
@@ -481,9 +678,12 @@ async function checkServer() {
 
   const type = pickMimeType();
   const notes = [];
-  if (!state.server) notes.push('npm run dev 로 연 페이지에서만 파일을 바로 저장할 수 있습니다. 지금은 내려받은 뒤 npm run import:voice 로 반입하세요.');
-  else if (type.includes('webm') && !state.ffmpeg) {
-    notes.push('이 브라우저는 webm(opus)로만 녹음할 수 있고 서버에 ffmpeg가 없습니다 — iOS 앱에서 재생되지 않을 수 있어요. brew install ffmpeg 후 npm run convert:voice 로 변환하거나, Safari로 녹음하면 바로 m4a로 저장됩니다.');
+  if (!state.server) {
+    notes.push('npm run dev 로 연 페이지에서만 파일을 바로 저장할 수 있습니다. 지금은 내려받은 뒤 npm run import:voice 로 반입하세요.');
+  } else if (!state.converter) {
+    notes.push('m4a 변환기(ffmpeg · macOS afconvert)를 찾지 못했습니다 — 다듬은 녹음이 WAV로 저장되어 용량이 큽니다. 나중에 npm run convert:voice 로 변환하세요.');
+  } else if (type.includes('webm') && state.converter !== 'ffmpeg' && !state.settings.trim) {
+    notes.push('“앞뒤 무음·키 소리 다듬기”를 끄면 이 브라우저의 webm 녹음이 그대로 저장되어 iOS 앱에서 재생되지 않을 수 있습니다. 켜 두면 WAV로 다듬어 보내고 서버가 m4a로 변환합니다.');
   }
   if (notes.length) {
     el.note.hidden = false;
@@ -501,7 +701,7 @@ function onKeydown(event) {
   switch (event.key) {
     case ' ':
       event.preventDefault();
-      state.recording ? stopRecording() : startRecording();
+      toggleRecording();
       break;
     case 'Enter':
       event.preventDefault();
@@ -526,7 +726,8 @@ function onKeydown(event) {
       move(-1);
       break;
     case 'Escape':
-      if (state.recording) stopRecording();
+      if (state.arming) cancelArming();
+      else if (state.recording) stopRecording();
       player.pause();
       break;
     default:
@@ -566,6 +767,9 @@ function init() {
     query: pick(toolbar, 'query'),
     autoSave: pick(toolbar, 'auto-save'),
     autoNext: pick(toolbar, 'auto-next'),
+    autoStop: pick(toolbar, 'auto-stop'),
+    trim: pick(toolbar, 'trim'),
+    leadIn: pick(toolbar, 'lead-in'),
     note: pick(toolbar, 'note'),
     position: pick(bar, 'position'),
     category: pick(bar, 'category'),
@@ -586,10 +790,13 @@ function init() {
 
   el.autoSave.checked = state.settings.autoSave;
   el.autoNext.checked = state.settings.autoNext;
+  el.autoStop.checked = state.settings.autoStop;
+  el.trim.checked = state.settings.trim;
+  el.leadIn.value = String(state.settings.leadInMs);
   el.filter.value = state.settings.filter;
   el.query.value = state.settings.query;
 
-  el.record.addEventListener('click', () => (state.recording ? stopRecording() : startRecording()));
+  el.record.addEventListener('click', () => toggleRecording());
   el.play.addEventListener('click', playCurrent);
   el.discard.addEventListener('click', discardCurrent);
   el.save.addEventListener('click', saveCurrent);
@@ -603,6 +810,18 @@ function init() {
   });
   el.autoNext.addEventListener('change', () => {
     state.settings.autoNext = el.autoNext.checked;
+    saveSettings();
+  });
+  el.autoStop.addEventListener('change', () => {
+    state.settings.autoStop = el.autoStop.checked;
+    saveSettings();
+  });
+  el.trim.addEventListener('change', () => {
+    state.settings.trim = el.trim.checked;
+    saveSettings();
+  });
+  el.leadIn.addEventListener('change', () => {
+    state.settings.leadInMs = Number(el.leadIn.value);
     saveSettings();
   });
   el.filter.addEventListener('change', () => {

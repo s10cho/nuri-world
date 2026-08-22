@@ -69,44 +69,74 @@ export async function fileExists(file) {
   }
 }
 
-/** @type {boolean | null} */
-let ffmpegCache = null;
-
-/** ffmpeg 사용 가능 여부(프로세스당 1회 확인). @returns {Promise<boolean>} */
-export async function hasFfmpeg() {
-  if (ffmpegCache !== null) return ffmpegCache;
-  ffmpegCache = await new Promise(resolve => {
-    const child = spawn('ffmpeg', ['-version'], { stdio: 'ignore' });
+/** @param {string} cmd @param {string[]} args @returns {Promise<boolean>} */
+function run(cmd, args) {
+  return new Promise(resolve => {
+    const child = spawn(cmd, args, { stdio: 'ignore' });
     child.on('error', () => resolve(false));
     child.on('close', code => resolve(code === 0));
   });
-  return ffmpegCache;
+}
+
+/** @type {'ffmpeg' | 'afconvert' | null | undefined} */
+let converterCache;
+
+/**
+ * 쓸 수 있는 m4a 변환기. ffmpeg가 있으면 우선 쓰고, 없으면 macOS 기본 탑재인
+ * afconvert를 쓴다(wav/caf 입력만 가능하지만 녹음 UI가 다듬은 WAV를 보내므로 충분하다).
+ * @returns {Promise<'ffmpeg' | 'afconvert' | null>}
+ */
+export async function findConverter() {
+  if (converterCache !== undefined) return converterCache;
+  if (await exists('ffmpeg', ['-version'])) converterCache = 'ffmpeg';
+  else if (await exists('afconvert', ['--help'])) converterCache = 'afconvert';
+  else converterCache = null;
+  return converterCache;
 }
 
 /**
- * ffmpeg로 m4a(AAC 모노)로 변환. 실패하면 null.
+ * 명령이 설치되어 있는지. 종료 코드는 보지 않는다 —
+ * afconvert --help 는 정상 설치 상태에서도 2로 끝난다.
+ * @param {string} cmd @param {string[]} args @returns {Promise<boolean>}
+ */
+function exists(cmd, args) {
+  return new Promise(resolve => {
+    const child = spawn(cmd, args, { stdio: 'ignore' });
+    child.on('error', () => resolve(false));
+    child.on('close', () => resolve(true));
+  });
+}
+
+/** 하위 호환 — 예전 이름. @returns {Promise<boolean>} */
+export async function hasFfmpeg() {
+  return (await findConverter()) !== null;
+}
+
+/**
+ * m4a(AAC 모노 44.1kHz)로 변환. 변환기가 없거나 실패하면 null.
  * @param {Buffer} input
- * @param {string} inputExt 원본 확장자(.webm 등)
+ * @param {string} inputExt 원본 확장자(.wav, .webm 등)
  * @returns {Promise<Buffer | null>}
  */
 export async function toM4a(input, inputExt) {
-  if (!await hasFfmpeg()) return null;
+  const converter = await findConverter();
+  // afconvert는 webm/ogg를 못 읽는다 — 그런 입력은 ffmpeg가 있을 때만 변환된다
+  if (!converter || (converter === 'afconvert' && !/\.(wav|caf|aiff?)$/.test(inputExt))) return null;
+
   const stamp = process.hrtime.bigint().toString(36);
   const dir = await mkdtempSafe();
   const src = path.join(dir, `rec-${stamp}${inputExt}`);
   const dest = path.join(dir, `rec-${stamp}.m4a`);
   try {
     await writeFile(src, input);
-    const ok = await new Promise(resolve => {
-      const child = spawn('ffmpeg', [
+    const ok = converter === 'ffmpeg'
+      ? await run('ffmpeg', [
         '-y', '-hide_banner', '-loglevel', 'error',
         '-i', src,
         '-ac', '1', '-ar', '44100', '-c:a', 'aac', '-b:a', '96k',
         dest,
-      ], { stdio: 'ignore' });
-      child.on('error', () => resolve(false));
-      child.on('close', code => resolve(code === 0));
-    });
+      ])
+      : await run('afconvert', ['-f', 'm4af', '-d', 'aac@44100', '-b', '96000', src, dest]);
     if (!ok) return null;
     return await readFile(dest);
   } catch {
@@ -237,9 +267,12 @@ export async function saveRecording({ id, text, bytes, mime, convert = true }) {
   const recordedCount = await countRecordedOnDisk(recorded.assets);
   await writeJson(manifestPath, applyToManifest(await readManifest(), key, asset, recordedCount));
 
-  const warning = !converted && isRiskyExt(ext)
-    ? `${ext} 형식으로 저장했습니다. iOS 앱에서는 재생되지 않을 수 있어요 — ffmpeg 설치(brew install ffmpeg) 후 npm run convert:voice 를 실행하거나 Safari로 녹음하세요.`
-    : undefined;
+  let warning;
+  if (!converted && isRiskyExt(ext)) {
+    warning = `${ext} 형식으로 저장했습니다. iOS 앱에서는 재생되지 않을 수 있어요 — ffmpeg 설치(brew install ffmpeg) 후 npm run convert:voice 를 실행하거나 Safari로 녹음하세요.`;
+  } else if (!converted && ext === '.wav') {
+    warning = 'm4a 변환기를 찾지 못해 WAV로 저장했습니다(용량이 큽니다). npm run convert:voice 로 나중에 변환하세요.';
+  }
 
   return { src: relative, bytes: data.length, converted, warning };
 }
@@ -290,7 +323,7 @@ export async function deleteRecording({ id, text, ttsFormat = 'mp3' }) {
  * 현재 녹음 현황 — 페이지가 열릴 때 배지·진행률을 서버 기준으로 맞추는 데 쓴다.
  * 앱(js/audio.js)과 같은 기준인 '대사 텍스트'로 키잉한다. id로 키잉하면 같은 낱말이
  * 두 분류(jamo '유' · syllables '유')에 걸쳐 있을 때 한쪽이 미녹음으로 보인다.
- * @returns {Promise<{ ffmpeg: boolean, recorded: Record<string, VoiceAsset & { mtime: number }> }>}
+ * @returns {Promise<{ ffmpeg: boolean, converter: string | null, recorded: Record<string, VoiceAsset & { mtime: number }> }>}
  */
 export async function recordingStatus() {
   const recorded = await readRecorded();
@@ -302,5 +335,6 @@ export async function recordingStatus() {
     const info = await stat(file);
     byText[voiceKey(text)] = { ...asset, bytes: info.size, mtime: info.mtimeMs };
   }
-  return { ffmpeg: await hasFfmpeg(), recorded: byText };
+  const converter = await findConverter();
+  return { ffmpeg: converter !== null, converter, recorded: byText };
 }
