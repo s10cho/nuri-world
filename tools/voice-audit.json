@@ -1,0 +1,2513 @@
+{
+  "updatedFor": 600,
+  "unused": [
+    "game/listen-intro",
+    "praise/stage-clear-01",
+    "praise/stage-clear-02",
+    "praise/stage-clear-03",
+    "kingdom/meadow/goal",
+    "kingdom/lake/goal",
+    "kingdom/tower/goal",
+    "kingdom/village/goal",
+    "kingdom/castle/goal",
+    "syllables/ko-efd23dd5ed",
+    "syllables/ko-811e029344",
+    "syllables/ko-c94aacfd94",
+    "syllables/ko-0563a51431",
+    "syllables/ko-9b7d34baf2",
+    "words/ko-7a83acced4",
+    "syllables/ko-2f4621ed19",
+    "syllables/ko-ec488add9d",
+    "syllables/ko-a862646b2e",
+    "syllables/ko-9e4bb560ba",
+    "words/ko-9e4bb560ba",
+    "syllables/ko-7dcadffb90",
+    "words/ko-7dedeb8297",
+    "syllables/ko-e30db5c581",
+    "syllables/ko-62e01cc977",
+    "words/ko-8a04a60438",
+    "syllables/ko-de8b6c7871",
+    "syllables/ko-15e22a52f3",
+    "syllables/ko-8f4dc1b65b",
+    "syllables/ko-e8b701a283",
+    "words/ko-38fd921c75",
+    "syllables/ko-402adcf5c0",
+    "words/ko-07d25c799d",
+    "syllables/ko-56c5af5b9b",
+    "syllables/ko-e5c60ff0a8",
+    "words/ko-c008697771",
+    "syllables/ko-0cb419946b",
+    "words/ko-fce33eef53",
+    "syllables/ko-95471f6b0a",
+    "words/ko-95471f6b0a",
+    "syllables/ko-ce05326dba",
+    "characters/nuri",
+    "characters/pori",
+    "characters/eraser"
+  ],
+  "missingFromList": [
+    {
+      "text": "기역! 기역을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "기역! 기역을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "니은! 니은을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "니은! 니은을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "디귿! 디귿을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "디귿! 디귿을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "리을! 리을을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "리을! 리을을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "미음! 미음을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "미음! 미음을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "비읍! 비읍을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "비읍! 비읍을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "시옷! 시옷을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "시옷! 시옷을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "이응! 이응을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "이응! 이응을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "지읒! 지읒을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "지읒! 지읒을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "치읓! 치읓을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "치읓! 치읓을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "키읔! 키읔을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "키읔! 키읔을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "티읕! 티읕을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "티읕! 티읕을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "피읖! 피읖을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "피읖! 피읖을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "히읗! 히읗을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "히읗! 히읗을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍기역! 쌍기역을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍기역! 쌍기역을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍디귿! 쌍디귿을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍디귿! 쌍디귿을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍비읍! 쌍비읍을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍비읍! 쌍비읍을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍시옷! 쌍시옷을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍시옷! 쌍시옷을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍지읒! 쌍지읒을 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "쌍지읒! 쌍지읒을 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "아! 아를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "아! 아를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "야! 야를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "야! 야를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "어! 어를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "어! 어를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "여! 여를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "여! 여를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "오! 오를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "오! 오를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "요! 요를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "요! 요를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "우! 우를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "우! 우를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "유! 유를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "유! 유를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "으! 으를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "으! 으를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "이! 이를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "이! 이를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "애! 애를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "애! 애를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "얘! 얘를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "얘! 얘를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "에! 에를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "에! 에를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "예! 예를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "예! 예를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "와! 와를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "와! 와를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "왜! 왜를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "왜! 왜를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "외! 외를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "외! 외를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "워! 워를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "워! 워를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "웨! 웨를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "웨! 웨를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "위! 위를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "위! 위를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    },
+    {
+      "text": "의! 의를 찾아 주세요.",
+      "where": "listen.js (녹음 없을 때만)"
+    },
+    {
+      "text": "의! 의를 찾아서 몬스터를 공격해요!",
+      "where": "boss.js (녹음 없을 때만)"
+    }
+  ],
+  "sentenceProblems": [],
+  "recordings": {
+    "ui/welcome": {
+      "src": "assets/audio/ko/ui/welcome.mp3.m4a",
+      "text": "누리의 한글 왕국에 온 것을 환영해요!",
+      "issues": [
+        "앞 무음 450ms",
+        "뒤 무음 990ms"
+      ],
+      "stats": {
+        "durationMs": 5161,
+        "leadMs": 450,
+        "tailMs": 990,
+        "peakDb": -0.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "ui/locked-kingdom": {
+      "src": "assets/audio/ko/ui/locked-kingdom.mp3.m4a",
+      "text": "아직 잠겨 있어요. 이전 왕국을 먼저 구해 주세요!",
+      "issues": [
+        "뒤 무음 860ms"
+      ],
+      "stats": {
+        "durationMs": 5439,
+        "leadMs": 250,
+        "tailMs": 860,
+        "peakDb": -1.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "ui/festival-ready": {
+      "src": "assets/audio/ko/ui/festival-ready.mp3.m4a",
+      "text": "와, 모든 왕국을 구했어요! 축제에 가 볼까요?",
+      "issues": [
+        "앞 무음 570ms",
+        "뒤 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 5545,
+        "leadMs": 570,
+        "tailMs": 720,
+        "peakDb": -3.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "ui/dex-intro": {
+      "src": "assets/audio/ko/ui/dex-intro.mp3.m4a",
+      "text": "내가 모은 글자와 친구들이에요. 눌러 보면 소리를 들려줘요!",
+      "issues": [
+        "뒤 무음 590ms"
+      ],
+      "stats": {
+        "durationMs": 6036,
+        "leadMs": 400,
+        "tailMs": 590,
+        "peakDb": -3.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/listen-intro": {
+      "src": "assets/audio/ko/game/listen-intro.mp3.m4a",
+      "text": "어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!",
+      "issues": [
+        "뒤 무음 570ms"
+      ],
+      "stats": {
+        "durationMs": 5097,
+        "leadMs": 310,
+        "tailMs": 570,
+        "peakDb": -3.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/match-intro": {
+      "src": "assets/audio/ko/game/match-intro.mp3.m4a",
+      "text": "카드를 뒤집어서 같은 글자 짝을 찾아 보세요!",
+      "issues": [
+        "앞 무음 830ms"
+      ],
+      "stats": {
+        "durationMs": 5503,
+        "leadMs": 830,
+        "tailMs": 480,
+        "peakDb": -0.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/match-start": {
+      "src": "assets/audio/ko/game/match-start.mp3.m4a",
+      "text": "잘 봐요! 어디에 같은 글자가 있을까요?",
+      "issues": [
+        "앞 무음 750ms"
+      ],
+      "stats": {
+        "durationMs": 4863,
+        "leadMs": 750,
+        "tailMs": 420,
+        "peakDb": -8.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/match-find": {
+      "src": "assets/audio/ko/game/match-find.mp3.m4a",
+      "text": "이제 같은 글자 짝을 찾아 보세요!",
+      "issues": [
+        "앞 무음 780ms"
+      ],
+      "stats": {
+        "durationMs": 4351,
+        "leadMs": 780,
+        "tailMs": 370,
+        "peakDb": -1.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/build-wrong": {
+      "src": "assets/audio/ko/game/build-wrong.mp3.m4a",
+      "text": "그 조각이 아니에요. 다시 골라 볼까요?",
+      "issues": [
+        "앞 무음 900ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 4969,
+        "leadMs": 900,
+        "tailMs": 40,
+        "peakDb": -7.2,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "game/word-wrong": {
+      "src": "assets/audio/ko/game/word-wrong.mp3.m4a",
+      "text": "음, 다른 글자 같아요. 소리를 다시 들어 볼까요?",
+      "issues": [
+        "앞 무음 500ms",
+        "뒤 무음 670ms"
+      ],
+      "stats": {
+        "durationMs": 5353,
+        "leadMs": 500,
+        "tailMs": 670,
+        "peakDb": -4.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/boss-intro": {
+      "src": "assets/audio/ko/game/boss-intro.mp3.m4a",
+      "text": "지우개 몬스터가 나타났어요! 배운 글자로 힘을 모아 공격해요!",
+      "issues": [
+        "앞 무음 820ms",
+        "뒤 무음 600ms"
+      ],
+      "stats": {
+        "durationMs": 6569,
+        "leadMs": 820,
+        "tailMs": 600,
+        "peakDb": -0.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/boss-win-1": {
+      "src": "assets/audio/ko/game/boss-win-1.mp3.m4a",
+      "text": "안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!",
+      "issues": [
+        "뒤 무음 1010ms"
+      ],
+      "stats": {
+        "durationMs": 7636,
+        "leadMs": 210,
+        "tailMs": 1010,
+        "peakDb": -1.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "game/boss-win-2": {
+      "src": "assets/audio/ko/game/boss-win-2.mp3.m4a",
+      "text": "와! 지우개 몬스터를 물리쳤어요! 왕국의 글자들이 모두 돌아와요!",
+      "issues": [
+        "뒤 무음 540ms"
+      ],
+      "stats": {
+        "durationMs": 6292,
+        "leadMs": 30,
+        "tailMs": 540,
+        "peakDb": -0.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/correct-01": {
+      "src": "assets/audio/ko/praise/correct-01.mp3.m4a",
+      "text": "딩동댕! 잘 찾았어요!",
+      "issues": [
+        "앞 무음 500ms"
+      ],
+      "stats": {
+        "durationMs": 3369,
+        "leadMs": 500,
+        "tailMs": 330,
+        "peakDb": -2.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/correct-02": {
+      "src": "assets/audio/ko/praise/correct-02.mp3.m4a",
+      "text": "우와, 정말 잘 들었어요!",
+      "issues": [
+        "앞 무음 610ms"
+      ],
+      "stats": {
+        "durationMs": 3177,
+        "leadMs": 610,
+        "tailMs": 240,
+        "peakDb": -5.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/correct-03": {
+      "src": "assets/audio/ko/praise/correct-03.mp3.m4a",
+      "text": "맞아요! 멋져요!",
+      "issues": [
+        "앞 무음 700ms"
+      ],
+      "stats": {
+        "durationMs": 2772,
+        "leadMs": 700,
+        "tailMs": 410,
+        "peakDb": -3.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/correct-04": {
+      "src": "assets/audio/ko/praise/correct-04.mp3.m4a",
+      "text": "열심히 듣더니 해냈어요!",
+      "issues": [
+        "앞 무음 780ms",
+        "뒤 무음 680ms"
+      ],
+      "stats": {
+        "durationMs": 3561,
+        "leadMs": 780,
+        "tailMs": 680,
+        "peakDb": -2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/retry-01": {
+      "src": "assets/audio/ko/praise/retry-01.mp3.m4a",
+      "text": "괜찮아요, 다시 한번 들어 볼까요?",
+      "issues": [
+        "앞 무음 920ms"
+      ],
+      "stats": {
+        "durationMs": 4543,
+        "leadMs": 920,
+        "tailMs": 460,
+        "peakDb": -5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/retry-02": {
+      "src": "assets/audio/ko/praise/retry-02.mp3.m4a",
+      "text": "음, 소리를 한 번 더 들어 보세요!",
+      "issues": [
+        "앞 무음 790ms"
+      ],
+      "stats": {
+        "durationMs": 4649,
+        "leadMs": 790,
+        "tailMs": 220,
+        "peakDb": -4.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/stage-clear-01": {
+      "src": "assets/audio/ko/praise/stage-clear-01.mp3.m4a",
+      "text": "정말 잘했어요!",
+      "issues": [
+        "앞 무음 670ms"
+      ],
+      "stats": {
+        "durationMs": 2708,
+        "leadMs": 670,
+        "tailMs": 480,
+        "peakDb": -4.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/stage-clear-02": {
+      "src": "assets/audio/ko/praise/stage-clear-02.mp3.m4a",
+      "text": "포기하지 않고 끝까지 했어요!",
+      "issues": [
+        "앞 무음 1040ms"
+      ],
+      "stats": {
+        "durationMs": 3732,
+        "leadMs": 1040,
+        "tailMs": 410,
+        "peakDb": -3.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "praise/stage-clear-03": {
+      "src": "assets/audio/ko/praise/stage-clear-03.mp3.m4a",
+      "text": "누리 덕분에 왕국이 더 반짝여요!",
+      "issues": [
+        "앞 무음 1020ms",
+        "뒤 무음 530ms"
+      ],
+      "stats": {
+        "durationMs": 4180,
+        "leadMs": 1020,
+        "tailMs": 530,
+        "peakDb": -4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/meadow/intro": {
+      "src": "assets/audio/ko/kingdom/meadow/intro.mp3.m4a",
+      "text": "여기는 기억의 초원이에요. 지우개 몬스터가 자음을 다 지워 버렸어요! 소리를 잘 듣고 자음을 찾아 주세요!",
+      "issues": [
+        "앞 무음 710ms",
+        "뒤 무음 540ms"
+      ],
+      "stats": {
+        "durationMs": 11305,
+        "leadMs": 710,
+        "tailMs": 540,
+        "peakDb": -4.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/meadow/goal": {
+      "src": "assets/audio/ko/kingdom/meadow/goal.mp3.m4a",
+      "text": "자음을 되찾아 초원을 다시 푸르게 만들어요!",
+      "issues": [
+        "앞 무음 580ms"
+      ],
+      "stats": {
+        "durationMs": 4969,
+        "leadMs": 580,
+        "tailMs": 450,
+        "peakDb": -7.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/lake/intro": {
+      "src": "assets/audio/ko/kingdom/lake/intro.mp3.m4a",
+      "text": "울림의 호수에 온 걸 환영해요! 모음이 사라져서 호수의 노래가 멈췄어요. 모음 소리를 되찾아 주세요!",
+      "issues": [
+        "앞 무음 1000ms"
+      ],
+      "stats": {
+        "durationMs": 10559,
+        "leadMs": 1000,
+        "tailMs": 420,
+        "peakDb": -5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/lake/goal": {
+      "src": "assets/audio/ko/kingdom/lake/goal.mp3.m4a",
+      "text": "모음의 소리를 되찾아 호수를 맑게 만들어요!",
+      "issues": [
+        "앞 무음 880ms"
+      ],
+      "stats": {
+        "durationMs": 5140,
+        "leadMs": 880,
+        "tailMs": 360,
+        "peakDb": -6.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/tower/intro": {
+      "src": "assets/audio/ko/kingdom/tower/intro.mp3.m4a",
+      "text": "글자 조각의 탑이에요! 자음과 모음이 만나면 글자가 태어나요. 조각을 맞춰서 글자를 만들어 보세요!",
+      "issues": [
+        "앞 무음 900ms",
+        "뒤 무음 520ms"
+      ],
+      "stats": {
+        "durationMs": 10495,
+        "leadMs": 900,
+        "tailMs": 520,
+        "peakDb": -3.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/tower/goal": {
+      "src": "assets/audio/ko/kingdom/tower/goal.mp3.m4a",
+      "text": "자음과 모음을 붙여서 글자를 만들어요!",
+      "issues": [
+        "앞 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 4223,
+        "leadMs": 720,
+        "tailMs": 260,
+        "peakDb": -4.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/village/intro": {
+      "src": "assets/audio/ko/kingdom/village/intro.mp3.m4a",
+      "text": "주민들의 이름이 사라졌어요! 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어요!",
+      "issues": [
+        "앞 무음 1030ms"
+      ],
+      "stats": {
+        "durationMs": 9151,
+        "leadMs": 1030,
+        "tailMs": 390,
+        "peakDb": -4.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/village/goal": {
+      "src": "assets/audio/ko/kingdom/village/goal.mp3.m4a",
+      "text": "글자를 찾아 주민들의 이름을 되찾아 주세요!",
+      "issues": [
+        "앞 무음 730ms"
+      ],
+      "stats": {
+        "durationMs": 4799,
+        "leadMs": 730,
+        "tailMs": 500,
+        "peakDb": -4.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/castle/intro": {
+      "src": "assets/audio/ko/kingdom/castle/intro.mp3.m4a",
+      "text": "드디어 지우개 몬스터의 성이에요! 그동안 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구해요!",
+      "issues": [
+        "앞 무음 510ms"
+      ],
+      "stats": {
+        "durationMs": 9492,
+        "leadMs": 510,
+        "tailMs": 440,
+        "peakDb": -0.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "kingdom/castle/goal": {
+      "src": "assets/audio/ko/kingdom/castle/goal.mp3.m4a",
+      "text": "배운 글자로 지우개 몬스터를 물리쳐요!",
+      "issues": [
+        "앞 무음 790ms"
+      ],
+      "stats": {
+        "durationMs": 4052,
+        "leadMs": 790,
+        "tailMs": 210,
+        "peakDb": -2.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "story/intro-01": {
+      "src": "assets/audio/ko/story/intro-01.mp3.m4a",
+      "text": "옛날 옛적, 글자들이 반짝반짝 빛나는 누리 한글 왕국이 있었어요.",
+      "issues": [
+        "앞 무음 790ms"
+      ],
+      "stats": {
+        "durationMs": 7124,
+        "leadMs": 790,
+        "tailMs": 380,
+        "peakDb": -7.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "story/intro-02": {
+      "src": "assets/audio/ko/story/intro-02.mp3.m4a",
+      "text": "어느 날, 지우개 몬스터가 나타나 왕국의 글자들을 지워 버렸어요!",
+      "issues": [
+        "앞 무음 520ms"
+      ],
+      "stats": {
+        "durationMs": 6271,
+        "leadMs": 520,
+        "tailMs": 330,
+        "peakDb": -2.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "story/intro-03": {
+      "src": "assets/audio/ko/story/intro-03.mp3.m4a",
+      "text": "주민들은 이름을 잃어버리고, 왕국은 엉망이 되어 버렸어요.",
+      "issues": [
+        "앞 무음 790ms"
+      ],
+      "stats": {
+        "durationMs": 6036,
+        "leadMs": 790,
+        "tailMs": 370,
+        "peakDb": -6.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "story/intro-04": {
+      "src": "assets/audio/ko/story/intro-04.mp3.m4a",
+      "text": "누리와 마법 토끼 포리는 글자를 되찾는 모험을 떠나기로 했어요!",
+      "issues": [
+        "앞 무음 880ms",
+        "뒤 무음 530ms"
+      ],
+      "stats": {
+        "durationMs": 6633,
+        "leadMs": 880,
+        "tailMs": 530,
+        "peakDb": -3.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "festival/line-01": {
+      "src": "assets/audio/ko/festival/line-01.mp3.m4a",
+      "text": "와! 글자들이 모두 돌아왔어요!",
+      "issues": [
+        "앞 무음 540ms"
+      ],
+      "stats": {
+        "durationMs": 3753,
+        "leadMs": 540,
+        "tailMs": 280,
+        "peakDb": -1.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "festival/line-02": {
+      "src": "assets/audio/ko/festival/line-02.mp3.m4a",
+      "text": "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요.",
+      "issues": [
+        "앞 무음 520ms"
+      ],
+      "stats": {
+        "durationMs": 4607,
+        "leadMs": 520,
+        "tailMs": 220,
+        "peakDb": -4.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "festival/line-03": {
+      "src": "assets/audio/ko/festival/line-03.mp3.m4a",
+      "text": "주민들이 축제를 열어 누리를 축하해요! 🎉",
+      "issues": [
+        "앞 무음 560ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 4372,
+        "leadMs": 560,
+        "tailMs": 30,
+        "peakDb": -1.8,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo/ko-67c714efd0": {
+      "src": "assets/audio/ko/jamo/ko-67c714efd0.mp3.m4a",
+      "text": "기역",
+      "issues": [
+        "앞 무음 770ms"
+      ],
+      "stats": {
+        "durationMs": 1833,
+        "leadMs": 770,
+        "tailMs": 490,
+        "peakDb": -3.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-67c714efd0": {
+      "src": "assets/audio/ko/jamo-intro/ko-67c714efd0.mp3.m4a",
+      "text": "기역! 가, 가방의 첫소리예요.",
+      "issues": [
+        "앞 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 5055,
+        "leadMs": 720,
+        "tailMs": 420,
+        "peakDb": -3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-142a302815": {
+      "src": "assets/audio/ko/words/ko-142a302815.mp3.m4a",
+      "text": "가방",
+      "issues": [
+        "앞 무음 910ms",
+        "뒤 무음 540ms"
+      ],
+      "stats": {
+        "durationMs": 2132,
+        "leadMs": 910,
+        "tailMs": 540,
+        "peakDb": -3.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-872e638f53": {
+      "src": "assets/audio/ko/words/ko-872e638f53.mp3.m4a",
+      "text": "고래",
+      "issues": [
+        "앞 무음 800ms"
+      ],
+      "stats": {
+        "durationMs": 1833,
+        "leadMs": 800,
+        "tailMs": 470,
+        "peakDb": -4.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-4a944dc438": {
+      "src": "assets/audio/ko/jamo/ko-4a944dc438.mp3.m4a",
+      "text": "니은",
+      "issues": [
+        "앞 무음 550ms"
+      ],
+      "stats": {
+        "durationMs": 1599,
+        "leadMs": 550,
+        "tailMs": 320,
+        "peakDb": -4.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-4a944dc438": {
+      "src": "assets/audio/ko/jamo-intro/ko-4a944dc438.mp3.m4a",
+      "text": "니은! 나, 나비의 첫소리예요.",
+      "issues": [
+        "앞 무음 730ms"
+      ],
+      "stats": {
+        "durationMs": 4777,
+        "leadMs": 730,
+        "tailMs": 250,
+        "peakDb": -2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-fee57e1fd6": {
+      "src": "assets/audio/ko/words/ko-fee57e1fd6.mp3.m4a",
+      "text": "나비",
+      "issues": [
+        "앞 무음 610ms"
+      ],
+      "stats": {
+        "durationMs": 1620,
+        "leadMs": 610,
+        "tailMs": 250,
+        "peakDb": -4.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-8eb09d1664": {
+      "src": "assets/audio/ko/words/ko-8eb09d1664.mp3.m4a",
+      "text": "나무",
+      "issues": [
+        "앞 무음 740ms"
+      ],
+      "stats": {
+        "durationMs": 2025,
+        "leadMs": 740,
+        "tailMs": 500,
+        "peakDb": -3.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-7b2f60ff10": {
+      "src": "assets/audio/ko/jamo/ko-7b2f60ff10.mp3.m4a",
+      "text": "디귿",
+      "issues": [
+        "앞 무음 800ms",
+        "뒤 무음 660ms"
+      ],
+      "stats": {
+        "durationMs": 1961,
+        "leadMs": 800,
+        "tailMs": 660,
+        "peakDb": -8.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-7b2f60ff10": {
+      "src": "assets/audio/ko/jamo-intro/ko-7b2f60ff10.mp3.m4a",
+      "text": "디귿! 다, 다리의 첫소리예요.",
+      "issues": [
+        "앞 무음 880ms"
+      ],
+      "stats": {
+        "durationMs": 4671,
+        "leadMs": 880,
+        "tailMs": 240,
+        "peakDb": -1.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-4cf9cb9723": {
+      "src": "assets/audio/ko/words/ko-4cf9cb9723.mp3.m4a",
+      "text": "다리",
+      "issues": [
+        "앞 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 1727,
+        "leadMs": 720,
+        "tailMs": 330,
+        "peakDb": -8.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-56def3367a": {
+      "src": "assets/audio/ko/words/ko-56def3367a.mp3.m4a",
+      "text": "도넛",
+      "issues": [
+        "앞 무음 1020ms"
+      ],
+      "stats": {
+        "durationMs": 1940,
+        "leadMs": 1020,
+        "tailMs": 320,
+        "peakDb": -4.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-4e3de77253": {
+      "src": "assets/audio/ko/jamo/ko-4e3de77253.mp3.m4a",
+      "text": "리을",
+      "issues": [
+        "앞 무음 940ms"
+      ],
+      "stats": {
+        "durationMs": 1919,
+        "leadMs": 940,
+        "tailMs": 400,
+        "peakDb": -5.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-4e3de77253": {
+      "src": "assets/audio/ko/jamo-intro/ko-4e3de77253.mp3.m4a",
+      "text": "리을! 로, 로봇의 첫소리예요.",
+      "issues": [
+        "앞 무음 780ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 4607,
+        "leadMs": 780,
+        "tailMs": 50,
+        "peakDb": -7.8,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "words/ko-ba46f25d1d": {
+      "src": "assets/audio/ko/words/ko-ba46f25d1d.mp3.m4a",
+      "text": "로봇",
+      "issues": [
+        "앞 무음 760ms"
+      ],
+      "stats": {
+        "durationMs": 1684,
+        "leadMs": 760,
+        "tailMs": 250,
+        "peakDb": -9.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-4b917d2ec4": {
+      "src": "assets/audio/ko/words/ko-4b917d2ec4.mp3.m4a",
+      "text": "라면",
+      "issues": [
+        "앞 무음 740ms"
+      ],
+      "stats": {
+        "durationMs": 1705,
+        "leadMs": 740,
+        "tailMs": 180,
+        "peakDb": -4.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-21cff49381": {
+      "src": "assets/audio/ko/jamo/ko-21cff49381.mp3.m4a",
+      "text": "미음",
+      "issues": [
+        "앞 무음 740ms"
+      ],
+      "stats": {
+        "durationMs": 1812,
+        "leadMs": 740,
+        "tailMs": 450,
+        "peakDb": -7.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-21cff49381": {
+      "src": "assets/audio/ko/jamo-intro/ko-21cff49381.mp3.m4a",
+      "text": "미음! 모, 모자의 첫소리예요.",
+      "issues": [
+        "앞 무음 720ms",
+        "뒤 무음 520ms"
+      ],
+      "stats": {
+        "durationMs": 4969,
+        "leadMs": 720,
+        "tailMs": 520,
+        "peakDb": -4.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-a35e68beb3": {
+      "src": "assets/audio/ko/words/ko-a35e68beb3.mp3.m4a",
+      "text": "모자",
+      "issues": [
+        "앞 무음 740ms"
+      ],
+      "stats": {
+        "durationMs": 1855,
+        "leadMs": 740,
+        "tailMs": 410,
+        "peakDb": -3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-e70debe270": {
+      "src": "assets/audio/ko/words/ko-e70debe270.mp3.m4a",
+      "text": "무지개",
+      "issues": [
+        "앞 무음 850ms"
+      ],
+      "stats": {
+        "durationMs": 2025,
+        "leadMs": 850,
+        "tailMs": 400,
+        "peakDb": -4.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-38c9576ce5": {
+      "src": "assets/audio/ko/jamo/ko-38c9576ce5.mp3.m4a",
+      "text": "비읍",
+      "issues": [
+        "뒤 무음 550ms"
+      ],
+      "stats": {
+        "durationMs": 1513,
+        "leadMs": 390,
+        "tailMs": 550,
+        "peakDb": -5.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-38c9576ce5": {
+      "src": "assets/audio/ko/jamo-intro/ko-38c9576ce5.mp3.m4a",
+      "text": "비읍! 바, 바나나의 첫소리예요.",
+      "issues": [
+        "앞 무음 760ms"
+      ],
+      "stats": {
+        "durationMs": 4905,
+        "leadMs": 760,
+        "tailMs": 260,
+        "peakDb": -4.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-11c41eebd9": {
+      "src": "assets/audio/ko/words/ko-11c41eebd9.mp3.m4a",
+      "text": "바나나",
+      "issues": [
+        "앞 무음 880ms"
+      ],
+      "stats": {
+        "durationMs": 2367,
+        "leadMs": 880,
+        "tailMs": 480,
+        "peakDb": -3.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-ae35168837": {
+      "src": "assets/audio/ko/words/ko-ae35168837.mp3.m4a",
+      "text": "비행기",
+      "issues": [
+        "앞 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 2111,
+        "leadMs": 720,
+        "tailMs": 320,
+        "peakDb": -7.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-1ebd30068e": {
+      "src": "assets/audio/ko/jamo/ko-1ebd30068e.mp3.m4a",
+      "text": "시옷",
+      "issues": [
+        "앞 무음 830ms"
+      ],
+      "stats": {
+        "durationMs": 1684,
+        "leadMs": 830,
+        "tailMs": 300,
+        "peakDb": -9.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-1ebd30068e": {
+      "src": "assets/audio/ko/jamo-intro/ko-1ebd30068e.mp3.m4a",
+      "text": "시옷! 사, 사자의 첫소리예요.",
+      "issues": [
+        "앞 무음 830ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 4799,
+        "leadMs": 830,
+        "tailMs": 60,
+        "peakDb": -5.6,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "words/ko-97a7500406": {
+      "src": "assets/audio/ko/words/ko-97a7500406.mp3.m4a",
+      "text": "사자",
+      "issues": [
+        "앞 무음 600ms"
+      ],
+      "stats": {
+        "durationMs": 1513,
+        "leadMs": 600,
+        "tailMs": 280,
+        "peakDb": -4.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-a0a0c5ec57": {
+      "src": "assets/audio/ko/words/ko-a0a0c5ec57.mp3.m4a",
+      "text": "수박",
+      "issues": [
+        "앞 무음 410ms"
+      ],
+      "stats": {
+        "durationMs": 1385,
+        "leadMs": 410,
+        "tailMs": 330,
+        "peakDb": -4.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-f655984129": {
+      "src": "assets/audio/ko/jamo/ko-f655984129.mp3.m4a",
+      "text": "이응",
+      "issues": [
+        "앞 무음 630ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1535,
+        "leadMs": 630,
+        "tailMs": 80,
+        "peakDb": -8.9,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-f655984129": {
+      "src": "assets/audio/ko/jamo-intro/ko-f655984129.mp3.m4a",
+      "text": "이응! 오, 오리의 첫소리예요.",
+      "issues": [],
+      "stats": {
+        "durationMs": 4095,
+        "leadMs": 250,
+        "tailMs": 230,
+        "peakDb": -6.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-d96fc2124c": {
+      "src": "assets/audio/ko/words/ko-d96fc2124c.mp3.m4a",
+      "text": "오리",
+      "issues": [
+        "앞 무음 690ms"
+      ],
+      "stats": {
+        "durationMs": 1684,
+        "leadMs": 690,
+        "tailMs": 340,
+        "peakDb": -6.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-153ff43ea0": {
+      "src": "assets/audio/ko/words/ko-153ff43ea0.mp3.m4a",
+      "text": "우유",
+      "issues": [
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1428,
+        "leadMs": 340,
+        "tailMs": 30,
+        "peakDb": -10.7,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo/ko-067272e3dd": {
+      "src": "assets/audio/ko/jamo/ko-067272e3dd.mp3.m4a",
+      "text": "지읒",
+      "issues": [
+        "앞 무음 620ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1641,
+        "leadMs": 620,
+        "tailMs": 50,
+        "peakDb": -9,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-067272e3dd": {
+      "src": "assets/audio/ko/jamo-intro/ko-067272e3dd.mp3.m4a",
+      "text": "지읒! 자, 자동차의 첫소리예요.",
+      "issues": [
+        "앞 무음 740ms"
+      ],
+      "stats": {
+        "durationMs": 4841,
+        "leadMs": 740,
+        "tailMs": 210,
+        "peakDb": -4.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-8fb02f3dcc": {
+      "src": "assets/audio/ko/words/ko-8fb02f3dcc.mp3.m4a",
+      "text": "자동차",
+      "issues": [
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1833,
+        "leadMs": 260,
+        "tailMs": 70,
+        "peakDb": -6.7,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "words/ko-93a74a3b1d": {
+      "src": "assets/audio/ko/words/ko-93a74a3b1d.mp3.m4a",
+      "text": "주스",
+      "issues": [
+        "앞 무음 840ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1940,
+        "leadMs": 840,
+        "tailMs": 50,
+        "peakDb": -12.2,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo/ko-f7a58944ac": {
+      "src": "assets/audio/ko/jamo/ko-f7a58944ac.mp3.m4a",
+      "text": "치읓",
+      "issues": [
+        "앞 무음 610ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1364,
+        "leadMs": 610,
+        "tailMs": 40,
+        "peakDb": -10.2,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-f7a58944ac": {
+      "src": "assets/audio/ko/jamo-intro/ko-f7a58944ac.mp3.m4a",
+      "text": "치읓! 치, 치즈의 첫소리예요.",
+      "issues": [
+        "앞 무음 710ms"
+      ],
+      "stats": {
+        "durationMs": 4692,
+        "leadMs": 710,
+        "tailMs": 190,
+        "peakDb": -6.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-7d880b361b": {
+      "src": "assets/audio/ko/words/ko-7d880b361b.mp3.m4a",
+      "text": "치즈",
+      "issues": [
+        "앞 무음 650ms"
+      ],
+      "stats": {
+        "durationMs": 1599,
+        "leadMs": 650,
+        "tailMs": 360,
+        "peakDb": -8.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-59fbcf973a": {
+      "src": "assets/audio/ko/words/ko-59fbcf973a.mp3.m4a",
+      "text": "초콜릿",
+      "issues": [
+        "앞 무음 880ms"
+      ],
+      "stats": {
+        "durationMs": 1983,
+        "leadMs": 880,
+        "tailMs": 380,
+        "peakDb": -10.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-c52e73c3c7": {
+      "src": "assets/audio/ko/jamo/ko-c52e73c3c7.mp3.m4a",
+      "text": "키읔",
+      "issues": [
+        "앞 무음 730ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1833,
+        "leadMs": 730,
+        "tailMs": 30,
+        "peakDb": -11.5,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-c52e73c3c7": {
+      "src": "assets/audio/ko/jamo-intro/ko-c52e73c3c7.mp3.m4a",
+      "text": "키읔! 코, 코끼리의 첫소리예요.",
+      "issues": [
+        "앞 무음 730ms"
+      ],
+      "stats": {
+        "durationMs": 4820,
+        "leadMs": 730,
+        "tailMs": 290,
+        "peakDb": -6.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-cbca3e4a95": {
+      "src": "assets/audio/ko/words/ko-cbca3e4a95.mp3.m4a",
+      "text": "코끼리",
+      "issues": [
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1492,
+        "leadMs": 400,
+        "tailMs": 50,
+        "peakDb": -7.2,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "words/ko-b357690907": {
+      "src": "assets/audio/ko/words/ko-b357690907.mp3.m4a",
+      "text": "코",
+      "issues": [
+        "앞 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 1492,
+        "leadMs": 720,
+        "tailMs": 420,
+        "peakDb": -10,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-518b43090d": {
+      "src": "assets/audio/ko/jamo/ko-518b43090d.mp3.m4a",
+      "text": "티읕",
+      "issues": [
+        "앞 무음 640ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1428,
+        "leadMs": 640,
+        "tailMs": 40,
+        "peakDb": -7.9,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-518b43090d": {
+      "src": "assets/audio/ko/jamo-intro/ko-518b43090d.mp3.m4a",
+      "text": "티읕! 토, 토끼의 첫소리예요.",
+      "issues": [
+        "앞 무음 630ms"
+      ],
+      "stats": {
+        "durationMs": 4521,
+        "leadMs": 630,
+        "tailMs": 160,
+        "peakDb": -5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-7830e5d546": {
+      "src": "assets/audio/ko/words/ko-7830e5d546.mp3.m4a",
+      "text": "토끼",
+      "issues": [
+        "앞 무음 490ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1407,
+        "leadMs": 490,
+        "tailMs": 50,
+        "peakDb": -9.1,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "words/ko-8d0f492da3": {
+      "src": "assets/audio/ko/words/ko-8d0f492da3.mp3.m4a",
+      "text": "토마토",
+      "issues": [
+        "앞 무음 670ms"
+      ],
+      "stats": {
+        "durationMs": 2068,
+        "leadMs": 670,
+        "tailMs": 460,
+        "peakDb": -6.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-6c18e08383": {
+      "src": "assets/audio/ko/jamo/ko-6c18e08383.mp3.m4a",
+      "text": "피읖",
+      "issues": [
+        "앞 무음 530ms"
+      ],
+      "stats": {
+        "durationMs": 1428,
+        "leadMs": 530,
+        "tailMs": 440,
+        "peakDb": -13.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-6c18e08383": {
+      "src": "assets/audio/ko/jamo-intro/ko-6c18e08383.mp3.m4a",
+      "text": "피읖! 포, 포도의 첫소리예요.",
+      "issues": [
+        "앞 무음 550ms"
+      ],
+      "stats": {
+        "durationMs": 4393,
+        "leadMs": 550,
+        "tailMs": 180,
+        "peakDb": -7.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-4dcf6be28b": {
+      "src": "assets/audio/ko/words/ko-4dcf6be28b.mp3.m4a",
+      "text": "포도",
+      "issues": [
+        "앞 무음 710ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1705,
+        "leadMs": 710,
+        "tailMs": 60,
+        "peakDb": -10.1,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "words/ko-7425750e4b": {
+      "src": "assets/audio/ko/words/ko-7425750e4b.mp3.m4a",
+      "text": "피자",
+      "issues": [
+        "앞 무음 730ms",
+        "뒤 무음 580ms"
+      ],
+      "stats": {
+        "durationMs": 1833,
+        "leadMs": 730,
+        "tailMs": 580,
+        "peakDb": -4.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-17e5b0e1e3": {
+      "src": "assets/audio/ko/jamo/ko-17e5b0e1e3.mp3.m4a",
+      "text": "히읗",
+      "issues": [
+        "앞 무음 540ms"
+      ],
+      "stats": {
+        "durationMs": 1193,
+        "leadMs": 540,
+        "tailMs": 300,
+        "peakDb": -6.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-17e5b0e1e3": {
+      "src": "assets/audio/ko/jamo-intro/ko-17e5b0e1e3.mp3.m4a",
+      "text": "히읗! 하, 하마의 첫소리예요.",
+      "issues": [
+        "앞 무음 590ms"
+      ],
+      "stats": {
+        "durationMs": 4436,
+        "leadMs": 590,
+        "tailMs": 460,
+        "peakDb": -3.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-a35116d52b": {
+      "src": "assets/audio/ko/words/ko-a35116d52b.mp3.m4a",
+      "text": "하마",
+      "issues": [
+        "앞 무음 560ms"
+      ],
+      "stats": {
+        "durationMs": 1364,
+        "leadMs": 560,
+        "tailMs": 340,
+        "peakDb": -9.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-84ed8394a0": {
+      "src": "assets/audio/ko/words/ko-84ed8394a0.mp3.m4a",
+      "text": "해",
+      "issues": [
+        "앞 무음 650ms"
+      ],
+      "stats": {
+        "durationMs": 1215,
+        "leadMs": 650,
+        "tailMs": 160,
+        "peakDb": -10.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-9606075f94": {
+      "src": "assets/audio/ko/jamo/ko-9606075f94.mp3.m4a",
+      "text": "쌍기역",
+      "issues": [],
+      "stats": {
+        "durationMs": 1236,
+        "leadMs": 210,
+        "tailMs": 300,
+        "peakDb": -5.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-9606075f94": {
+      "src": "assets/audio/ko/jamo-intro/ko-9606075f94.mp3.m4a",
+      "text": "쌍기역! 꽃, 꽃의 첫소리예요.",
+      "issues": [
+        "앞 무음 540ms"
+      ],
+      "stats": {
+        "durationMs": 4649,
+        "leadMs": 540,
+        "tailMs": 140,
+        "peakDb": -3.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-2b12519c6e": {
+      "src": "assets/audio/ko/words/ko-2b12519c6e.mp3.m4a",
+      "text": "꽃",
+      "issues": [
+        "앞 무음 620ms"
+      ],
+      "stats": {
+        "durationMs": 1407,
+        "leadMs": 620,
+        "tailMs": 500,
+        "peakDb": -11.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-0f686b5833": {
+      "src": "assets/audio/ko/words/ko-0f686b5833.mp3.m4a",
+      "text": "꿀",
+      "issues": [
+        "앞 무음 720ms"
+      ],
+      "stats": {
+        "durationMs": 1407,
+        "leadMs": 720,
+        "tailMs": 290,
+        "peakDb": -10.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-f2706742f4": {
+      "src": "assets/audio/ko/jamo/ko-f2706742f4.mp3.m4a",
+      "text": "쌍디귿",
+      "issues": [
+        "앞 무음 460ms",
+        "뒤 무음 510ms"
+      ],
+      "stats": {
+        "durationMs": 1727,
+        "leadMs": 460,
+        "tailMs": 510,
+        "peakDb": -10.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-f2706742f4": {
+      "src": "assets/audio/ko/jamo-intro/ko-f2706742f4.mp3.m4a",
+      "text": "쌍디귿! 딸, 딸기의 첫소리예요.",
+      "issues": [
+        "앞 무음 680ms"
+      ],
+      "stats": {
+        "durationMs": 5183,
+        "leadMs": 680,
+        "tailMs": 390,
+        "peakDb": -3.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-ebf008d37b": {
+      "src": "assets/audio/ko/words/ko-ebf008d37b.mp3.m4a",
+      "text": "딸기",
+      "issues": [
+        "앞 무음 770ms"
+      ],
+      "stats": {
+        "durationMs": 1833,
+        "leadMs": 770,
+        "tailMs": 420,
+        "peakDb": -7.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-efc0dcfd6c": {
+      "src": "assets/audio/ko/words/ko-efc0dcfd6c.mp3.m4a",
+      "text": "땅콩",
+      "issues": [
+        "앞 무음 620ms"
+      ],
+      "stats": {
+        "durationMs": 1705,
+        "leadMs": 620,
+        "tailMs": 400,
+        "peakDb": -6.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-ee307695f3": {
+      "src": "assets/audio/ko/jamo/ko-ee307695f3.mp3.m4a",
+      "text": "쌍비읍",
+      "issues": [
+        "앞 무음 610ms"
+      ],
+      "stats": {
+        "durationMs": 1663,
+        "leadMs": 610,
+        "tailMs": 400,
+        "peakDb": -8.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-ee307695f3": {
+      "src": "assets/audio/ko/jamo-intro/ko-ee307695f3.mp3.m4a",
+      "text": "쌍비읍! 빵, 빵의 첫소리예요.",
+      "issues": [
+        "앞 무음 770ms"
+      ],
+      "stats": {
+        "durationMs": 4649,
+        "leadMs": 770,
+        "tailMs": 210,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-57407f69ac": {
+      "src": "assets/audio/ko/words/ko-57407f69ac.mp3.m4a",
+      "text": "빵",
+      "issues": [
+        "앞 무음 520ms"
+      ],
+      "stats": {
+        "durationMs": 1129,
+        "leadMs": 520,
+        "tailMs": 120,
+        "peakDb": -6.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-2671d1f08c": {
+      "src": "assets/audio/ko/words/ko-2671d1f08c.mp3.m4a",
+      "text": "뽀뽀",
+      "issues": [],
+      "stats": {
+        "durationMs": 1193,
+        "leadMs": 400,
+        "tailMs": 210,
+        "peakDb": -10.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-88e65ea48c": {
+      "src": "assets/audio/ko/jamo/ko-88e65ea48c.mp3.m4a",
+      "text": "쌍시옷",
+      "issues": [
+        "앞 무음 690ms"
+      ],
+      "stats": {
+        "durationMs": 1791,
+        "leadMs": 690,
+        "tailMs": 430,
+        "peakDb": -9.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-88e65ea48c": {
+      "src": "assets/audio/ko/jamo-intro/ko-88e65ea48c.mp3.m4a",
+      "text": "쌍시옷! 씨, 씨앗의 첫소리예요.",
+      "issues": [
+        "앞 무음 640ms"
+      ],
+      "stats": {
+        "durationMs": 4671,
+        "leadMs": 640,
+        "tailMs": 170,
+        "peakDb": -4.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-9d66b7b35e": {
+      "src": "assets/audio/ko/words/ko-9d66b7b35e.mp3.m4a",
+      "text": "씨앗",
+      "issues": [],
+      "stats": {
+        "durationMs": 1193,
+        "leadMs": 280,
+        "tailMs": 390,
+        "peakDb": -5.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-8ca534dba1": {
+      "src": "assets/audio/ko/words/ko-8ca534dba1.mp3.m4a",
+      "text": "쌀",
+      "issues": [
+        "앞 무음 590ms"
+      ],
+      "stats": {
+        "durationMs": 1300,
+        "leadMs": 590,
+        "tailMs": 280,
+        "peakDb": -6.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-05ea7fb49d": {
+      "src": "assets/audio/ko/jamo/ko-05ea7fb49d.mp3.m4a",
+      "text": "쌍지읒",
+      "issues": [],
+      "stats": {
+        "durationMs": 1321,
+        "leadMs": 330,
+        "tailMs": 290,
+        "peakDb": -7.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-05ea7fb49d": {
+      "src": "assets/audio/ko/jamo-intro/ko-05ea7fb49d.mp3.m4a",
+      "text": "쌍지읒! 짜, 짜장면의 첫소리예요.",
+      "issues": [
+        "앞 무음 580ms"
+      ],
+      "stats": {
+        "durationMs": 4948,
+        "leadMs": 580,
+        "tailMs": 210,
+        "peakDb": -2.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-5fbbde123f": {
+      "src": "assets/audio/ko/words/ko-5fbbde123f.mp3.m4a",
+      "text": "짜장면",
+      "issues": [],
+      "stats": {
+        "durationMs": 1364,
+        "leadMs": 320,
+        "tailMs": 140,
+        "peakDb": -5.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-6e02f187f6": {
+      "src": "assets/audio/ko/words/ko-6e02f187f6.mp3.m4a",
+      "text": "찌개",
+      "issues": [
+        "앞 무음 740ms",
+        "뒤 무음 510ms"
+      ],
+      "stats": {
+        "durationMs": 1855,
+        "leadMs": 740,
+        "tailMs": 510,
+        "peakDb": -6.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-be6b235a02": {
+      "src": "assets/audio/ko/jamo/ko-be6b235a02.mp3.m4a",
+      "text": "아",
+      "issues": [
+        "앞 무음 480ms"
+      ],
+      "stats": {
+        "durationMs": 1129,
+        "leadMs": 480,
+        "tailMs": 330,
+        "peakDb": -5.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-be6b235a02": {
+      "src": "assets/audio/ko/jamo-intro/ko-be6b235a02.mp3.m4a",
+      "text": "아! 아기의 아 소리예요.",
+      "issues": [],
+      "stats": {
+        "durationMs": 3156,
+        "leadMs": 190,
+        "tailMs": 30,
+        "peakDb": -2.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-2c96b0a089": {
+      "src": "assets/audio/ko/words/ko-2c96b0a089.mp3.m4a",
+      "text": "아기",
+      "issues": [
+        "앞 무음 620ms"
+      ],
+      "stats": {
+        "durationMs": 1364,
+        "leadMs": 620,
+        "tailMs": 260,
+        "peakDb": -6.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-a103cde8be": {
+      "src": "assets/audio/ko/words/ko-a103cde8be.mp3.m4a",
+      "text": "아이스크림",
+      "issues": [
+        "앞 무음 500ms"
+      ],
+      "stats": {
+        "durationMs": 1705,
+        "leadMs": 500,
+        "tailMs": 260,
+        "peakDb": -5.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-77f4df2c9b": {
+      "src": "assets/audio/ko/jamo/ko-77f4df2c9b.mp3.m4a",
+      "text": "야",
+      "issues": [
+        "앞 무음 610ms"
+      ],
+      "stats": {
+        "durationMs": 1257,
+        "leadMs": 610,
+        "tailMs": 210,
+        "peakDb": -5.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-77f4df2c9b": {
+      "src": "assets/audio/ko/jamo-intro/ko-77f4df2c9b.mp3.m4a",
+      "text": "야! 야구의 야 소리예요.",
+      "issues": [
+        "앞 무음 710ms"
+      ],
+      "stats": {
+        "durationMs": 3775,
+        "leadMs": 710,
+        "tailMs": 140,
+        "peakDb": -2.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-97283b0795": {
+      "src": "assets/audio/ko/words/ko-97283b0795.mp3.m4a",
+      "text": "야구",
+      "issues": [],
+      "stats": {
+        "durationMs": 1279,
+        "leadMs": 320,
+        "tailMs": 260,
+        "peakDb": -5.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-fcf70abbc8": {
+      "src": "assets/audio/ko/words/ko-fcf70abbc8.mp3.m4a",
+      "text": "야옹 고양이",
+      "issues": [],
+      "stats": {
+        "durationMs": 2196,
+        "leadMs": 330,
+        "tailMs": 250,
+        "peakDb": -3.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-196c53c8f9": {
+      "src": "assets/audio/ko/jamo/ko-196c53c8f9.mp3.m4a",
+      "text": "어",
+      "issues": [
+        "앞 무음 440ms"
+      ],
+      "stats": {
+        "durationMs": 1151,
+        "leadMs": 440,
+        "tailMs": 320,
+        "peakDb": -5.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-196c53c8f9": {
+      "src": "assets/audio/ko/jamo-intro/ko-196c53c8f9.mp3.m4a",
+      "text": "어! 어항의 어 소리예요.",
+      "issues": [
+        "앞 무음 490ms"
+      ],
+      "stats": {
+        "durationMs": 3412,
+        "leadMs": 490,
+        "tailMs": 20,
+        "peakDb": -5.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-3a8c2c168d": {
+      "src": "assets/audio/ko/words/ko-3a8c2c168d.mp3.m4a",
+      "text": "어항",
+      "issues": [],
+      "stats": {
+        "durationMs": 1193,
+        "leadMs": 380,
+        "tailMs": 190,
+        "peakDb": -3.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-375c1436c3": {
+      "src": "assets/audio/ko/words/ko-375c1436c3.mp3.m4a",
+      "text": "엄마",
+      "issues": [
+        "앞 무음 590ms"
+      ],
+      "stats": {
+        "durationMs": 1428,
+        "leadMs": 590,
+        "tailMs": 130,
+        "peakDb": -5.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-445287d4d3": {
+      "src": "assets/audio/ko/jamo/ko-445287d4d3.mp3.m4a",
+      "text": "여",
+      "issues": [
+        "앞 무음 450ms"
+      ],
+      "stats": {
+        "durationMs": 1023,
+        "leadMs": 450,
+        "tailMs": 180,
+        "peakDb": -10.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-445287d4d3": {
+      "src": "assets/audio/ko/jamo-intro/ko-445287d4d3.mp3.m4a",
+      "text": "여! 여우의 여 소리예요.",
+      "issues": [
+        "앞 무음 420ms"
+      ],
+      "stats": {
+        "durationMs": 3753,
+        "leadMs": 420,
+        "tailMs": 280,
+        "peakDb": -8.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-cfc2df5c1d": {
+      "src": "assets/audio/ko/words/ko-cfc2df5c1d.mp3.m4a",
+      "text": "여우",
+      "issues": [
+        "앞 무음 490ms"
+      ],
+      "stats": {
+        "durationMs": 1449,
+        "leadMs": 490,
+        "tailMs": 410,
+        "peakDb": -7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-bcd8e1c6aa": {
+      "src": "assets/audio/ko/words/ko-bcd8e1c6aa.mp3.m4a",
+      "text": "여름",
+      "issues": [],
+      "stats": {
+        "durationMs": 1215,
+        "leadMs": 380,
+        "tailMs": 230,
+        "peakDb": -7.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-4a3ea882ac": {
+      "src": "assets/audio/ko/jamo/ko-4a3ea882ac.mp3.m4a",
+      "text": "오",
+      "issues": [
+        "앞 무음 420ms"
+      ],
+      "stats": {
+        "durationMs": 1023,
+        "leadMs": 420,
+        "tailMs": 210,
+        "peakDb": -11.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-4a3ea882ac": {
+      "src": "assets/audio/ko/jamo-intro/ko-4a3ea882ac.mp3.m4a",
+      "text": "오! 오리의 오 소리예요.",
+      "issues": [],
+      "stats": {
+        "durationMs": 3540,
+        "leadMs": 350,
+        "tailMs": 150,
+        "peakDb": -7.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-4672972ea1": {
+      "src": "assets/audio/ko/words/ko-4672972ea1.mp3.m4a",
+      "text": "오이",
+      "issues": [],
+      "stats": {
+        "durationMs": 1023,
+        "leadMs": 280,
+        "tailMs": 270,
+        "peakDb": -10.3,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-e8762a2591": {
+      "src": "assets/audio/ko/jamo/ko-e8762a2591.mp3.m4a",
+      "text": "요",
+      "issues": [
+        "앞 무음 450ms"
+      ],
+      "stats": {
+        "durationMs": 1087,
+        "leadMs": 450,
+        "tailMs": 240,
+        "peakDb": -10.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-e8762a2591": {
+      "src": "assets/audio/ko/jamo-intro/ko-e8762a2591.mp3.m4a",
+      "text": "요! 요요의 요 소리예요.",
+      "issues": [],
+      "stats": {
+        "durationMs": 3860,
+        "leadMs": 250,
+        "tailMs": 410,
+        "peakDb": -5.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-ff82f2f635": {
+      "src": "assets/audio/ko/words/ko-ff82f2f635.mp3.m4a",
+      "text": "요요",
+      "issues": [],
+      "stats": {
+        "durationMs": 1129,
+        "leadMs": 310,
+        "tailMs": 300,
+        "peakDb": -10.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-b96dd98753": {
+      "src": "assets/audio/ko/words/ko-b96dd98753.mp3.m4a",
+      "text": "요리",
+      "issues": [
+        "뒤 무음 590ms"
+      ],
+      "stats": {
+        "durationMs": 1641,
+        "leadMs": 380,
+        "tailMs": 590,
+        "peakDb": -9.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-4118d67c96": {
+      "src": "assets/audio/ko/jamo/ko-4118d67c96.mp3.m4a",
+      "text": "우",
+      "issues": [
+        "앞 무음 590ms",
+        "끝부분 클릭(키보드 소리) 의심"
+      ],
+      "stats": {
+        "durationMs": 1385,
+        "leadMs": 590,
+        "tailMs": 40,
+        "peakDb": -12.6,
+        "tailClick": true,
+        "silent": false
+      }
+    },
+    "jamo-intro/ko-4118d67c96": {
+      "src": "assets/audio/ko/jamo-intro/ko-4118d67c96.mp3.m4a",
+      "text": "우! 우산의 우 소리예요.",
+      "issues": [
+        "앞 무음 450ms"
+      ],
+      "stats": {
+        "durationMs": 3412,
+        "leadMs": 450,
+        "tailMs": 60,
+        "peakDb": -9.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-c3c6d557d9": {
+      "src": "assets/audio/ko/words/ko-c3c6d557d9.mp3.m4a",
+      "text": "우산",
+      "issues": [
+        "앞 무음 670ms"
+      ],
+      "stats": {
+        "durationMs": 1449,
+        "leadMs": 670,
+        "tailMs": 70,
+        "peakDb": -10.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "jamo/ko-71c706d652": {
+      "src": "assets/audio/ko/jamo/ko-71c706d652.m4a",
+      "text": "유",
+      "issues": [
+        "오디오를 읽지 못함"
+      ]
+    },
+    "jamo-intro/ko-71c706d652": {
+      "src": "assets/audio/ko/jamo-intro/ko-71c706d652.m4a",
+      "text": "유! 유니콘의 유 소리예요.",
+      "issues": [],
+      "stats": {
+        "durationMs": 3360,
+        "leadMs": 60,
+        "tailMs": 190,
+        "peakDb": -6.1,
+        "tailClick": false,
+        "silent": false
+      }
+    }
+  },
+  "summary": {
+    "total": 600,
+    "unused": 43,
+    "needRecording": 420,
+    "needRerecording": 121,
+    "done": 16
+  }
+}

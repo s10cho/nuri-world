@@ -80,6 +80,33 @@ npm run convert:voice -- --dry-run
 - 페이지 자체는 생성물이라 대사가 바뀌면 다시 만들어야 합니다:
   `npm run generate:voice -- --html=public/voice-scripts.html`
 
+## 녹음 대본 · 검수 (외부 녹음기로 녹음할 때)
+
+무엇을 녹음해야 하는지 추려 읽기용 페이지로 만듭니다. 개발 서버 없이 파일을 그냥 열어도 됩니다.
+
+```bash
+npm run audit:voice -- --json   # 전수 검수 → tools/voice-audit.json
+npm run sheet:voice             # → public/voice-record-sheet.html (녹음 대본)
+```
+
+- 대본 페이지: 상태별 필터(녹음 필요 / 재녹음 / 다듬기 / 완료 / 제외), 검색, 체크 진행 저장,
+  **집중 모드**(`F`) — 한 줄씩 크게 띄우고 `←`/`→` 이동, `Space` 로 읽음 표시 후 다음. 인쇄도 됩니다.
+- 각 줄의 회색 버튼이 저장할 파일 이름(`분류:파일명.mp3.m4a`)입니다. `~/Downloads` 에 그 이름으로 저장한 뒤
+  `npm run import:voice` 로 반영합니다.
+
+`npm run audit:voice` 가 보는 것:
+
+1. **문장 정합성** — `"모자의 마"`처럼 예시 낱말과 어긋나는 대사(도감 문장은 `js/data.js`의 `jamoDemoLine()` 한 곳에서 만들어 앱과 생성기가 항상 같은 문장을 씁니다)
+2. **앱 커버리지** — 앱이 말하는데 목록에 없는 문장 / 목록에 있는데 앱이 쓰지 않는 대사
+3. **기존 녹음 품질** — 앞뒤 무음, 음량, 길이, 끝부분 클릭(키보드 소리) 의심
+
+앞뒤 무음·끝 클릭은 다시 녹음할 필요 없이 다듬어 고칠 수 있습니다(원본은 `.bak`으로 남습니다).
+
+```bash
+npm run trim:voice -- --dry-run   # 무엇이 얼마나 잘리는지 확인
+npm run trim:voice                # 실제로 다듬기
+```
+
 ## GitHub Pages 배포
 
 1. GitHub 저장소에 push

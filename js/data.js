@@ -229,3 +229,20 @@ export const CELEBRATIONS = [
 
 // 보스전 배틀 일러스트 — 누리·포리가 마법 지팡이로 몬스터를 공격
 export const BATTLE_HERO = 'assets/images/celebrations/nuri-pori-magic.png';
+
+/**
+ * 도감에서 자모를 예시 낱말과 함께 소개하는 문장.
+ * 앱(js/screens/dex.js)과 음성 생성기(tools/generate-voice-assets.mjs)가
+ * '한 글자도 다르지 않게' 같은 문장을 써야 녹음이 재생되므로 여기 한 곳에서 만든다.
+ * 자음은 예시 낱말의 실제 첫 음절을, 모음은 낱말에 담긴 그 모음 소리를 제시한다
+ * (예전에는 자음+ㅏ를 기계적으로 붙여 "모자의 마"처럼 낱말에 없는 음절을 읽었다).
+ * @param {string} ch 자모
+ * @returns {string}
+ */
+export function jamoDemoLine(ch) {
+  const info = JAMO[ch];
+  const word = info.words[0].w;
+  return ALL_CONSONANTS.includes(ch)
+    ? `${info.name}! ${word}의 ${word[0]}.`
+    : `${info.name}! ${word}의 ${info.name} 소리.`;
+}

@@ -3,8 +3,7 @@ import { register, go } from '../app.js';
 import { el, topbar, iconBtn } from '../ui.js';
 import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
-import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES } from '../data.js';
-import { demoSyllable } from '../hangul.js';
+import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, jamoDemoLine } from '../data.js';
 
 const ALL_JAMO = [...ALL_CONSONANTS, ...ALL_VOWELS];
 const SYLLABLES = TOWER_STAGES.flatMap(st => st.targets);
@@ -46,7 +45,7 @@ function render() {
         has: collected.has(ch),
         glyph: ch,
         label: JAMO[ch].name,
-        onSpeak: () => speak(`${JAMO[ch].name}! ${JAMO[ch].words[0].w}의 ${demoSyllable(ch)}.`),
+        onSpeak: () => speak(jamoDemoLine(ch)),
       })));
     } else if (tab === 'syl') {
       SYLLABLES.forEach(t => grid.append(item({

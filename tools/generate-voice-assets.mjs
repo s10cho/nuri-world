@@ -15,8 +15,9 @@ import {
   STORY_INTRO,
   TOWER_STAGES,
   VILLAGE_STAGES,
+  jamoDemoLine,
 } from '../js/data.js';
-import { demoSyllable, objectParticle } from '../js/hangul.js';
+import { objectParticle } from '../js/hangul.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -202,7 +203,7 @@ export function collectVoiceLines() {
   // (한글은 safeId에서 해시로 바뀌므로 항목별 고유성을 위해 별도 세그먼트로 둔다)
   for (const ch of [...ALL_CONSONANTS, ...ALL_VOWELS]) {
     const info = JAMO[ch];
-    add(`dex/jamo/${info.name}`, `${info.name}! ${info.words[0].w}의 ${demoSyllable(ch)}.`);
+    add(`dex/jamo/${info.name}`, jamoDemoLine(ch)); // 문장은 js/data.js에서 앱과 공유
     add(`praise/match/${info.name}`, `${info.name}! 짝을 찾았어요!`);
     add(`praise/hit-jamo/${info.name}`, `${info.name}! 명중이에요!`);
   }
