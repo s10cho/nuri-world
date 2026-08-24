@@ -20,12 +20,34 @@ const root = path.resolve(__dirname, '..');
 const outArg = process.argv.find(arg => arg.startsWith('--out='));
 const outPath = path.resolve(root, outArg ? outArg.slice('--out='.length) : 'public/voice-record-sheet.html');
 
-const CATEGORY_LABEL = {
+// 대본 페이지의 표시 순서 = 녹음 순서. match:voice --order 가 같은 순서를 쓴다.
+export const CATEGORY_LABEL = {
   ui: '안내 · UI', game: '게임 안내', praise: '칭찬 · 격려', kingdom: '왕국 소개', story: '오프닝 이야기',
   festival: '축제', jamo: '자모 이름', 'jamo-intro': '자모 소개', words: '낱말', syllables: '음절',
   characters: '캐릭터 이름', 'map-continue': '지도 이어하기', dex: '도감 설명', build: '글자 조립',
   'boss-syllable': '보스 — 음절', 'word-game': '낱말 게임', 'boss-word': '보스 — 낱말',
 };
+
+/**
+ * 대사를 대본 페이지에 보이는 순서대로 정렬한다(분류 묶음 → 원래 순서).
+ * @template {{ id: string }} T
+ * @param {T[]} lines
+ * @returns {T[]}
+ */
+export function sheetOrder(lines) {
+  const order = Object.keys(CATEGORY_LABEL);
+  const rank = category => {
+    const index = order.indexOf(category);
+    return index < 0 ? order.length : index;
+  };
+  return lines
+    .map((line, index) => ({ line, index }))
+    .sort((a, b) => {
+      const diff = rank(a.line.id.split('/')[0]) - rank(b.line.id.split('/')[0]);
+      return diff !== 0 ? diff : a.index - b.index;
+    })
+    .map(entry => entry.line);
+}
 
 /** @param {string} value */
 function escapeHtml(value) {
@@ -95,16 +117,12 @@ async function main() {
   const needed = items.filter(item => item.status === 'todo' || item.status === 'redo');
 
   // 녹음할 것 → 같은 분류끼리 모아 두면 목소리 톤을 유지하기 쉽다
-  const order = Object.keys(CATEGORY_LABEL);
   const grouped = new Map();
   for (const item of items) {
     if (!grouped.has(item.category)) grouped.set(item.category, []);
     grouped.get(item.category).push(item);
   }
-  const categories = [...grouped.keys()].sort((a, b) => {
-    const ai = order.indexOf(a); const bi = order.indexOf(b);
-    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-  });
+  const categories = [...new Set(sheetOrder(items).map(item => item.category))];
 
   const sections = categories.map(category => {
     const list = grouped.get(category);

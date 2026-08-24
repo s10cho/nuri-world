@@ -10,7 +10,6 @@
 //  2) 앱 커버리지 — 앱이 말하는데 목록에 없는 문장 / 목록에 있는데 앱이 안 쓰는 대사
 //  3) 기존 녹음 품질 — 앞뒤 무음, 음량, 길이, 끝부분 클릭(키보드 소리) 의심
 
-import { spawn } from 'node:child_process';
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -30,6 +29,7 @@ import {
 } from '../js/data.js';
 import { decompose, objectParticle } from '../js/hangul.js';
 import { collectVoiceLines } from './generate-voice-assets.mjs';
+import { analyse, decodeToPcm } from './voice-audio.mjs';
 import { fileExists } from './voice-recorder-store.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -180,95 +180,7 @@ function checkSentences(lines) {
   return problems;
 }
 
-/* ── 3) 녹음 파일 품질 ────────────────────────────────────────────── */
-/** @param {string} cmd @param {string[]} args */
-function run(cmd, args) {
-  return new Promise(resolve => {
-    const child = spawn(cmd, args, { stdio: 'ignore' });
-    child.on('error', () => resolve(false));
-    child.on('close', code => resolve(code === 0));
-  });
-}
-
-/**
- * 오디오를 16bit 모노 WAV로 풀어 PCM으로 읽는다(macOS afconvert 또는 ffmpeg).
- * @param {string} file @param {string} tmpDir
- * @returns {Promise<{ samples: Float32Array, rate: number } | null>}
- */
-async function decodeToPcm(file, tmpDir) {
-  const wav = path.join(tmpDir, `${path.basename(file)}.wav`);
-  const ok = await run('afconvert', ['-f', 'WAVE', '-d', 'LEI16@44100', '-c', '1', file, wav])
-    || await run('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error', '-i', file, '-ac', '1', '-ar', '44100', wav]);
-  if (!ok) return null;
-
-  let buffer;
-  try {
-    buffer = await readFile(wav);
-  } catch {
-    return null;
-  }
-  await rm(wav, { force: true });
-
-  let offset = 12;
-  let dataStart = -1;
-  let dataSize = 0;
-  let rate = 44100;
-  while (offset + 8 <= buffer.length) {
-    const id = buffer.toString('ascii', offset, offset + 4);
-    const size = buffer.readUInt32LE(offset + 4);
-    if (id === 'fmt ') rate = buffer.readUInt32LE(offset + 12);
-    if (id === 'data') { dataStart = offset + 8; dataSize = size; break; }
-    offset += 8 + size + (size % 2);
-  }
-  if (dataStart < 0) return null;
-
-  const count = Math.floor(Math.min(dataSize, buffer.length - dataStart) / 2);
-  const samples = new Float32Array(count);
-  for (let i = 0; i < count; i += 1) samples[i] = buffer.readInt16LE(dataStart + i * 2) / 32768;
-  return { samples, rate };
-}
-
-/** @param {Float32Array} samples @param {number} rate */
-function analyse(samples, rate) {
-  const frame = Math.round(rate * 0.01); // 10ms
-  /** @type {number[]} */
-  const levels = [];
-  let peak = 0;
-  for (let i = 0; i < samples.length; i += frame) {
-    let sum = 0;
-    const end = Math.min(i + frame, samples.length);
-    for (let j = i; j < end; j += 1) {
-      sum += samples[j] * samples[j];
-      peak = Math.max(peak, Math.abs(samples[j]));
-    }
-    levels.push(Math.sqrt(sum / Math.max(1, end - i)));
-  }
-  const framePeak = levels.reduce((max, level) => Math.max(max, level), 0);
-  const threshold = Math.max(framePeak * 0.08, 0.004);
-  const first = levels.findIndex(level => level > threshold);
-  let last = -1;
-  for (let i = levels.length - 1; i >= 0; i -= 1) if (levels[i] > threshold) { last = i; break; }
-
-  // 끝부분 클릭 의심: 마지막 소리 덩어리가 아주 짧고 그 앞에 충분한 무음이 있다
-  let tailClick = false;
-  if (last >= 0) {
-    let blockStart = last;
-    while (blockStart > 0 && levels[blockStart - 1] > threshold) blockStart -= 1;
-    let silence = 0;
-    for (let i = blockStart - 1; i >= 0 && levels[i] <= threshold; i -= 1) silence += 1;
-    const blockMs = (last - blockStart + 1) * 10;
-    tailClick = blockStart > 0 && silence * 10 >= QUALITY.tailClickGapMs && blockMs <= 120;
-  }
-
-  return {
-    durationMs: Math.round((samples.length / rate) * 1000),
-    leadMs: first < 0 ? Math.round((samples.length / rate) * 1000) : first * 10,
-    tailMs: last < 0 ? 0 : Math.max(0, levels.length - 1 - last) * 10,
-    peakDb: peak > 0 ? Number((20 * Math.log10(peak)).toFixed(1)) : -99,
-    tailClick,
-    silent: first < 0,
-  };
-}
+/* ── 3) 녹음 파일 품질 — 디코드·분석은 voice-audio.mjs 공용 ─────────── */
 
 /* ── 실행 ─────────────────────────────────────────────────────────── */
 async function main() {

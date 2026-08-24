@@ -26,6 +26,7 @@
     "audit:voice": "node tools/audit-voice-lines.mjs",
     "trim:voice": "node tools/trim-recorded-voice.mjs",
     "sheet:voice": "node tools/generate-record-sheet.mjs",
+    "match:voice": "node tools/match-recorded-voice.mjs",
     "record:voice": "vite --open /nuri-world/voice-scripts.html",
     "test": "vitest run",
     "test:watch": "vitest",
