@@ -14,6 +14,7 @@
 // 확정된 것만 반영하고, 애매한 것(--min 미만·같은 대사에 여러 파일)은 보류 목록으로 보여 준다.
 // 반영할 때 앞뒤 무음과 끝부분 클릭을 다듬고 m4a(AAC 모노 44.1kHz)로 변환한다.
 
+import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { mkdir, mkdtemp, readdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import os from 'node:os';
@@ -41,10 +42,22 @@ const sourceDir = path.resolve(
 );
 const dryRun = flag('dry-run');
 const orderMode = flag('order');
+// 인식 + '대체로 대본 순서대로 녹음했다'를 함께 쓴다(기본값).
+// 자모 하나만 다른 문장 수십 개는 소리만으로 못 가르는데, 순서가 그걸 갈라 준다.
+// 순서를 전혀 믿을 수 없으면 --no-sequential.
+const sequential = !flag('no-sequential');
 const moveFiles = flag('move');
 const rerecord = flag('rerecord');      // 이미 녹음된 대사도 덮어쓸지
 const minScore = Number(value('min', '0.62'));
+// 비슷한 대사가 많아(자모만 다른 문장 수십 개) 1등과 2등이 붙으면 사람이 봐야 한다
+const minGap = Number(value('gap', '0.08'));
+// --sequential 에서 '이 정도는 돼야 소리로 확정' 기준. 그 아래는 자리(순서)로만 채운다.
+// 이보다 낮게 배치된 항목은 '확인 권장'으로 표시한다
+const shakyScore = Number(value('shaky', '0.5'));
 const model = value('model', 'gpt-4o-transcribe');
+// stt: auto(로컬 있으면 로컬, 없으면 API) | local | api
+const sttMode = value('stt', 'auto');
+const whisperModelArg = value('whisper-model', process.env.WHISPER_MODEL || '');
 // 이미 전사 텍스트가 있으면(예: 음성 메모 앱의 자동 받아쓰기) API 없이 그걸로 맞춘다.
 // JSON 형식: { "녹음 1.m4a": "딩동댕 잘 찾았어요", ... }
 const transcriptsPath = value('transcripts', '');
@@ -58,47 +71,325 @@ export function normalize(text) {
     .toLowerCase();
 }
 
-/** 두 글자 묶음(bigram) 기준 Dice 유사도 0~1. @param {string} a @param {string} b */
+/** 두 글자 묶음(bigram) 세기. @param {string} text */
+function bigrams(text) {
+  /** @type {Map<string, number>} */
+  const map = new Map();
+  for (let i = 0; i < text.length - 1; i += 1) {
+    const pair = text.slice(i, i + 2);
+    map.set(pair, (map.get(pair) || 0) + 1);
+  }
+  if (!map.size && text) map.set(text, 1); // 한 글자짜리 대사
+  return map;
+}
+
+/** 두 글자 묶음 기준 Dice 유사도 0~1 (단순 비교용). @param {string} a @param {string} b */
 export function similarity(a, b) {
   const x = normalize(a);
   const y = normalize(b);
   if (!x || !y) return 0;
   if (x === y) return 1;
-  if (x.length === 1 || y.length === 1) return x === y ? 1 : 0;
-
-  /** @param {string} text */
-  const bigrams = text => {
-    const map = new Map();
-    for (let i = 0; i < text.length - 1; i += 1) {
-      const pair = text.slice(i, i + 2);
-      map.set(pair, (map.get(pair) || 0) + 1);
-    }
-    return map;
-  };
   const left = bigrams(x);
   const right = bigrams(y);
   let shared = 0;
   for (const [pair, count] of left) shared += Math.min(count, right.get(pair) || 0);
-  return (2 * shared) / ((x.length - 1) + (y.length - 1));
+  const total = [...left.values()].reduce((a2, b2) => a2 + b2, 0) + [...right.values()].reduce((a2, b2) => a2 + b2, 0);
+  return total ? (2 * shared) / total : 0;
+}
+
+/** 최장 공통 부분수열 길이. @param {string} a @param {string} b */
+function lcsLength(a, b) {
+  /** @type {number[]} */
+  let previous = new Array(b.length + 1).fill(0);
+  for (let i = 1; i <= a.length; i += 1) {
+    const current = new Array(b.length + 1).fill(0);
+    for (let j = 1; j <= b.length; j += 1) {
+      current[j] = a[i - 1] === b[j - 1] ? previous[j - 1] + 1 : Math.max(previous[j], current[j - 1]);
+    }
+    previous = current;
+  }
+  return previous[b.length];
+}
+
+/**
+ * 인식 결과가 대사 안에 얼마나 들어 있는지 0~1.
+ * 인식기가 문장 앞부분을 흘리는 경우("기역! 가방의 가." → "가방에 가")를 살린다.
+ * @param {string} transcript @param {string} candidate
+ */
+export function containment(transcript, candidate) {
+  const x = normalize(transcript);
+  const y = normalize(candidate);
+  if (!x || !y) return 0;
+  return lcsLength(x, y) / x.length;
+}
+
+/**
+ * 대사 뭉치에서 '흔한 표현'과 '그 대사만의 표현'을 구분하는 가중치(IDF)를 만든다.
+ * 이 앱 대사에는 "{자모}! 짝을 찾았어요!"처럼 틀이 같고 한 낱말만 다른 문장이 수십 개라,
+ * 가중치 없이 비교하면 공통 부분이 점수를 지배해 엉뚱한 자모에 붙는다.
+ * @param {{ id: string, text: string }[]} candidates
+ */
+export function buildIndex(candidates) {
+  /** @type {Map<string, number>} */
+  const df = new Map();
+  const docs = candidates.map(line => bigrams(normalize(line.text)));
+  for (const doc of docs) {
+    for (const pair of doc.keys()) df.set(pair, (df.get(pair) || 0) + 1);
+  }
+  const total = Math.max(1, candidates.length);
+  /** @param {string} pair */
+  const idf = pair => Math.log((total + 1) / ((df.get(pair) || 0) + 1)) + 1;
+
+  const vectors = docs.map(doc => {
+    /** @type {Map<string, number>} */
+    const vector = new Map();
+    let norm = 0;
+    for (const [pair, count] of doc) {
+      const weight = count * idf(pair);
+      vector.set(pair, weight);
+      norm += weight * weight;
+    }
+    return { vector, norm: Math.sqrt(norm) || 1 };
+  });
+
+  return { candidates, vectors, idf };
+}
+
+/** @typedef {ReturnType<typeof buildIndex>} MatchIndex */
+
+/** 같은 후보 배열로 여러 번 부를 때 색인을 다시 만들지 않도록 기억해 둔다 */
+const indexCache = new WeakMap();
+
+/**
+ * 대사를 소리 내 읽으면 대략 몇 ms 걸리는지 — 길이로 후보를 걸러내는 데 쓴다.
+ * (아이에게 또박또박 읽는 속도 기준)
+ * @param {string} text
+ */
+export function expectedDurationMs(text) {
+  return 350 + normalize(text).length * 230;
+}
+
+/**
+ * 실제 길이와 예상 길이가 얼마나 맞는지 0.4~1. 짧은 낱말 대사가 긴 문장을 가로채는 것을 막는다.
+ * @param {number} actualMs @param {string} text
+ */
+export function durationFit(actualMs, text) {
+  if (!actualMs) return 1;
+  const ratio = actualMs / expectedDurationMs(text);
+  const off = Math.abs(Math.log2(ratio));
+  return Math.max(0.4, 1 - 0.45 * off);
 }
 
 /**
  * 인식된 문장과 가장 비슷한 대사를 찾는다.
  * @param {string} transcript
  * @param {{ id: string, text: string }[]} candidates
+ * @param {number} [durationMs] 녹음 길이(알면 정확도가 올라간다)
  * @returns {{ line: { id: string, text: string }, score: number, runnerUp: number }}
  */
-export function bestMatch(transcript, candidates) {
-  let best = { line: candidates[0], score: -1 };
+export function bestMatch(transcript, candidates, durationMs = 0) {
+  const scores = scoreAll(transcript, candidates, durationMs);
+  let best = -1;
+  let bestIndex = 0;
   let runnerUp = -1;
-  for (const line of candidates) {
-    const score = similarity(transcript, line.text);
-    if (score > best.score) {
-      runnerUp = best.score;
-      best = { line, score };
-    } else if (score > runnerUp) runnerUp = score;
+  scores.forEach((score, i) => {
+    if (score > best) { runnerUp = best; best = score; bestIndex = i; }
+    else if (score > runnerUp) runnerUp = score;
+  });
+  return { line: candidates[bestIndex], score: best, runnerUp: Math.max(0, runnerUp) };
+}
+
+/**
+ * 인식 결과와 모든 후보의 점수.
+ * @param {string} transcript
+ * @param {{ id: string, text: string }[]} candidates
+ * @param {number} [durationMs]
+ * @returns {number[]}
+ */
+export function scoreAll(transcript, candidates, durationMs = 0) {
+  let index = indexCache.get(candidates);
+  if (!index) {
+    index = buildIndex(candidates);
+    indexCache.set(candidates, index);
   }
-  return { line: best.line, score: best.score, runnerUp: Math.max(0, runnerUp) };
+
+  const query = bigrams(normalize(transcript));
+  /** @type {Map<string, number>} */
+  const queryVector = new Map();
+  let queryNorm = 0;
+  for (const [pair, count] of query) {
+    const weight = count * index.idf(pair);
+    queryVector.set(pair, weight);
+    queryNorm += weight * weight;
+  }
+  queryNorm = Math.sqrt(queryNorm) || 1;
+
+  return candidates.map((line, i) => {
+    const { vector, norm } = index.vectors[i];
+    let dot = 0;
+    for (const [pair, weight] of queryVector) {
+      const other = vector.get(pair);
+      if (other) dot += weight * other;
+    }
+    const cosine = dot / (queryNorm * norm);
+    // 인식기가 앞부분을 흘려도 살리되, 흔한 표현만 겹치는 경우를 부풀리지 않도록 가중치를 낮춘다
+    const base = Math.max(cosine, 0.75 * containment(transcript, line.text) * cosine ** 0.25);
+    return base * durationFit(durationMs, line.text);
+  });
+}
+
+/**
+ * 확실히 배치된 두 파일 사이에 남은 파일 수와 대사 수가 정확히 같으면 순서대로 채운다.
+ * (예: 21번은 'ㅈ', 23번은 'ㅊ'로 확정됐고 그 사이 파일 1개·대사 1개 → 22번은 그 대사)
+ * 소리로는 못 가렸지만 자리로는 하나뿐인 경우를 살린다.
+ * @param {number[]} assignment @returns {number[]}
+ */
+export function fillOrderedGaps(assignment) {
+  const filled = [...assignment];
+  const anchors = [];
+  filled.forEach((lineIndex, i) => { if (lineIndex >= 0) anchors.push(i); });
+
+  for (let a = 0; a + 1 < anchors.length; a += 1) {
+    const left = anchors[a];
+    const right = anchors[a + 1];
+    const files = right - left - 1;
+    const lines = filled[right] - filled[left] - 1;
+    if (files > 0 && files === lines) {
+      for (let k = 1; k <= files; k += 1) filled[left + k] = filled[left] + k;
+    }
+  }
+  return filled;
+}
+
+/**
+ * '대체로 대본 순서대로 녹음했다'는 전제를 인식 점수와 함께 쓴다.
+ *
+ * 점수 합이 최대가 되도록 통째로 정렬(DP)하면, 이 앱처럼 비슷한 문장이 수십 개라
+ * 점수가 평평한 구간에서 전체가 한 칸씩 밀려도 총점이 거의 같아 조용히 다 틀린다.
+ * 그래서 반대로 간다 — **확신이 서는 것만 앵커로 박고, 앵커 사이만 자리로 채운다.**
+ * 순서가 한두 개 어긋나도 그 근처만 보류될 뿐 전체가 무너지지 않는다.
+ *
+ * @param {number[][]} scores files × lines 점수 행렬
+ * @param {{ minScore?: number, minGap?: number }} [opts]
+ * @returns {number[]} 파일별 대사 인덱스(정하지 못하면 -1)
+ */
+export function alignSequential(scores, { minScore = 0.62, minGap = 0.08 } = {}) {
+  const files = scores.length;
+  if (!files || !scores[0].length) return new Array(files).fill(-1);
+
+  // 1) 소리만으로 충분히 뚜렷한 파일 = 앵커
+  /** @type {{ file: number, line: number, score: number }[]} */
+  const anchors = [];
+  scores.forEach((row, file) => {
+    let best = -1;
+    let bestLine = -1;
+    let second = -1;
+    row.forEach((score, line) => {
+      if (score > best) { second = best; best = score; bestLine = line; }
+      else if (score > second) second = score;
+    });
+    if (best >= minScore && best - Math.max(0, second) >= minGap) {
+      anchors.push({ file, line: bestLine, score: best });
+    }
+  });
+
+  // 2) 앵커끼리 순서가 어긋나면(녹음 순서를 벗어난 파일) 가장 긴 '순서 맞는' 묶음만 남긴다
+  const keep = longestIncreasing(anchors.map(anchor => anchor.line));
+  const result = new Array(files).fill(-1);
+  for (const index of keep) result[anchors[index].file] = anchors[index].line;
+  return result;
+}
+
+/**
+ * 앵커와 앵커 사이(그리고 앞뒤 끝)에서만 국소 정렬을 돌려 남은 파일을 채운다.
+ * 구간이 앵커로 묶여 있으니 전체가 밀릴 수 없고, 틀려도 그 구간 안에서 끝난다.
+ * @param {number[][]} scores @param {number[]} assignment @param {{ floor?: number }} [opts]
+ * @returns {number[]}
+ */
+export function refineBetweenAnchors(scores, assignment, { floor = 0.3 } = {}) {
+  const files = scores.length;
+  const lines = files ? scores[0].length : 0;
+  const filled = [...assignment];
+  const anchors = [];
+  filled.forEach((line, file) => { if (line >= 0) anchors.push({ file, line }); });
+  if (!anchors.length) return filled;
+
+  /** 한 구간을 단조 정렬한다(양 끝은 열려 있을 수 있다) */
+  const solve = (fileFrom, fileTo, lineFrom, lineTo) => {
+    const f = fileTo - fileFrom;
+    const l = lineTo - lineFrom;
+    if (f <= 0 || l <= 0) return;
+    const dp = Array.from({ length: f + 1 }, () => new Float64Array(l + 1).fill(0));
+    const from = Array.from({ length: f + 1 }, () => new Uint8Array(l + 1));
+    for (let i = 1; i <= f; i += 1) {
+      for (let j = 1; j <= l; j += 1) {
+        let best = dp[i - 1][j];   // 파일 버림
+        let choice = 2;
+        if (dp[i][j - 1] > best) { best = dp[i][j - 1]; choice = 0; } // 대사 건너뜀
+        const score = scores[fileFrom + i - 1][lineFrom + j - 1];
+        if (score >= floor && dp[i - 1][j - 1] + score > best) {
+          best = dp[i - 1][j - 1] + score;
+          choice = 1;
+        }
+        dp[i][j] = best;
+        from[i][j] = choice;
+      }
+    }
+    let i = f;
+    let j = l;
+    while (i > 0 && j > 0) {
+      const choice = from[i][j];
+      if (choice === 1) { filled[fileFrom + i - 1] = lineFrom + j - 1; i -= 1; j -= 1; }
+      else if (choice === 0) j -= 1;
+      else i -= 1;
+    }
+  };
+
+  // 앵커 사이
+  for (let a = 0; a + 1 < anchors.length; a += 1) {
+    solve(anchors[a].file + 1, anchors[a + 1].file, anchors[a].line + 1, anchors[a + 1].line);
+  }
+  // 첫 앵커 앞과 마지막 앵커 뒤는 한쪽만 묶여 있어 밀릴 수 있다.
+  // 파일 수와 대사 수가 정확히 같아 자리가 하나뿐일 때만 채운다(fillOrderedGaps와 같은 원칙).
+  const first = anchors[0];
+  if (first.file > 0 && first.file === first.line) {
+    for (let k = 0; k < first.file; k += 1) filled[k] = k;
+  }
+  const last = anchors[anchors.length - 1];
+  if (files - last.file - 1 > 0 && files - last.file - 1 === lines - last.line - 1) {
+    for (let k = 1; k <= files - last.file - 1; k += 1) filled[last.file + k] = last.line + k;
+  }
+  return filled;
+}
+
+/**
+ * 값이 커지는 가장 긴 부분수열의 인덱스들. 같은 값은 순서 위반으로 본다(한 대사에 두 파일).
+ * @param {number[]} values @returns {number[]}
+ */
+export function longestIncreasing(values) {
+  if (!values.length) return [];
+  /** @type {number[]} */
+  const tails = [];
+  /** @type {number[]} */
+  const tailIndex = [];
+  const previous = new Array(values.length).fill(-1);
+
+  values.forEach((value, i) => {
+    let low = 0;
+    let high = tails.length;
+    while (low < high) {
+      const mid = (low + high) >> 1;
+      if (tails[mid] < value) low = mid + 1;
+      else high = mid;
+    }
+    tails[low] = value;
+    tailIndex[low] = i;
+    previous[i] = low > 0 ? tailIndex[low - 1] : -1;
+  });
+
+  const result = [];
+  for (let i = tailIndex[tails.length - 1]; i >= 0; i = previous[i]) result.push(i);
+  return result.reverse();
 }
 
 /** 대본의 파일 이름(분류:파일명.mp3.m4a) 또는 경로형 이름에서 id를 뽑는다. @param {string} name */
@@ -106,6 +397,93 @@ export function idFromFileName(name) {
   const base = name.replace(/\.(mp3\.m4a|m4a|mp4|mp3|wav|aac|caf|aiff?|webm|ogg)$/i, '');
   const candidate = base.includes(':') ? base.replaceAll(':', '/') : base;
   return candidate.replace(/^\/+|\/+$/g, '');
+}
+
+/* ── 로컬 음성 인식 (whisper.cpp) ─────────────────────────────────── */
+
+/** @param {string} cmd @param {string[]} args @returns {Promise<{ ok: boolean, out: string }>} */
+function runCapture(cmd, args) {
+  return new Promise(resolve => {
+    const child = spawn(cmd, args);
+    let out = '';
+    child.stdout?.on('data', chunk => { out += chunk; });
+    child.stderr?.on('data', () => { /* whisper는 진행 로그를 stderr로 낸다 */ });
+    child.on('error', () => resolve({ ok: false, out: '' }));
+    child.on('close', code => resolve({ ok: code === 0, out }));
+  });
+}
+
+/** whisper-cli 실행 파일. @returns {Promise<string>} */
+async function findWhisperCli() {
+  for (const candidate of ['whisper-cli', '/opt/homebrew/bin/whisper-cli', '/usr/local/bin/whisper-cli']) {
+    const { ok } = await runCapture(candidate, ['--help']);
+    if (ok) return candidate;
+  }
+  return '';
+}
+
+/** 한국어를 알아들을 만한 모델 파일을 찾는다. @returns {Promise<string>} */
+async function findWhisperModel() {
+  if (whisperModelArg) return whisperModelArg.replace(/^~(?=\/|$)/, os.homedir());
+  const dirs = [
+    path.join(os.homedir(), '.cache/whisper.cpp'),
+    path.join(os.homedir(), 'Library/Application Support/whisper.cpp'),
+    '/opt/homebrew/share/whisper-cpp',
+  ];
+  /** @type {string[]} */
+  const found = [];
+  for (const dir of dirs) {
+    try {
+      for (const name of await readdir(dir)) {
+        if (name.endsWith('.bin')) found.push(path.join(dir, name));
+      }
+    } catch { /* 없는 폴더는 건너뛴다 */ }
+  }
+  if (!found.length) return '';
+  // 큰 모델(large/turbo)을 우선 — 한국어 짧은 문장은 작은 모델이 잘 틀린다
+  const rank = file => (/large|turbo/.test(file) ? 0 : /medium/.test(file) ? 1 : /small/.test(file) ? 2 : 3);
+  found.sort((a, b) => rank(a) - rank(b));
+  return found[0];
+}
+
+/**
+ * whisper.cpp 로 받아쓰기. 16kHz 모노 WAV만 받으므로 먼저 변환한다.
+ * @param {string} file @param {string} tmpDir @param {{ cli: string, model: string }} whisper
+ * @returns {Promise<string>}
+ */
+async function transcribeLocal(file, tmpDir, whisper) {
+  const wav = path.join(tmpDir, `${path.basename(file)}.16k.wav`);
+  const converted = await runCapture('afconvert', ['-f', 'WAVE', '-d', 'LEI16@16000', '-c', '1', file, wav]);
+  if (!converted.ok) {
+    const viaFfmpeg = await runCapture('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error', '-i', file, '-ac', '1', '-ar', '16000', wav]);
+    if (!viaFfmpeg.ok) throw new Error('16kHz WAV 변환 실패');
+  }
+
+  let durationMs = 0;
+  try {
+    const info = await stat(wav);
+    durationMs = Math.round(((info.size - 44) / (16000 * 2)) * 1000); // 16kHz 16bit 모노
+  } catch { /* 길이를 못 재면 점수에 반영하지 않는다 */ }
+
+  const prefix = path.join(tmpDir, `${path.basename(file)}.out`);
+  const result = await runCapture(whisper.cli, [
+    '-m', whisper.model,
+    '-f', wav,
+    '-l', 'ko',
+    '-nt',                 // 타임스탬프 없이
+    '-np',                 // 진행 출력 끄기
+    '-otxt', '-of', prefix,
+    // --prompt 는 쓰지 않는다: 짧고 조용한 클립에서 프롬프트 문장을 그대로 받아쓰는 환각이 있었다
+  ]);
+  await rm(wav, { force: true });
+  if (!result.ok) throw new Error('whisper 실행 실패');
+
+  let text = result.out.trim();
+  try {
+    text = (await readFile(`${prefix}.txt`, 'utf8')).trim() || text;
+    await rm(`${prefix}.txt`, { force: true });
+  } catch { /* 파일이 없으면 stdout 사용 */ }
+  return { text: text.replace(/\s+/g, ' ').trim(), durationMs };
 }
 
 /** @param {string} file */
@@ -215,18 +593,43 @@ async function main() {
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!orderMode && !transcriptsPath && !apiKey) {
-    console.error('OPENAI_API_KEY 가 없습니다. 음성 인식으로 대사를 찾으려면 키가 필요합니다.');
-    console.error('  OPENAI_API_KEY=sk-... npm run match:voice -- --dry-run');
-    console.error('키 없이 진행하려면: 파일 이름을 대본의 이름으로 저장했거나, 대본 순서대로 녹음했다면 --order 를 쓰세요.');
+  /** @type {{ cli: string, model: string } | null} */
+  let whisper = null;
+  if (!orderMode && !transcriptsPath && sttMode !== 'api') {
+    const cli = await findWhisperCli();
+    const localModel = cli ? await findWhisperModel() : '';
+    if (cli && localModel) whisper = { cli, model: localModel };
+    else if (sttMode === 'local') {
+      console.error('로컬 음성 인식을 쓸 수 없습니다.');
+      if (!cli) console.error('  whisper-cli 가 없습니다:  brew install whisper-cpp');
+      else console.error('  모델 파일이 없습니다. ~/.cache/whisper.cpp/ 에 ggml-*.bin 을 두거나 --whisper-model=경로 를 주세요.');
+      process.exitCode = 1;
+      return;
+    }
+  }
+
+  if (!orderMode && !transcriptsPath && !whisper && !apiKey) {
+    console.error('음성 인식 수단이 없습니다. 다음 중 하나를 쓰세요.');
+    console.error('  · 로컬(무료):  brew install whisper-cpp  +  ~/.cache/whisper.cpp/ggml-large-v3-turbo-q5_0.bin');
+    console.error('  · API:        OPENAI_API_KEY=sk-... npm run match:voice');
+    console.error('  · 인식 없이:   --order (대본 순서대로 녹음한 경우) 또는 --transcripts=받아쓴텍스트.json');
     process.exitCode = 1;
     return;
   }
 
   console.log(`${sourceDir} — 오디오 ${files.length}개`);
-  const how = orderMode ? '녹음 순서' : transcriptsPath ? '주어진 전사 텍스트' : `음성 인식(${model})`;
+  const how = orderMode ? '녹음 순서만'
+    : transcriptsPath ? '주어진 전사 텍스트'
+      : sequential ? `순서 + ${whisper ? `로컬 인식(${path.basename(whisper.model)})` : `인식(${model})`}`
+        : whisper ? `로컬 음성 인식(${path.basename(whisper.model)})`
+          : `음성 인식(${model})`;
   console.log(`판별 방식: 파일명 → ${how}`);
   console.log(`대상 대사: ${needList.length}개${rerecord ? ' (이미 녹음된 것도 덮어씀)' : ''}\n`);
+
+  const sttTmpDir = await mkdtemp(path.join(os.tmpdir(), 'nuri-stt-'));
+
+  /** @type {{ file: string, transcript: string, durationMs: number }[]} 순서 정렬 모드용 */
+  const pending = [];
 
   /** @type {{ file: string, line?: {id:string,text:string}, how: string, score: number, transcript?: string, note?: string }[]} */
   const plan = [];
@@ -240,6 +643,7 @@ async function main() {
       continue;
     }
 
+    let durationMs = 0;
     const byName = byId.get(idFromFileName(name));
     if (byName) {
       plan.push({ file, line: byName, how: '파일명', score: 1 });
@@ -257,7 +661,16 @@ async function main() {
     let transcript;
     try {
       transcript = providedTranscripts[name] ?? providedTranscripts[path.parse(name).name] ?? '';
-      if (!transcript && !transcriptsPath) transcript = await transcribe(file, apiKey);
+      if (!transcript && !transcriptsPath) {
+        process.stdout.write(`  인식 중… ${name}\r`);
+        if (whisper) {
+          const local = await transcribeLocal(file, sttTmpDir, whisper);
+          transcript = local.text;
+          durationMs = local.durationMs;
+        } else {
+          transcript = await transcribe(file, apiKey);
+        }
+      }
     } catch (error) {
       plan.push({ file, how: '보류', score: 0, note: error instanceof Error ? error.message : String(error) });
       continue;
@@ -266,20 +679,94 @@ async function main() {
       plan.push({ file, how: '보류', score: 0, transcript, note: transcriptsPath ? '전사 텍스트에 이 파일이 없습니다' : '인식된 말이 없습니다' });
       continue;
     }
-    const match = bestMatch(transcript, candidates);
+    if (sequential && !transcriptsPath) {
+      pending.push({ file, transcript, durationMs });
+      continue;
+    }
+
+    const match = bestMatch(transcript, candidates, durationMs);
     const gap = match.score - match.runnerUp;
     if (match.score < minScore) {
-      plan.push({ file, how: '보류', score: match.score, transcript, note: `가장 비슷한 대사: "${match.line.text}"` });
-    } else {
+      plan.push({ file, how: '보류', score: match.score, transcript, note: `가장 비슷한 대사: "${match.line.text}" (${match.score.toFixed(2)})` });
+    } else if (gap < minGap) {
       plan.push({
         file,
-        line: match.line,
-        how: '인식',
+        how: '보류',
         score: match.score,
         transcript,
-        note: gap < 0.06 ? `2등과 차이가 작음(${gap.toFixed(2)}) — 확인 권장` : undefined,
+        note: `비슷한 대사가 여럿 — 1등 "${match.line.text}" (${match.score.toFixed(2)}), 2등과 차이 ${gap.toFixed(2)}`,
       });
+    } else {
+      plan.push({ file, line: match.line, how: '인식', score: match.score, transcript });
     }
+  }
+
+  await rm(sttTmpDir, { recursive: true, force: true });
+  if (!orderMode && !transcriptsPath) process.stdout.write(' '.repeat(60) + '\r');
+
+  if (sequential && pending.length) {
+    // 인식 점수 + 순서를 함께 만족하는 배치를 찾는다(단조 정렬)
+    const scores = pending.map(item => scoreAll(item.transcript, needList, item.durationMs));
+    const aligned = alignSequential(scores, { minScore, minGap });
+    // 앵커(확신) → 앵커 사이 국소 정렬 → 자리가 하나뿐인 곳 채우기
+    const assignment = fillOrderedGaps(refineBetweenAnchors(scores, aligned));
+    pending.forEach((item, i) => {
+      const lineIndex = assignment[i];
+      if (lineIndex < 0) {
+        // 순서에서 벗어난 파일 — 소리만으로 충분히 확실할 때만 구제한다
+        const alone = bestMatch(item.transcript, needList, item.durationMs);
+        const gap = alone.score - alone.runnerUp;
+        const taken = assignment.some((assigned, k) => k !== i && assigned >= 0 && needList[assigned].id === alone.line.id);
+        if (alone.score >= minScore && gap >= minGap && !taken) {
+          plan.push({
+            file: item.file,
+            line: alone.line,
+            how: '인식(순서 밖)',
+            score: alone.score,
+            transcript: item.transcript,
+            note: '순서와 맞지 않지만 소리가 뚜렷해 배치했습니다',
+          });
+        } else {
+          plan.push({
+            file: item.file,
+            how: '보류',
+            score: alone.score,
+            transcript: item.transcript,
+            note: `순서에 맞는 대사를 찾지 못했습니다 — 가장 비슷한 대사 "${alone.line.text}" (${alone.score.toFixed(2)})`,
+          });
+        }
+        return;
+      }
+      const line = needList[lineIndex];
+      const score = scores[i][lineIndex];
+      const alone = bestMatch(item.transcript, needList, item.durationMs);
+      const filledByOrder = aligned[i] < 0;
+      // 자리로만 채웠는데 소리가 전혀 안 맞으면(인식 실패·다른 대사) 손대지 않는다
+      if (filledByOrder && score < 0.2) {
+        plan.push({
+          file: item.file,
+          how: '보류',
+          score,
+          transcript: item.transcript,
+          note: `자리로는 "${line.text}" 인데 소리가 맞지 않습니다`,
+        });
+        return;
+      }
+      plan.push({
+        file: item.file,
+        line,
+        how: filledByOrder ? '순서로 채움' : '순서+인식',
+        score,
+        transcript: item.transcript,
+        note: filledByOrder
+          ? '앞뒤가 확정돼 자리로 정했습니다 — 한 번 들어 보세요'
+          : alone.line.id !== line.id
+            ? `소리만 봤을 땐 "${alone.line.text}"(${alone.score.toFixed(2)}) — 순서를 우선했습니다`
+            : score < shakyScore
+              ? '인식이 흐릿합니다 — 한 번 들어 보세요'
+              : undefined,
+      });
+    });
   }
 
   // 같은 대사에 여러 파일이면 마지막(가장 최근) 것만 쓴다 — 재테이크로 본다
@@ -302,13 +789,25 @@ async function main() {
     ready.push(item);
   });
 
-  console.log(`반영할 파일 ${ready.length}개`);
-  for (const item of ready) {
-    const score = item.how === '파일명' ? '' : ` (${item.score.toFixed(2)})`;
-    console.log(`  ${path.basename(item.file)}`);
-    console.log(`    → [${item.how}${score}] ${item.line.id}  "${item.line.text}"`);
-    if (item.transcript) console.log(`       인식: "${item.transcript}"`);
-    if (item.note) console.log(`       ! ${item.note}`);
+  const sure = ready.filter(item => item.how !== '순서로 채움');
+  const guessed = ready.filter(item => item.how === '순서로 채움');
+
+  /** @param {typeof ready} list */
+  const print = list => {
+    for (const item of list) {
+      const score = item.how === '파일명' ? '' : ` (${item.score.toFixed(2)})`;
+      console.log(`  ${path.basename(item.file)}`);
+      console.log(`    → [${item.how}${score}] ${item.line.id}  "${item.line.text}"`);
+      if (item.transcript) console.log(`       인식: "${item.transcript}"`);
+      if (item.note) console.log(`       ! ${item.note}`);
+    }
+  };
+
+  console.log(`확정 ${sure.length}개 — 소리로 확인된 배치`);
+  print(sure);
+  if (guessed.length) {
+    console.log(`\n자리로 채움 ${guessed.length}개 — 앞뒤가 확정돼 순서로 정했습니다. 한 번씩 들어 보세요`);
+    print(guessed);
   }
   if (held.length) {
     console.log(`\n보류 ${held.length}개 — 직접 확인이 필요합니다`);
@@ -344,6 +843,7 @@ async function main() {
   await writeFile(logPath, `${JSON.stringify(importLog, null, 2)}\n`);
 
   console.log(`\n${done}개 반영 완료. 앱을 새로 고치면 바로 그 육성이 재생됩니다.`);
+  if (guessed.length) console.log(`그중 ${guessed.length}개는 순서로 채운 것이라 한 번 들어 보시길 권합니다.`);
   console.log('대본 페이지 갱신:  npm run audit:voice -- --json && npm run sheet:voice');
 }
 
