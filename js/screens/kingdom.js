@@ -1,6 +1,6 @@
 // 왕국 화면 — 스테이지 선택
 import { register, go } from '../app.js';
-import { el, topbar, iconBtn, starsText } from '../ui.js';
+import { el, topbar, iconBtn, starsText, sleep } from '../ui.js';
 import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
 import { KINGDOMS, CHARACTERS } from '../data.js';
@@ -52,7 +52,14 @@ function render({ kingdom }) {
     }),
   );
 
-  s._onShow = () => speak(k.intro);
+  // 왕국 소개에 이어 목표까지 읽어 준다. 글을 못 읽는 아이도 무엇을 하러 왔는지 알 수 있게.
+  // (리본에 적힌 k.goal 이 화면 표시 전용이라 소리로는 전달되지 않았다)
+  s._onShow = async (signal) => {
+    await speak(k.intro, { signal });
+    await sleep(300, signal);
+    if (signal?.aborted) return;
+    await speak(k.goal, { signal });
+  };
   return s;
 }
 

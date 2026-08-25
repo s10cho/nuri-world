@@ -77,8 +77,10 @@ async function main() {
     const asset = manifest.assets?.[line.text];
     const isRecorded = Object.prototype.hasOwnProperty.call(recorded, line.text);
     const issues = isRecorded ? (audit.recordings?.[recorded[line.text].id]?.issues ?? []) : [];
+    const needsVoice = !unused.has(line.id) && (!isRecorded || issues.length > 0);
     return {
       index: index + 1,
+      needsVoice,
       id: line.id,
       text: line.text,
       category: line.id.split('/')[0],
@@ -94,6 +96,7 @@ async function main() {
     const key = item.skip ? 'skip' : item.kind;
     acc[key] = (acc[key] || 0) + 1;
     if (!item.skip && item.issues.length) acc.issue = (acc.issue || 0) + 1;
+    if (item.needsVoice) acc.need = (acc.need || 0) + 1;
     return acc;
   }, /** @type {Record<string, number>} */ ({}));
   const target = items.filter(item => !item.skip).length;
@@ -101,11 +104,12 @@ async function main() {
   const rows = items.map(item => {
     const badge = { voice: '🎙️ 육성', tts: '🤖 TTS', none: '⬜ 없음' }[item.kind];
     return `
-      <li class="row" data-index="${item.index}" data-kind="${item.kind}" data-skip="${item.skip ? 1 : 0}"
-          data-issue="${item.issues.length ? 1 : 0}" data-id="${escapeHtml(item.id)}"
+      <li class="row" data-index="${item.index}" data-order="${item.index}" data-kind="${item.kind}" data-skip="${item.skip ? 1 : 0}"
+          data-issue="${item.issues.length ? 1 : 0}" data-need="${item.needsVoice ? 1 : 0}" data-id="${escapeHtml(item.id)}"
           data-src="${escapeHtml(item.src)}" data-text="${escapeHtml(item.text)}">
         <div class="row-top">
           <span class="num">#${item.index}</span>
+          <span class="seq" data-role="seq" hidden></span>
           <span class="badge cat">${escapeHtml(CATEGORY_LABEL[item.category] || item.category)}</span>
           <span class="badge ${item.kind}">${badge}</span>
           ${item.skip ? '<span class="badge skip">앱 미사용</span>' : ''}
@@ -199,6 +203,15 @@ async function main() {
     border:1px solid var(--line); border-radius:8px; cursor:pointer; overflow:hidden; text-overflow:ellipsis; }
   .file.copied { color:#fff; background:var(--ok); border-color:var(--ok); }
 
+  .chip.need[aria-pressed="true"] { background:#b8541f; border-color:#b8541f; }
+  .stat.need strong { color:#b8541f; }
+  .seq { padding:2px 8px; color:#fff; background:#b8541f; border-radius:999px; font-weight:700; }
+  .record-hint { padding:12px 14px; margin:0 0 12px; font-size:0.88rem; line-height:1.6;
+    background:#fff8e6; border:1px solid #e6d9b0; border-radius:10px; }
+  .record-hint code { display:inline-block; padding:1px 6px; margin:2px 0; font-size:0.82rem;
+    background:#fff; border:1px solid var(--line); border-radius:4px; }
+  .row[data-need="1"] { border-left-color:#b8541f; }
+
   .group-title { margin:18px 0 8px; padding-bottom:6px; font-size:1rem;
     border-bottom:2px solid var(--line); color:var(--muted); }
 
@@ -234,10 +247,12 @@ async function main() {
     <div class="stat none"><strong>${counts.none || 0}</strong>없음</div>
     <div class="stat done"><strong data-role="checked">0</strong>확인함</div>
     <div class="stat"><strong data-role="bad-count">0</strong>문제</div>
+    <div class="stat need"><strong>${counts.need || 0}</strong>육성 필요</div>
   </div>
 
   <div class="toolbar">
     <div class="chips">
+      <button class="chip need" type="button" data-filter="need" aria-pressed="false">🎙️ 육성 필요 ${counts.need || 0}</button>
       <button class="chip" type="button" data-filter="todo" aria-pressed="true">미확인</button>
       <button class="chip" type="button" data-filter="all" aria-pressed="false">전체 ${items.length}</button>
       <button class="chip" type="button" data-filter="voice" aria-pressed="false">육성 ${counts.voice || 0}</button>
@@ -254,6 +269,13 @@ async function main() {
       <button class="chip" type="button" data-role="reset">초기화</button>
     </div>
   </div>
+
+  <p class="record-hint" data-role="record-hint" hidden>
+    <strong>녹음 순서</strong> — 아래 <strong data-role="need-count">0</strong>개를 <strong>이 순서 그대로</strong> 위에서부터 읽어 녹음하세요.
+    파일 이름은 아무래도 상관없고, 순서만 지키면 됩니다. 다 녹음해 한 폴더에 모은 뒤:
+    <code>npm run match:voice -- --align=list --dry-run</code> 으로 확인하고, 맞으면 <code>--dry-run</code> 을 빼고 실행하세요.
+    ▶︎듣기를 누르면 지금 쓰이는 TTS 음성을 참고로 들을 수 있습니다.
+  </p>
 
   <ol class="rows">${rows}
   </ol>
@@ -318,6 +340,7 @@ async function main() {
       filter === 'todo' ? (!verdict && !skip) :
       filter === 'ok' ? verdict === 'ok' :
       filter === 'bad' ? verdict === 'bad' :
+      filter === 'need' ? row.dataset.need === '1' :
       filter === 'issue' ? row.dataset.issue === '1' :
       filter === 'skip' ? skip :
       kind === filter && !skip;
@@ -325,13 +348,40 @@ async function main() {
     return okFilter && okQuery;
   }
 
+  var list = document.querySelector('.rows');
+  function reorder(byRecordingOrder) {
+    var sorted = rows.slice().sort(function (a, b) {
+      return byRecordingOrder
+        ? Number(a.dataset.order) - Number(b.dataset.order)
+        : rows.indexOf(a) - rows.indexOf(b);
+    });
+    sorted.forEach(function (row) { list.appendChild(row); });
+  }
+
   function apply() {
     var shown = 0;
+    var recordMode = filter === 'need';
+    document.querySelector('[data-role="record-hint"]').hidden = !recordMode;
+    reorder(recordMode);
     rows.forEach(function (row) {
       var visible = matches(row);
       row.hidden = !visible;
       if (visible) shown++;
     });
+    if (recordMode) {
+      var seq = 0;
+      rows.slice().sort(function (a, b) { return Number(a.dataset.order) - Number(b.dataset.order); })
+        .forEach(function (row) {
+          var mark = row.querySelector('[data-role="seq"]');
+          if (row.hidden) { mark.hidden = true; return; }
+          seq += 1;
+          mark.textContent = '녹음 ' + seq;
+          mark.hidden = false;
+        });
+      el('need-count').textContent = seq;
+    } else {
+      rows.forEach(function (row) { row.querySelector('[data-role="seq"]').hidden = true; });
+    }
     if (!shown) el('bar-status').textContent = '조건에 맞는 항목이 없습니다';
     if (current >= 0 && rows[current] && rows[current].hidden) setCurrent(nextVisible(current, 1));
   }

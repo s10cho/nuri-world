@@ -5,11 +5,6 @@
     "praise/stage-clear-01",
     "praise/stage-clear-02",
     "praise/stage-clear-03",
-    "kingdom/meadow/goal",
-    "kingdom/lake/goal",
-    "kingdom/tower/goal",
-    "kingdom/village/goal",
-    "kingdom/castle/goal",
     "syllables/ko-efd23dd5ed",
     "syllables/ko-811e029344",
     "syllables/ko-c94aacfd94",
@@ -7169,9 +7164,9 @@
   },
   "summary": {
     "total": 600,
-    "unused": 43,
+    "unused": 38,
     "needRecording": 37,
     "needRerecording": 3,
-    "done": 517
+    "done": 522
   }
 }

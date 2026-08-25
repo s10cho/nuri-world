@@ -68,6 +68,7 @@ function collectSpokenLines() {
 
   for (const kingdom of Object.values(KINGDOMS)) {
     say(kingdom.intro, 'kingdom.js');
+    say(kingdom.goal, 'kingdom.js');
     say(`${kingdom.name}에서 모험을 계속해요!`, 'map.js');
   }
   for (const panel of STORY_INTRO) say(panel.text.replace(/\n/g, ' '), 'story.js');
