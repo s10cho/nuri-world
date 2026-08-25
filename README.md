@@ -98,6 +98,10 @@ npm run verify:voice            # → public/voice-check.html (녹음 검증 화
 - **휴대폰에서도** 볼 수 있게 반응형입니다(하단 고정 바로 한 손 검증). 같은 와이파이에서
   `npm run dev` 후 터미널에 찍히는 Network 주소 뒤에 `/voice-check.html` 을 붙여 접속하세요.
 - 데스크톱 단축키: `Space` 재생 · `↑`/`↓` 이동 · `1` 맞음 · `2` 문제.
+- **📥 미반입 녹음** 필터 — 어느 대사인지 못 가려 배치하지 않은 녹음을 들어 보고, 목록에서 해당
+  대사를 고를 수 있습니다. 고른 결과를 **매칭 목록 복사**로 받아 그대로 배치합니다:
+  `npm run pending:voice` (미반입 파일을 페이지로 옮김) → 페이지에서 고르기 →
+  `pbpaste | npm run place:voice` → 끝나면 `npm run pending:voice -- --clear`.
 - **🎙️ 육성 필요** 필터 — 아직 육성이 없거나 다시 녹음해야 할 대사만 모아, **대사 목록 순서**로
   다시 정렬하고 `녹음 1`, `녹음 2` … 번호를 매깁니다. 그 순서대로 읽어 녹음한 뒤
   `npm run match:voice -- --align=list` 로 반입하면 순서로 자동 배치됩니다.

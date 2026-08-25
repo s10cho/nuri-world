@@ -76,6 +76,13 @@
   .file.copied { color:#fff; background:var(--ok); border-color:var(--ok); }
 
   .chip.need[aria-pressed="true"] { background:#b8541f; border-color:#b8541f; }
+  .chip.pending[aria-pressed="true"] { background:#4a5aa8; border-color:#4a5aa8; }
+  .pending-row { border-left-color:#4a5aa8; }
+  .pending-row.picked { border-left-color:var(--ok); background:#f2faf5; }
+  .pending-row .script { font-size:1rem; font-weight:600; color:var(--muted); }
+  .pick { flex:1 1 100%; min-height:44px; padding:10px; font:inherit; font-size:0.92rem;
+    background:#fff; border:1px solid var(--line); border-radius:10px; }
+  @media (min-width:720px) { .pick { flex:1 1 auto; max-width:420px; } }
   .stat.need strong { color:#b8541f; }
   .seq { padding:2px 8px; color:#fff; background:#b8541f; border-radius:999px; font-weight:700; }
   .record-hint { padding:12px 14px; margin:0 0 12px; font-size:0.88rem; line-height:1.6;
@@ -124,6 +131,7 @@
 
   <div class="toolbar">
     <div class="chips">
+      <button class="chip pending" type="button" data-filter="pending" aria-pressed="false">📥 미반입 녹음 49</button>
       <button class="chip need" type="button" data-filter="need" aria-pressed="false">🎙️ 육성 필요 25</button>
       <button class="chip" type="button" data-filter="todo" aria-pressed="true">미확인</button>
       <button class="chip" type="button" data-filter="all" aria-pressed="false">전체 600</button>
@@ -147,6 +155,14 @@
     파일 이름은 아무래도 상관없고, 순서만 지키면 됩니다. 다 녹음해 한 폴더에 모은 뒤:
     <code>npm run match:voice -- --align=list --dry-run</code> 으로 확인하고, 맞으면 <code>--dry-run</code> 을 빼고 실행하세요.
     ▶︎듣기를 누르면 지금 쓰이는 TTS 음성을 참고로 들을 수 있습니다.
+  </p>
+
+  <p class="record-hint" data-role="pending-hint" hidden>
+    <strong>미반입 녹음 49개</strong> — 어느 대사인지 못 가려 배치하지 않은 파일입니다.
+    들어 보고 아래 목록에서 해당 대사를 고르세요(육성이 필요한 것만 나옵니다).
+    다 고른 뒤 <strong>매칭 목록 복사</strong>를 눌러 그대로 넘겨 주시면 한 번에 배치됩니다.
+    앱이 쓰지 않는 대사(단독 음절·낱말)를 읽은 파일이나 재테이크는 그냥 두시면 됩니다.
+    <button class="chip" type="button" data-role="copy-picks" style="margin-top:6px">📋 매칭 목록 복사</button>
   </p>
 
   <ol class="rows">
@@ -12151,6 +12167,841 @@
         </div>
       </li>
   </ol>
+  <ol class="rows pending-list" data-role="pending-list" hidden>
+      <li class="row pending-row" data-hash="cfa42ac203b478c43abd73826c3c41d81af83e0e" data-src="assets/audio/pending/cfa42ac203.m4a"
+          data-source="KakaoTalk_Audio_20260822-234131.m4a">
+        <div class="row-top">
+          <span class="num">파일 1</span>
+          <span class="badge cat">08/22 23:41:31</span>
+          <span class="badge">4.1초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">유 유니콘의 유 소리예요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="6e86fb58decfea9252ab6fa1b98142deebdd1fb3" data-src="assets/audio/pending/6e86fb58de.m4a"
+          data-source="KakaoTalk_Audio_20260822-234630.m4a">
+        <div class="row-top">
+          <span class="num">파일 2</span>
+          <span class="badge cat">08/22 23:46:30</span>
+          <span class="badge">3.9초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">예 얘기에 예 소리예요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="f9214b5736cea6de4771cbbf936e45cc0d24de82" data-src="assets/audio/pending/f9214b5736.m4a"
+          data-source="KakaoTalk_Audio_20260822-235214.m4a">
+        <div class="row-top">
+          <span class="num">파일 3</span>
+          <span class="badge cat">08/22 23:52:14</span>
+          <span class="badge">1.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜?</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="c076696e1b3f6e47c6efc37fa04e38c319a6c172" data-src="assets/audio/pending/c076696e1b.m4a"
+          data-source="KakaoTalk_Audio_20260822-235529.m4a">
+        <div class="row-top">
+          <span class="num">파일 4</span>
+          <span class="badge cat">08/22 23:55:29</span>
+          <span class="badge">4.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 스웨터에 왜 소리예요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="6a04b5b1f9ebc3af95fb3e5e84186ec59fe6d852" data-src="assets/audio/pending/6a04b5b1f9.m4a"
+          data-source="KakaoTalk_Audio_20260822-235805.m4a">
+        <div class="row-top">
+          <span class="num">파일 5</span>
+          <span class="badge cat">08/22 23:58:05</span>
+          <span class="badge">1.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">가.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="5fc1c84551b480e1525a9c1083663815bb8bf08a" data-src="assets/audio/pending/5fc1c84551.m4a"
+          data-source="KakaoTalk_Audio_20260822-235814.m4a">
+        <div class="row-top">
+          <span class="num">파일 6</span>
+          <span class="badge cat">08/22 23:58:14</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">나</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="6805d775014fb84911180699152313424efd0de8" data-src="assets/audio/pending/6805d77501.m4a"
+          data-source="KakaoTalk_Audio_20260822-235823.m4a">
+        <div class="row-top">
+          <span class="num">파일 7</span>
+          <span class="badge cat">08/22 23:58:23</span>
+          <span class="badge">1.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">다</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="6784060e622ae00e9a961a83986add5a68dc897d" data-src="assets/audio/pending/6784060e62.m4a"
+          data-source="KakaoTalk_Audio_20260822-235905.m4a">
+        <div class="row-top">
+          <span class="num">파일 8</span>
+          <span class="badge cat">08/22 23:59:05</span>
+          <span class="badge">1.4초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">라</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="c4994e3226249b94869d234b287744504ed96f3a" data-src="assets/audio/pending/c4994e3226.m4a"
+          data-source="KakaoTalk_Audio_20260822-235917.m4a">
+        <div class="row-top">
+          <span class="num">파일 9</span>
+          <span class="badge cat">08/22 23:59:17</span>
+          <span class="badge">1.4초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">마.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="3cd1ef0d107eb92c8b8ecc5bf74430a348a4a435" data-src="assets/audio/pending/3cd1ef0d10.m4a"
+          data-source="KakaoTalk_Audio_20260822-235937.m4a">
+        <div class="row-top">
+          <span class="num">파일 10</span>
+          <span class="badge cat">08/22 23:59:37</span>
+          <span class="badge">1.6초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">마늘.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="dc7914071bb7bf00e5a35c24ac35e264d3ef8dd1" data-src="assets/audio/pending/dc7914071b.m4a"
+          data-source="KakaoTalk_Audio_20260822-235949.m4a">
+        <div class="row-top">
+          <span class="num">파일 11</span>
+          <span class="badge cat">08/22 23:59:49</span>
+          <span class="badge">1.4초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">봐.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="018f814497a7d1e616bf9ccd7b7eeef5ab0a1940" data-src="assets/audio/pending/018f814497.m4a"
+          data-source="KakaoTalk_Audio_20260823-000000.m4a">
+        <div class="row-top">
+          <span class="num">파일 12</span>
+          <span class="badge cat">08/23 00:00:00</span>
+          <span class="badge">1.2초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">사.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="4ea55ccff6da27bacdaa8934d8fce583897b56f2" data-src="assets/audio/pending/4ea55ccff6.m4a"
+          data-source="KakaoTalk_Audio_20260823-000017.m4a">
+        <div class="row-top">
+          <span class="num">파일 13</span>
+          <span class="badge cat">08/23 00:00:17</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">차.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="cfb1c642a9aed4b7d9361c7a3225640787773ed0" data-src="assets/audio/pending/cfb1c642a9.m4a"
+          data-source="KakaoTalk_Audio_20260823-000030.m4a">
+        <div class="row-top">
+          <span class="num">파일 14</span>
+          <span class="badge cat">08/23 00:00:30</span>
+          <span class="badge">1.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">차</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="d74176a33c743dbb9a12d96c711c3d517e5381a4" data-src="assets/audio/pending/d74176a33c.m4a"
+          data-source="KakaoTalk_Audio_20260823-000037.m4a">
+        <div class="row-top">
+          <span class="num">파일 15</span>
+          <span class="badge cat">08/23 00:00:37</span>
+          <span class="badge">1.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">카</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="451c5b3f12bd6621a334d0a9c397f019b707c3f4" data-src="assets/audio/pending/451c5b3f12.m4a"
+          data-source="KakaoTalk_Audio_20260823-000050.m4a">
+        <div class="row-top">
+          <span class="num">파일 16</span>
+          <span class="badge cat">08/23 00:00:50</span>
+          <span class="badge">1.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">카드</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="d73302d04e5400fc12128afc409bbfaacad61412" data-src="assets/audio/pending/d73302d04e.m4a"
+          data-source="KakaoTalk_Audio_20260823-000112.m4a">
+        <div class="row-top">
+          <span class="num">파일 17</span>
+          <span class="badge cat">08/23 00:01:12</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">구</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="e34b7218153297811662f76332aa820cbc226859" data-src="assets/audio/pending/e34b721815.m4a"
+          data-source="KakaoTalk_Audio_20260823-000127.m4a">
+        <div class="row-top">
+          <span class="num">파일 18</span>
+          <span class="badge cat">08/23 00:01:27</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">누</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="9d01913f8cfdb4aee70a021de479094b17689840" data-src="assets/audio/pending/9d01913f8c.m4a"
+          data-source="KakaoTalk_Audio_20260823-000144.m4a">
+        <div class="row-top">
+          <span class="num">파일 19</span>
+          <span class="badge cat">08/23 00:01:44</span>
+          <span class="badge">1.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">노래</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="805300b5a35d1bef44c145e0b6abc83cae47a8d4" data-src="assets/audio/pending/805300b5a3.m4a"
+          data-source="KakaoTalk_Audio_20260823-000154.m4a">
+        <div class="row-top">
+          <span class="num">파일 20</span>
+          <span class="badge cat">08/23 00:01:54</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">도우</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="f2a1eccdfd2999502d1c2cd8dccd8d0b39ae9590" data-src="assets/audio/pending/f2a1eccdfd.m4a"
+          data-source="KakaoTalk_Audio_20260823-000210.m4a">
+        <div class="row-top">
+          <span class="num">파일 21</span>
+          <span class="badge cat">08/23 00:02:10</span>
+          <span class="badge">1.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">루</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="f44b2d29656bd723dd05ab8c2cdc9ed728465d7f" data-src="assets/audio/pending/f44b2d2965.m4a"
+          data-source="KakaoTalk_Audio_20260823-000219.m4a">
+        <div class="row-top">
+          <span class="num">파일 22</span>
+          <span class="badge cat">08/23 00:02:19</span>
+          <span class="badge">1.4초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">모</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="e5772e38ce0ee45b4ee7022ecd8dcf02fa79fad5" data-src="assets/audio/pending/e5772e38ce.m4a"
+          data-source="KakaoTalk_Audio_20260823-000229.m4a">
+        <div class="row-top">
+          <span class="num">파일 23</span>
+          <span class="badge cat">08/23 00:02:29</span>
+          <span class="badge">1.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">구</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="001fa983354f47ea3e8a7d25d7d527ec785432f6" data-src="assets/audio/pending/001fa98335.m4a"
+          data-source="KakaoTalk_Audio_20260823-000238.m4a">
+        <div class="row-top">
+          <span class="num">파일 24</span>
+          <span class="badge cat">08/23 00:02:38</span>
+          <span class="badge">1.2초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">구름</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="f9544efb17e4e183a39278edb9cc8c416907ea32" data-src="assets/audio/pending/f9544efb17.m4a"
+          data-source="KakaoTalk_Audio_20260823-000249.m4a">
+        <div class="row-top">
+          <span class="num">파일 25</span>
+          <span class="badge cat">08/23 00:02:49</span>
+          <span class="badge">1.6초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">두</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="48fe2badf26bc4756f06d9cae5971a64e425c63f" data-src="assets/audio/pending/48fe2badf2.m4a"
+          data-source="KakaoTalk_Audio_20260823-000258.m4a">
+        <div class="row-top">
+          <span class="num">파일 26</span>
+          <span class="badge cat">08/23 00:02:58</span>
+          <span class="badge">1.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">두부</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="a556edb2b26bd2865adf291409af1346438c26b8" data-src="assets/audio/pending/a556edb2b2.m4a"
+          data-source="KakaoTalk_Audio_20260823-000306.m4a">
+        <div class="row-top">
+          <span class="num">파일 27</span>
+          <span class="badge cat">08/23 00:03:06</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">무</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="d17da1a2cf6f2aedcd5a959cf30e59801dd0e571" data-src="assets/audio/pending/d17da1a2cf.m4a"
+          data-source="KakaoTalk_Audio_20260823-000315.m4a">
+        <div class="row-top">
+          <span class="num">파일 28</span>
+          <span class="badge cat">08/23 00:03:15</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">키</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="a3d6dc9b4ede7fa79e51e02ffc91d6a54be4b4bb" data-src="assets/audio/pending/a3d6dc9b4e.m4a"
+          data-source="KakaoTalk_Audio_20260823-000330.m4a">
+        <div class="row-top">
+          <span class="num">파일 29</span>
+          <span class="badge cat">08/23 00:03:30</span>
+          <span class="badge">1.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">기차</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="cf5da4083c320341d6f756d9bd74acf08679d446" data-src="assets/audio/pending/cf5da4083c.m4a"
+          data-source="KakaoTalk_Audio_20260823-000340.m4a">
+        <div class="row-top">
+          <span class="num">파일 30</span>
+          <span class="badge cat">08/23 00:03:40</span>
+          <span class="badge">1.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">지</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="60698ff1d63d49e15cf0698faedd6038dc1507d5" data-src="assets/audio/pending/60698ff1d6.m4a"
+          data-source="KakaoTalk_Audio_20260823-000420.m4a">
+        <div class="row-top">
+          <span class="num">파일 31</span>
+          <span class="badge cat">08/23 00:04:20</span>
+          <span class="badge">1.4초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">소우</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="cd97e61084e45a047a7d9de585868b009d248b29" data-src="assets/audio/pending/cd97e61084.m4a"
+          data-source="KakaoTalk_Audio_20260823-000501.m4a">
+        <div class="row-top">
+          <span class="num">파일 32</span>
+          <span class="badge cat">08/23 00:05:01</span>
+          <span class="badge">1.4초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">하!</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="14bd1d229dbdef36518a1f95b705325c168f212c" data-src="assets/audio/pending/14bd1d229d.m4a"
+          data-source="KakaoTalk_Audio_20260823-000609.m4a">
+        <div class="row-top">
+          <span class="num">파일 33</span>
+          <span class="badge cat">08/23 00:06:09</span>
+          <span class="badge">1.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">누리</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="3bb277db6e3064a78c23783d2f7d24948cd6190f" data-src="assets/audio/pending/3bb277db6e.m4a"
+          data-source="KakaoTalk_Audio_20260823-000631.m4a">
+        <div class="row-top">
+          <span class="num">파일 34</span>
+          <span class="badge cat">08/23 00:06:31</span>
+          <span class="badge">1.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">포리</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="323b44497abacaeda99c3d705f8fe4b4dd1fd5c7" data-src="assets/audio/pending/323b44497a.m4a"
+          data-source="KakaoTalk_Audio_20260823-000728.m4a">
+        <div class="row-top">
+          <span class="num">파일 35</span>
+          <span class="badge cat">08/23 00:07:28</span>
+          <span class="badge">3.3초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">지옥의 몬스타</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="b7bd1f449c9cc2f4d17c5357284248fe9db937d6" data-src="assets/audio/pending/b7bd1f449c.m4a"
+          data-source="KakaoTalk_Audio_20260824-231625.m4a">
+        <div class="row-top">
+          <span class="num">파일 36</span>
+          <span class="badge cat">08/24 23:16:25</span>
+          <span class="badge">3.1초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 짝을 찾았어요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="e51ef2480b6c7ccd23078e021a0bbc068a79e469" data-src="assets/audio/pending/e51ef2480b.m4a"
+          data-source="KakaoTalk_Audio_20260824-231633.m4a">
+        <div class="row-top">
+          <span class="num">파일 37</span>
+          <span class="badge cat">08/24 23:16:33</span>
+          <span class="badge">2.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 명중이에요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="f3a314e2d4cb8fd52b3673bb3448ebad5a59f521" data-src="assets/audio/pending/f3a314e2d4.m4a"
+          data-source="KakaoTalk_Audio_20260824-231711.m4a">
+        <div class="row-top">
+          <span class="num">파일 38</span>
+          <span class="badge cat">08/24 23:17:11</span>
+          <span class="badge">3.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 참외의 왜 소리</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="be4837fe5b5e258bf259eb589fdf7f61c3949675" data-src="assets/audio/pending/be4837fe5b.m4a"
+          data-source="KakaoTalk_Audio_20260824-231719.m4a">
+        <div class="row-top">
+          <span class="num">파일 39</span>
+          <span class="badge cat">08/24 23:17:19</span>
+          <span class="badge">2.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 짝을 찾았어요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="f105140d0a45de9d08c00bc5e7f8ef5c1f89e2bd" data-src="assets/audio/pending/f105140d0a.m4a"
+          data-source="KakaoTalk_Audio_20260824-231728.m4a">
+        <div class="row-top">
+          <span class="num">파일 40</span>
+          <span class="badge cat">08/24 23:17:28</span>
+          <span class="badge">2.6초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 명중이에요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="591134aa68cf828d753fb741931d233fc7b72bcb" data-src="assets/audio/pending/591134aa68.m4a"
+          data-source="KakaoTalk_Audio_20260824-231736.m4a">
+        <div class="row-top">
+          <span class="num">파일 41</span>
+          <span class="badge cat">08/24 23:17:36</span>
+          <span class="badge">3.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">워 원숭이의 워 소리</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="a25c007019eada7d81e300634da65b2353670b2c" data-src="assets/audio/pending/a25c007019.m4a"
+          data-source="KakaoTalk_Audio_20260824-231752.m4a">
+        <div class="row-top">
+          <span class="num">파일 42</span>
+          <span class="badge cat">08/24 23:17:52</span>
+          <span class="badge">2.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">와 영중이에요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="a17c5a8961320b8120f66e2472954c32039125d1" data-src="assets/audio/pending/a17c5a8961.m4a"
+          data-source="KakaoTalk_Audio_20260824-231808.m4a">
+        <div class="row-top">
+          <span class="num">파일 43</span>
+          <span class="badge cat">08/24 23:18:08</span>
+          <span class="badge">4.2초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">왜 스웨터에 왜 소리</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="4715b165ba12d604d472b6146b76e61e47bcfe98" data-src="assets/audio/pending/4715b165ba.m4a"
+          data-source="KakaoTalk_Audio_20260824-232612.m4a">
+        <div class="row-top">
+          <span class="num">파일 44</span>
+          <span class="badge cat">08/24 23:26:12</span>
+          <span class="badge">4.8초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">사자의 사, 사를 찾아 공격해요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="390055777d7dfec9e61c8e995ecd93d1932ae2a8" data-src="assets/audio/pending/390055777d.m4a"
+          data-source="KakaoTalk_Audio_20260824-232619.m4a">
+        <div class="row-top">
+          <span class="num">파일 45</span>
+          <span class="badge cat">08/24 23:26:19</span>
+          <span class="badge">2.9초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">명중이에요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="c97a6c62232da10ba7d5ecc8a5df116a479eb2e5" data-src="assets/audio/pending/c97a6c6223.m4a"
+          data-source="KakaoTalk_Audio_20260824-233405.m4a">
+        <div class="row-top">
+          <span class="num">파일 46</span>
+          <span class="badge cat">08/24 23:34:05</span>
+          <span class="badge">4.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">모자의 모, 모를 찾아 공격해요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="6c4bbe172e54c932bab825eae4b57efec107c73e" data-src="assets/audio/pending/6c4bbe172e.m4a"
+          data-source="KakaoTalk_Audio_20260824-233421.m4a">
+        <div class="row-top">
+          <span class="num">파일 47</span>
+          <span class="badge cat">08/24 23:34:21</span>
+          <span class="badge">3.0초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">뭐 명중이에요</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="c686bd4a772e2543a38ccc70a9d1375982324db2" data-src="assets/audio/pending/c686bd4a77.m4a"
+          data-source="KakaoTalk_Audio_20260824-233658.m4a">
+        <div class="row-top">
+          <span class="num">파일 48</span>
+          <span class="badge cat">08/24 23:36:58</span>
+          <span class="badge">4.5초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">무지개의 무, 무를 찾아 공격해요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+      <li class="row pending-row" data-hash="a4104961db8deb31048618481bb12fcdc4ab5181" data-src="assets/audio/pending/a4104961db.m4a"
+          data-source="KakaoTalk_Audio_20260824-233706.m4a">
+        <div class="row-top">
+          <span class="num">파일 49</span>
+          <span class="badge cat">08/24 23:37:06</span>
+          <span class="badge">2.7초</span>
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">무, 명중이에요.</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            <option value="praise/match/ko-7eec619024">외! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-7eec619024">외! 명중이에요!</option><option value="praise/hit-jamo/ko-b8b2f2af85">워! 명중이에요!</option><option value="praise/match/ko-3990e5c4d6">웨! 짝을 찾았어요!</option><option value="praise/hit-jamo/ko-3990e5c4d6">웨! 명중이에요!</option><option value="praise/hit-syllable/ko-ec488add9d">사! 명중이에요!</option><option value="praise/hit-syllable/ko-8f4dc1b65b">모! 명중이에요!</option><option value="praise/hit-syllable/ko-56c5af5b9b">무! 명중이에요!</option><option value="jamo/ko-f655984129">이응</option><option value="jamo/ko-71c706d652">유</option><option value="jamo/ko-7eec619024">외</option><option value="jamo-intro/ko-4e3de77253">리을! 로, 로봇의 첫소리예요.</option><option value="words/ko-9f97015d2e">애벌레</option><option value="words/ko-f55282967c">얘기</option><option value="words/ko-a10bd2c969">스웨터</option><option value="dex/jamo/ko-4e3de77253">리을! 로봇의 로.</option><option value="dex/jamo/ko-21cff49381">미음! 모자의 모.</option><option value="dex/jamo/ko-f655984129">이응! 오리의 오.</option><option value="dex/jamo/ko-7eec619024">외! 참외의 외 소리.</option><option value="dex/jamo/ko-b8b2f2af85">워! 원숭이의 워 소리.</option><option value="dex/jamo/ko-3990e5c4d6">웨! 스웨터의 웨 소리.</option><option value="dex/syllable/ko-56c5af5b9b">무! 무지개의 무.</option><option value="boss-syllable/ko-811e029344">나비의 나! 나를 찾아 공격해요!</option><option value="boss-syllable/ko-ec488add9d">사자의 사! 사를 찾아 공격해요!</option><option value="boss-syllable/ko-8f4dc1b65b">모자의 모! 모를 찾아 공격해요!</option>
+          </select>
+        </div>
+      </li>
+  </ol>
 </main>
 
 <div class="bar">
@@ -12168,7 +13019,7 @@
 <script>
 (function () {
   var KEY = 'nuri-voice-check-verdicts';
-  var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.rows:not(.pending-list) > .row'));
   var audio = new Audio();
   var verdicts = {};
   var current = -1;
@@ -12221,6 +13072,41 @@
   }
 
   var list = document.querySelector('.rows');
+  var pendingList = document.querySelector('[data-role="pending-list"]');
+  var pendingRows = Array.prototype.slice.call(document.querySelectorAll('.pending-row'));
+  var PICK_KEY = 'nuri-voice-pending-picks';
+  var picks = {};
+  try { picks = JSON.parse(localStorage.getItem(PICK_KEY) || '{}'); } catch (e) { picks = {}; }
+  function savePicks() { try { localStorage.setItem(PICK_KEY, JSON.stringify(picks)); } catch (e) {} }
+
+  pendingRows.forEach(function (row) {
+    var select = row.querySelector('[data-role="pick"]');
+    var saved = picks[row.dataset.hash];
+    if (saved) { select.value = saved; row.classList.add('picked'); row.querySelector('[data-role="pending-mark"]').textContent = '✅'; }
+    select.addEventListener('change', function () {
+      if (select.value) picks[row.dataset.hash] = select.value; else delete picks[row.dataset.hash];
+      row.classList.toggle('picked', !!select.value);
+      row.querySelector('[data-role="pending-mark"]').textContent = select.value ? '✅' : '';
+      savePicks();
+    });
+    row.querySelector('[data-role="pending-play"]').addEventListener('click', function () {
+      pendingRows.forEach(function (r) { r.classList.remove('playing'); });
+      audio.pause();
+      audio.src = row.dataset.src;
+      row.classList.add('playing');
+      audio.play().catch(function (error) {
+        if (error && error.name === 'AbortError') return;
+        el('bar-status').textContent = '재생 실패: ' + (error && error.message ? error.message : '');
+      });
+      el('bar-status').textContent = '미반입 ' + row.dataset.source;
+    });
+  });
+
+  document.querySelector('[data-role="copy-picks"]').addEventListener('click', function (event) {
+    var out = pendingRows.filter(function (row) { return picks[row.dataset.hash]; })
+      .map(function (row) { return row.dataset.source + ' -> ' + picks[row.dataset.hash]; });
+    copy(out.join('\n') || '(고른 항목이 없습니다)', event.currentTarget);
+  });
   function reorder(byRecordingOrder) {
     var sorted = rows.slice().sort(function (a, b) {
       return byRecordingOrder
@@ -12233,7 +13119,19 @@
   function apply() {
     var shown = 0;
     var recordMode = filter === 'need';
+    var pendingMode = filter === 'pending';
     document.querySelector('[data-role="record-hint"]').hidden = !recordMode;
+    document.querySelector('[data-role="pending-hint"]').hidden = !pendingMode;
+    pendingList.hidden = !pendingMode;
+    list.hidden = pendingMode;
+    if (pendingMode) {
+      var q = query;
+      pendingRows.forEach(function (row) {
+        row.hidden = !!q && row.querySelector('.script').textContent.indexOf(q) < 0 && row.dataset.source.indexOf(q) < 0;
+      });
+      el('bar-status').textContent = '미반입 녹음 ' + pendingRows.filter(function (r) { return !r.hidden; }).length + '개 — 들어 보고 대사를 고르세요';
+      return;
+    }
     reorder(recordMode);
     rows.forEach(function (row) {
       var visible = matches(row);

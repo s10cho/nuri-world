@@ -71,6 +71,8 @@ async function main() {
   const manifest = await readJson(path.join(root, 'public/assets/audio/ko/manifest.json'), { assets: {} });
   const recorded = (await readJson(path.join(__dirname, 'recorded-assets.json'), { assets: {} })).assets;
   const audit = await readJson(path.join(__dirname, 'voice-audit.json'), { unused: [], recordings: {} });
+  // 아직 어느 대사에도 배치되지 않은 녹음 (npm run pending:voice 가 옮겨 둔 것)
+  const pending = (await readJson(path.join(__dirname, 'voice-pending.json'), { items: [] })).items || [];
   const unused = new Set(audit.unused || []);
 
   const items = sheetOrder(lines.map((line, index) => {
@@ -125,6 +127,28 @@ async function main() {
         </div>
       </li>`;
   }).join('');
+
+  const needOptions = items.filter(item => item.needsVoice)
+    .map(item => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.text)}</option>`).join('');
+
+  const pendingRows = pending.map((item, index) => `
+      <li class="row pending-row" data-hash="${escapeHtml(item.hash)}" data-src="${escapeHtml(item.src)}"
+          data-source="${escapeHtml(item.source)}">
+        <div class="row-top">
+          <span class="num">파일 ${index + 1}</span>
+          <span class="badge cat">${escapeHtml(item.when)}</span>
+          ${item.durationMs ? `<span class="badge">${(item.durationMs / 1000).toFixed(1)}초</span>` : ''}
+          <span class="verdict-mark" data-role="pending-mark"></span>
+        </div>
+        <p class="script">${escapeHtml(item.transcript || '(인식 결과 없음)')}</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="pending-play">▶ 듣기</button>
+          <select class="pick" data-role="pick">
+            <option value="">— 어느 대사인가요? —</option>
+            ${needOptions}
+          </select>
+        </div>
+      </li>`).join('');
 
   const html = `<!doctype html>
 <html lang="ko">
@@ -204,6 +228,13 @@ async function main() {
   .file.copied { color:#fff; background:var(--ok); border-color:var(--ok); }
 
   .chip.need[aria-pressed="true"] { background:#b8541f; border-color:#b8541f; }
+  .chip.pending[aria-pressed="true"] { background:#4a5aa8; border-color:#4a5aa8; }
+  .pending-row { border-left-color:#4a5aa8; }
+  .pending-row.picked { border-left-color:var(--ok); background:#f2faf5; }
+  .pending-row .script { font-size:1rem; font-weight:600; color:var(--muted); }
+  .pick { flex:1 1 100%; min-height:44px; padding:10px; font:inherit; font-size:0.92rem;
+    background:#fff; border:1px solid var(--line); border-radius:10px; }
+  @media (min-width:720px) { .pick { flex:1 1 auto; max-width:420px; } }
   .stat.need strong { color:#b8541f; }
   .seq { padding:2px 8px; color:#fff; background:#b8541f; border-radius:999px; font-weight:700; }
   .record-hint { padding:12px 14px; margin:0 0 12px; font-size:0.88rem; line-height:1.6;
@@ -252,6 +283,7 @@ async function main() {
 
   <div class="toolbar">
     <div class="chips">
+      <button class="chip pending" type="button" data-filter="pending" aria-pressed="false">📥 미반입 녹음 ${pending.length}</button>
       <button class="chip need" type="button" data-filter="need" aria-pressed="false">🎙️ 육성 필요 ${counts.need || 0}</button>
       <button class="chip" type="button" data-filter="todo" aria-pressed="true">미확인</button>
       <button class="chip" type="button" data-filter="all" aria-pressed="false">전체 ${items.length}</button>
@@ -277,7 +309,17 @@ async function main() {
     ▶︎듣기를 누르면 지금 쓰이는 TTS 음성을 참고로 들을 수 있습니다.
   </p>
 
+  <p class="record-hint" data-role="pending-hint" hidden>
+    <strong>미반입 녹음 ${pending.length}개</strong> — 어느 대사인지 못 가려 배치하지 않은 파일입니다.
+    들어 보고 아래 목록에서 해당 대사를 고르세요(육성이 필요한 것만 나옵니다).
+    다 고른 뒤 <strong>매칭 목록 복사</strong>를 눌러 그대로 넘겨 주시면 한 번에 배치됩니다.
+    앱이 쓰지 않는 대사(단독 음절·낱말)를 읽은 파일이나 재테이크는 그냥 두시면 됩니다.
+    <button class="chip" type="button" data-role="copy-picks" style="margin-top:6px">📋 매칭 목록 복사</button>
+  </p>
+
   <ol class="rows">${rows}
+  </ol>
+  <ol class="rows pending-list" data-role="pending-list" hidden>${pendingRows}
   </ol>
 </main>
 
@@ -296,7 +338,7 @@ async function main() {
 <script>
 (function () {
   var KEY = 'nuri-voice-check-verdicts';
-  var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.rows:not(.pending-list) > .row'));
   var audio = new Audio();
   var verdicts = {};
   var current = -1;
@@ -349,6 +391,41 @@ async function main() {
   }
 
   var list = document.querySelector('.rows');
+  var pendingList = document.querySelector('[data-role="pending-list"]');
+  var pendingRows = Array.prototype.slice.call(document.querySelectorAll('.pending-row'));
+  var PICK_KEY = 'nuri-voice-pending-picks';
+  var picks = {};
+  try { picks = JSON.parse(localStorage.getItem(PICK_KEY) || '{}'); } catch (e) { picks = {}; }
+  function savePicks() { try { localStorage.setItem(PICK_KEY, JSON.stringify(picks)); } catch (e) {} }
+
+  pendingRows.forEach(function (row) {
+    var select = row.querySelector('[data-role="pick"]');
+    var saved = picks[row.dataset.hash];
+    if (saved) { select.value = saved; row.classList.add('picked'); row.querySelector('[data-role="pending-mark"]').textContent = '✅'; }
+    select.addEventListener('change', function () {
+      if (select.value) picks[row.dataset.hash] = select.value; else delete picks[row.dataset.hash];
+      row.classList.toggle('picked', !!select.value);
+      row.querySelector('[data-role="pending-mark"]').textContent = select.value ? '✅' : '';
+      savePicks();
+    });
+    row.querySelector('[data-role="pending-play"]').addEventListener('click', function () {
+      pendingRows.forEach(function (r) { r.classList.remove('playing'); });
+      audio.pause();
+      audio.src = row.dataset.src;
+      row.classList.add('playing');
+      audio.play().catch(function (error) {
+        if (error && error.name === 'AbortError') return;
+        el('bar-status').textContent = '재생 실패: ' + (error && error.message ? error.message : '');
+      });
+      el('bar-status').textContent = '미반입 ' + row.dataset.source;
+    });
+  });
+
+  document.querySelector('[data-role="copy-picks"]').addEventListener('click', function (event) {
+    var out = pendingRows.filter(function (row) { return picks[row.dataset.hash]; })
+      .map(function (row) { return row.dataset.source + ' -> ' + picks[row.dataset.hash]; });
+    copy(out.join('\\n') || '(고른 항목이 없습니다)', event.currentTarget);
+  });
   function reorder(byRecordingOrder) {
     var sorted = rows.slice().sort(function (a, b) {
       return byRecordingOrder
@@ -361,7 +438,19 @@ async function main() {
   function apply() {
     var shown = 0;
     var recordMode = filter === 'need';
+    var pendingMode = filter === 'pending';
     document.querySelector('[data-role="record-hint"]').hidden = !recordMode;
+    document.querySelector('[data-role="pending-hint"]').hidden = !pendingMode;
+    pendingList.hidden = !pendingMode;
+    list.hidden = pendingMode;
+    if (pendingMode) {
+      var q = query;
+      pendingRows.forEach(function (row) {
+        row.hidden = !!q && row.querySelector('.script').textContent.indexOf(q) < 0 && row.dataset.source.indexOf(q) < 0;
+      });
+      el('bar-status').textContent = '미반입 녹음 ' + pendingRows.filter(function (r) { return !r.hidden; }).length + '개 — 들어 보고 대사를 고르세요';
+      return;
+    }
     reorder(recordMode);
     rows.forEach(function (row) {
       var visible = matches(row);
