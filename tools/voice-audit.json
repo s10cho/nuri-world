@@ -1004,15 +1004,13 @@
     "jamo-intro/ko-4e3de77253": {
       "src": "assets/audio/ko/jamo-intro/ko-4e3de77253.m4a",
       "text": "리을! 로, 로봇의 첫소리예요.",
-      "issues": [
-        "끝부분 클릭(키보드 소리) 의심"
-      ],
+      "issues": [],
       "stats": {
-        "durationMs": 3870,
+        "durationMs": 3800,
         "leadMs": 80,
-        "tailMs": 10,
-        "peakDb": -7.9,
-        "tailClick": true,
+        "tailMs": 130,
+        "peakDb": -8,
+        "tailClick": false,
         "silent": false
       }
     },
@@ -1201,15 +1199,13 @@
     "jamo/ko-f655984129": {
       "src": "assets/audio/ko/jamo/ko-f655984129.m4a",
       "text": "이응",
-      "issues": [
-        "끝부분 클릭(키보드 소리) 의심"
-      ],
+      "issues": [],
       "stats": {
-        "durationMs": 900,
+        "durationMs": 850,
         "leadMs": 80,
-        "tailMs": 0,
-        "peakDb": -8.9,
-        "tailClick": true,
+        "tailMs": 150,
+        "peakDb": -9.1,
+        "tailClick": false,
         "silent": false
       }
     },
@@ -7361,7 +7357,7 @@
     "total": 600,
     "unused": 38,
     "needRecording": 22,
-    "needRerecording": 3,
-    "done": 537
+    "needRerecording": 1,
+    "done": 539
   }
 }

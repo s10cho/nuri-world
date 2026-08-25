@@ -268,7 +268,7 @@
     "리을! 로, 로봇의 첫소리예요.": {
       "id": "jamo-intro/ko-4e3de77253",
       "src": "assets/audio/ko/jamo-intro/ko-4e3de77253.m4a",
-      "bytes": 52696
+      "bytes": 52285
     },
     "로봇": {
       "id": "words/ko-ba46f25d1d",
@@ -343,7 +343,7 @@
     "이응": {
       "id": "jamo/ko-f655984129",
       "src": "assets/audio/ko/jamo/ko-f655984129.m4a",
-      "bytes": 15600
+      "bytes": 15528
     },
     "이응! 오, 오리의 첫소리예요.": {
       "id": "jamo-intro/ko-f655984129",

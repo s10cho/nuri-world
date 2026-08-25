@@ -131,19 +131,28 @@ export function findSpeech(samples, rate) {
   if (first < 0 || last < 0) return null;
 
   let clickRemoved = false;
+  let clickStart = -1;
   let blockStart = last;
   while (blockStart > 0 && levels[blockStart - 1] > threshold) blockStart -= 1;
   let silence = 0;
   for (let i = blockStart - 1; i >= 0 && levels[i] <= threshold; i -= 1) silence += 1;
   if (blockStart > 0 && silence * 10 >= TRIM.clickGapMs && (last - blockStart + 1) * 10 <= TRIM.clickBlockMs) {
+    clickStart = blockStart;
     last = blockStart - silence;
     clickRemoved = true;
     while (last > 0 && levels[last] <= threshold) last -= 1;
   }
 
+  // 말끝 뒤에 여유를 두되, 잘라 낸 클릭을 다시 포함하지 않도록 그 앞에서 멈춘다
+  // (여유 200ms > 클릭까지의 무음 160ms 인 경우가 있어 클릭이 되살아났다)
+  let endSample = Math.min(samples.length, ((last + 1) * frame) + Math.round(rate * (TRIM.tailKeepMs / 1000)));
+  if (clickRemoved && clickStart > 0) {
+    endSample = Math.min(endSample, Math.max((last + 1) * frame, (clickStart * frame) - Math.round(rate * 0.03)));
+  }
+
   return {
     startSample: Math.max(0, (first * frame) - Math.round(rate * (TRIM.leadKeepMs / 1000))),
-    endSample: Math.min(samples.length, ((last + 1) * frame) + Math.round(rate * (TRIM.tailKeepMs / 1000))),
+    endSample,
     clickRemoved,
     leadMs: first * 10,
     tailMs: Math.max(0, levels.length - 1 - last) * 10,
