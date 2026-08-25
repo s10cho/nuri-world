@@ -23,7 +23,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 import { collectVoiceLines } from './generate-voice-assets.mjs';
-import { sheetOrder } from './generate-record-sheet.mjs';
+import { sheetOrder } from './generate-voice-check.mjs';
 import { analyse, AUDIO_EXTS, decodeToPcm, encodeWav, findSpeech } from './voice-audio.mjs';
 import { fileExists, readRecorded, saveRecording } from './voice-recorder-store.mjs';
 
@@ -62,6 +62,13 @@ const whisperModelArg = value('whisper-model', process.env.WHISPER_MODEL || '');
 // JSON 형식: { "녹음 1.m4a": "딩동댕 잘 찾았어요", ... }
 const transcriptsPath = value('transcripts', '');
 const logName = '.nuri-import-log.json';
+// --since=2026-08-24 : 그 날짜 이후 녹음만(파일 이름의 시각, 없으면 수정 시각 기준)
+const sinceArg = value('since', '');
+const sinceMs = sinceArg ? Date.parse(sinceArg.length <= 10 ? `${sinceArg}T00:00:00Z` : sinceArg) : 0;
+// --name=패턴 : 파일 이름으로 한 번 더 거르기(폴더에 녹음 아닌 오디오가 섞여 있을 때)
+const namePattern = value('name', '');
+// 녹음할 때 어떤 순서로 읽었는지: sheet(대본 페이지 묶음 순서) | list(대사 목록 순서)
+const alignOrder = value('align', 'sheet');
 
 /** 대사 비교용 정규화 — 구두점·공백·이모지를 털어 낸다. @param {string} text */
 export function normalize(text) {
@@ -486,6 +493,24 @@ async function transcribeLocal(file, tmpDir, whisper) {
   return { text: text.replace(/\s+/g, ' ').trim(), durationMs };
 }
 
+/**
+ * 파일 이름에 든 녹음 시각(예: KakaoTalk_Audio_20260825-000451.m4a, 20260825_000451, 2026-08-25 00:04:51).
+ * 한꺼번에 내려받으면 파일 수정 시각이 전부 같아져 순서 정보가 사라지므로 이름을 먼저 본다.
+ * @param {string} name @returns {number} 정렬용 값(없으면 0)
+ */
+export function timeFromFileName(name) {
+  const compact = name.match(/(20\d{2})[-_.]?(\d{2})[-_.]?(\d{2})[-_ T]?(\d{2})[-_.:]?(\d{2})[-_.:]?(\d{2})/);
+  if (compact) {
+    const [, y, mo, d, h, mi, sec] = compact.map(Number);
+    if (mo >= 1 && mo <= 12 && d >= 1 && d <= 31 && h < 24 && mi < 60 && sec < 60) {
+      return Date.UTC(y, mo - 1, d, h, mi, sec);
+    }
+  }
+  // 이름 끝의 일련번호(녹음 1, recording (12) 등)도 순서로 쓸 수 있다
+  const numbered = name.match(/(\d+)\s*[).]?\s*$/);
+  return numbered ? Number(numbered[1]) : 0;
+}
+
 /** @param {string} file */
 async function sha1(file) {
   return createHash('sha1').update(await readFile(file)).digest('hex');
@@ -563,6 +588,17 @@ async function main() {
   const candidates = lines.filter(line => !unused.has(line.id));
   // --order 는 '대본 페이지에 보이는 순서대로 녹음했다'는 가정 → 같은 정렬을 쓴다
   const needList = sheetOrder(candidates.filter(line => rerecord || !recordedTexts.has(line.text)));
+  // 순서 정렬은 이미 녹음한 대사까지 포함한 '대본 전체 순서'로 한다.
+  // 그래야 다시 녹음한 대사가 섞여 있어도 뒤가 통째로 밀리지 않는다.
+  const alignList = alignOrder === 'list' ? candidates : sheetOrder(candidates);
+
+  const cachePath = path.join(sourceDir, '.nuri-transcripts.json');
+  /** @type {Record<string, { text: string, durationMs: number }>} sha1 → 인식 결과 */
+  let transcriptCache = {};
+  try {
+    transcriptCache = JSON.parse(await readFile(cachePath, 'utf8'));
+  } catch { /* 처음이면 빈 캐시 */ }
+  let cacheDirty = false;
 
   const logPath = path.join(sourceDir, logName);
   /** @type {Record<string, string>} sha1 → id */
@@ -571,8 +607,10 @@ async function main() {
     importLog = JSON.parse(await readFile(logPath, 'utf8'));
   } catch { /* 처음이면 빈 기록 */ }
 
+  const nameFilter = namePattern ? new RegExp(namePattern) : null;
   const entries = (await readdir(sourceDir, { withFileTypes: true }))
     .filter(entry => entry.isFile() && AUDIO_EXTS.includes(path.extname(entry.name).toLowerCase()))
+    .filter(entry => !nameFilter || nameFilter.test(entry.name))
     .map(entry => path.join(sourceDir, entry.name));
   if (!entries.length) {
     console.log(`${sourceDir} 에 오디오 파일이 없습니다.`);
@@ -582,9 +620,28 @@ async function main() {
   const files = [];
   for (const file of entries) {
     const info = await stat(file);
-    files.push({ file, mtime: info.mtimeMs, size: info.size });
+    files.push({ file, mtime: info.mtimeMs, size: info.size, stamp: timeFromFileName(path.basename(file)) });
   }
-  files.sort((a, b) => a.mtime - b.mtime);
+  // 이름에 녹음 시각이 있으면 그것이 진짜 순서다(한꺼번에 내려받으면 수정 시각은 전부 같다)
+  const named = files.filter(item => item.stamp > 1e12).length; // 날짜로 읽힌 것만
+  const useName = named >= files.length * 0.5;
+
+  if (useName) {
+    const unnamed = files.filter(item => item.stamp <= 1e12);
+    if (unnamed.length) {
+      // 이름에 녹음 시각이 없는 파일은 순서를 알 수 없다. 한꺼번에 내려받으면 수정 시각도
+      // 전부 같아 쓸 수 없으므로 순서 정렬에서 빼고 따로 알려 준다.
+      files.splice(0, files.length, ...files.filter(item => item.stamp > 1e12));
+      console.log(`이름에 녹음 시각이 없는 오디오 ${unnamed.length}개는 건너뜁니다(순서를 알 수 없음).`);
+    }
+  }
+
+  if (sinceMs) {
+    const before = files.length;
+    files.splice(0, files.length, ...files.filter(item => (useName ? item.stamp : item.mtime) >= sinceMs));
+    console.log(`${sinceArg} 이후 녹음만: ${files.length}개 (제외 ${before - files.length}개)`);
+  }
+  files.sort((a, b) => (useName ? a.stamp - b.stamp : a.mtime - b.mtime) || a.file.localeCompare(b.file));
 
   /** @type {Record<string, string>} */
   let providedTranscripts = {};
@@ -628,6 +685,7 @@ async function main() {
 
   const sttTmpDir = await mkdtemp(path.join(os.tmpdir(), 'nuri-stt-'));
 
+  let transcribed = 0;
   /** @type {{ file: string, transcript: string, durationMs: number }[]} 순서 정렬 모드용 */
   const pending = [];
 
@@ -662,13 +720,21 @@ async function main() {
     try {
       transcript = providedTranscripts[name] ?? providedTranscripts[path.parse(name).name] ?? '';
       if (!transcript && !transcriptsPath) {
-        process.stdout.write(`  인식 중… ${name}\r`);
-        if (whisper) {
-          const local = await transcribeLocal(file, sttTmpDir, whisper);
-          transcript = local.text;
-          durationMs = local.durationMs;
+        const cached = transcriptCache[hash];
+        if (cached) {
+          transcript = cached.text;
+          durationMs = cached.durationMs || 0;
         } else {
-          transcript = await transcribe(file, apiKey);
+          process.stdout.write(`  인식 중… ${++transcribed}/${files.length} ${name}`.padEnd(70) + '\r');
+          if (whisper) {
+            const local = await transcribeLocal(file, sttTmpDir, whisper);
+            transcript = local.text;
+            durationMs = local.durationMs;
+          } else {
+            transcript = await transcribe(file, apiKey);
+          }
+          transcriptCache[hash] = { text: transcript, durationMs };
+          cacheDirty = true;
         }
       }
     } catch (error) {
@@ -702,11 +768,13 @@ async function main() {
   }
 
   await rm(sttTmpDir, { recursive: true, force: true });
-  if (!orderMode && !transcriptsPath) process.stdout.write(' '.repeat(60) + '\r');
+  if (!orderMode && !transcriptsPath) process.stdout.write(' '.repeat(72) + '\r');
+  // 인식 결과는 파일 내용 해시로 캐시해 둔다 — 다시 돌릴 때 몇 분을 아낀다
+  if (cacheDirty) await writeFile(cachePath, `${JSON.stringify(transcriptCache, null, 1)}\n`);
 
   if (sequential && pending.length) {
     // 인식 점수 + 순서를 함께 만족하는 배치를 찾는다(단조 정렬)
-    const scores = pending.map(item => scoreAll(item.transcript, needList, item.durationMs));
+    const scores = pending.map(item => scoreAll(item.transcript, alignList, item.durationMs));
     const aligned = alignSequential(scores, { minScore, minGap });
     // 앵커(확신) → 앵커 사이 국소 정렬 → 자리가 하나뿐인 곳 채우기
     const assignment = fillOrderedGaps(refineBetweenAnchors(scores, aligned));
@@ -714,9 +782,9 @@ async function main() {
       const lineIndex = assignment[i];
       if (lineIndex < 0) {
         // 순서에서 벗어난 파일 — 소리만으로 충분히 확실할 때만 구제한다
-        const alone = bestMatch(item.transcript, needList, item.durationMs);
+        const alone = bestMatch(item.transcript, alignList, item.durationMs);
         const gap = alone.score - alone.runnerUp;
-        const taken = assignment.some((assigned, k) => k !== i && assigned >= 0 && needList[assigned].id === alone.line.id);
+        const taken = assignment.some((assigned, k) => k !== i && assigned >= 0 && alignList[assigned].id === alone.line.id);
         if (alone.score >= minScore && gap >= minGap && !taken) {
           plan.push({
             file: item.file,
@@ -737,9 +805,9 @@ async function main() {
         }
         return;
       }
-      const line = needList[lineIndex];
+      const line = alignList[lineIndex];
       const score = scores[i][lineIndex];
-      const alone = bestMatch(item.transcript, needList, item.durationMs);
+      const alone = bestMatch(item.transcript, alignList, item.durationMs);
       const filledByOrder = aligned[i] < 0;
       // 자리로만 채웠는데 소리가 전혀 안 맞으면(인식 실패·다른 대사) 손대지 않는다
       if (filledByOrder && score < 0.2) {

@@ -86,13 +86,18 @@ npm run convert:voice -- --dry-run
 
 ```bash
 npm run audit:voice -- --json   # 전수 검수 → tools/voice-audit.json
-npm run sheet:voice             # → public/voice-record-sheet.html (녹음 대본)
+npm run verify:voice            # → public/voice-check.html (녹음 검증 화면)
 ```
 
-- 대본 페이지: 상태별 필터(녹음 필요 / 재녹음 / 다듬기 / 완료 / 제외), 검색, 체크 진행 저장,
-  **집중 모드**(`F`) — 한 줄씩 크게 띄우고 `←`/`→` 이동, `Space` 로 읽음 표시 후 다음. 인쇄도 됩니다.
-- 각 줄의 회색 버튼이 저장할 파일 이름(`분류:파일명.mp3.m4a`)입니다. `~/Downloads` 에 그 이름으로 저장한 뒤
-  `npm run import:voice` 로 반영합니다.
+**검증 화면**(`public/voice-check.html`) — 대사와 실제 재생되는 음원을 나란히 놓고 들어 보며
+✅맞음 / ❌문제로 판정합니다. 판정은 브라우저에 저장되고, 문제로 표시한 목록은 한 번에 복사해
+재녹음 대상으로 쓸 수 있습니다.
+
+- 음원이 끝나면 다음 항목을 자동 재생 — 쭉 이어 들으며 검증할 수 있습니다.
+- 필터: 미확인 · 육성 · TTS · 없음 · 문제 · 확인됨 · 품질경고 · 앱 미사용, 검색도 됩니다.
+- **휴대폰에서도** 볼 수 있게 반응형입니다(하단 고정 바로 한 손 검증). 같은 와이파이에서
+  `npm run dev` 후 터미널에 찍히는 Network 주소 뒤에 `/voice-check.html` 을 붙여 접속하세요.
+- 데스크톱 단축키: `Space` 재생 · `↑`/`↓` 이동 · `1` 맞음 · `2` 문제.
 
 `npm run audit:voice` 가 보는 것:
 

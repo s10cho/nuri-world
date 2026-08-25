@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// 녹음 대본 페이지 생성 — 읽으면서 외부 녹음기로 녹음하기 위한 페이지.
-// 무엇을 녹음해야 하는지(신규·재녹음)만 추려서 큰 글씨로 보여 준다.
+// 녹음 검증 페이지 생성 — 대사를 읽으면서 실제 음원을 들어 보고 맞는지 확인하는 화면.
 //
-//   npm run sheet:voice          public/voice-record-sheet.html 생성
-//   npm run sheet:voice -- --out=경로
+//   npm run verify:voice           public/voice-check.html 생성
+//   npm run verify:voice -- --out=경로
 //
-// 상태는 tools/voice-audit.json(= npm run audit:voice -- --json)에서 읽는다.
-// 파일 하나로 완결되어 개발 서버 없이 더블클릭으로 열어도 동작한다.
+// 상태는 manifest.json(어떤 파일이 재생되는지) · recorded-assets.json(육성 여부) ·
+// tools/voice-audit.json(품질 문제)에서 읽는다. 판정 결과는 브라우저에 저장된다.
+// 파일 하나로 완결되어 개발 서버 없이 열어도 되고, 휴대폰에서도 볼 수 있게 반응형이다.
 
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -18,9 +18,9 @@ import { collectVoiceLines } from './generate-voice-assets.mjs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const outArg = process.argv.find(arg => arg.startsWith('--out='));
-const outPath = path.resolve(root, outArg ? outArg.slice('--out='.length) : 'public/voice-record-sheet.html');
+const outPath = path.resolve(root, outArg ? outArg.slice('--out='.length) : 'public/voice-check.html');
 
-// 대본 페이지의 표시 순서 = 녹음 순서. match:voice --order 가 같은 순서를 쓴다.
+// 검증할 때 같은 분류끼리 이어서 듣는 편이 판단하기 쉽다
 export const CATEGORY_LABEL = {
   ui: '안내 · UI', game: '게임 안내', praise: '칭찬 · 격려', kingdom: '왕국 소개', story: '오프닝 이야기',
   festival: '축제', jamo: '자모 이름', 'jamo-intro': '자모 소개', words: '낱말', syllables: '음절',
@@ -29,10 +29,8 @@ export const CATEGORY_LABEL = {
 };
 
 /**
- * 대사를 대본 페이지에 보이는 순서대로 정렬한다(분류 묶음 → 원래 순서).
- * @template {{ id: string }} T
- * @param {T[]} lines
- * @returns {T[]}
+ * 대사를 분류 묶음 순서로 정렬한다. match:voice --align=sheet 가 같은 순서를 쓴다.
+ * @template {{ id: string }} T @param {T[]} lines @returns {T[]}
  */
 export function sheetOrder(lines) {
   const order = Object.keys(CATEGORY_LABEL);
@@ -55,258 +53,367 @@ function escapeHtml(value) {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/** 외부 녹음기로 저장할 파일 이름 — npm run import:voice 가 인식하는 규칙. @param {string} id */
+/** 외부 녹음기로 저장할 파일 이름 — match:voice / import:voice 가 인식하는 규칙 */
 function downloadName(id) {
   return `${id.replaceAll('/', ':')}.mp3.m4a`;
 }
 
+async function readJson(file, fallback) {
+  try {
+    return JSON.parse(await readFile(file, 'utf8'));
+  } catch {
+    return fallback;
+  }
+}
+
 async function main() {
   const lines = collectVoiceLines();
-
-  /** @type {{ unused: string[], recordings: Record<string, { src: string, text: string, issues: string[] }>, summary?: any }} */
-  let audit = { unused: [], recordings: {} };
-  try {
-    audit = JSON.parse(await readFile(path.join(__dirname, 'voice-audit.json'), 'utf8'));
-  } catch {
-    console.warn('tools/voice-audit.json 이 없습니다. npm run audit:voice -- --json 을 먼저 실행하면 상태가 정확해집니다.');
-  }
-  const recorded = JSON.parse(await readFile(path.join(__dirname, 'recorded-assets.json'), 'utf8')).assets;
-
+  const manifest = await readJson(path.join(root, 'public/assets/audio/ko/manifest.json'), { assets: {} });
+  const recorded = (await readJson(path.join(__dirname, 'recorded-assets.json'), { assets: {} })).assets;
+  const audit = await readJson(path.join(__dirname, 'voice-audit.json'), { unused: [], recordings: {} });
   const unused = new Set(audit.unused || []);
-  const recordedByText = new Map(Object.entries(recorded));
-  // 트림으로 고칠 수 있는 문제(무음·클릭)는 재녹음 대상이 아니다 — npm run trim:voice 로 처리한다
-  const FIXABLE = /^(앞 무음|뒤 무음|끝부분 클릭)/;
 
-  const items = lines.map((line, index) => {
-    const asset = recordedByText.get(line.text);
-    const entry = asset ? audit.recordings?.[asset.id] : undefined;
-    const issues = entry?.issues ?? [];
-    const blocking = issues.filter(issue => !FIXABLE.test(issue));
-    const trimmable = issues.filter(issue => FIXABLE.test(issue));
-
-    let status = 'todo';
-    let reason = '아직 녹음 없음';
-    if (unused.has(line.id)) {
-      status = 'skip';
-      reason = '앱이 사용하지 않는 대사 — 녹음하지 않아도 됩니다';
-    } else if (asset && blocking.length) {
-      status = 'redo';
-      reason = blocking.join(', ');
-    } else if (asset && trimmable.length) {
-      status = 'trim';
-      reason = `${trimmable.join(', ')} — npm run trim:voice 로 해결`;
-    } else if (asset) {
-      status = 'done';
-      reason = '녹음 완료';
-    }
+  const items = sheetOrder(lines.map((line, index) => {
+    const asset = manifest.assets?.[line.text];
+    const isRecorded = Object.prototype.hasOwnProperty.call(recorded, line.text);
+    const issues = isRecorded ? (audit.recordings?.[recorded[line.text].id]?.issues ?? []) : [];
     return {
       index: index + 1,
       id: line.id,
       text: line.text,
       category: line.id.split('/')[0],
+      src: asset?.src || '',
+      kind: !asset ? 'none' : isRecorded ? 'voice' : 'tts',
+      issues,
+      skip: unused.has(line.id),
       file: downloadName(line.id),
-      status,
-      reason,
     };
-  });
+  }));
 
   const counts = items.reduce((acc, item) => {
-    acc[item.status] = (acc[item.status] || 0) + 1;
+    const key = item.skip ? 'skip' : item.kind;
+    acc[key] = (acc[key] || 0) + 1;
+    if (!item.skip && item.issues.length) acc.issue = (acc.issue || 0) + 1;
     return acc;
   }, /** @type {Record<string, number>} */ ({}));
-  const needed = items.filter(item => item.status === 'todo' || item.status === 'redo');
+  const target = items.filter(item => !item.skip).length;
 
-  // 녹음할 것 → 같은 분류끼리 모아 두면 목소리 톤을 유지하기 쉽다
-  const grouped = new Map();
-  for (const item of items) {
-    if (!grouped.has(item.category)) grouped.set(item.category, []);
-    grouped.get(item.category).push(item);
-  }
-  const categories = [...new Set(sheetOrder(items).map(item => item.category))];
-
-  const sections = categories.map(category => {
-    const list = grouped.get(category);
-    const rows = list.map(item => `
-        <li class="row" data-status="${item.status}" data-index="${item.index}" data-text="${escapeHtml(item.text)}">
-          <label class="check"><input type="checkbox" data-id="${escapeHtml(item.id)}"><span></span></label>
-          <div class="body">
-            <p class="script">${escapeHtml(item.text)}</p>
-            <p class="meta">
-              <span class="badge ${item.status}">${{ todo: '녹음 필요', redo: '재녹음', trim: '다듬기', done: '완료', skip: '제외' }[item.status]}</span>
-              <button class="file" type="button" data-copy="${escapeHtml(item.file)}">${escapeHtml(item.file)}</button>
-              <span class="reason">${escapeHtml(item.reason)}</span>
-            </p>
-          </div>
-          <span class="num">${item.index}</span>
-        </li>`).join('');
-    const todoCount = list.filter(item => item.status === 'todo' || item.status === 'redo').length;
+  const rows = items.map(item => {
+    const badge = { voice: '🎙️ 육성', tts: '🤖 TTS', none: '⬜ 없음' }[item.kind];
     return `
-      <section class="group" data-category="${escapeHtml(category)}">
-        <h2>${escapeHtml(CATEGORY_LABEL[category] || category)} <small>${escapeHtml(category)} · 녹음할 것 ${todoCount} / 전체 ${list.length}</small></h2>
-        <ol class="rows">${rows}
-        </ol>
-      </section>`;
+      <li class="row" data-index="${item.index}" data-kind="${item.kind}" data-skip="${item.skip ? 1 : 0}"
+          data-issue="${item.issues.length ? 1 : 0}" data-id="${escapeHtml(item.id)}"
+          data-src="${escapeHtml(item.src)}" data-text="${escapeHtml(item.text)}">
+        <div class="row-top">
+          <span class="num">#${item.index}</span>
+          <span class="badge cat">${escapeHtml(CATEGORY_LABEL[item.category] || item.category)}</span>
+          <span class="badge ${item.kind}">${badge}</span>
+          ${item.skip ? '<span class="badge skip">앱 미사용</span>' : ''}
+          ${item.issues.length ? `<span class="badge issue">${escapeHtml(item.issues.join(', '))}</span>` : ''}
+          <span class="verdict-mark" data-role="mark"></span>
+        </div>
+        <p class="script">${escapeHtml(item.text)}</p>
+        <div class="row-actions">
+          <button class="btn play" type="button" data-role="play" ${item.src ? '' : 'disabled'}>▶ 듣기</button>
+          <button class="btn ok" type="button" data-role="ok">✅ 맞음</button>
+          <button class="btn bad" type="button" data-role="bad">❌ 문제</button>
+          <button class="file" type="button" data-copy="${escapeHtml(item.file)}">${escapeHtml(item.src.replace(/^assets\/audio\/ko\//, '') || item.file)}</button>
+        </div>
+      </li>`;
   }).join('');
 
   const html = `<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>누리의 한글 왕국 — 녹음 대본</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2f7d80">
+<title>누리의 한글 왕국 — 녹음 검증</title>
 <style>
   :root {
     color-scheme: light;
-    --bg: #f7f5ef; --paper: #fffdf8; --ink: #26231f; --muted: #6d675d; --line: #ded6c8;
-    --accent: #2f7d80; --todo: #b8541f; --redo: #a5301f; --trim: #8a6b12; --done: #2f7d55;
+    --bg:#f7f5ef; --paper:#fffdf8; --ink:#26231f; --muted:#6d675d; --line:#ded6c8;
+    --accent:#2f7d80; --ok:#2f7d55; --bad:#a5301f; --warn:#8a6b12;
+    --bar: 118px;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.5;
-    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
-  main { max-width: 1000px; margin: 0 auto; padding: 32px 20px 80px; }
-  h1 { margin: 0 0 6px; font-size: clamp(1.6rem, 4vw, 2.4rem); }
-  .lead { margin: 0; color: var(--muted); }
-  .summary { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-  .stat { flex: 1 1 120px; padding: 12px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
-  .stat strong { display: block; font-size: 1.8rem; line-height: 1.1; }
-  .stat.todo strong { color: var(--todo); } .stat.redo strong { color: var(--redo); }
-  .stat.trim strong { color: var(--trim); } .stat.done strong { color: var(--done); }
-  .howto { padding: 14px 16px; margin-bottom: 18px; background: #fff8e6; border: 1px solid #e6d9b0; border-radius: 8px; font-size: 0.94rem; }
-  .howto code { background: #fff; padding: 1px 5px; border: 1px solid var(--line); border-radius: 4px; }
-  .toolbar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-    padding: 10px 12px; margin-bottom: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
-  .toolbar button, .toolbar input { font: inherit; }
-  .chip { padding: 6px 12px; background: #fff; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; }
-  .chip[aria-pressed="true"] { color: #fff; background: var(--accent); border-color: var(--accent); }
-  .toolbar input[type="search"] { flex: 1 1 160px; min-width: 120px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; }
-  .group { margin: 0 0 26px; }
-  .group h2 { font-size: 1.15rem; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--line); }
-  .group h2 small { font-weight: 400; color: var(--muted); font-size: 0.82rem; }
-  .rows { margin: 0; padding: 0; list-style: none; }
-  .row { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; margin-bottom: 8px;
-    background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
-  .row[hidden] { display: none; }
-  .row.checked { opacity: 0.5; }
-  .row.checked .script { text-decoration: line-through; }
-  .body { flex: 1 1 auto; min-width: 0; }
-  .script { margin: 0; font-size: clamp(1.15rem, 2.2vw, 1.5rem); font-weight: 700; word-break: keep-all; }
-  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px 0 0; font-size: 0.82rem; color: var(--muted); }
-  .badge { padding: 2px 8px; color: #fff; border-radius: 999px; font-size: 0.76rem; }
-  .badge.todo { background: var(--todo); } .badge.redo { background: var(--redo); }
-  .badge.trim { background: var(--trim); } .badge.done { background: var(--done); } .badge.skip { background: #9a938a; }
-  .file { padding: 2px 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem;
-    color: #334; background: #fff; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; }
-  .file.copied { color: #fff; background: var(--done); border-color: var(--done); }
-  .num { color: #b7b0a4; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
-  .check input { width: 20px; height: 20px; margin-top: 6px; }
-  .check span { display: none; }
-
-  /* 집중 모드 — 한 줄씩 크게 보며 읽기 */
-  .focus { position: fixed; inset: 0; z-index: 20; display: none; flex-direction: column; justify-content: center;
-    padding: 40px; text-align: center; background: var(--paper); }
-  body.focus-on .focus { display: flex; }
-  .focus .script { font-size: clamp(2rem, 7vw, 4.5rem); line-height: 1.3; }
-  .focus .file { margin: 18px auto 0; font-size: 1rem; }
-  .focus .pos { color: var(--muted); }
-  .focus .hint { position: absolute; bottom: 24px; left: 0; right: 0; color: var(--muted); font-size: 0.9rem; }
-  .focus .nav { display: flex; gap: 12px; justify-content: center; margin-top: 26px; }
-  .focus .nav button { min-height: 46px; padding: 10px 20px; font-size: 1rem; background: #fff;
-    border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
-
-  @media print {
-    .toolbar, .howto, .summary, .check, .focus { display: none !important; }
-    body { background: #fff; }
-    .row { break-inside: avoid; border-color: #ccc; }
-    .row[data-status="done"], .row[data-status="skip"] { display: none; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin:0; }
+  body {
+    background:var(--bg); color:var(--ink); line-height:1.5;
+    font-family:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    padding-bottom: calc(var(--bar) + env(safe-area-inset-bottom));
   }
+  main { max-width:1000px; margin:0 auto; padding:20px 14px 24px; }
+  h1 { margin:0 0 4px; font-size:clamp(1.4rem,4.5vw,2rem); }
+  .lead { margin:0 0 14px; color:var(--muted); font-size:0.92rem; }
+
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(88px,1fr)); gap:8px; margin-bottom:12px; }
+  .stat { padding:10px; text-align:center; background:var(--paper); border:1px solid var(--line); border-radius:10px; }
+  .stat strong { display:block; font-size:1.35rem; line-height:1.2; }
+  .stat.voice strong { color:var(--ok); } .stat.tts strong { color:var(--warn); }
+  .stat.none strong { color:var(--bad); } .stat.done strong { color:var(--accent); }
+
+  .toolbar { position:sticky; top:0; z-index:5; padding:10px 0; margin-bottom:10px; background:var(--bg); }
+  .chips { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+  .chips::-webkit-scrollbar { display:none; }
+  .chip { flex:0 0 auto; min-height:38px; padding:8px 14px; font:inherit; font-size:0.88rem;
+    background:var(--paper); border:1px solid var(--line); border-radius:999px; cursor:pointer; }
+  .chip[aria-pressed="true"] { color:#fff; background:var(--accent); border-color:var(--accent); }
+  .search { display:flex; gap:8px; margin-top:8px; }
+  .search input { flex:1; min-width:0; min-height:40px; padding:8px 12px; font:inherit;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px; }
+  .search button { min-height:40px; padding:8px 12px; font:inherit; background:var(--paper);
+    border:1px solid var(--line); border-radius:10px; cursor:pointer; }
+
+  .rows { margin:0; padding:0; list-style:none; }
+  .row { padding:12px 14px; margin-bottom:10px; background:var(--paper);
+    border:1px solid var(--line); border-left:5px solid var(--line); border-radius:10px; }
+  .row[hidden] { display:none; }
+  .row.current { border-left-color:var(--accent); box-shadow:0 0 0 2px rgba(47,125,128,0.18); }
+  .row.playing { background:#f2faf8; }
+  .row[data-verdict="ok"] { border-left-color:var(--ok); }
+  .row[data-verdict="bad"] { border-left-color:var(--bad); background:#fff4f1; }
+
+  .row-top { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:6px; font-size:0.76rem; }
+  .num { color:#b7b0a4; font-variant-numeric:tabular-nums; }
+  .badge { padding:2px 8px; border-radius:999px; background:#efe8dc; color:#5b544a; }
+  .badge.voice { color:#fff; background:var(--ok); }
+  .badge.tts { color:#fff; background:var(--warn); }
+  .badge.none { color:#fff; background:var(--bad); }
+  .badge.skip { color:#fff; background:#9a938a; }
+  .badge.issue { color:#fff; background:#b8541f; }
+  .verdict-mark { margin-left:auto; font-size:1rem; }
+
+  .script { margin:0 0 10px; font-size:clamp(1.15rem,4.4vw,1.45rem); font-weight:700;
+    word-break:keep-all; overflow-wrap:anywhere; }
+
+  .row-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .btn { flex:1 1 auto; min-height:44px; min-width:84px; padding:10px 14px; font:inherit; font-weight:600;
+    background:#fff; border:1px solid var(--line); border-radius:10px; cursor:pointer; }
+  .btn.play { color:#fff; background:var(--accent); border-color:#256467; flex-basis:38%; }
+  .btn.play:disabled { color:#a9a294; background:#e8e2d7; border-color:var(--line); cursor:default; }
+  .btn.ok[aria-pressed="true"] { color:#fff; background:var(--ok); border-color:#24603f; }
+  .btn.bad[aria-pressed="true"] { color:#fff; background:var(--bad); border-color:#7f2416; }
+  .file { flex:1 1 100%; padding:6px 8px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:0.74rem; color:#4a463f; text-align:left; background:#f4efe4;
+    border:1px solid var(--line); border-radius:8px; cursor:pointer; overflow:hidden; text-overflow:ellipsis; }
+  .file.copied { color:#fff; background:var(--ok); border-color:var(--ok); }
+
+  .group-title { margin:18px 0 8px; padding-bottom:6px; font-size:1rem;
+    border-bottom:2px solid var(--line); color:var(--muted); }
+
+  /* 하단 고정 바 — 한 손으로 듣고 판정하기 */
+  .bar { position:fixed; left:0; right:0; bottom:0; z-index:10;
+    padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+    background:var(--paper); border-top:1px solid var(--line); box-shadow:0 -4px 18px rgba(0,0,0,0.08); }
+  .bar-inner { display:flex; flex-wrap:wrap; gap:8px; align-items:center; max-width:1000px; margin:0 auto; }
+  .bar .btn { flex:1 1 0; min-width:56px; padding:10px 8px; white-space:nowrap; }
+  .bar .btn.wide { flex:2.4 1 0; }
+  .progress { flex-basis:100%; height:6px; margin-bottom:6px; overflow:hidden;
+    background:#e7e0d3; border-radius:999px; }
+  .progress > i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s; }
+  .bar-status { flex-basis:100%; margin-top:2px; font-size:0.78rem; color:var(--muted); text-align:center;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  @media (min-width:720px) {
+    .row-actions .btn { flex:0 0 auto; }
+    .file { flex:1 1 auto; }
+    .bar-inner { gap:10px; }
+  }
+  @media (prefers-reduced-motion:reduce) { * { transition:none !important; } }
 </style>
 </head>
 <body>
 <main>
-  <h1>녹음 대본</h1>
-  <p class="lead">누리의 한글 왕국 — 육성 녹음용. 읽을 것만 추려 두었습니다. 생성 시각 기준 상태입니다.</p>
+  <h1>녹음 검증</h1>
+  <p class="lead">대사를 보면서 실제 재생되는 음원을 듣고 맞는지 확인합니다. 판정은 이 브라우저에 저장됩니다.</p>
 
-  <div class="summary">
-    <div class="stat todo"><strong>${counts.todo || 0}</strong>녹음 필요</div>
-    <div class="stat redo"><strong>${counts.redo || 0}</strong>재녹음</div>
-    <div class="stat trim"><strong>${counts.trim || 0}</strong>다듬기로 해결</div>
-    <div class="stat done"><strong>${counts.done || 0}</strong>완료</div>
-    <div class="stat"><strong>${counts.skip || 0}</strong>제외(앱 미사용)</div>
-  </div>
-
-  <div class="howto">
-    <strong>녹음 방법</strong> — 대사를 읽어 한 문장에 파일 하나로 저장합니다. 파일 이름은 각 줄의 회색 버튼을 눌러 복사하세요
-    (<code>분류:파일명.mp3.m4a</code> 형식). 저장 위치는 <code>~/Downloads</code>.
-    다 녹음했으면 <code>npm run import:voice</code> 로 프로젝트에 반영합니다.<br>
-    이미 녹음된 것 중 앞뒤 무음·키보드 소리가 섞인 <strong>${counts.trim || 0}개</strong>는 다시 녹음하지 않아도 됩니다 —
-    <code>npm run trim:voice</code> 한 번이면 다듬어집니다.
+  <div class="stats">
+    <div class="stat voice"><strong>${counts.voice || 0}</strong>육성</div>
+    <div class="stat tts"><strong>${counts.tts || 0}</strong>TTS</div>
+    <div class="stat none"><strong>${counts.none || 0}</strong>없음</div>
+    <div class="stat done"><strong data-role="checked">0</strong>확인함</div>
+    <div class="stat"><strong data-role="bad-count">0</strong>문제</div>
   </div>
 
   <div class="toolbar">
-    <button class="chip" type="button" data-filter="need" aria-pressed="true">녹음할 것 ${needed.length}</button>
-    <button class="chip" type="button" data-filter="todo" aria-pressed="false">신규 ${counts.todo || 0}</button>
-    <button class="chip" type="button" data-filter="redo" aria-pressed="false">재녹음 ${counts.redo || 0}</button>
-    <button class="chip" type="button" data-filter="trim" aria-pressed="false">다듬기 ${counts.trim || 0}</button>
-    <button class="chip" type="button" data-filter="done" aria-pressed="false">완료 ${counts.done || 0}</button>
-    <button class="chip" type="button" data-filter="skip" aria-pressed="false">제외 ${counts.skip || 0}</button>
-    <button class="chip" type="button" data-filter="all" aria-pressed="false">전체 ${items.length}</button>
-    <input type="search" placeholder="대사·파일 검색" data-role="query">
-    <button class="chip" type="button" data-role="focus">집중 모드 (F)</button>
-    <button class="chip" type="button" data-role="reset-check">체크 초기화</button>
+    <div class="chips">
+      <button class="chip" type="button" data-filter="todo" aria-pressed="true">미확인</button>
+      <button class="chip" type="button" data-filter="all" aria-pressed="false">전체 ${items.length}</button>
+      <button class="chip" type="button" data-filter="voice" aria-pressed="false">육성 ${counts.voice || 0}</button>
+      <button class="chip" type="button" data-filter="tts" aria-pressed="false">TTS ${counts.tts || 0}</button>
+      <button class="chip" type="button" data-filter="none" aria-pressed="false">없음 ${counts.none || 0}</button>
+      <button class="chip" type="button" data-filter="bad" aria-pressed="false">문제</button>
+      <button class="chip" type="button" data-filter="ok" aria-pressed="false">확인됨</button>
+      <button class="chip" type="button" data-filter="issue" aria-pressed="false">품질경고 ${counts.issue || 0}</button>
+      <button class="chip" type="button" data-filter="skip" aria-pressed="false">앱 미사용 ${counts.skip || 0}</button>
+    </div>
+    <div class="search">
+      <input type="search" data-role="query" placeholder="대사·파일 검색" enterkeyhint="search">
+      <button class="chip" type="button" data-role="copy-bad">문제 목록 복사</button>
+      <button class="chip" type="button" data-role="reset">초기화</button>
+    </div>
   </div>
 
-  ${sections}
+  <ol class="rows">${rows}
+  </ol>
 </main>
 
-<div class="focus">
-  <p class="pos" data-role="focus-pos"></p>
-  <p class="script" data-role="focus-text"></p>
-  <button class="file" type="button" data-role="focus-file"></button>
-  <div class="nav">
-    <button type="button" data-role="focus-prev">← 이전</button>
-    <button type="button" data-role="focus-check">읽음 표시 (Space)</button>
-    <button type="button" data-role="focus-next">다음 →</button>
-    <button type="button" data-role="focus-exit">닫기 (Esc)</button>
+<div class="bar">
+  <div class="bar-inner">
+    <div class="progress"><i data-role="progress"></i></div>
+    <button class="btn" type="button" data-role="prev">↑</button>
+    <button class="btn wide play" type="button" data-role="bar-play">▶ 듣기</button>
+    <button class="btn ok" type="button" data-role="bar-ok">✅</button>
+    <button class="btn bad" type="button" data-role="bar-bad">❌</button>
+    <button class="btn" type="button" data-role="next">↓</button>
+    <div class="bar-status" data-role="bar-status">항목을 고르면 여기서 바로 듣고 판정할 수 있어요</div>
   </div>
-  <p class="hint">←/→ 이동 · Space 읽음 표시하고 다음 · Esc 닫기</p>
 </div>
 
 <script>
 (function () {
-  var KEY = 'nuri-record-sheet-checked';
+  var KEY = 'nuri-voice-check-verdicts';
   var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
-  var checked = {};
-  try { checked = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { checked = {}; }
+  var audio = new Audio();
+  var verdicts = {};
+  var current = -1;
+  var filter = 'todo';
+  var query = '';
+  var autoNext = true;
 
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(checked)); } catch (e) { /* 무시 */ } }
+  try { verdicts = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { verdicts = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(verdicts)); } catch (e) {} }
 
-  rows.forEach(function (row) {
-    var box = row.querySelector('input[type="checkbox"]');
-    if (checked[box.dataset.id]) { box.checked = true; row.classList.add('checked'); }
-    box.addEventListener('change', function () {
-      if (box.checked) checked[box.dataset.id] = 1; else delete checked[box.dataset.id];
-      row.classList.toggle('checked', box.checked);
-      save();
+  var el = function (role, scope) { return (scope || document).querySelector('[data-role="' + role + '"]'); };
+
+  function paint(row) {
+    var id = row.dataset.id;
+    var verdict = verdicts[id] || '';
+    row.dataset.verdict = verdict;
+    el('mark', row).textContent = verdict === 'ok' ? '✅' : verdict === 'bad' ? '❌' : '';
+    row.querySelector('[data-role="ok"]').setAttribute('aria-pressed', String(verdict === 'ok'));
+    row.querySelector('[data-role="bad"]').setAttribute('aria-pressed', String(verdict === 'bad'));
+  }
+
+  function updateCounts() {
+    var checked = 0, bad = 0;
+    rows.forEach(function (row) {
+      var v = verdicts[row.dataset.id];
+      if (v) checked++;
+      if (v === 'bad') bad++;
+    });
+    el('checked').textContent = checked;
+    el('bad-count').textContent = bad;
+    var target = rows.filter(function (r) { return r.dataset.skip !== '1'; }).length || 1;
+    el('progress').style.width = Math.min(100, (checked / target) * 100) + '%';
+  }
+
+  function matches(row) {
+    var kind = row.dataset.kind;
+    var verdict = verdicts[row.dataset.id] || '';
+    var skip = row.dataset.skip === '1';
+    var okFilter =
+      filter === 'all' ? true :
+      filter === 'todo' ? (!verdict && !skip) :
+      filter === 'ok' ? verdict === 'ok' :
+      filter === 'bad' ? verdict === 'bad' :
+      filter === 'issue' ? row.dataset.issue === '1' :
+      filter === 'skip' ? skip :
+      kind === filter && !skip;
+    var okQuery = !query || row.dataset.text.indexOf(query) >= 0 || row.dataset.id.indexOf(query) >= 0;
+    return okFilter && okQuery;
+  }
+
+  function apply() {
+    var shown = 0;
+    rows.forEach(function (row) {
+      var visible = matches(row);
+      row.hidden = !visible;
+      if (visible) shown++;
+    });
+    if (!shown) el('bar-status').textContent = '조건에 맞는 항목이 없습니다';
+    if (current >= 0 && rows[current] && rows[current].hidden) setCurrent(nextVisible(current, 1));
+  }
+
+  function nextVisible(from, step) {
+    for (var i = from + step; i >= 0 && i < rows.length; i += step) if (!rows[i].hidden) return i;
+    return -1;
+  }
+
+  function setCurrent(index, scroll) {
+    if (index < 0) return;
+    rows.forEach(function (row, i) { row.classList.toggle('current', i === index); });
+    current = index;
+    var row = rows[index];
+    if (scroll !== false) row.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    el('bar-status').textContent = '#' + row.dataset.index + '  ' + row.dataset.text.slice(0, 40);
+  }
+
+  function play(index) {
+    var row = rows[index];
+    if (!row || !row.dataset.src) { el('bar-status').textContent = '이 대사는 음원이 없습니다'; return; }
+    rows.forEach(function (r) { r.classList.remove('playing'); });
+    audio.pause();
+    audio.src = row.dataset.src + '?v=' + row.dataset.index;
+    row.classList.add('playing');
+    audio.play().catch(function (error) {
+      if (error && error.name === 'AbortError') return;
+      el('bar-status').textContent = '재생 실패: ' + (error && error.message ? error.message : '');
+    });
+  }
+
+  audio.addEventListener('ended', function () {
+    rows.forEach(function (r) { r.classList.remove('playing'); });
+    if (autoNext) {
+      var next = nextVisible(current, 1);
+      if (next >= 0) { setCurrent(next); play(next); }
+    }
+  });
+
+  function judge(index, verdict) {
+    var row = rows[index];
+    if (!row) return;
+    var id = row.dataset.id;
+    if (verdicts[id] === verdict) delete verdicts[id]; else verdicts[id] = verdict;
+    save();
+    paint(row);
+    updateCounts();
+    if (verdicts[id] === 'ok') {
+      var next = nextVisible(index, 1);
+      if (next >= 0) setCurrent(next);
+    }
+  }
+
+  rows.forEach(function (row, index) {
+    paint(row);
+    row.addEventListener('click', function (event) {
+      var button = event.target.closest ? event.target.closest('button') : null;
+      setCurrent(index, false);
+      if (!button) return;
+      var role = button.dataset.role;
+      if (role === 'play') play(index);
+      else if (role === 'ok') judge(index, 'ok');
+      else if (role === 'bad') judge(index, 'bad');
+      else if (button.dataset.copy) copy(button.dataset.copy, button);
     });
   });
 
-  var filter = 'need';
-  var query = '';
-  function apply() {
-    rows.forEach(function (row) {
-      var status = row.dataset.status;
-      var okStatus = filter === 'all' ? true
-        : filter === 'need' ? (status === 'todo' || status === 'redo')
-        : status === filter;
-      var okQuery = !query || row.dataset.text.indexOf(query) >= 0
-        || row.querySelector('.file').textContent.indexOf(query) >= 0;
-      row.hidden = !(okStatus && okQuery);
-    });
-    document.querySelectorAll('.group').forEach(function (group) {
-      var visible = group.querySelectorAll('.row:not([hidden])').length;
-      group.hidden = visible === 0;
-    });
+  function copy(text, button) {
+    var done = function () {
+      if (!button) return;
+      var previous = button.textContent;
+      button.textContent = '복사됨';
+      button.classList.add('copied');
+      setTimeout(function () { button.textContent = previous; button.classList.remove('copied'); }, 1000);
+    };
+    if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done, done); return; }
+    var area = document.createElement('textarea');
+    area.value = text; document.body.appendChild(area); area.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    area.remove(); done();
   }
+
   document.querySelectorAll('[data-filter]').forEach(function (chip) {
     chip.addEventListener('click', function () {
       filter = chip.dataset.filter;
@@ -316,83 +423,41 @@ async function main() {
       apply();
     });
   });
-  document.querySelector('[data-role="query"]').addEventListener('input', function (event) {
-    query = event.target.value.trim();
-    apply();
+  el('query').addEventListener('input', function (event) { query = event.target.value.trim(); apply(); });
+  el('reset').addEventListener('click', function () {
+    verdicts = {}; save();
+    rows.forEach(paint);
+    updateCounts(); apply();
   });
-  document.querySelector('[data-role="reset-check"]').addEventListener('click', function () {
-    checked = {}; save();
-    rows.forEach(function (row) {
-      row.classList.remove('checked');
-      row.querySelector('input[type="checkbox"]').checked = false;
-    });
-  });
-
-  function copy(text, button) {
-    var done = function () {
-      var previous = button.textContent;
-      button.textContent = '복사됨';
-      button.classList.add('copied');
-      setTimeout(function () { button.textContent = previous; button.classList.remove('copied'); }, 1000);
-    };
-    if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done, done); return; }
-    var area = document.createElement('textarea');
-    area.value = text; document.body.appendChild(area); area.select();
-    try { document.execCommand('copy'); } catch (e) { /* 무시 */ }
-    area.remove(); done();
-  }
-  document.addEventListener('click', function (event) {
-    var button = event.target.closest ? event.target.closest('.file') : null;
-    if (button && button.dataset.copy) copy(button.dataset.copy, button);
+  el('copy-bad').addEventListener('click', function (event) {
+    var list = rows.filter(function (row) { return verdicts[row.dataset.id] === 'bad'; })
+      .map(function (row) { return row.dataset.id + '\\t' + row.dataset.text; });
+    copy(list.join('\\n') || '(문제로 표시한 항목이 없습니다)', event.currentTarget);
   });
 
-  // ── 집중 모드 ──────────────────────────────────────────────
-  var focusIndex = 0;
-  var focusText = document.querySelector('[data-role="focus-text"]');
-  var focusPos = document.querySelector('[data-role="focus-pos"]');
-  var focusFile = document.querySelector('[data-role="focus-file"]');
-  function visibleRows() { return rows.filter(function (row) { return !row.hidden; }); }
-  function renderFocus() {
-    var list = visibleRows();
-    if (!list.length) { exitFocus(); return; }
-    focusIndex = Math.max(0, Math.min(focusIndex, list.length - 1));
-    var row = list[focusIndex];
-    focusText.textContent = row.dataset.text;
-    focusPos.textContent = (focusIndex + 1) + ' / ' + list.length + '  ·  #' + row.dataset.index;
-    var file = row.querySelector('.file').dataset.copy;
-    focusFile.textContent = file;
-    focusFile.dataset.copy = file;
-  }
-  function enterFocus() { document.body.classList.add('focus-on'); renderFocus(); }
-  function exitFocus() { document.body.classList.remove('focus-on'); }
-  function step(delta) { focusIndex += delta; renderFocus(); }
-  function markRead() {
-    var list = visibleRows();
-    var row = list[focusIndex];
-    if (!row) return;
-    var box = row.querySelector('input[type="checkbox"]');
-    box.checked = true;
-    box.dispatchEvent(new Event('change'));
-    step(1);
-  }
-  document.querySelector('[data-role="focus"]').addEventListener('click', enterFocus);
-  document.querySelector('[data-role="focus-exit"]').addEventListener('click', exitFocus);
-  document.querySelector('[data-role="focus-prev"]').addEventListener('click', function () { step(-1); });
-  document.querySelector('[data-role="focus-next"]').addEventListener('click', function () { step(1); });
-  document.querySelector('[data-role="focus-check"]').addEventListener('click', markRead);
+  el('bar-play').addEventListener('click', function () {
+    if (current < 0) setCurrent(nextVisible(-1, 1));
+    if (!audio.paused) { audio.pause(); rows.forEach(function (r) { r.classList.remove('playing'); }); return; }
+    play(current);
+  });
+  el('bar-ok').addEventListener('click', function () { judge(current, 'ok'); });
+  el('bar-bad').addEventListener('click', function () { judge(current, 'bad'); });
+  el('prev').addEventListener('click', function () { setCurrent(nextVisible(current, -1)); });
+  el('next').addEventListener('click', function () { setCurrent(nextVisible(current, 1)); });
 
   document.addEventListener('keydown', function (event) {
     if (event.target && /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
-    var on = document.body.classList.contains('focus-on');
-    if (!on && (event.key === 'f' || event.key === 'F')) { event.preventDefault(); enterFocus(); return; }
-    if (!on) return;
-    if (event.key === 'Escape') { event.preventDefault(); exitFocus(); }
-    else if (event.key === 'ArrowRight') { event.preventDefault(); step(1); }
-    else if (event.key === 'ArrowLeft') { event.preventDefault(); step(-1); }
-    else if (event.key === ' ') { event.preventDefault(); markRead(); }
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.key === ' ') { event.preventDefault(); el('bar-play').click(); }
+    else if (event.key === 'ArrowDown') { event.preventDefault(); setCurrent(nextVisible(current, 1)); }
+    else if (event.key === 'ArrowUp') { event.preventDefault(); setCurrent(nextVisible(current, -1)); }
+    else if (event.key === '1' || event.key === 'o') { event.preventDefault(); judge(current, 'ok'); }
+    else if (event.key === '2' || event.key === 'x') { event.preventDefault(); judge(current, 'bad'); }
   });
 
+  updateCounts();
   apply();
+  setCurrent(nextVisible(-1, 1), false);
 })();
 </script>
 </body>
@@ -400,7 +465,7 @@ async function main() {
 `;
 
   await writeFile(outPath, html);
-  console.log(`${path.relative(root, outPath)} 생성 — 녹음할 것 ${needed.length}개 (신규 ${counts.todo || 0} · 재녹음 ${counts.redo || 0}), 다듬기 ${counts.trim || 0}, 완료 ${counts.done || 0}, 제외 ${counts.skip || 0}`);
+  console.log(`${path.relative(root, outPath)} 생성 — 육성 ${counts.voice || 0} · TTS ${counts.tts || 0} · 없음 ${counts.none || 0} (검증 대상 ${target}개, 앱 미사용 ${counts.skip || 0} 제외)`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
