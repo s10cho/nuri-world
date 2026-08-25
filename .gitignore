@@ -28,3 +28,6 @@ public/assets/images/backgrounds/*.png
 public/assets/images/stages/
 public/assets/images/story/*.png
 public/assets/images/ui/*_concept.png
+
+# 녹음 다듬기(trim:voice)가 남기는 원본 백업
+*.bak
