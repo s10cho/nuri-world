@@ -1,0 +1,2339 @@
+{
+  "summary": {
+    "total": 555,
+    "ok": 540,
+    "short": 12,
+    "suspect": 0,
+    "swapped": 0,
+    "fail": 0
+  },
+  "suspects": [
+    {
+      "id": "words/ko-872e638f53",
+      "text": "고래",
+      "heard": "골에",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "jamo/ko-f655984129",
+      "text": "이응",
+      "heard": "ㅇ",
+      "score": 0,
+      "verdict": "unclear"
+    },
+    {
+      "id": "jamo/ko-c52e73c3c7",
+      "text": "키읔",
+      "heard": "Q",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "jamo/ko-518b43090d",
+      "text": "티읕",
+      "heard": "ㅌ",
+      "score": 0,
+      "verdict": "unclear"
+    },
+    {
+      "id": "words/ko-2671d1f08c",
+      "text": "뽀뽀",
+      "heard": "뿜뿜",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "words/ko-8ca534dba1",
+      "text": "쌀",
+      "heard": "3.",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "jamo/ko-4a3ea882ac",
+      "text": "오",
+      "heard": "우",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "jamo/ko-e8762a2591",
+      "text": "요",
+      "heard": "유우.",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "words/ko-ff82f2f635",
+      "text": "요요",
+      "heard": "유유",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "words/ko-4e71ce81ea",
+      "text": "음악",
+      "heard": "으마",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "praise/hit-jamo/ko-c52e73c3c7",
+      "text": "키읔! 명중이에요!",
+      "heard": "- - - - - -",
+      "score": 0,
+      "verdict": "unclear"
+    },
+    {
+      "id": "jamo/ko-6c0cd2af1e",
+      "text": "이",
+      "heard": "E",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "words/ko-40375799c4",
+      "text": "게",
+      "heard": "개",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "jamo/ko-b8b2f2af85",
+      "text": "워",
+      "heard": "와",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "jamo/ko-88e65ea48c",
+      "text": "쌍시옷",
+      "heard": "쌍시운입니다.",
+      "score": 0.333,
+      "verdict": "short"
+    }
+  ],
+  "transcripts": {
+    "89f2f4b557e40cc5452f18fe0c2253e71bfcd1f2": {
+      "heard": "누리의 한글 왕국에 온 것을 환영해요.",
+      "durationMs": 0
+    },
+    "cfd8d260db09aed562a8552a7b368f0f57b6e1c4": {
+      "heard": "아직 잠겨 있어요. 이전 왕국을 먼저 구해주세요.",
+      "durationMs": 0
+    },
+    "f8a90fc51f06f9fd09f4c221e9d4758631da3447": {
+      "heard": "우와! 모든 왕국을 구했어요. 축제에 가볼까요?",
+      "durationMs": 0
+    },
+    "3ea6d09e4a79c12481cfffe87d821a4b641f310b": {
+      "heard": "내가 모은 글자와 친구들이에요. 눌러보면 소리를 들려줘요.",
+      "durationMs": 0
+    },
+    "317837703ae48ff682d5655f3a76c3fd66861d6c": {
+      "heard": "어떤 글자의 소리일까요? 잘 듣고 찾아보세요.",
+      "durationMs": 0
+    },
+    "b37783a466962bedffcb7b5079671ad761c817db": {
+      "heard": "카드를 뒤집어서 같은 글자 짝을 찾아보세요.",
+      "durationMs": 0
+    },
+    "cc0caa8a3da8ea151ab05b5e262b43c32006aa02": {
+      "heard": "잘 봐요. 어디에 같은 글자가 있을까요?",
+      "durationMs": 0
+    },
+    "c9cf01d10e9f7a5eeada43e2b2af67a506db6e47": {
+      "heard": "이제 같은 글자 짝을 찾아보세요.",
+      "durationMs": 0
+    },
+    "f4a7971722ebfd2f551aef9b1813e318791843f8": {
+      "heard": "그 조각이 아니에요. 다시 골라볼까요?",
+      "durationMs": 0
+    },
+    "1692c80a187901f89a65de2594654f7135ad1071": {
+      "heard": "음, 다른 글자 같아요. 소리를 다시 들어볼까요?",
+      "durationMs": 0
+    },
+    "200da3ec306e19f4bc784a7ba62d86317913c983": {
+      "heard": "지우개 몬스터가 나타났어요 배운 글자로 힘을 모아 공격해요",
+      "durationMs": 0
+    },
+    "2626473a5105086e73a1b880c2eb24fe733dbcf4": {
+      "heard": "안 돼! 내가 지단이 글자들을 모두 돌려줄게요.",
+      "durationMs": 0
+    },
+    "9212e769f9ca0d9fc0e30497aaa397170a323cc5": {
+      "heard": "우와 지우개 몬스터를 물리쳤어요. 왕국의 글자들이 모두 돌아와요.",
+      "durationMs": 0
+    },
+    "49861e7eacc61599700fd0ed342b6053c24b5698": {
+      "heard": "딩동댕 잘 찾았어요.",
+      "durationMs": 0
+    },
+    "3f506e790ba318c182f118996aa4db2fe178656f": {
+      "heard": "우와 정말 잘 들었어요.",
+      "durationMs": 0
+    },
+    "a5e8b87ab891f4a4a93fd663be36db7907cb8968": {
+      "heard": "맞아요. 멋져요.",
+      "durationMs": 0
+    },
+    "19cc0c6ef85afc9e89a5ae0b7cb082dacadc07e0": {
+      "heard": "열심히 듣더니 해냈어요",
+      "durationMs": 0
+    },
+    "809fe48c26dce06a247a96154dbfe472c254c2ca": {
+      "heard": "괜찮아요. 다시 한번 들어볼까요?",
+      "durationMs": 0
+    },
+    "c5d3cef4726498143c50672f8c334b1b8c0586b4": {
+      "heard": "음... 소리를 한 번 더 들어보세요.",
+      "durationMs": 0
+    },
+    "9a0f5c9137f225409ddd2b2ab14e82e84fb51488": {
+      "heard": "정말 잘했어요.",
+      "durationMs": 0
+    },
+    "4b93d8c60577c92e463618bd748fd4e004350f67": {
+      "heard": "포기하지 않고 끝까지 했어요.",
+      "durationMs": 0
+    },
+    "bc0bed169daa54785d162783b1affa710415f9e5": {
+      "heard": "덕분에 왕국이 더 반짝여요.",
+      "durationMs": 0
+    },
+    "73f7ca7cf181f8c6696f518ef7ccb4fcac168dd5": {
+      "heard": "여기는 기억의 초원이에요. 지우개 몬스터가 자음을 다 지워버렸어요. 소리를 잘 듣고 자음을 찾아주세요.",
+      "durationMs": 0
+    },
+    "3fc90e3a3d406060f755129311c139a9763a4a34": {
+      "heard": "자음을 되찾아 초원을 다시 푸르게 만들어요.",
+      "durationMs": 0
+    },
+    "63777cc8dec1aa2596804d5b75010a8fd90653a4": {
+      "heard": "울림의 호수에 온 걸 환영해요. 모음이 사라져서 호수의 노래가 멈췄어요. 모음소리를 되찾아주세요.",
+      "durationMs": 0
+    },
+    "5f443a33efa63175fabb421d2857e33150aa911a": {
+      "heard": "모음의 소리를 되찾아 호수를 맑게 만들어요.",
+      "durationMs": 0
+    },
+    "0515bd0770256c094848fbee1a92cbd3893dd5b5": {
+      "heard": "글자 조각의 탑이에요. 장과 모음이 만나면 글자가 태어나요. 조각을 맞춰서 글자를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "e053530f45abc6f1bcbf77121f5af10e21f6afd4": {
+      "heard": "자음과 모음을 붙여서 글자를 만들어요.",
+      "durationMs": 0
+    },
+    "8ae351dddc6247565b103db4b0d69f87148a5097": {
+      "heard": "주민들의 이름이 사라졌어요. 글자를 찾아 이름을 완성하면 주민들이 다시 웃을 수 있어요.",
+      "durationMs": 0
+    },
+    "37350f4ca47481c60c13a4fb1f38f3731f53c877": {
+      "heard": "글자를 찾아 주민들의 이름을 되찾아주세요.",
+      "durationMs": 0
+    },
+    "5f448ab75ba87e7a57743381c27eeb3e4d6cff84": {
+      "heard": "드디어 지우개 몬스터의 성이에요. 그동안 배운 글자의 힘으로 몬스터를 물리치고 왕국을 구해요.",
+      "durationMs": 0
+    },
+    "b251afbac66ae80c42b2e2d2f08a14addda1cfc9": {
+      "heard": "배운 글자로 지우개 몬스터를 물리쳐요.",
+      "durationMs": 0
+    },
+    "b5bbedb26f0b8b1861e6b51c7f967e1e8b9ff6ac": {
+      "heard": "옛날 옛적 글자들이 반짝반짝 빛나는 누리 한글왕국이 있었어요.",
+      "durationMs": 0
+    },
+    "f578bf649d66eabdf28e8a7340ad5a278d6ae8f8": {
+      "heard": "어느 날 지우개 몬스터가 나타나 왕국의 글자들을 지워버렸어요.",
+      "durationMs": 0
+    },
+    "aaf3bc9e719e3dac05a80e5110d3866c043d30c0": {
+      "heard": "주민들은 이름을 잃어버리고 왕국은 엉망이 되어버렸어요.",
+      "durationMs": 0
+    },
+    "b899e395b4eb14c2eea60b75254319c20d63455d": {
+      "heard": "누리와 마법토끼 포리는 글자를 되찾는 모험을 떠나기로 했어요.",
+      "durationMs": 0
+    },
+    "dcb274a00469149a32c29aed679a45dc7bbfa0b4": {
+      "heard": "기역",
+      "durationMs": 0
+    },
+    "bb4beefc690891f4418ad37a0ea0734152fccf87": {
+      "heard": "기억, 가, 가방의 첫 소리예요.",
+      "durationMs": 0
+    },
+    "f180edcc5878c0d6e16d86eac70d0f79c71025db": {
+      "heard": "가방",
+      "durationMs": 0
+    },
+    "a515784dc1769543630c7fda7a4c23df9807b8f3": {
+      "heard": "골에",
+      "durationMs": 0
+    },
+    "50567eee3cd7f5272a75fa5762908e2f26c90033": {
+      "heard": "니은",
+      "durationMs": 0
+    },
+    "a18663a899e13e4abe0aa71eba61465f47926b8a": {
+      "heard": "니은 나, 나비의 첫소리예요.",
+      "durationMs": 0
+    },
+    "fa51ae3ab58af334f1325d1094ffd027917011a6": {
+      "heard": "나비",
+      "durationMs": 0
+    },
+    "76ff90bc8cd909658c161d4d5cd5e07ab2a35259": {
+      "heard": "나무",
+      "durationMs": 0
+    },
+    "3f77825e45857c67c70119058e47f98434a889eb": {
+      "heard": "디귿",
+      "durationMs": 0
+    },
+    "1f73002ff477268e7be93fddb3e6d09809027ff5": {
+      "heard": "다 다리의 첫 소리예요.",
+      "durationMs": 0
+    },
+    "1a249a4c02522e1a227c3505e9a6d7c072f99687": {
+      "heard": "다리",
+      "durationMs": 0
+    },
+    "27065ee4799da3bf6e6ccc00e63155faece68067": {
+      "heard": "도넛",
+      "durationMs": 0
+    },
+    "c3c400bf94e299757523ada245f6b17b834e8766": {
+      "heard": "리을",
+      "durationMs": 0
+    },
+    "69f8d37b62ca8902018d3a403cf93d7a7fce17a9": {
+      "heard": "로봇의 첫 소리예요.",
+      "durationMs": 0
+    },
+    "f6f4863b87b8471359a6f61064b24fb89854e227": {
+      "heard": "로봇",
+      "durationMs": 0
+    },
+    "2e358f2c57e8c49aa47e1acb9080f2b8269823c5": {
+      "heard": "라면",
+      "durationMs": 0
+    },
+    "69f9258af52f0f67bb200f87731cb8f07b3f0b6d": {
+      "heard": "미음",
+      "durationMs": 0
+    },
+    "29de4e5638dfa567f8668d4cad69389ea254f4bd": {
+      "heard": "미음, 모, 모자의 첫소리예요.",
+      "durationMs": 0
+    },
+    "265cad04cb41e076e050f557528814a7fd1bc30b": {
+      "heard": "모자",
+      "durationMs": 0
+    },
+    "04dc7bca72576de76cd07c6bc0dde98f516c4120": {
+      "heard": "무지개",
+      "durationMs": 0
+    },
+    "cb927f00c1a5e099a66771822d2e6ebf0e8f4259": {
+      "heard": "비읍",
+      "durationMs": 0
+    },
+    "6dab70c6ea7837e45f957ae1bf442f72113c01d6": {
+      "heard": "ㅂ 바 바나나의 첫소리예요.",
+      "durationMs": 0
+    },
+    "3b9216e4c7038cfb94cc3cb86ca5a93d97d17484": {
+      "heard": "바나나",
+      "durationMs": 0
+    },
+    "670abeeec8a1d1214d20008024f770aeab952c8b": {
+      "heard": "피행기",
+      "durationMs": 0
+    },
+    "ebca51d77fcf3fdec1f97bb424dd6061cb3e96bf": {
+      "heard": "시우",
+      "durationMs": 0
+    },
+    "9061d220756a62b3ddc75c6389ab809cfb0dd3ad": {
+      "heard": "시옷, 사, 사자의 첫소리예요.",
+      "durationMs": 0
+    },
+    "7295fc223f681c9ed405f30111c223de314a4781": {
+      "heard": "사자",
+      "durationMs": 0
+    },
+    "09ad300f1cdf5e7ad4df6dc757d2ad032725705f": {
+      "heard": "수박",
+      "durationMs": 0
+    },
+    "e2dca4232b112c20ec27ce6710c4e65c28483752": {
+      "heard": "ㅇ",
+      "durationMs": 0
+    },
+    "dc7ac2f8e606eb034038d5514d7bd453c1c9555a": {
+      "heard": "ㅇ, 오, 오리의 첫소리예요.",
+      "durationMs": 0
+    },
+    "e4b03d824de2884705d6d8f9c27edd6c87a0e518": {
+      "heard": "우리",
+      "durationMs": 0
+    },
+    "efab840553d90eea001595d7fc797b6d44d65ff6": {
+      "heard": "우유",
+      "durationMs": 0
+    },
+    "612910d11292444bef36db73cf6ee49073fd70f9": {
+      "heard": "지은",
+      "durationMs": 0
+    },
+    "335acf6ea2f20fd10ee3eeb126eb8682639183d5": {
+      "heard": "지읏, 자, 자동차의 첫소리예요.",
+      "durationMs": 0
+    },
+    "3851240f0ccd269a4f84c67df06413b9d9845364": {
+      "heard": "자동차",
+      "durationMs": 0
+    },
+    "fb3fa6c0d91f18b2d576de1ebf9c47a53239a95e": {
+      "heard": "주스",
+      "durationMs": 0
+    },
+    "2dc20b0fdec6dcda15f9c8b026d643105db29bbe": {
+      "heard": "치은",
+      "durationMs": 0
+    },
+    "bb6d74eb5f392f4d0660f25fa84642716c5497bc": {
+      "heard": "치은 치 치즈의 첫 소리예요.",
+      "durationMs": 0
+    },
+    "f9252c982139b98c6da8d56542f48b1047937311": {
+      "heard": "치즈",
+      "durationMs": 0
+    },
+    "64c1c93274d11f01c68e4ef8234d7783f2fbc7d5": {
+      "heard": "초콜릿",
+      "durationMs": 0
+    },
+    "9334d500f77beb2801cc8f90fe3c1948a46fe700": {
+      "heard": "Q",
+      "durationMs": 0
+    },
+    "ce1e2d54b72eb0a9ef9938847bbe07d25348c04d": {
+      "heard": "키읍, 코, 코끼리의 첫소리예요.",
+      "durationMs": 0
+    },
+    "1461d929cd7cbb1e524b8c7760b0d8c363e1e27f": {
+      "heard": "코끼리",
+      "durationMs": 0
+    },
+    "d30b7e870430445f3d16a6f8f1c7f0f626ae28ac": {
+      "heard": "코",
+      "durationMs": 0
+    },
+    "d14746d1e84904ca50a82d9cd79b5bf432d5cbfd": {
+      "heard": "ㅌ",
+      "durationMs": 0
+    },
+    "b933855a4cb1bf59699f2386cd060e0b6634b657": {
+      "heard": "티읏, 토, 토끼의 첫소리예요.",
+      "durationMs": 0
+    },
+    "c38d2229215e6c9576414c3c9013178085c19a36": {
+      "heard": "토끼",
+      "durationMs": 0
+    },
+    "854be5c5051530e2e9416b550099ac86f2cf6863": {
+      "heard": "토마토",
+      "durationMs": 0
+    },
+    "b865fdc7d75bb6bd9487b3687c1fb83f7a14a358": {
+      "heard": "피읍",
+      "durationMs": 0
+    },
+    "37c8466dd5e880aefdbe9e412ca8bd0b5247c21b": {
+      "heard": "피읍, 포, 포도의 첫소리예요.",
+      "durationMs": 0
+    },
+    "8978be3acb8b7d5a8c1e595acb6a9d196db7ca7d": {
+      "heard": "포도",
+      "durationMs": 0
+    },
+    "8dc8caa3482c40fc8f8dcbb3715cdbe6b5f7f730": {
+      "heard": "피자",
+      "durationMs": 0
+    },
+    "2421d008bb2324e3170eec976083dfbaa9e35d5c": {
+      "heard": "히트",
+      "durationMs": 0
+    },
+    "41361d454a231714c8679b6acc49eaa452ceb2f2": {
+      "heard": "히읗, 하, 하마의 첫소리예요.",
+      "durationMs": 0
+    },
+    "a586d4c675f4682b3f67d2937dd28b40b6222f50": {
+      "heard": "'하마'",
+      "durationMs": 0
+    },
+    "4683f4eeb2a75cfee1038bc53f23db1bd1427762": {
+      "heard": "해인",
+      "durationMs": 0
+    },
+    "a52e7aa44d08b86b8c37312067af6c3e4db03073": {
+      "heard": "쌍기역",
+      "durationMs": 0
+    },
+    "af8c35b3f65a031a0ef42adf516bdb2fc868a8d5": {
+      "heard": "쌍기역, 꽃, 꽃의 첫소리예요.",
+      "durationMs": 0
+    },
+    "e005103e14b7fe7269bf89651e1cf5e35d1a8737": {
+      "heard": "꽃",
+      "durationMs": 0
+    },
+    "897b624a20d2b173c6cf45dd1ef335d6cfc1f749": {
+      "heard": "꿀",
+      "durationMs": 0
+    },
+    "8c1274e21f6d8a1361eb0a169694601cbad59e60": {
+      "heard": "쌍디귿",
+      "durationMs": 0
+    },
+    "1390c4f9aae002fff883a4bb445b8d9566cfb288": {
+      "heard": "딸, 딸기의 첫소리예요.",
+      "durationMs": 0
+    },
+    "f64a4b46add0c41707012d057f3c8be52487c6a8": {
+      "heard": "딸기",
+      "durationMs": 0
+    },
+    "a91e8ff34009461812e1f2a7fc70f9ab98e05718": {
+      "heard": "땅콩",
+      "durationMs": 0
+    },
+    "6a043da2801edef8005bb1771e414c363c887cef": {
+      "heard": "쌍비읍",
+      "durationMs": 0
+    },
+    "c595c96a2f175f625b2afab5b34482ebdc41bd3b": {
+      "heard": "쌍비읍 빵 빵의 첫소리예요.",
+      "durationMs": 0
+    },
+    "cc861bb14829668b2fea1dcb8dac44b78f98e052": {
+      "heard": "빵",
+      "durationMs": 0
+    },
+    "be7a89a5914ad9529df893782f6d40846d078fa8": {
+      "heard": "뿜뿜",
+      "durationMs": 0
+    },
+    "6daeab7ad955078f83473a40bfc339a5f8ce0195": {
+      "heard": "쌍시운입니다.",
+      "durationMs": 0
+    },
+    "fad995c54e688183cab1e6df58ad0dcada2bd3f3": {
+      "heard": "쌍시오 씨 씨앗의 첫소리예요.",
+      "durationMs": 0
+    },
+    "0de471629003ae77fc8b36362b6e6fd62b603e36": {
+      "heard": "씨앗",
+      "durationMs": 0
+    },
+    "b79039ff80e178e4d703fa5cfd992075f1f2e0f6": {
+      "heard": "3.",
+      "durationMs": 0
+    },
+    "be425d185281092decb7c6403c97fe4d1e4a9150": {
+      "heard": "쌍지읍",
+      "durationMs": 0
+    },
+    "ddcb92b9bf491c57279a262abc52d85a952cd212": {
+      "heard": "쌍지읏, 짜, 짜장면의 첫소리예요.",
+      "durationMs": 0
+    },
+    "5bae3128cfb387332cb2b80112dcc2db203135e7": {
+      "heard": "짜장면",
+      "durationMs": 0
+    },
+    "b7595890e0681b825b2ed73a30e867fb19b583ed": {
+      "heard": "찌개",
+      "durationMs": 0
+    },
+    "47c05b789ccf2ae15b5a088f5478105ecda71e13": {
+      "heard": "아",
+      "durationMs": 0
+    },
+    "4f14c56f373768338e422940d9275cbc56c6c198": {
+      "heard": "아 아기의 아 소리예요.",
+      "durationMs": 0
+    },
+    "6e77c530213e8430968e362adec6e386de9044a0": {
+      "heard": "아기",
+      "durationMs": 0
+    },
+    "6c0134779d5ba8776d895fef5c061bf00ad5dcf0": {
+      "heard": "아이스크림",
+      "durationMs": 0
+    },
+    "317fb1539263b2d6db2f22c033b33f4b4e642807": {
+      "heard": "야!",
+      "durationMs": 0
+    },
+    "005048fb77a7cdbdfdae7e3cc8cb71e2ce50796c": {
+      "heard": "야 야구의 야 소리예요.",
+      "durationMs": 0
+    },
+    "5815425eb44dcfced85e4a5296cae32d2491d294": {
+      "heard": "야구",
+      "durationMs": 0
+    },
+    "4f8962bbb20d0b3f4c9e39208646c8d2bc371613": {
+      "heard": "야옹 고양이",
+      "durationMs": 0
+    },
+    "06db0817b10b0998e01001d52b15c1559fe5875d": {
+      "heard": "어",
+      "durationMs": 0
+    },
+    "30a067ed3587116f62e186348f90dad21e7c12e0": {
+      "heard": "어, 어항의 어 소리예요.",
+      "durationMs": 0
+    },
+    "14a721cb0a97235bcec3dcbe2a864b22e0c48fb6": {
+      "heard": "오항",
+      "durationMs": 0
+    },
+    "faecce6dc866dfc14723c88487d083a5780571bd": {
+      "heard": "엄마",
+      "durationMs": 0
+    },
+    "6059cd0691e925786b7ac963e4e059078ab7a98a": {
+      "heard": "여우.",
+      "durationMs": 0
+    },
+    "951051c1ee14490ed495bd4a3df8e9735cce3555": {
+      "heard": "여, 여우의 여 소리예요.",
+      "durationMs": 0
+    },
+    "781fcd1c9a632a64ecbb57e41c90974130bf9c5a": {
+      "heard": "여우.",
+      "durationMs": 0
+    },
+    "1ba280e29a19a24071073b313de40634bb57f31a": {
+      "heard": "여름",
+      "durationMs": 0
+    },
+    "5adbb1cf00aa35d323423482ad48280e43a50f4c": {
+      "heard": "우",
+      "durationMs": 0
+    },
+    "44bc6d18ef117a7cec2a04f613009589cb621b2a": {
+      "heard": "오 오리의 오 소리예요.",
+      "durationMs": 0
+    },
+    "128b6eb9831727b8371330c15377c24bf302a68b": {
+      "heard": "우이.",
+      "durationMs": 0
+    },
+    "aedcb9403f9dd40a371bda2367ffc1682bea2b78": {
+      "heard": "유우.",
+      "durationMs": 0
+    },
+    "a19c8b3b5ad61903e1895986397e00d26b3a7a48": {
+      "heard": "요, 요요의 요 소리예요.",
+      "durationMs": 0
+    },
+    "77e02c9426690e811ee5ba002ea55306920ab6b9": {
+      "heard": "유유",
+      "durationMs": 0
+    },
+    "21c553b3bcf9868d34947a87030d18ee5cc67b4f": {
+      "heard": "요리",
+      "durationMs": 0
+    },
+    "1ce6f3ec7c07d7420dd7a52befff6ecc111cc60b": {
+      "heard": "우",
+      "durationMs": 0
+    },
+    "1a249e304f0bad4d1bca0c5d8efe886db813e8bd": {
+      "heard": "우, 우산의 우소리예요.",
+      "durationMs": 0
+    },
+    "70ebffdd1d601503af3ec411fd1d126f1b46b45f": {
+      "heard": "우산",
+      "durationMs": 0
+    },
+    "d96869c6c5dfa0ad6cd938611863c8d6d7c47c4a": {
+      "heard": "와 글자들이 모두 돌아왔어요.",
+      "durationMs": 0
+    },
+    "7f0ab802bf721e031d20d515cfbea2cde6eb3958": {
+      "heard": "덕분에 한글 왕국이 다시 반짝반짝 빛나요.",
+      "durationMs": 0
+    },
+    "9f2bfbc3ce11bd4dac41d42a7c76ac22a9583603": {
+      "heard": "주민들이 축제를 열어 함께 축하해요.",
+      "durationMs": 0
+    },
+    "f6de39790d885193b679056d0da68018f8a9ad8f": {
+      "heard": "유",
+      "durationMs": 0
+    },
+    "9f02633d2265c6260cfee7df204e91bdc9d1d242": {
+      "heard": "유 유니콘의 유 소리예요.",
+      "durationMs": 0
+    },
+    "28f7522ca306ef7572caf552f1bdf2d3e85aabcb": {
+      "heard": "유니콘",
+      "durationMs": 0
+    },
+    "466e34621f6fb6600b556891802cd335432844dd": {
+      "heard": "유령",
+      "durationMs": 0
+    },
+    "55a048338e1208db5a163c6c05b30c88b32680b3": {
+      "heard": "으",
+      "durationMs": 0
+    },
+    "5d9b260b508f562a9264ce12722e611368e564df": {
+      "heard": "으 으쓱으쓱의 으 소리예요.",
+      "durationMs": 0
+    },
+    "a2e7ab79d3e520b7e0c52d6a57047d8597252b4c": {
+      "heard": "으쓱 으쓱",
+      "durationMs": 0
+    },
+    "c8c5f0c39b41f5c90017d84554ff47af6ae2936d": {
+      "heard": "으마",
+      "durationMs": 0
+    },
+    "cfc13966313b5476755b97d1903fce6137e6876d": {
+      "heard": "이 이불의 이 소리예요.",
+      "durationMs": 0
+    },
+    "56e6f39dcf23740797a6d19554d0a9abf2e9348f": {
+      "heard": "이불",
+      "durationMs": 0
+    },
+    "11ede5877d997705d9144d9dfa0cfc1a17eefa23": {
+      "heard": "이빨",
+      "durationMs": 0
+    },
+    "e70337fcf6891421684d00da25c94dc634b1444f": {
+      "heard": "애 애벌레의 애 소리예요.",
+      "durationMs": 0
+    },
+    "07a7508bee41c0189e2afd0b5eceec5586455a05": {
+      "heard": "새",
+      "durationMs": 0
+    },
+    "aac55f4e75bd415e9fed2fa29e43309ec07455be": {
+      "heard": "예 얘기의 예 소리예요.",
+      "durationMs": 0
+    },
+    "8d8bea1c3abee4231a5b48aa4837fb68cf48e9f3": {
+      "heard": "얘들아",
+      "durationMs": 0
+    },
+    "a29dae7589936c0fcc2092981bec7a998da8c505": {
+      "heard": "에.",
+      "durationMs": 0
+    },
+    "5695f963fcbd3d629df07f27ac3469c7cd26dc3a": {
+      "heard": "에 개의 에 소리예요.",
+      "durationMs": 0
+    },
+    "46c597ea7126ebd4cf57e338b666e44efa9a141d": {
+      "heard": "레몬",
+      "durationMs": 0
+    },
+    "60d5b62b3b03a6ab63d68f43d06851864e7f663b": {
+      "heard": "예.",
+      "durationMs": 0
+    },
+    "5e69924c9ce13c41cf646b3b8265922dcf1803a8": {
+      "heard": "예 시계의 예 소리예요.",
+      "durationMs": 0
+    },
+    "5b87c77452d5d08b23a9fa85b26c33b747055d20": {
+      "heard": "시계인",
+      "durationMs": 0
+    },
+    "eafa5e663521eff27694391b9c96c8aa38d2850a": {
+      "heard": "예쁜 꽃",
+      "durationMs": 0
+    },
+    "14422b1b9e5fe10edcfc28dc352b960e33786a37": {
+      "heard": "와",
+      "durationMs": 0
+    },
+    "e94749f9ed4cea6d85a45e4cd342f69db625e76d": {
+      "heard": "와 와플의 와 소리예요.",
+      "durationMs": 0
+    },
+    "28bde0fe4e44aea11e31656b3470b0b6ed7d86a4": {
+      "heard": "와플",
+      "durationMs": 0
+    },
+    "ad7cb3b1d4ebcf83f9985fe9462182ceaf13c028": {
+      "heard": "과자",
+      "durationMs": 0
+    },
+    "92b2aaee6751fbc084c848e4b9c509d431abe775": {
+      "heard": "왜",
+      "durationMs": 0
+    },
+    "ad82331aedf14a61ccc29d51d8995303765e648c": {
+      "heard": "왜 돼지의 왜 소리예요.",
+      "durationMs": 0
+    },
+    "9165bf5f7dba515dbf5b427040a0d3c9ed5da342": {
+      "heard": "돼지",
+      "durationMs": 0
+    },
+    "28be4c8043f7cc4e586c155368a9305dda28ef1c": {
+      "heard": "왜?",
+      "durationMs": 0
+    },
+    "d9c69a27d19ef562551759554ede81725c86b907": {
+      "heard": "왜, 참외, 왜 소리예요.",
+      "durationMs": 0
+    },
+    "2be2cb1368290de3675106a53cbb3feb4e080b06": {
+      "heard": "참외",
+      "durationMs": 0
+    },
+    "283883fa54c4008e2097b269d8abf8811052eff4": {
+      "heard": "외투",
+      "durationMs": 0
+    },
+    "b5e91bb09b805f54e3952747d9aded9906130e98": {
+      "heard": "워 원숭이의 워 소리예요.",
+      "durationMs": 0
+    },
+    "f20ef06710b238d4d55f8165bbffb3aefcfbe27a": {
+      "heard": "원숭이.",
+      "durationMs": 0
+    },
+    "71dec517a4c3b7b747d18b92e3282447d5934172": {
+      "heard": "샤워",
+      "durationMs": 0
+    },
+    "533ad5060a3a4ab23db40cfa12b298b560e3c4ae": {
+      "heard": "왜 스웨터에 왜 소리예요.",
+      "durationMs": 0
+    },
+    "938bbf936276b4b3cf48a908f268100bb11f5eee": {
+      "heard": "위",
+      "durationMs": 0
+    },
+    "4666f6d3fbc0d55a1d80df3341c612950ea9d219": {
+      "heard": "위 귀에 위 소리예요.",
+      "durationMs": 0
+    },
+    "2bb045da71d04bbe29577ec3fed7272e97cbd084": {
+      "heard": "귀",
+      "durationMs": 0
+    },
+    "ff0f99587c0dc9ffb1a07a2e576e94392e732316": {
+      "heard": "의",
+      "durationMs": 0
+    },
+    "c10b256905bbc70b966c3a0b02a4d7aab0483e67": {
+      "heard": "의 의사의 의 소리예요.",
+      "durationMs": 0
+    },
+    "af0623fc9c0a8a3edb304fe5e7278f969c6f3c17": {
+      "heard": "의사",
+      "durationMs": 0
+    },
+    "7c9b23227ca0ef742904d640f265ea653f2ce6d4": {
+      "heard": "의자",
+      "durationMs": 0
+    },
+    "10ad0fe5ddbe9b21eb0688fe2fbc62cc09d13433": {
+      "heard": "지 지구의 지",
+      "durationMs": 0
+    },
+    "95b3fdc57648656ba5747218a70f983e8c9f7517": {
+      "heard": "바다",
+      "durationMs": 0
+    },
+    "e1ec80ccc51e2507e2d442971c55fe37f6776a60": {
+      "heard": "소파",
+      "durationMs": 0
+    },
+    "8354a514925331c99b7d20c4892b71a2714b905f": {
+      "heard": "비누",
+      "durationMs": 0
+    },
+    "0854794887231660ddf8d23067dfe21950132093": {
+      "heard": "너구리",
+      "durationMs": 0
+    },
+    "be4b94b1d9246a3d59b95b3a063006562a465d89": {
+      "heard": "몬스터를 물리치면 축제가 열려요.",
+      "durationMs": 0
+    },
+    "4032284a59c1f90091df28c05e45bf0db4951f70": {
+      "heard": "앞에 스테이지를 먼저 끼야 해요.",
+      "durationMs": 0
+    },
+    "bc69848e79fcdcec47161d2ec81bd2cabccb30fa": {
+      "heard": "기억의 초원에서 모험을 계속해요.",
+      "durationMs": 0
+    },
+    "72746991a0600f7fce46bf6ea56cb71c8c5b1974": {
+      "heard": "울림의 호수에서 모험을 계속해요.",
+      "durationMs": 0
+    },
+    "8217a943a956141886bfa926a7e10aca96d657c0": {
+      "heard": "글자 조각의 탑에서 모험을 계속해요.",
+      "durationMs": 0
+    },
+    "399dbe068747a54b06dd31b6014858a196187376": {
+      "heard": "이름 없는 마을에서 모험을 계속해요.",
+      "durationMs": 0
+    },
+    "dc6a8ac2fb668148dac19ab6b04b8591f24fe132": {
+      "heard": "지우개 몬스터의 성에서 모험을 계속해요.",
+      "durationMs": 0
+    },
+    "4e81b56110688608d6042f47d50d7528536392e7": {
+      "heard": "기억, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "c2eac6c1c94a68748116aa6bc3110f8b93f57a61": {
+      "heard": "기억, 명중이에요.",
+      "durationMs": 0
+    },
+    "0b155d1a1b3daec495a201b02fd01a8fdd26f9ce": {
+      "heard": "니은 나비의 나",
+      "durationMs": 0
+    },
+    "8e670ce81e9715e52b41864e791405433e1f8db2": {
+      "heard": "니은 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "aac589f75599c7a90187ce6914398c73039a6c50": {
+      "heard": "니은 명중이에요.",
+      "durationMs": 0
+    },
+    "5c2df54b4a35cb9f33990d90caa454bae4ad59c3": {
+      "heard": "디귿 다리에 다",
+      "durationMs": 0
+    },
+    "71040e42f51d320ef0221a76a4f15e22a69f21fd": {
+      "heard": "짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "7dfc0adefb8ee0fc11c9108ae57c88b4acc22996": {
+      "heard": "디귿 명중이에요.",
+      "durationMs": 0
+    },
+    "7cc78709237b162a803daf48aa67d3b835f85b3d": {
+      "heard": "리을 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "73728002278e6cbe61dd61f74e31b0dd9ea6e3ff": {
+      "heard": "리을 명중이에요.",
+      "durationMs": 0
+    },
+    "7586990f1e267df1569822ef36d687713f7e8094": {
+      "heard": "미음, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "a2b870d21320234a1edbcc9421fdcdc13f29a1d3": {
+      "heard": "미음 명중이에요.",
+      "durationMs": 0
+    },
+    "b96e3b7da966aba36aff8ee2c14d0701cc707dad": {
+      "heard": "ㅂ 바나나의 바",
+      "durationMs": 0
+    },
+    "a80584ef072d417d658262f19e4e6107ff4467c5": {
+      "heard": "비읍 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "d232e53b86802e9364b6798cb127872c8d9d175f": {
+      "heard": "ㅂ 명중이에요.",
+      "durationMs": 0
+    },
+    "74ae31f590698082c7cb193d8063f484058cd744": {
+      "heard": "시옷 사자의 사",
+      "durationMs": 0
+    },
+    "facdd0a5fec8b6d26813918d9f8ee9fe974c8228": {
+      "heard": "지옷 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "11054f7c4234df8ca6faaf43c643992db622fc3d": {
+      "heard": "시옷 명중이에요.",
+      "durationMs": 0
+    },
+    "3b737c4ca59d607449dbcbc275256cbd5d8b0d1e": {
+      "heard": "이응 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "a91bfe194d26d63baeb11b004d255ca75f3d0139": {
+      "heard": "ㅇ 명중이에요.",
+      "durationMs": 0
+    },
+    "6d941f8d099170c8616859454f05f83f6c46018f": {
+      "heard": "ㅈ 자동차의 자아",
+      "durationMs": 0
+    },
+    "3ca42ef6f7ef4d1ba9853a3ec95b46c7ade9f0ea": {
+      "heard": "ㅈ 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "b776c093d9fd1bae7b31904c2b2595ac13dd539f": {
+      "heard": "ㅈ 명중이에요.",
+      "durationMs": 0
+    },
+    "fe94a923a66c8b89fcef15a38aef2d9c469594d9": {
+      "heard": "치읓 치즈에 치",
+      "durationMs": 0
+    },
+    "34387af932dbc168467142fb4f67a4a6700ecbc3": {
+      "heard": "치읕 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "ba8c729892c38e08dd9605d246bf73f71379f5f4": {
+      "heard": "치읔 명중이에요.",
+      "durationMs": 0
+    },
+    "be8922c17c15c7633a35de2e9e544555c51205b0": {
+      "heard": "키읔 코끼리의 코",
+      "durationMs": 0
+    },
+    "0a8f0bc8e5d5332f9eb04f8ddd2ed1b780db5fee": {
+      "heard": "키읔 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "fbbcbd5fac25374e0dc650d6d15b3dcdccd73f32": {
+      "heard": "- - - - - -",
+      "durationMs": 0
+    },
+    "81d86a2934161f365bdf1c9c43ec71720c9164b5": {
+      "heard": "티읍 토끼의 토",
+      "durationMs": 0
+    },
+    "b00017d800e8a08dbc14927f9216396cc29ffa47": {
+      "heard": "ㅌ 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "a089b305e96bb29e90726f4d5e6f455ffc61d3af": {
+      "heard": "ㅌ 명중이에요.",
+      "durationMs": 0
+    },
+    "1511c11b091751c815b191a9726ee87a49b7192d": {
+      "heard": "짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "21f448182fed4548f10e857ace7800a7154e1eb9": {
+      "heard": "ㅍ 명중이에요.",
+      "durationMs": 0
+    },
+    "19ce22b2accc771288eabf653f45359851886c31": {
+      "heard": "'히읗' 하마의 '하'",
+      "durationMs": 0
+    },
+    "40c6af17eef2270f9264e44fac6394dbdde93831": {
+      "heard": "히읗, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "6245b747ea967d4a644949f06f8c5a7a6b91cddd": {
+      "heard": "히읍 명중이에요.",
+      "durationMs": 0
+    },
+    "ac944a40c31b15b367e5fbb2fe7bb4cac574375e": {
+      "heard": "쌍기역 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "2b90cecf8c5669d1c549d39594e32ce9bdd009ec": {
+      "heard": "쌍기역 명중이에요.",
+      "durationMs": 0
+    },
+    "d289fdc87dd81b1b708df8dac3ab5385f9c2f248": {
+      "heard": "쌍디귿 딸기의 딸",
+      "durationMs": 0
+    },
+    "0b78acb64b6f87749c2b66b2e7f323bc7aa5c040": {
+      "heard": "쌍디긋 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "3a88c2e38dffbb90d0d53730c3a831572e22c8e1": {
+      "heard": "쌍디급 명중이에요.",
+      "durationMs": 0
+    },
+    "331e58f0e1a59114d564353d04f22a102f3b6514": {
+      "heard": "쌍비읍 빵의 빵",
+      "durationMs": 0
+    },
+    "d5cf249b81f71296024b91b8f8c309d024afdb12": {
+      "heard": "쌍비읍 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "3e8b0eddc81f43dd0c9c3e74a3d3248a89617b57": {
+      "heard": "쌍비읍 명중이에요.",
+      "durationMs": 0
+    },
+    "259422f7a262d56a1e6e8c3a4e758a0db288b636": {
+      "heard": "쌍시옷 씨앗의 씨",
+      "durationMs": 0
+    },
+    "fe686c9f792ee706000e0c93c224e010f9c0161e": {
+      "heard": "쌍시옷 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "dfcea02d26d5cc9afecc4281522dba1d255913d0": {
+      "heard": "명중이에요.",
+      "durationMs": 0
+    },
+    "7764b9eb55c2eb6bee7322aed680e4965c21f27d": {
+      "heard": "쌍지읏 짜장면에 짜",
+      "durationMs": 0
+    },
+    "70d6f54e7e0072746118aa28a1fbf6813aa7871f": {
+      "heard": "쌍지읏 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "51c0200a801630b76074d2c9f2782de4e4b21857": {
+      "heard": "ㅆ, 명중이에요.",
+      "durationMs": 0
+    },
+    "07ce1d2f8aaba3ace5e89cdb675e5d9e9997a3fb": {
+      "heard": "아 아기의 아 소리",
+      "durationMs": 0
+    },
+    "aed1875a001456466f7fdb3c941089429afa3ac6": {
+      "heard": "아! 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "764cebe09e62c6b7bc15ef552d60eea849939af4": {
+      "heard": "명중이에요.",
+      "durationMs": 0
+    },
+    "455826bb96420bd03390eec1556c6680b843b499": {
+      "heard": "야 야구의 야 소리",
+      "durationMs": 0
+    },
+    "63343243a966fc9b79fbf2c0a0d933c695c85e45": {
+      "heard": "야, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "0a3e920de6119d9ebd9421baa58b4148543db013": {
+      "heard": "야, 명중이에요.",
+      "durationMs": 0
+    },
+    "1c8bb129f2902bd30b2edcdff4652242140515d8": {
+      "heard": "어, 어항의 어 소리",
+      "durationMs": 0
+    },
+    "2448beb9e2dad41f9eddc2f89664f82a72ec3cc0": {
+      "heard": "짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "c0f53898861c419355ee7ec38f5fa4f6d5c33875": {
+      "heard": "어, 명중이에요.",
+      "durationMs": 0
+    },
+    "57fba770cca5c4f4bfd4274ba0c1d9d4bba50f4c": {
+      "heard": "여 여우의 여 소리",
+      "durationMs": 0
+    },
+    "1d45a1f63b42d998f3c1e20d6a8d7e85234f9eb3": {
+      "heard": "여, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "1549d55d111797bace977195ad0d7b47628d0eac": {
+      "heard": "여, 명중이에요.",
+      "durationMs": 0
+    },
+    "c04d3303fdacc881f1bc1093e619a1706b1ced4a": {
+      "heard": "오 오리의 오 소리",
+      "durationMs": 0
+    },
+    "1044254551f302464ee72c3c95e920dd28e1d330": {
+      "heard": "오 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "32a1200bfbf4e9376aaae50c58f128f756e997a6": {
+      "heard": "오, 명중이에요.",
+      "durationMs": 0
+    },
+    "9d9bc62c147916e0dd0a86a6eca8074391cfdd8d": {
+      "heard": "요, 요유의 요소리",
+      "durationMs": 0
+    },
+    "b4e8cc98708f56f21e498e81bc0083140c513900": {
+      "heard": "요 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "5304579a5e560db9d71e5cdd47f170e1b89e3e73": {
+      "heard": "요. 명중이에요.",
+      "durationMs": 0
+    },
+    "57f33881629b88e7bca6bf495c22c9227fb922cc": {
+      "heard": "우, 우산의 우소리.",
+      "durationMs": 0
+    },
+    "e7c80b9d645c680dfd0b753b48ca9756166af4b1": {
+      "heard": "우 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "b4b81ae0b214880ddbc6670eabec1b01d9af4636": {
+      "heard": "우 명중이에요.",
+      "durationMs": 0
+    },
+    "8cf4fe4ca816fcc089add2d75f95b9a96ecf8d0f": {
+      "heard": "유 유니콘의 유소리",
+      "durationMs": 0
+    },
+    "44df4d3bf12384490edf8056bf72d90b39f4f9e9": {
+      "heard": "유. 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "77feac76b529767be3fb0107190e48dc8bded157": {
+      "heard": "U, 명중이에요.",
+      "durationMs": 0
+    },
+    "ddfb0f3148ae49631ecacb3fe30dc115fc251866": {
+      "heard": "으 으쓱 으쓱의 으 소리",
+      "durationMs": 0
+    },
+    "110dac0dfa731e79059b73e4234dac5695d74a3b": {
+      "heard": "짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "c697c67833998a27c8054b04e3d8a9eae6775de2": {
+      "heard": "'으' 명증이에요.",
+      "durationMs": 0
+    },
+    "7ff629060718e26010f2d3b4d5ba371e9cd7dadc": {
+      "heard": "이 이불의 이 소리",
+      "durationMs": 0
+    },
+    "86f27cb46fc473385cd4760a836aaf54e86cc141": {
+      "heard": "이 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "ec685600e5211650286c17bdfc706d40946e7898": {
+      "heard": "2. 명중이에요.",
+      "durationMs": 0
+    },
+    "9f298289beb5305159d2fd4edd25302a42b725f3": {
+      "heard": "애 애벌레, 애 소리",
+      "durationMs": 0
+    },
+    "8afd0cf17522a60749cd71fe2a024cb8df41c46a": {
+      "heard": "에. 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "e9ff081c7d677e3adefba33443274c1a686a5f1e": {
+      "heard": "에, 명중이에요.",
+      "durationMs": 0
+    },
+    "3caacf6b2706599a8537f2d28ca29dc8c80d1276": {
+      "heard": "예 얘기의 예 소리",
+      "durationMs": 0
+    },
+    "6c1eab81527eb3fe8a077862e483b54c42446fab": {
+      "heard": "예, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "2ae842a84ccff512bc1d1df91ea93ef91810a05d": {
+      "heard": "예 명중이에요.",
+      "durationMs": 0
+    },
+    "12dd894c56471f75f2ade1ccf66f0e67ad9af936": {
+      "heard": "에 개의 에 소리",
+      "durationMs": 0
+    },
+    "fa7b3125bce8768755b6f2e35e4f965108b6cce5": {
+      "heard": "에, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "cdad50a6791d23c5b77f71508271a72fd5fd717b": {
+      "heard": "에, 명중이에요.",
+      "durationMs": 0
+    },
+    "3ab94a12634e6c9d0f587631f5a3c6c89167be5c": {
+      "heard": "예 시계의 예소리",
+      "durationMs": 0
+    },
+    "81b8c45015245d2d6d78e428009c16ac441e8505": {
+      "heard": "예, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "71e12b3276cc7f991a7a49cefa97529300ca6a0d": {
+      "heard": "예, 명중이에요.",
+      "durationMs": 0
+    },
+    "58a017d70a5261b501f56a73f298e77f2ab8bf0f": {
+      "heard": "와 와플의 와 소리",
+      "durationMs": 0
+    },
+    "0f923f4982483e7e939ed8ceae572d113a6a32fe": {
+      "heard": "와! 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "90df11b94496183472e77e5fcd829a43bee23444": {
+      "heard": "와 명중이에요",
+      "durationMs": 0
+    },
+    "1d0480d2507f2f6703aa95184e0aa6204789d311": {
+      "heard": "왜 돼지의 왜 소리",
+      "durationMs": 0
+    },
+    "cf0165a72f030b6d0cdf6b8ef72c94b184f7660d": {
+      "heard": "왜 짝을 찾았어요?",
+      "durationMs": 0
+    },
+    "8b04aeae720d2da0d8594566e72887b45c5c35d5": {
+      "heard": "왜? 명중이에요.",
+      "durationMs": 0
+    },
+    "2fbea05b99390acb7976fd0b73e07a524d5e1808": {
+      "heard": "위 귀에 위 소리",
+      "durationMs": 0
+    },
+    "fed093b780fe550b6ad962448420e612254e16c6": {
+      "heard": "위 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "ae40bb5bcef318c5f8b44d4db8e38a76468d702a": {
+      "heard": "위, 명중이에요.",
+      "durationMs": 0
+    },
+    "57713801be3b00212bb48e389a924a602440ea53": {
+      "heard": "의 의사의 의 소리",
+      "durationMs": 0
+    },
+    "bd747c507562fa83481b37a9bf06d8c19a5e12da": {
+      "heard": "이 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "491da79ee955b95d0172ad81ba89ca2786670a0a": {
+      "heard": "의 명중이에요.",
+      "durationMs": 0
+    },
+    "25430824f105ea964a04129dcf4a4d43af712302": {
+      "heard": "가, 가방의 가, 조각을 모아 가를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "16210909dd7ae181001ba67afd925192d1ef6e78": {
+      "heard": "가 가방의 가 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "058e4f8470735959ab72dd09ffa1cbed8d3b808d": {
+      "heard": "가방의 가. 가를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "76612ded8859dd2cc5260e6378e5abe340c7c530": {
+      "heard": "가 명중이에요.",
+      "durationMs": 0
+    },
+    "c4ffbe1a1de5412caa73273ab08633e158ff2af3": {
+      "heard": "가방의 가",
+      "durationMs": 0
+    },
+    "a4672a71ca1a3d0fdefe0d4902ed7fd3760b7462": {
+      "heard": "나, 나비, 나 조각을 모아 나를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "f77b6b4c13aedf79e6877eec7ef5127fdea07227": {
+      "heard": "나 나비의 나 우와 멋진 글자를 만들었어요",
+      "durationMs": 0
+    },
+    "1ecf01dc814a20a9fc4e9fc7c02a03dc5029cd71": {
+      "heard": "나 명중이에요.",
+      "durationMs": 0
+    },
+    "a55717ebd214a225f4d257fac0e864b824e817ac": {
+      "heard": "나 나비의 나",
+      "durationMs": 0
+    },
+    "931f2833986fab8457d48d9951b207ab0b60a812": {
+      "heard": "다. 다리에 다. 조각을 모아 다를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "628932e79dc7b674fc13c0a4208a5e22e467ead4": {
+      "heard": "다. 다리에 다. 조각을 딱 맞췄네요. 대단해요.",
+      "durationMs": 0
+    },
+    "844ceb6c070d8a733f55cf11a239eeb04f1f4f5c": {
+      "heard": "다리의 다. 다를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "ac4d09fbdef5dd00c7494a1a80c62e2797c4e60c": {
+      "heard": "다 명중이에요",
+      "durationMs": 0
+    },
+    "c4753606bcb78d9317f69596b443993d2fdb31b7": {
+      "heard": "라 라면의 라 조각을 모아 를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "cc795507635bde98d98a7f413aea493db2ec1f94": {
+      "heard": "라 라면의 라 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "8489857c3f3dfb663060496ce4808be384a82ff7": {
+      "heard": "라면에 라 를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "e19d848bd37d784dcfa3bddf157698a460fa8054": {
+      "heard": "라 명중이에요.",
+      "durationMs": 0
+    },
+    "00ce4e39a111b72bbb19aeec4de7d560b2d9e4bc": {
+      "heard": "라 라면에 라",
+      "durationMs": 0
+    },
+    "ad61567de1e3780769b39db7801b8a7369f0c7dc": {
+      "heard": "마, 마늘에 마. 조각을 모아 말을 만들어 보세요.",
+      "durationMs": 0
+    },
+    "cbe0f2f0b3b3fb5c504d9ef2df55e35d542a85b5": {
+      "heard": "마 마늘에 마 우와 멋진 글자를 만들었어요",
+      "durationMs": 0
+    },
+    "65ff04539b02e496e3fb17dfaf5d0ac035d772f6": {
+      "heard": "마늘의 마. 마를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "f88c429d4a57fc3a1115270bd20d32cd84f2bc29": {
+      "heard": "마, 명중이에요.",
+      "durationMs": 0
+    },
+    "ab32d0fd50fdfc1bdb709b9bf1d00c3e6894a687": {
+      "heard": "마 마늘에 마",
+      "durationMs": 0
+    },
+    "9127113e3a20554d69795104c537012dd2a64259": {
+      "heard": "바 바나나에 바 조각을 모아 바를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "7877e152fb6bb1a9acee623a84bcaffd27c89f5a": {
+      "heard": "바, 바나나에 바, 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "9c0d2aa1a3dd8060f332011ad721d1f12028e96b": {
+      "heard": "바나나의 바. 바를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "8795ac7b9bf4e0dd00755c5aa3ef79a631689a69": {
+      "heard": "바, 명중이에요.",
+      "durationMs": 0
+    },
+    "5647ac22b23b7205b9c4352176ea108117314041": {
+      "heard": "바 바나나의 바",
+      "durationMs": 0
+    },
+    "88ea1c8e5416ff0a27e78f55f586557686e5461c": {
+      "heard": "사, 사자의 사. 조각을 모아 사를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "367a1e2f6ec23ebaa5f2818ccec471e18434c494": {
+      "heard": "사. 사자의 사. 우와 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "a1362e6c2186b6e6f81fb47d2ebf526300b077b2": {
+      "heard": "자, 자동차의 자, 조각을 모아 자를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "26a444c6509b51160efb3954a3a63c57b7b20105": {
+      "heard": "자, 자동차의 자, 조각을 딱 맞췄네요. 대단해요.",
+      "durationMs": 0
+    },
+    "e33e1aa327f34a5d4cdd8a909e4ac9c759f980cd": {
+      "heard": "자동차의 자, 자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "4173e0ea2813886ff4f17ea441c554b58e8c0113": {
+      "heard": "자, 명증이에요.",
+      "durationMs": 0
+    },
+    "d5ed71fbc7c54874b6d46ab398640273c21615ff": {
+      "heard": "자 자동차의 자",
+      "durationMs": 0
+    },
+    "67e950ca67b05e35f8b32065002efea6b84a295a": {
+      "heard": "차, 차의 차. 조각을 모아 차를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "ed9b7b916365c9c0e80a82a71d5fac5c46681fba": {
+      "heard": "차 차의 차 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "0407763a47b3586320d004ba58b51e6cb0264a67": {
+      "heard": "차의 차. 차를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "5da00e5d8e01f5268499298c59f81e6e09e09f47": {
+      "heard": "차! 명중이에요.",
+      "durationMs": 0
+    },
+    "6287d684e21d48b78cc527965e8512efa3247a94": {
+      "heard": "차 차의 차",
+      "durationMs": 0
+    },
+    "3ada325475ddce96c77cb25babca87dc965d2eb2": {
+      "heard": "카 카드의 카 조각을 모아 카를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "e5b663bec855053f17d30f86766ce804fcde6aca": {
+      "heard": "카, 카드의 카. 우와, 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "2895fbb00a0243749c9e53b13a060a2386ae5744": {
+      "heard": "카드의 카. 카를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "b00559f2f032031613cb309bf0d3ba4fe821c247": {
+      "heard": "카! 명중이에요.",
+      "durationMs": 0
+    },
+    "fe8b7120a821281c3d5a74d8ab92231ac57efd8a": {
+      "heard": "카 카드의 카",
+      "durationMs": 0
+    },
+    "5c88948a5250e9425b510264311a2ea263620998": {
+      "heard": "고, 고래의 고 조각을 모아 고를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "18b707cbcae89bf3b10622551c25f594897af918": {
+      "heard": "고, 고래의 고, 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "c87aa06067e478efe97995ef2559a98f374483f4": {
+      "heard": "고래의 고. 고를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "cfd62b8224bb223f0878c3652f3b026b707b26c0": {
+      "heard": "고, 명중이에요.",
+      "durationMs": 0
+    },
+    "feb6fcf460f3af7780b351e7a76ee10c80d007d8": {
+      "heard": "고. 고래의 고.",
+      "durationMs": 0
+    },
+    "3ca5d15fbb6bda84c987aedcd281fc758f31eded": {
+      "heard": "노 노래의 노 조각을 모아 노을을 만들어 보세요.",
+      "durationMs": 0
+    },
+    "afb265453e256cc5102c0706cadc7aa5e8723f33": {
+      "heard": "노, 노래의 노. 우와 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "1ef6c50d0779e59e959538de44750d03c09bbd32": {
+      "heard": "노래의 노. 노를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "18040ce3ccd6e76f1363f09afc3685b05fa5a7c0": {
+      "heard": "노 명중이에요.",
+      "durationMs": 0
+    },
+    "13aa6a020e548d3002ae21c919fa89127b159408": {
+      "heard": "노 노래의 노",
+      "durationMs": 0
+    },
+    "36575778b0a49552a82c656021e34cc960604877": {
+      "heard": "도 도넛의 도 조각을 모아 도를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "ae0cad3ac276a421779f38214b173f6e4548b2e8": {
+      "heard": "도 도넛의 도 조각을 딱 맞췄네요. 대단해요.",
+      "durationMs": 0
+    },
+    "061b59526c8febd4e24c59d159415252f620d340": {
+      "heard": "도넛의 도 도를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "f857afa2858e0ad3f67d071d15f685f5ca9ae79f": {
+      "heard": "도, 명중이에요.",
+      "durationMs": 0
+    },
+    "948a6623aa34b2574974c7f2dfde0620dcf2b253": {
+      "heard": "도 도넛에 도",
+      "durationMs": 0
+    },
+    "7fbb4ddb707b88aa18abe1304f5ab7b2a3ff5b1f": {
+      "heard": "로우 로봇의 로우 조각을 모아 로우를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "3a2038cab02a82353e1fe8cb55c7592de92fccd0": {
+      "heard": "로 로봇의 로 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "c0c2f03c1d435d47922f5557d1949b1b3c9187ed": {
+      "heard": "로봇의 로. 로를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "01f7d36098f0a8a94781240b63fd15b7222e725f": {
+      "heard": "로 명중이에요.",
+      "durationMs": 0
+    },
+    "d65e20aec652f561f59eceb330a478bec86ae5f9": {
+      "heard": "로 로봇의 로",
+      "durationMs": 0
+    },
+    "a832cd3338013c4676edbc226cbdb17527461f4f": {
+      "heard": "모 모자의 모 조각을 모아 모를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "ef404c2dd2efb5afe7258399c4ffb58f313d4dbc": {
+      "heard": "모 모자의 모 우와 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "6531dba0db38166dd610b154c311284cfec4f381": {
+      "heard": "구, 구름에 구, 조각을 모아 구우를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "1b5b3d8f068b7f1e567320767f9aff74b4e5de60": {
+      "heard": "구, 구름에 구, 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "972d6db457b032431286d6235787446a43c12240": {
+      "heard": "구름의 구. 구를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "4e6ef9d500a18101e45366b8038d79f1bb3c1aed": {
+      "heard": "구 명중이에요.",
+      "durationMs": 0
+    },
+    "ad6d3507a83252b452e29699535700c8c5c43e85": {
+      "heard": "두 두 부의 두 조각을 모아 두 를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "326fc46b8c24e808243a0cc8545ecf86bf22816f": {
+      "heard": "두 두부의 두 우와 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "10a9c3a93b7083adf5cfca51270ceebaccfea0f0": {
+      "heard": "두부의 두. 두를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "39d0a84cc2bc1f11f12b460b736b5775fbfed047": {
+      "heard": "두 명중이에요.",
+      "durationMs": 0
+    },
+    "6a346972e0e0eeff128700d290fe8a5eb7b0e373": {
+      "heard": "두 두부에 두",
+      "durationMs": 0
+    },
+    "4c638d3fb3d7a54c7a49904914589f0146736eb3": {
+      "heard": "무지개의 무 조각을 모아 무를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "da858d64d5a0d4350a1238c22d8f685d300ac05a": {
+      "heard": "무지개의 무 조각을 딱 맞췄네요. 대단해요.",
+      "durationMs": 0
+    },
+    "283f888e7d8c2929709f5948312c4aa4dec8b792": {
+      "heard": "무지개의 무. 무를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "7cc181674784a4e2dd20627b2238d0bd21197ad5": {
+      "heard": "기, 기자의 기. 조각을 모아 기이를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "d7b7045079691932c1229b09befe920641821de0": {
+      "heard": "기, 기차의 기, 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "71c3fc35359816fa88a3923eb364710118975a89": {
+      "heard": "기차의 기. 기를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "037bdf631e3a95cb173a53a509709068f8f46473": {
+      "heard": "기, 명중이에요.",
+      "durationMs": 0
+    },
+    "ac493231db8b13ca8387768ecc71090429e7e7db": {
+      "heard": "기, 기차의 기",
+      "durationMs": 0
+    },
+    "114effb7e60c6f3ff0f361f47704a21965238f4a": {
+      "heard": "지 지구의 지 조각을 모아 지이를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "cd278a05ac0d703003d22e9b022f213f9928d69f": {
+      "heard": "지 지구의 지 우와 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "22765b71c4efdf4c5dc2aad35acc6a641326ff0f": {
+      "heard": "지, 명중이에요.",
+      "durationMs": 0
+    },
+    "0585680e57b28a3ec9f16377a6bf1c4cfa576749": {
+      "heard": "오, 오리의 오. 조각을 모아 오를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "6c8c2fbb1abb6b245779a9ae98b8a57eda0747b2": {
+      "heard": "오, 오리의 오, 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "98d16bd7e8433731e10aa453ef0827733e66dfca": {
+      "heard": "오리의 오. 오를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "860c15f55446e1ad64f2ffbf0611bcae487c0004": {
+      "heard": "오리의 오",
+      "durationMs": 0
+    },
+    "f5303d9911918d9147d632d683e0e5046cbb6cab": {
+      "heard": "우 우산의 우 조각을 모아 우를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "1194fdd8450bca288a904641fc2e8fcea7e23888": {
+      "heard": "우 우산이 우 우와 멋진 글자를 만들었어요",
+      "durationMs": 0
+    },
+    "03759598377be0527816316d32a5639ca7bea8d5": {
+      "heard": "우산의 우. 우를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "23728518e643ae321e8f6ea2c7a981b547af31cc": {
+      "heard": "우 우산의 우",
+      "durationMs": 0
+    },
+    "76d74319ed10d486ca57bc4f476ca61e841673ce": {
+      "heard": "소 소의 소 조각을 모아 소를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "2809a57bcc71f8447730fd8fa335007995dce4b1": {
+      "heard": "소 소의 소 조각을 딱 맞췄네요. 대단해요.",
+      "durationMs": 0
+    },
+    "17b2b6f6d038c84669aa11285a75a1428a6dcbbb": {
+      "heard": "소의 소. 소를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "ed06a8c2075300df1c3136227880f799ceeef62c": {
+      "heard": "소, 명중이에요.",
+      "durationMs": 0
+    },
+    "b5ec68028231ffd254423a7b0bdbf3e03a41037c": {
+      "heard": "소 소의 소",
+      "durationMs": 0
+    },
+    "6b36ef9cf9817287971d8c181514b27c94ba389a": {
+      "heard": "코 코의 코 조각을 모아 코오를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "ffe8908e028e390069cdacbe9793f383b7c68426": {
+      "heard": "코 코에 코 글자가 태어났어요.",
+      "durationMs": 0
+    },
+    "3670909a3b3594fca2c8a306e84e591a267985ee": {
+      "heard": "코의 코. 코를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "dc0b25f2b1ed2e1b46c6f2cca065f64c7e244387": {
+      "heard": "코 명중이에요.",
+      "durationMs": 0
+    },
+    "caf17a5b6f8675c16bcfafabd8d88ac29082fe7f": {
+      "heard": "하. 하마의 하. 조각을 모아 하를 만들어 보세요.",
+      "durationMs": 0
+    },
+    "b84116de7f2e556c12df427cb4ae464e98929110": {
+      "heard": "하, 하마의 하. 우와, 멋진 글자를 만들었어요.",
+      "durationMs": 0
+    },
+    "bd7bfd79a57991aec03f50302d9f962bc9f79d04": {
+      "heard": "하마의 하! 하를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "91c062a92f0eddfcb8b2bf7e9351e1558b94db9a": {
+      "heard": "하 명중이에요.",
+      "durationMs": 0
+    },
+    "3c983c884e482ec90ff6f8ff24948bed987b19b0": {
+      "heard": "하, 하마의 하",
+      "durationMs": 0
+    },
+    "ce7973b54b8b6d9fc133fa1dcfdc9838ead34ccf": {
+      "heard": "나비. 사라진 글자를 찾아 나비 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "faa732d98cc00b8dc68ee2f77a3e8441dd8eab70": {
+      "heard": "나비, 나비를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "46b103849e62ba8dc13d257343845e9837fe90b6": {
+      "heard": "나비, 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "a57df95952bac5feb4f787548d6e614a0a3bbf3e": {
+      "heard": "나비, 나비의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "470b4651525b11c1cab98f665abd0c7d941c6933": {
+      "heard": "나비 명중이에요.",
+      "durationMs": 0
+    },
+    "a4047aedbefae6b82bf69cbb30ba948169f13fa8": {
+      "heard": "오오리 사라진 글자를 찾아 오리 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "3ccbe8cb5e6b3747a4794ff5a02d9ada0138b5ee": {
+      "heard": "오리 오리를 구했어요 정말 잘했어요",
+      "durationMs": 0
+    },
+    "d98206992a97c0ebec16abaa8d80557b2bad183d": {
+      "heard": "오오리 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "a44d612d5e783511ae5714719f7bb31bafc27b15": {
+      "heard": "오리. 오리의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "1665ddd5ed212c27ebd26db9807e33f89bf439ad": {
+      "heard": "오~리 명중이에요.",
+      "durationMs": 0
+    },
+    "69b54f0e6232e000a4e902725f7709e218f91fc8": {
+      "heard": "하마, 사라진 글자를 찾아 하마 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "ed59b451c1ff3de79ccc01c7e19425cf397aa13b": {
+      "heard": "하마, 하마를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "c9afa877c74d81eb776752384582aa2086108011": {
+      "heard": "하아마 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "4c1daedb36dfd0a19ab603c5a3327faffc166f74": {
+      "heard": "하마 하마의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "136558890c24c09de6cf4ecc193ed3a4b058b01b": {
+      "heard": "하마 명중이에요.",
+      "durationMs": 0
+    },
+    "2fbacf48854e5fa14fc29261108c4889118c41fd": {
+      "heard": "사자. 사라진 글자를 찾아 사자 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "80fe9f0a96f908a9aa39ce82a20fc6dec8ba0523": {
+      "heard": "사자, 사자를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "df24859a03013c3be16f78410bfd01479a73629d": {
+      "heard": "사자 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "92a8c4644d3a74286ab31ea25efd0ff66ae8a3c7": {
+      "heard": "사자 사자의 사라진 글자를 찾아 공격해요",
+      "durationMs": 0
+    },
+    "6beedcf10804e2593e6c2fd3f627f61f74ac964b": {
+      "heard": "사자 명중이에요.",
+      "durationMs": 0
+    },
+    "095a5fc3d8d306c61108808806c0d1ac810819c5": {
+      "heard": "나무 사라진 글자를 찾아 나무 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "465a9d587560de60380c138f569831d3ac7a340d": {
+      "heard": "나무 나무를 구했어요 정말 잘했어요",
+      "durationMs": 0
+    },
+    "0cb9023a6b83a9de45cc2c4c4c8babe7ef04273d": {
+      "heard": "나무 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "183fa7ca13ae6c93b3df3840b14787836ae5e9e0": {
+      "heard": "나무 나무에 사라진 글자를 찾아 공격해요",
+      "durationMs": 0
+    },
+    "3d80ca26e57d31e7053772251d97638e4ba6b5cc": {
+      "heard": "나무 명중이에요.",
+      "durationMs": 0
+    },
+    "a01de0bef388e53c774f849eaea4a9c53348b0be": {
+      "heard": "바다. 사라진 글자를 찾아 바다 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "9f3f85e53fe11057214991710844ac954da8dd41": {
+      "heard": "바다. 바다를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "9745bdeea0d2f07b12d78e795bbf966f8f757187": {
+      "heard": "바다. 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "05312864dde865ae6a2b62e1837734aa20397c4e": {
+      "heard": "바다 바다에 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "fffe085d2a0a213e5ea120ac9502e8752fe92f25": {
+      "heard": "바다 명중이에요.",
+      "durationMs": 0
+    },
+    "f19b1653043bca50dac9846f83f2eed92fe54f19": {
+      "heard": "무지개. 사라진 글자를 찾아 무지개 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "f5c7b678448ee9d0b7a9439bfd0898887fdb50c7": {
+      "heard": "무지개 무지개를 구했어요 정말 잘했어요",
+      "durationMs": 0
+    },
+    "84339d4a964d8de92f35c9299c4ff41d7acaa213": {
+      "heard": "무지개 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "7b1505f330423d0f8a641a081c3c4dc613f2cc06": {
+      "heard": "무지개 무지개의 사라진 글자를 찾아 공격해요",
+      "durationMs": 0
+    },
+    "da27bb338501376a2fc218e6f510035c51bfd13c": {
+      "heard": "무지개 명중이에요.",
+      "durationMs": 0
+    },
+    "5b5b55f15f47ab9eee01d56718f0b73b87c68ae1": {
+      "heard": "다리. 사라진 글자를 찾아 다리 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "8adb546b6842b4bfd14176250537fd3983dbae9c": {
+      "heard": "다리, 다리를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "3bdd94225bf60fc2d4764931d6c7055df1e7366f": {
+      "heard": "달이 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "ca5c63235061bfa564eefa80189db000fcf882f8": {
+      "heard": "다리, 다리에 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "66a27dc1d73e2bf4cfe188fbc1174a80fdfa98a7": {
+      "heard": "다리 명중이에요",
+      "durationMs": 0
+    },
+    "786de2a8cb38fa3cd7b7e82fd683287123aa8621": {
+      "heard": "포도 사라진 글자를 찾아 포도 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "5d954a812515447b522dd35c9caefece3b7a61f4": {
+      "heard": "포도. 포도를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "20f4ccd6c7967aa7b29009a9bb4b961bada9d663": {
+      "heard": "포도 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "6835bc38f5c045688002cc1600071cb80c3bd562": {
+      "heard": "포도 포도의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "c83c77ffbd24557a66b876bd79362be301a62f59": {
+      "heard": "포도 명중이에요.",
+      "durationMs": 0
+    },
+    "576ee3ccb2321012c3029ec64c5941fded353993": {
+      "heard": "바나나 사라진 글자를 찾아 바나나 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "00109eac3dd57c79117ddae7570265aaa77f7456": {
+      "heard": "바나나 바나나를 구했어요 정말 잘했어요",
+      "durationMs": 0
+    },
+    "16217aa61a8f26660c3ac350746bf8e59557860e": {
+      "heard": "바나나 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "e04c0ab7aba21d8766c09de152a7b59a19978825": {
+      "heard": "바나나 바나나의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "23add47ec1cb17988ee60b21571b4ed554c52ee5": {
+      "heard": "바나나 명중이에요.",
+      "durationMs": 0
+    },
+    "e06972651aa8f2cb03a0d7b9b0d084ece4e61caa": {
+      "heard": "치즈, 사라진 글자를 찾아 치즈 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "6127cda9bb95d00a91bb7cdb51f74095594c5e04": {
+      "heard": "치즈. 치즈를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "13d3851cecc85ecb6b4ffb48d5e0c333c17ff63c": {
+      "heard": "치즈 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "79e16c5fd90caab2c15bde3ce82ff56bf5b2ded0": {
+      "heard": "치즈 치즈의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "b2ac9257bc4f1aa551e20bd3d6bcdcc32c75e076": {
+      "heard": "치즈. 명중이에요.",
+      "durationMs": 0
+    },
+    "10b1cde457a0d5f1e02dd0a061f1a241e75a4e7b": {
+      "heard": "피자. 사라진 글자를 찾아 피자 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "36e285e9e3f6a94310d2b0a4e7a8d9f36764b298": {
+      "heard": "피자를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "9729f7f602a3dd69c5fd66ed5c87894c0fa691b5": {
+      "heard": "피자 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "c11bba2e0bd50cbb819b999a547254d0da0bcdbe": {
+      "heard": "피자 피자의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "fe6541bf42068b467335ea32600e5765274ac02f": {
+      "heard": "피의자 명중이에요.",
+      "durationMs": 0
+    },
+    "bbcb460b1787d90cd787e41cedcea20b051072a5": {
+      "heard": "모자, 사라진 글자를 찾아 모자 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "7c7ca0172bbf422f55a8218f8631fdc6816dc55e": {
+      "heard": "모자. 모자를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "6dbd4ce42beba10212638a434403b8f102b029f9": {
+      "heard": "모자 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "82bd39b48e75db23478e2a90ab2eda758c2457f1": {
+      "heard": "모자 모자의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "412136885078a4bb011031b963aec6b4e17c0a7d": {
+      "heard": "모자, 명중이에요.",
+      "durationMs": 0
+    },
+    "a8447b47886c90afa09ae21c5a9724d72c5c62a5": {
+      "heard": "의자, 사라진 글자를 찾아 의자 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "ed1bada925f5c15623e5d726f4c62d50f9f6df60": {
+      "heard": "의자를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "86be2ae924278cd779dcaecb8fd9f527c78cbd3b": {
+      "heard": "의자 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "e11f9f7f79667872c911a3597fb8c03cc2cd4005": {
+      "heard": "의자 의자에 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "302521d96ac02e677c497d29ecb8e9b737ad6692": {
+      "heard": "의자, 명중이에요.",
+      "durationMs": 0
+    },
+    "b9f2588c5ff5912c682cc05bc5ef438117f3eaa1": {
+      "heard": "소파, 사라진 글자를 찾아 소파 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "e1bfc1bd90b8202c9aafd3ea44cb1a0df52ad701": {
+      "heard": "소파. 소파를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "6e7517058e69d1aee28500455268a562d4aae44d": {
+      "heard": "소파 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "d08493c5ad70d970c9c0f158d56928074108f60a": {
+      "heard": "소파 소파의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "561e2f7a3302f3d1a66858d98962a3a0596aefcf": {
+      "heard": "소파. 명증이에요.",
+      "durationMs": 0
+    },
+    "0a406ab25f27b5732f56c855ea57d0b48f7171c4": {
+      "heard": "비누. 사라진 글자를 찾아 비누 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "b39494e39f745b74fc8eff1195b47569670b12c4": {
+      "heard": "비누를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "14d62b47993b5d5cc89d2a38578e72f672ac9dc9": {
+      "heard": "비누 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "c5984f88e0aa0f9a064e2d6d5c78de99a3895c84": {
+      "heard": "비누 비누에 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "a6d8bbcf60fe6d33e6ac0d1f2bc3dd2fa19a7be0": {
+      "heard": "비누. 명중이에요.",
+      "durationMs": 0
+    },
+    "36089c8495e43d5bce86adac04463362e953527e": {
+      "heard": "코끼리. 사라진 글자를 찾아 코끼리 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "3711637de6b2028e74dd63a5e30231c5135e24fb": {
+      "heard": "코끼리 코끼리를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "d0b5f504ac7d8c84feb6db5cbca983e05eda45a4": {
+      "heard": "코끼리 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "5a4392a3cf721c6e1a3a937a04240ed47822cfb8": {
+      "heard": "코끼리 코끼리의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "9bbdc654bd8b76ba626822c12d0ca899ca1017ea": {
+      "heard": "코끼리. 명중이에요.",
+      "durationMs": 0
+    },
+    "942f801148d04673dd0d73ba6d065310740d2cbc": {
+      "heard": "여우. 사라진 글자를 찾아 여우 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "20c921dff88b8891d1ea6122fdfefe4ab719e6ff": {
+      "heard": "여우를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "499dc325f0f477ef309e4dd98ab1be93e839d48f": {
+      "heard": "여우 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "4af7f9be8dd9a77451bc2a38b031bae514d83123": {
+      "heard": "여우, 여우의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "72e4e4a3bd04b12c73de98a3f088869e2baef7ba": {
+      "heard": "여우, 명중이에요.",
+      "durationMs": 0
+    },
+    "e718c10949b75ff7a937bcc8ba0df368020e80a7": {
+      "heard": "토끼, 사라진 글자를 찾아 토끼 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "09b9e4630253c0d712d857e2aa88b18fb92e7cb8": {
+      "heard": "토끼. 토끼를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "fc95bfb052d04bad89c260758eb2258bb010459a": {
+      "heard": "토끼 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "ae1392c82afb79feb6040ec848059c3e33d33a3a": {
+      "heard": "토끼 토끼의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "97995f628ccf9a2740a6fe0bbff0b3844a581a1c": {
+      "heard": "토끼. 명중이에요.",
+      "durationMs": 0
+    },
+    "4fdcd0093e07dbd9bb34f00707acbd0c7ae03e2f": {
+      "heard": "너구리. 사라진 글자를 찾아 너구리 이름을 완성해주세요.",
+      "durationMs": 0
+    },
+    "d2c37a507556c62a71170de2fbb66afa2941ae3b": {
+      "heard": "너구리 너구리를 구했어요. 정말 잘했어요.",
+      "durationMs": 0
+    },
+    "094935cd409c588197ca842b0c37534c2e0bdb02": {
+      "heard": "너구리 이름을 완성했어요.",
+      "durationMs": 0
+    },
+    "51d09fc5ebfa4630b348fe4e26d89b209180cc1c": {
+      "heard": "너구리 너구리의 사라진 글자를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "ef5d6ef988971df632195b4918f511a079e9160b": {
+      "heard": "너구리 명중이에요.",
+      "durationMs": 0
+    },
+    "b134772228f80e8c6e45b0c89b8f3c5e2b22f93d": {
+      "heard": "마을 친구들이 모두 웃을 수 있게 됐어요.",
+      "durationMs": 0
+    },
+    "dec250eb9ee8613b8efdfe2fcf10858afc5eb660": {
+      "heard": "괜찮아요. 다시 한번 들어볼까요?",
+      "durationMs": 0
+    },
+    "d03bb6b8bb8136710232294e06c76fb27ac30b64": {
+      "heard": "거의 다 왔어요. 한 번 더 들어봐요.",
+      "durationMs": 0
+    },
+    "183e81a3abcf9d343e89e818be6910f4541bc8d3": {
+      "heard": "천천히 다시 골라볼까요?",
+      "durationMs": 0
+    },
+    "404ca89a2db2ae15f6304f5837041ea2016272e8": {
+      "heard": "처음부터 끝까지 정말 열심히 했어요. 완벽해요.",
+      "durationMs": 0
+    },
+    "136d4ffe0e8459286645e063fc669a2165a44c57": {
+      "heard": "한 번도 틀리지 않았어요. 최고예요.",
+      "durationMs": 0
+    },
+    "55b6a1d3435b558901712afb4a0d5ef48d9962b9": {
+      "heard": "포기하지 않고 끝까지 해냈어요. 멋져요.",
+      "durationMs": 0
+    },
+    "bb4790f89967e8721c229544ee028d24b79316cc": {
+      "heard": "열심히 노력하는 모습이 정말 멋졌어요.",
+      "durationMs": 0
+    },
+    "e04d79ce8445506fc937d1ab10d248cb8bdbae02": {
+      "heard": "어려웠지만 끝까지 도전했어요. 대단해요.",
+      "durationMs": 0
+    },
+    "a85bd26b2508bc5ff3ddce729267250676ecd4a5": {
+      "heard": "조금씩 계속 연습하면 더 잘하게 될 거예요. 화이팅!",
+      "durationMs": 0
+    },
+    "45a8e66d6c8fa83d5d0dbe44d87d76ff5b31dbe9": {
+      "heard": "사, 사자의 사",
+      "durationMs": 0
+    },
+    "9cd65d21c29dfafd6ba5f05e37aec9cbc65600ec": {
+      "heard": "모 모자의 모",
+      "durationMs": 0
+    },
+    "ddd74b88dc20041e4500644cc72ea7fe5f897f62": {
+      "heard": "워, 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "271b6354079bf0ed319a5de1245a6aebca583640": {
+      "heard": "E",
+      "durationMs": 0
+    },
+    "2914c3fa8e599baf1b3b299c4a35d3a057454121": {
+      "heard": "에",
+      "durationMs": 0
+    },
+    "4f487b5b1174e0c64673287975b56b34f20d9bae": {
+      "heard": "개",
+      "durationMs": 0
+    },
+    "6a4f6787e80b4d614cd6135cfea3b311670e1b7d": {
+      "heard": "와",
+      "durationMs": 0
+    },
+    "2dae151ef737ef707dca6207fee0e1c516db8d17": {
+      "heard": "기역, 가방에 가.",
+      "durationMs": 0
+    },
+    "483103a78e56784a8dccc1ac3c5ca4d3d362cca9": {
+      "heard": "피읍 포도에 포",
+      "durationMs": 0
+    },
+    "986866c9e0d4819867fd989455a26bb56c365a7d": {
+      "heard": "쌍기역 꽃에 꽃",
+      "durationMs": 0
+    },
+    "63869c276c7b76c7508eab2c5e41b76952a11157": {
+      "heard": "다, 다리기에 다",
+      "durationMs": 0
+    },
+    "25e8e705cd4b171ba642b733af05ed3db5f57347": {
+      "heard": "구 구름에 구",
+      "durationMs": 0
+    },
+    "f36dca379f825ec9092cfc942c2228b6c2b793f1": {
+      "heard": "지구의 지. 지를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "4657485c6a5478b8211b17ba0c7efdce5eb01216": {
+      "heard": "코 코에 코",
+      "durationMs": 0
+    },
+    "56fe4b6b3045ee098f17300f0e35e57b394c6276": {
+      "heard": "예",
+      "durationMs": 0
+    },
+    "69c678247784aae16f30f13aa5966b7a7523b58b": {
+      "heard": "왜",
+      "durationMs": 0
+    },
+    "9f7c53eef2053f711120bfae61f89da94e815d4f": {
+      "heard": "웨어스",
+      "durationMs": 0
+    },
+    "b199bd6e9068e95f12a1deb4ca2e9a158db12a10": {
+      "heard": "왜, 참외의 왜, 소리",
+      "durationMs": 0
+    },
+    "f685313404cc045043ff3600ed75425f349aa7e3": {
+      "heard": "왜? 짝을 찾았어요.",
+      "durationMs": 0
+    },
+    "aeb5fb08088a3e8bc5f73563e7828a2da159dc1e": {
+      "heard": "왜 명중이에요.",
+      "durationMs": 0
+    },
+    "f549f8d78b8310a55100e3775eeb4d8687c4031c": {
+      "heard": "워 원숭이의 워 소리",
+      "durationMs": 0
+    },
+    "88f8dd4e13c3243ee1e80f64259ff0e5f7ba7c81": {
+      "heard": "워! 영중이에요.",
+      "durationMs": 0
+    },
+    "014e40aad3ff8570c6c9ce07bd004d51c231dafb": {
+      "heard": "왜 스웨터에 왜 소리",
+      "durationMs": 0
+    },
+    "f04ef5937c559d8be50cd05b65e0f1dd05e655ed": {
+      "heard": "사자의 사. 사를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "3ff3e13b1af0001d6538994d75b4448c114a93de": {
+      "heard": "4 명중이에요.",
+      "durationMs": 0
+    },
+    "78886dd23caca91e04543052fab611e016dc6e31": {
+      "heard": "모자의 모, 모를 찾아 공격해요.",
+      "durationMs": 0
+    },
+    "2fbdcbfbfa2db17ab39d48ad10b6195520c832b6": {
+      "heard": "모, 명중이에요.",
+      "durationMs": 0
+    },
+    "684f4bc9534b9504913906edb3554e47939fc1b7": {
+      "heard": "무, 명중이에요.",
+      "durationMs": 0
+    },
+    "2b37a15598692c73b087ec4acb97d504869c9c99": {
+      "heard": "얘기.",
+      "durationMs": 0
+    },
+    "37e0e8cc17537dae2796c1735c89990cd76a7814": {
+      "heard": "스웨터",
+      "durationMs": 0
+    },
+    "680b8a1122e5aa5888c97813af2c4c27dbde5111": {
+      "heard": "왜?",
+      "durationMs": 0
+    },
+    "bc2d2c53134ef1fd6dfdcbc19cac96bbe1f4884f": {
+      "heard": "왜 짝을 찾았어요?",
+      "durationMs": 0
+    },
+    "b05791351c7849ee6eab2fa6a7b72898d4fa6e09": {
+      "heard": "왜? 명중이에요.",
+      "durationMs": 0
+    },
+    "7c8cc80bdf6e1401efbb22d81d1b0b95c047184b": {
+      "heard": "무지개의 무",
+      "durationMs": 2907
+    }
+  }
+}

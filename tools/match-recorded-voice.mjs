@@ -14,7 +14,6 @@
 // 확정된 것만 반영하고, 애매한 것(--min 미만·같은 대사에 여러 파일)은 보류 목록으로 보여 준다.
 // 반영할 때 앞뒤 무음과 끝부분 클릭을 다듬고 m4a(AAC 모노 44.1kHz)로 변환한다.
 
-import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { mkdir, mkdtemp, readdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import os from 'node:os';
@@ -25,6 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { collectVoiceLines } from './generate-voice-assets.mjs';
 import { sheetOrder } from './generate-voice-check.mjs';
 import { analyse, AUDIO_EXTS, decodeToPcm, encodeWav, findSpeech } from './voice-audio.mjs';
+import { findWhisperCli, findWhisperModel, transcribeLocal } from './voice-stt.mjs';
 import { fileExists, readRecorded, saveRecording } from './voice-recorder-store.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -406,93 +406,6 @@ export function idFromFileName(name) {
   return candidate.replace(/^\/+|\/+$/g, '');
 }
 
-/* ── 로컬 음성 인식 (whisper.cpp) ─────────────────────────────────── */
-
-/** @param {string} cmd @param {string[]} args @returns {Promise<{ ok: boolean, out: string }>} */
-function runCapture(cmd, args) {
-  return new Promise(resolve => {
-    const child = spawn(cmd, args);
-    let out = '';
-    child.stdout?.on('data', chunk => { out += chunk; });
-    child.stderr?.on('data', () => { /* whisper는 진행 로그를 stderr로 낸다 */ });
-    child.on('error', () => resolve({ ok: false, out: '' }));
-    child.on('close', code => resolve({ ok: code === 0, out }));
-  });
-}
-
-/** whisper-cli 실행 파일. @returns {Promise<string>} */
-async function findWhisperCli() {
-  for (const candidate of ['whisper-cli', '/opt/homebrew/bin/whisper-cli', '/usr/local/bin/whisper-cli']) {
-    const { ok } = await runCapture(candidate, ['--help']);
-    if (ok) return candidate;
-  }
-  return '';
-}
-
-/** 한국어를 알아들을 만한 모델 파일을 찾는다. @returns {Promise<string>} */
-async function findWhisperModel() {
-  if (whisperModelArg) return whisperModelArg.replace(/^~(?=\/|$)/, os.homedir());
-  const dirs = [
-    path.join(os.homedir(), '.cache/whisper.cpp'),
-    path.join(os.homedir(), 'Library/Application Support/whisper.cpp'),
-    '/opt/homebrew/share/whisper-cpp',
-  ];
-  /** @type {string[]} */
-  const found = [];
-  for (const dir of dirs) {
-    try {
-      for (const name of await readdir(dir)) {
-        if (name.endsWith('.bin')) found.push(path.join(dir, name));
-      }
-    } catch { /* 없는 폴더는 건너뛴다 */ }
-  }
-  if (!found.length) return '';
-  // 큰 모델(large/turbo)을 우선 — 한국어 짧은 문장은 작은 모델이 잘 틀린다
-  const rank = file => (/large|turbo/.test(file) ? 0 : /medium/.test(file) ? 1 : /small/.test(file) ? 2 : 3);
-  found.sort((a, b) => rank(a) - rank(b));
-  return found[0];
-}
-
-/**
- * whisper.cpp 로 받아쓰기. 16kHz 모노 WAV만 받으므로 먼저 변환한다.
- * @param {string} file @param {string} tmpDir @param {{ cli: string, model: string }} whisper
- * @returns {Promise<string>}
- */
-async function transcribeLocal(file, tmpDir, whisper) {
-  const wav = path.join(tmpDir, `${path.basename(file)}.16k.wav`);
-  const converted = await runCapture('afconvert', ['-f', 'WAVE', '-d', 'LEI16@16000', '-c', '1', file, wav]);
-  if (!converted.ok) {
-    const viaFfmpeg = await runCapture('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error', '-i', file, '-ac', '1', '-ar', '16000', wav]);
-    if (!viaFfmpeg.ok) throw new Error('16kHz WAV 변환 실패');
-  }
-
-  let durationMs = 0;
-  try {
-    const info = await stat(wav);
-    durationMs = Math.round(((info.size - 44) / (16000 * 2)) * 1000); // 16kHz 16bit 모노
-  } catch { /* 길이를 못 재면 점수에 반영하지 않는다 */ }
-
-  const prefix = path.join(tmpDir, `${path.basename(file)}.out`);
-  const result = await runCapture(whisper.cli, [
-    '-m', whisper.model,
-    '-f', wav,
-    '-l', 'ko',
-    '-nt',                 // 타임스탬프 없이
-    '-np',                 // 진행 출력 끄기
-    '-otxt', '-of', prefix,
-    // --prompt 는 쓰지 않는다: 짧고 조용한 클립에서 프롬프트 문장을 그대로 받아쓰는 환각이 있었다
-  ]);
-  await rm(wav, { force: true });
-  if (!result.ok) throw new Error('whisper 실행 실패');
-
-  let text = result.out.trim();
-  try {
-    text = (await readFile(`${prefix}.txt`, 'utf8')).trim() || text;
-    await rm(`${prefix}.txt`, { force: true });
-  } catch { /* 파일이 없으면 stdout 사용 */ }
-  return { text: text.replace(/\s+/g, ' ').trim(), durationMs };
-}
-
 /**
  * 파일 이름에 든 녹음 시각(예: KakaoTalk_Audio_20260825-000451.m4a, 20260825_000451, 2026-08-25 00:04:51).
  * 한꺼번에 내려받으면 파일 수정 시각이 전부 같아져 순서 정보가 사라지므로 이름을 먼저 본다.
@@ -654,7 +567,7 @@ async function main() {
   let whisper = null;
   if (!orderMode && !transcriptsPath && sttMode !== 'api') {
     const cli = await findWhisperCli();
-    const localModel = cli ? await findWhisperModel() : '';
+    const localModel = cli ? await findWhisperModel(whisperModelArg) : '';
     if (cli && localModel) whisper = { cli, model: localModel };
     else if (sttMode === 'local') {
       console.error('로컬 음성 인식을 쓸 수 없습니다.');

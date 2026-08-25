@@ -24,6 +24,7 @@
     "import:voice": "node tools/import-recorded-voice-assets.mjs",
     "convert:voice": "node tools/convert-recorded-voice.mjs",
     "audit:voice": "node tools/audit-voice-lines.mjs",
+    "listen:voice": "node tools/listen-voice-lines.mjs",
     "trim:voice": "node tools/trim-recorded-voice.mjs",
     "verify:voice": "node tools/generate-voice-check.mjs",
     "pending:voice": "node tools/stage-pending-voice.mjs",
