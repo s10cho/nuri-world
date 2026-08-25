@@ -69,8 +69,14 @@ async function main() {
     if (target !== file) await rm(file, { force: true });
 
     const relative = path.relative(path.join(root, 'public'), target);
-    recorded.assets[text] = { id: asset.id, src: relative, bytes: (await stat(target)).size };
-    manifest = applyToManifest(manifest, text, recorded.assets[text], manifest.recorded);
+    const next = { id: asset.id, src: relative, bytes: (await stat(target)).size };
+    // 같은 파일을 가리키는 다른 항목(옛 표기 등)도 함께 고친다.
+    // 안 그러면 그 항목만 사라진 옛 경로에 남아 앱에서 소리가 안 난다.
+    for (const [otherText, other] of Object.entries(recorded.assets)) {
+      if (other.src !== asset.src && otherText !== text) continue;
+      recorded.assets[otherText] = { ...next };
+      manifest = applyToManifest(manifest, otherText, recorded.assets[otherText], manifest.recorded);
+    }
     trimmed += 1;
     console.log(`[ok] ${label}`);
   }

@@ -2,7 +2,7 @@
   "format": "mp3",
   "model": "gpt-4o-mini-tts",
   "voice": "marin",
-  "count": 587,
+  "count": 584,
   "recorded": 523,
   "assets": {
     "누리의 한글 왕국에 온 것을 환영해요!": {
@@ -187,18 +187,18 @@
     },
     "와! 글자들이 모두 돌아왔어요!": {
       "id": "festival/line-01",
-      "src": "assets/audio/ko/festival/line-01.mp3.m4a",
-      "bytes": 124631
+      "src": "assets/audio/ko/festival/line-01.m4a",
+      "bytes": 44772
     },
     "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요.": {
       "id": "festival/line-02",
-      "src": "assets/audio/ko/festival/line-02.mp3.m4a",
-      "bytes": 138842
+      "src": "assets/audio/ko/festival/line-02.m4a",
+      "bytes": 56460
     },
     "주민들이 축제를 열어 누리를 축하해요! 🎉": {
       "id": "festival/line-03",
-      "src": "assets/audio/ko/festival/line-03.mp3.m4a",
-      "bytes": 134502
+      "src": "assets/audio/ko/festival/line-03.m4a",
+      "bytes": 48477
     },
     "기역": {
       "id": "jamo/ko-67c714efd0",
@@ -2924,21 +2924,6 @@
       "id": "dex/jamo/ko-cbf1df6a6d",
       "src": "assets/audio/ko/dex/jamo/ko-cbf1df6a6d.m4a",
       "bytes": 49149
-    },
-    "와 글자들이 모두 돌아왔어요": {
-      "id": "festival/line-01",
-      "src": "assets/audio/ko/festival/line-01.m4a",
-      "bytes": 44772
-    },
-    "누리 덕분에 한글 왕국이 다시 반짝반짝 빛나요": {
-      "id": "festival/line-02",
-      "src": "assets/audio/ko/festival/line-02.m4a",
-      "bytes": 56460
-    },
-    "주민들이 축제를 열어 누리를 축하해요": {
-      "id": "festival/line-03",
-      "src": "assets/audio/ko/festival/line-03.m4a",
-      "bytes": 48477
     }
   }
 }
