@@ -2200,9 +2200,15 @@
     "jamo/ko-71c706d652": {
       "src": "assets/audio/ko/jamo/ko-71c706d652.m4a",
       "text": "유",
-      "issues": [
-        "오디오를 읽지 못함"
-      ]
+      "issues": [],
+      "stats": {
+        "durationMs": 710,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -5.2,
+        "tailClick": false,
+        "silent": false
+      }
     },
     "jamo-intro/ko-71c706d652": {
       "src": "assets/audio/ko/jamo-intro/ko-71c706d652.m4a",
@@ -7578,7 +7584,7 @@
     "total": 600,
     "unused": 38,
     "needRecording": 5,
-    "needRerecording": 1,
-    "done": 556
+    "needRerecording": 0,
+    "done": 557
   }
 }
