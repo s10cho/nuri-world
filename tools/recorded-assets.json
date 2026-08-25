@@ -774,7 +774,7 @@
     "얘! 얘기의 얘 소리예요.": {
       "id": "jamo-intro/ko-bf5b12f28a",
       "src": "assets/audio/ko/jamo-intro/ko-bf5b12f28a.m4a",
-      "bytes": 19197
+      "bytes": 49667
     },
     "얘들아": {
       "id": "words/ko-52a52ee90b",
@@ -854,7 +854,7 @@
     "왜?": {
       "id": "words/ko-35b5a6cd32",
       "src": "assets/audio/ko/words/ko-35b5a6cd32.m4a",
-      "bytes": 12124
+      "bytes": 14437
     },
     "외! 참외의 외 소리예요.": {
       "id": "jamo-intro/ko-7eec619024",
@@ -889,7 +889,7 @@
     "웨! 스웨터의 웨 소리예요.": {
       "id": "jamo-intro/ko-3990e5c4d6",
       "src": "assets/audio/ko/jamo-intro/ko-3990e5c4d6.m4a",
-      "bytes": 20046
+      "bytes": 55882
     },
     "위": {
       "id": "words/ko-b44963f67f",
@@ -1474,12 +1474,12 @@
     "왜! 짝을 찾았어요!": {
       "id": "praise/match/ko-9687375425",
       "src": "assets/audio/ko/praise/match/ko-9687375425.m4a",
-      "bytes": 35451
+      "bytes": 34036
     },
     "왜! 명중이에요!": {
       "id": "praise/hit-jamo/ko-9687375425",
       "src": "assets/audio/ko/praise/hit-jamo/ko-9687375425.m4a",
-      "bytes": 33036
+      "bytes": 31488
     },
     "위! 귀의 위 소리.": {
       "id": "dex/jamo/ko-b44963f67f",
@@ -1904,7 +1904,7 @@
     "무지개의 무! 무를 찾아 공격해요!": {
       "id": "boss-syllable/ko-56c5af5b9b",
       "src": "assets/audio/ko/boss-syllable/ko-56c5af5b9b.m4a",
-      "bytes": 38779
+      "bytes": 52864
     },
     "기! 기차의 기. 조각을 모아 기를 만들어 보세요!": {
       "id": "build/prompt/ko-e5c60ff0a8",
@@ -2690,6 +2690,91 @@
       "id": "words/ko-0fd36d3be7",
       "src": "assets/audio/ko/words/ko-0fd36d3be7.m4a",
       "bytes": 19759
+    },
+    "외! 참외의 외 소리.": {
+      "id": "dex/jamo/ko-7eec619024",
+      "src": "assets/audio/ko/dex/jamo/ko-7eec619024.m4a",
+      "bytes": 46117
+    },
+    "외! 짝을 찾았어요!": {
+      "id": "praise/match/ko-7eec619024",
+      "src": "assets/audio/ko/praise/match/ko-7eec619024.m4a",
+      "bytes": 32686
+    },
+    "외! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-7eec619024",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-7eec619024.m4a",
+      "bytes": 30664
+    },
+    "워! 원숭이의 워 소리.": {
+      "id": "dex/jamo/ko-b8b2f2af85",
+      "src": "assets/audio/ko/dex/jamo/ko-b8b2f2af85.m4a",
+      "bytes": 43523
+    },
+    "워! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-b8b2f2af85",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-b8b2f2af85.m4a",
+      "bytes": 30790
+    },
+    "웨! 스웨터의 웨 소리.": {
+      "id": "dex/jamo/ko-3990e5c4d6",
+      "src": "assets/audio/ko/dex/jamo/ko-3990e5c4d6.m4a",
+      "bytes": 50970
+    },
+    "사자의 사! 사를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-ec488add9d",
+      "src": "assets/audio/ko/boss-syllable/ko-ec488add9d.m4a",
+      "bytes": 54876
+    },
+    "사! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-ec488add9d",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-ec488add9d.m4a",
+      "bytes": 31620
+    },
+    "모자의 모! 모를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/boss-syllable/ko-8f4dc1b65b.m4a",
+      "bytes": 51880
+    },
+    "모! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-8f4dc1b65b.m4a",
+      "bytes": 31104
+    },
+    "무! 명중이에요!": {
+      "id": "praise/hit-syllable/ko-56c5af5b9b",
+      "src": "assets/audio/ko/praise/hit-syllable/ko-56c5af5b9b.m4a",
+      "bytes": 30771
+    },
+    "얘기": {
+      "id": "words/ko-f55282967c",
+      "src": "assets/audio/ko/words/ko-f55282967c.m4a",
+      "bytes": 19193
+    },
+    "스웨터": {
+      "id": "words/ko-a10bd2c969",
+      "src": "assets/audio/ko/words/ko-a10bd2c969.m4a",
+      "bytes": 20048
+    },
+    "외": {
+      "id": "jamo/ko-7eec619024",
+      "src": "assets/audio/ko/jamo/ko-7eec619024.m4a",
+      "bytes": 12119
+    },
+    "웨! 짝을 찾았어요!": {
+      "id": "praise/match/ko-3990e5c4d6",
+      "src": "assets/audio/ko/praise/match/ko-3990e5c4d6.m4a",
+      "bytes": 35454
+    },
+    "웨! 명중이에요!": {
+      "id": "praise/hit-jamo/ko-3990e5c4d6",
+      "src": "assets/audio/ko/praise/hit-jamo/ko-3990e5c4d6.m4a",
+      "bytes": 33031
+    },
+    "무! 무지개의 무.": {
+      "id": "dex/syllable/ko-56c5af5b9b",
+      "src": "assets/audio/ko/dex/syllable/ko-56c5af5b9b.m4a",
+      "bytes": 38777
     }
   }
 }

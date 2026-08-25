@@ -1,0 +1,31 @@
+# ── 육성이 아예 비어 있던 자리 (그대로 채우면 됨) ──
+KakaoTalk_Audio_20260824-231711.m4a -> dex/jamo/ko-7eec619024
+KakaoTalk_Audio_20260824-231719.m4a -> praise/match/ko-7eec619024
+KakaoTalk_Audio_20260824-231728.m4a -> praise/hit-jamo/ko-7eec619024
+KakaoTalk_Audio_20260824-231736.m4a -> dex/jamo/ko-b8b2f2af85
+KakaoTalk_Audio_20260824-231752.m4a -> praise/hit-jamo/ko-b8b2f2af85
+KakaoTalk_Audio_20260824-231808.m4a -> dex/jamo/ko-3990e5c4d6
+KakaoTalk_Audio_20260824-232612.m4a -> boss-syllable/ko-ec488add9d
+KakaoTalk_Audio_20260824-232619.m4a -> praise/hit-syllable/ko-ec488add9d
+KakaoTalk_Audio_20260824-233405.m4a -> boss-syllable/ko-8f4dc1b65b
+KakaoTalk_Audio_20260824-233421.m4a -> praise/hit-syllable/ko-8f4dc1b65b
+KakaoTalk_Audio_20260824-233658.m4a -> boss-syllable/ko-56c5af5b9b
+KakaoTalk_Audio_20260824-233706.m4a -> praise/hit-syllable/ko-56c5af5b9b
+
+# ── 한 칸 밀려 잘못 들어간 것 바로잡기 ──
+# jamo-intro/얘 에 지금은 낱말 "얘기" 음원이 들어 있다
+KakaoTalk_Audio_20260822-234630.m4a -> jamo-intro/ko-bf5b12f28a
+KakaoTalk_Audio_20260822-234648.m4a -> words/ko-f55282967c
+# jamo-intro/웨 에 지금은 낱말 "스웨터" 음원이 들어 있다
+KakaoTalk_Audio_20260822-235529.m4a -> jamo-intro/ko-3990e5c4d6
+KakaoTalk_Audio_20260822-235545.m4a -> words/ko-a10bd2c969
+# "왜?"(1.7초, 물음) 와 "외"(1.2초, 평서) 가 한 칸씩 밀려 있다
+KakaoTalk_Audio_20260822-235214.m4a -> words/ko-35b5a6cd32
+KakaoTalk_Audio_20260822-235237.m4a -> jamo/ko-7eec619024
+# 왜 의 짝/명중 자리에 웨 의 것이 들어 있다
+KakaoTalk_Audio_20260824-231625.m4a -> praise/match/ko-9687375425
+KakaoTalk_Audio_20260824-231633.m4a -> praise/hit-jamo/ko-9687375425
+KakaoTalk_Audio_20260824-231817.m4a -> praise/match/ko-3990e5c4d6
+KakaoTalk_Audio_20260824-231830.m4a -> praise/hit-jamo/ko-3990e5c4d6
+# boss-syllable/무 에 도감용 "무지개의 무" 가 들어 있다 — 도감 자리로 옮긴다
+KakaoTalk_Audio_20260824-233714.m4a -> dex/syllable/ko-56c5af5b9b
