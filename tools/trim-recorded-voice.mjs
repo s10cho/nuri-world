@@ -3,12 +3,12 @@
 // 다시 녹음할 필요 없이 품질 문제 대부분을 해결한다.
 //
 //   npm run trim:voice -- --dry-run   무엇이 어떻게 잘리는지만 보기
-//   npm run trim:voice                실제로 다듬어 덮어쓰기(원본은 .bak 로 남긴다)
+//   npm run trim:voice                실제로 다듬어 덮어쓰기(원본은 .voice-backup/ 로 옮겨 둔다)
 //   npm run trim:voice -- --ids=ui/welcome,praise/correct-01   일부만
 //
 // 처리: m4a → (afconvert/ffmpeg) WAV → PCM에서 앞뒤 정리 → 다시 m4a(AAC 모노 44.1k)
 
-import { copyFile, mkdtemp, rm, stat, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, rm, stat, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
@@ -18,6 +18,7 @@ import { decodeToPcm, encodeWav, findSpeech } from './voice-audio.mjs';
 import { applyToManifest, countRecordedOnDisk, fileExists, manifestPath, readManifest, readRecorded, recordedJsonPath, root, toM4a } from './voice-recorder-store.mjs';
 
 const dryRun = process.argv.includes('--dry-run');
+const backupDir = path.join(root, '.voice-backup');
 const idsArg = process.argv.find(arg => arg.startsWith('--ids='));
 const onlyIds = idsArg ? new Set(idsArg.slice('--ids='.length).split(',')) : null;
 
@@ -63,7 +64,11 @@ async function main() {
       continue;
     }
 
-    await copyFile(file, `${file}.bak`);
+    // 원본은 public/ 바깥에 둔다. public/ 은 통째로 빌드 산출물에 복사되므로
+    // 여기에 .bak 를 남기면 그대로 배포된다(21MB가 그렇게 실려 나간 적이 있다).
+    const backup = path.join(backupDir, `${path.relative(path.join(root, 'public'), file)}.bak`);
+    await mkdir(path.dirname(backup), { recursive: true });
+    await copyFile(file, backup);
     const target = file.replace(/\.(mp3\.m4a|m4a|mp4|webm|ogg|wav)$/, '.m4a');
     await writeFile(target, m4a);
     if (target !== file) await rm(file, { force: true });

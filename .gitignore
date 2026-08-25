@@ -35,3 +35,6 @@ public/assets/images/ui/*_concept.png
 # 세션 작업 폴더·이미지 원본(생성물)
 .claude/
 public/assets/images/characters/generated/
+
+# 녹음 다듬기 전 원본 백업 (public/ 밖에 둬야 배포에 안 실린다)
+.voice-backup/
