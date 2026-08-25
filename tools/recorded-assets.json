@@ -2615,6 +2615,81 @@
       "id": "dex/syllable/ko-8f4dc1b65b",
       "src": "assets/audio/ko/dex/syllable/ko-8f4dc1b65b.m4a",
       "bytes": 36157
+    },
+    "워! 짝을 찾았어요!": {
+      "id": "praise/match/ko-b8b2f2af85",
+      "src": "assets/audio/ko/praise/match/ko-b8b2f2af85.m4a",
+      "bytes": 32941
+    },
+    "이": {
+      "id": "jamo/ko-6c0cd2af1e",
+      "src": "assets/audio/ko/jamo/ko-6c0cd2af1e.m4a",
+      "bytes": 12428
+    },
+    "애": {
+      "id": "jamo/ko-963156802b",
+      "src": "assets/audio/ko/jamo/ko-963156802b.m4a",
+      "bytes": 12661
+    },
+    "게": {
+      "id": "words/ko-40375799c4",
+      "src": "assets/audio/ko/words/ko-40375799c4.m4a",
+      "bytes": 13927
+    },
+    "워": {
+      "id": "jamo/ko-b8b2f2af85",
+      "src": "assets/audio/ko/jamo/ko-b8b2f2af85.m4a",
+      "bytes": 12342
+    },
+    "기역! 가방의 가.": {
+      "id": "dex/jamo/ko-67c714efd0",
+      "src": "assets/audio/ko/dex/jamo/ko-67c714efd0.m4a",
+      "bytes": 37622
+    },
+    "피읖! 포도의 포.": {
+      "id": "dex/jamo/ko-6c18e08383",
+      "src": "assets/audio/ko/dex/jamo/ko-6c18e08383.m4a",
+      "bytes": 36087
+    },
+    "쌍기역! 꽃의 꽃.": {
+      "id": "dex/jamo/ko-9606075f94",
+      "src": "assets/audio/ko/dex/jamo/ko-9606075f94.m4a",
+      "bytes": 34748
+    },
+    "다! 다리의 다.": {
+      "id": "dex/syllable/ko-c94aacfd94",
+      "src": "assets/audio/ko/dex/syllable/ko-c94aacfd94.m4a",
+      "bytes": 36853
+    },
+    "구! 구름의 구.": {
+      "id": "dex/syllable/ko-e8b701a283",
+      "src": "assets/audio/ko/dex/syllable/ko-e8b701a283.m4a",
+      "bytes": 38899
+    },
+    "지구의 지! 지를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-0cb419946b",
+      "src": "assets/audio/ko/boss-syllable/ko-0cb419946b.m4a",
+      "bytes": 54712
+    },
+    "코! 코의 코.": {
+      "id": "dex/syllable/ko-b357690907",
+      "src": "assets/audio/ko/dex/syllable/ko-b357690907.m4a",
+      "bytes": 34933
+    },
+    "얘": {
+      "id": "jamo/ko-bf5b12f28a",
+      "src": "assets/audio/ko/jamo/ko-bf5b12f28a.m4a",
+      "bytes": 13783
+    },
+    "웨": {
+      "id": "jamo/ko-3990e5c4d6",
+      "src": "assets/audio/ko/jamo/ko-3990e5c4d6.m4a",
+      "bytes": 14784
+    },
+    "웨하스": {
+      "id": "words/ko-0fd36d3be7",
+      "src": "assets/audio/ko/words/ko-0fd36d3be7.m4a",
+      "bytes": 19759
     }
   }
 }

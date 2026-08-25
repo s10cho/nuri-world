@@ -2,8 +2,8 @@
   "format": "mp3",
   "model": "gpt-4o-mini-tts",
   "voice": "marin",
-  "count": 584,
-  "recorded": 523,
+  "count": 586,
+  "recorded": 538,
   "assets": {
     "누리의 한글 왕국에 온 것을 환영해요!": {
       "id": "ui/welcome",
@@ -752,8 +752,8 @@
     },
     "이": {
       "id": "jamo/ko-6c0cd2af1e",
-      "src": "assets/audio/ko/jamo/ko-6c0cd2af1e.mp3",
-      "bytes": 18432
+      "src": "assets/audio/ko/jamo/ko-6c0cd2af1e.m4a",
+      "bytes": 12428
     },
     "이! 이불의 이 소리예요.": {
       "id": "jamo-intro/ko-6c0cd2af1e",
@@ -772,8 +772,8 @@
     },
     "애": {
       "id": "jamo/ko-963156802b",
-      "src": "assets/audio/ko/jamo/ko-963156802b.mp3",
-      "bytes": 14592
+      "src": "assets/audio/ko/jamo/ko-963156802b.m4a",
+      "bytes": 12661
     },
     "애! 애벌레의 애 소리예요.": {
       "id": "jamo-intro/ko-963156802b",
@@ -792,8 +792,8 @@
     },
     "얘": {
       "id": "jamo/ko-bf5b12f28a",
-      "src": "assets/audio/ko/jamo/ko-bf5b12f28a.mp3",
-      "bytes": 23424
+      "src": "assets/audio/ko/jamo/ko-bf5b12f28a.m4a",
+      "bytes": 13783
     },
     "얘! 얘기의 얘 소리예요.": {
       "id": "jamo-intro/ko-bf5b12f28a",
@@ -822,8 +822,8 @@
     },
     "게": {
       "id": "words/ko-40375799c4",
-      "src": "assets/audio/ko/words/ko-40375799c4.mp3",
-      "bytes": 19968
+      "src": "assets/audio/ko/words/ko-40375799c4.m4a",
+      "bytes": 13927
     },
     "레몬": {
       "id": "words/ko-d9e754e5d6",
@@ -912,8 +912,8 @@
     },
     "워": {
       "id": "jamo/ko-b8b2f2af85",
-      "src": "assets/audio/ko/jamo/ko-b8b2f2af85.mp3",
-      "bytes": 13824
+      "src": "assets/audio/ko/jamo/ko-b8b2f2af85.m4a",
+      "bytes": 12342
     },
     "워! 원숭이의 워 소리예요.": {
       "id": "jamo-intro/ko-b8b2f2af85",
@@ -932,8 +932,8 @@
     },
     "웨": {
       "id": "jamo/ko-3990e5c4d6",
-      "src": "assets/audio/ko/jamo/ko-3990e5c4d6.mp3",
-      "bytes": 16128
+      "src": "assets/audio/ko/jamo/ko-3990e5c4d6.m4a",
+      "bytes": 14784
     },
     "웨! 스웨터의 웨 소리예요.": {
       "id": "jamo-intro/ko-3990e5c4d6",
@@ -947,8 +947,8 @@
     },
     "웨하스": {
       "id": "words/ko-0fd36d3be7",
-      "src": "assets/audio/ko/words/ko-0fd36d3be7.mp3",
-      "bytes": 28032
+      "src": "assets/audio/ko/words/ko-0fd36d3be7.m4a",
+      "bytes": 19759
     },
     "위": {
       "id": "words/ko-b44963f67f",
@@ -1202,8 +1202,8 @@
     },
     "기역! 가방의 가.": {
       "id": "dex/jamo/ko-67c714efd0",
-      "src": "assets/audio/ko/dex/jamo/ko-67c714efd0.mp3",
-      "bytes": 53760
+      "src": "assets/audio/ko/dex/jamo/ko-67c714efd0.m4a",
+      "bytes": 37622
     },
     "기역! 짝을 찾았어요!": {
       "id": "praise/match/ko-67c714efd0",
@@ -1612,8 +1612,8 @@
     },
     "워! 짝을 찾았어요!": {
       "id": "praise/match/ko-b8b2f2af85",
-      "src": "assets/audio/ko/praise/match/ko-b8b2f2af85.mp3",
-      "bytes": 38400
+      "src": "assets/audio/ko/praise/match/ko-b8b2f2af85.m4a",
+      "bytes": 32941
     },
     "워! 명중이에요!": {
       "id": "praise/hit-jamo/ko-b8b2f2af85",
@@ -1722,8 +1722,8 @@
     },
     "다! 다리의 다.": {
       "id": "dex/syllable/ko-c94aacfd94",
-      "src": "assets/audio/ko/dex/syllable/ko-c94aacfd94.mp3",
-      "bytes": 52224
+      "src": "assets/audio/ko/dex/syllable/ko-c94aacfd94.m4a",
+      "bytes": 36853
     },
     "라! 라면의 라. 조각을 모아 라를 만들어 보세요!": {
       "id": "build/prompt/ko-0563a51431",
@@ -2047,8 +2047,8 @@
     },
     "구! 구름의 구.": {
       "id": "dex/syllable/ko-e8b701a283",
-      "src": "assets/audio/ko/dex/syllable/ko-e8b701a283.mp3",
-      "bytes": 40320
+      "src": "assets/audio/ko/dex/syllable/ko-e8b701a283.m4a",
+      "bytes": 38899
     },
     "두! 두부의 두. 조각을 모아 두를 만들어 보세요!": {
       "id": "build/prompt/ko-402adcf5c0",
@@ -2137,8 +2137,8 @@
     },
     "지구의 지! 지를 찾아 공격해요!": {
       "id": "boss-syllable/ko-0cb419946b",
-      "src": "assets/audio/ko/boss-syllable/ko-0cb419946b.mp3",
-      "bytes": 57600
+      "src": "assets/audio/ko/boss-syllable/ko-0cb419946b.m4a",
+      "bytes": 54712
     },
     "지! 명중이에요!": {
       "id": "praise/hit-syllable/ko-0cb419946b",
@@ -2227,8 +2227,8 @@
     },
     "코! 코의 코.": {
       "id": "dex/syllable/ko-b357690907",
-      "src": "assets/audio/ko/dex/syllable/ko-b357690907.mp3",
-      "bytes": 36096
+      "src": "assets/audio/ko/dex/syllable/ko-b357690907.m4a",
+      "bytes": 34933
     },
     "하! 하마의 하. 조각을 모아 하를 만들어 보세요!": {
       "id": "build/prompt/ko-ce05326dba",
@@ -2924,6 +2924,16 @@
       "id": "dex/jamo/ko-cbf1df6a6d",
       "src": "assets/audio/ko/dex/jamo/ko-cbf1df6a6d.m4a",
       "bytes": 49149
+    },
+    "피읖! 포도의 포.": {
+      "id": "dex/jamo/ko-6c18e08383",
+      "src": "assets/audio/ko/dex/jamo/ko-6c18e08383.m4a",
+      "bytes": 36087
+    },
+    "쌍기역! 꽃의 꽃.": {
+      "id": "dex/jamo/ko-9606075f94",
+      "src": "assets/audio/ko/dex/jamo/ko-9606075f94.m4a",
+      "bytes": 34748
     }
   }
 }
