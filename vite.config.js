@@ -52,6 +52,9 @@ export default defineConfig({
         // 폰트는 이제 자체 호스팅(해시된 woff2)이라 프리캐시로 완전 오프라인.
         globPatterns: ['**/*.{js,css,html,woff2}'],
         navigateFallback: 'index.html',
+        // 앱과 별개인 단독 페이지들은 앱 셸로 대체하면 안 된다.
+        // (서비스워커가 /voice-check.html 요청을 index.html 로 바꿔치기해 게임이 뜨던 문제)
+        navigateFallbackDenylist: [/voice-check\.html$/, /voice-scripts\.html$/, /privacy\.html$/],
         runtimeCaching: [
           {
             // 배경·캐릭터 이미지 — 오프라인은 캐시 즉시 서빙, 온라인은 백그라운드 재검증.
