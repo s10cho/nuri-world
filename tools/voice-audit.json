@@ -7578,13 +7578,78 @@
         "tailClick": false,
         "silent": false
       }
+    },
+    "words/ko-9f97015d2e": {
+      "src": "assets/audio/ko/words/ko-9f97015d2e.m4a",
+      "text": "애벌레",
+      "issues": [],
+      "stats": {
+        "durationMs": 1290,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "dex/jamo/ko-4e3de77253": {
+      "src": "assets/audio/ko/dex/jamo/ko-4e3de77253.m4a",
+      "text": "리을! 로봇의 로.",
+      "issues": [],
+      "stats": {
+        "durationMs": 2770,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -1.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "dex/jamo/ko-21cff49381": {
+      "src": "assets/audio/ko/dex/jamo/ko-21cff49381.m4a",
+      "text": "미음! 모자의 모.",
+      "issues": [],
+      "stats": {
+        "durationMs": 2760,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -3.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "dex/jamo/ko-f655984129": {
+      "src": "assets/audio/ko/dex/jamo/ko-f655984129.m4a",
+      "text": "이응! 오리의 오.",
+      "issues": [],
+      "stats": {
+        "durationMs": 2620,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -3.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "boss-syllable/ko-811e029344": {
+      "src": "assets/audio/ko/boss-syllable/ko-811e029344.m4a",
+      "text": "나비의 나! 나를 찾아 공격해요!",
+      "issues": [],
+      "stats": {
+        "durationMs": 4182,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -1.1,
+        "tailClick": false,
+        "silent": false
+      }
     }
   },
   "summary": {
     "total": 600,
     "unused": 38,
-    "needRecording": 5,
+    "needRecording": 0,
     "needRerecording": 0,
-    "done": 557
+    "done": 562
   }
 }

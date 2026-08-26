@@ -2775,6 +2775,31 @@
       "id": "dex/syllable/ko-56c5af5b9b",
       "src": "assets/audio/ko/dex/syllable/ko-56c5af5b9b.m4a",
       "bytes": 38777
+    },
+    "애벌레": {
+      "id": "words/ko-9f97015d2e",
+      "src": "assets/audio/ko/words/ko-9f97015d2e.m4a",
+      "bytes": 21283
+    },
+    "리을! 로봇의 로.": {
+      "id": "dex/jamo/ko-4e3de77253",
+      "src": "assets/audio/ko/dex/jamo/ko-4e3de77253.m4a",
+      "bytes": 40123
+    },
+    "미음! 모자의 모.": {
+      "id": "dex/jamo/ko-21cff49381",
+      "src": "assets/audio/ko/dex/jamo/ko-21cff49381.m4a",
+      "bytes": 39343
+    },
+    "이응! 오리의 오.": {
+      "id": "dex/jamo/ko-f655984129",
+      "src": "assets/audio/ko/dex/jamo/ko-f655984129.m4a",
+      "bytes": 37838
+    },
+    "나비의 나! 나를 찾아 공격해요!": {
+      "id": "boss-syllable/ko-811e029344",
+      "src": "assets/audio/ko/boss-syllable/ko-811e029344.m4a",
+      "bytes": 56918
     }
   }
 }

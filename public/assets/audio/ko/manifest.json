@@ -2,8 +2,8 @@
   "format": "mp3",
   "model": "gpt-4o-mini-tts",
   "voice": "marin",
-  "count": 589,
-  "recorded": 555,
+  "count": 592,
+  "recorded": 560,
   "assets": {
     "누리의 한글 왕국에 온 것을 환영해요!": {
       "id": "ui/welcome",
@@ -782,8 +782,8 @@
     },
     "애벌레": {
       "id": "words/ko-9f97015d2e",
-      "src": "assets/audio/ko/words/ko-9f97015d2e.mp3",
-      "bytes": 30720
+      "src": "assets/audio/ko/words/ko-9f97015d2e.m4a",
+      "bytes": 21283
     },
     "새": {
       "id": "words/ko-81a0ae3b01",
@@ -1687,8 +1687,8 @@
     },
     "나비의 나! 나를 찾아 공격해요!": {
       "id": "boss-syllable/ko-811e029344",
-      "src": "assets/audio/ko/boss-syllable/ko-811e029344.mp3",
-      "bytes": 45696
+      "src": "assets/audio/ko/boss-syllable/ko-811e029344.m4a",
+      "bytes": 56918
     },
     "나! 명중이에요!": {
       "id": "praise/hit-syllable/ko-811e029344",
@@ -2949,6 +2949,21 @@
       "id": "dex/jamo/ko-3990e5c4d6",
       "src": "assets/audio/ko/dex/jamo/ko-3990e5c4d6.m4a",
       "bytes": 50970
+    },
+    "리을! 로봇의 로.": {
+      "id": "dex/jamo/ko-4e3de77253",
+      "src": "assets/audio/ko/dex/jamo/ko-4e3de77253.m4a",
+      "bytes": 40123
+    },
+    "미음! 모자의 모.": {
+      "id": "dex/jamo/ko-21cff49381",
+      "src": "assets/audio/ko/dex/jamo/ko-21cff49381.m4a",
+      "bytes": 39343
+    },
+    "이응! 오리의 오.": {
+      "id": "dex/jamo/ko-f655984129",
+      "src": "assets/audio/ko/dex/jamo/ko-f655984129.m4a",
+      "bytes": 37838
     }
   }
 }
