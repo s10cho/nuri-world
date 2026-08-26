@@ -2800,6 +2800,166 @@
       "id": "boss-syllable/ko-811e029344",
       "src": "assets/audio/ko/boss-syllable/ko-811e029344.m4a",
       "bytes": 56918
+    },
+    "가": {
+      "id": "syllables/ko-efd23dd5ed",
+      "src": "assets/audio/ko/syllables/ko-efd23dd5ed.m4a",
+      "bytes": 12640
+    },
+    "나": {
+      "id": "syllables/ko-811e029344",
+      "src": "assets/audio/ko/syllables/ko-811e029344.m4a",
+      "bytes": 13896
+    },
+    "다": {
+      "id": "syllables/ko-c94aacfd94",
+      "src": "assets/audio/ko/syllables/ko-c94aacfd94.m4a",
+      "bytes": 13806
+    },
+    "라": {
+      "id": "syllables/ko-0563a51431",
+      "src": "assets/audio/ko/syllables/ko-0563a51431.m4a",
+      "bytes": 13927
+    },
+    "마": {
+      "id": "syllables/ko-9b7d34baf2",
+      "src": "assets/audio/ko/syllables/ko-9b7d34baf2.m4a",
+      "bytes": 14500
+    },
+    "마늘": {
+      "id": "words/ko-7a83acced4",
+      "src": "assets/audio/ko/words/ko-7a83acced4.m4a",
+      "bytes": 17357
+    },
+    "바": {
+      "id": "syllables/ko-2f4621ed19",
+      "src": "assets/audio/ko/syllables/ko-2f4621ed19.m4a",
+      "bytes": 13021
+    },
+    "사": {
+      "id": "syllables/ko-ec488add9d",
+      "src": "assets/audio/ko/syllables/ko-ec488add9d.m4a",
+      "bytes": 13903
+    },
+    "자": {
+      "id": "syllables/ko-a862646b2e",
+      "src": "assets/audio/ko/syllables/ko-a862646b2e.m4a",
+      "bytes": 13862
+    },
+    "차": {
+      "id": "syllables/ko-9e4bb560ba",
+      "src": "assets/audio/ko/syllables/ko-9e4bb560ba.m4a",
+      "bytes": 13116
+    },
+    "카": {
+      "id": "syllables/ko-7dcadffb90",
+      "src": "assets/audio/ko/syllables/ko-7dcadffb90.m4a",
+      "bytes": 13004
+    },
+    "카드": {
+      "id": "words/ko-7dedeb8297",
+      "src": "assets/audio/ko/words/ko-7dedeb8297.m4a",
+      "bytes": 16248
+    },
+    "고": {
+      "id": "syllables/ko-e30db5c581",
+      "src": "assets/audio/ko/syllables/ko-e30db5c581.m4a",
+      "bytes": 13351
+    },
+    "노": {
+      "id": "syllables/ko-62e01cc977",
+      "src": "assets/audio/ko/syllables/ko-62e01cc977.m4a",
+      "bytes": 14299
+    },
+    "노래": {
+      "id": "words/ko-8a04a60438",
+      "src": "assets/audio/ko/words/ko-8a04a60438.m4a",
+      "bytes": 15931
+    },
+    "도": {
+      "id": "syllables/ko-de8b6c7871",
+      "src": "assets/audio/ko/syllables/ko-de8b6c7871.m4a",
+      "bytes": 12250
+    },
+    "로": {
+      "id": "syllables/ko-15e22a52f3",
+      "src": "assets/audio/ko/syllables/ko-15e22a52f3.m4a",
+      "bytes": 14445
+    },
+    "모": {
+      "id": "syllables/ko-8f4dc1b65b",
+      "src": "assets/audio/ko/syllables/ko-8f4dc1b65b.m4a",
+      "bytes": 13769
+    },
+    "구": {
+      "id": "syllables/ko-e8b701a283",
+      "src": "assets/audio/ko/syllables/ko-e8b701a283.m4a",
+      "bytes": 14017
+    },
+    "구름": {
+      "id": "words/ko-38fd921c75",
+      "src": "assets/audio/ko/words/ko-38fd921c75.m4a",
+      "bytes": 16168
+    },
+    "두": {
+      "id": "syllables/ko-402adcf5c0",
+      "src": "assets/audio/ko/syllables/ko-402adcf5c0.m4a",
+      "bytes": 12681
+    },
+    "두부": {
+      "id": "words/ko-07d25c799d",
+      "src": "assets/audio/ko/words/ko-07d25c799d.m4a",
+      "bytes": 15872
+    },
+    "무": {
+      "id": "syllables/ko-56c5af5b9b",
+      "src": "assets/audio/ko/syllables/ko-56c5af5b9b.m4a",
+      "bytes": 13713
+    },
+    "기": {
+      "id": "syllables/ko-e5c60ff0a8",
+      "src": "assets/audio/ko/syllables/ko-e5c60ff0a8.m4a",
+      "bytes": 13763
+    },
+    "기차": {
+      "id": "words/ko-c008697771",
+      "src": "assets/audio/ko/words/ko-c008697771.m4a",
+      "bytes": 17254
+    },
+    "지": {
+      "id": "syllables/ko-0cb419946b",
+      "src": "assets/audio/ko/syllables/ko-0cb419946b.m4a",
+      "bytes": 13518
+    },
+    "지구": {
+      "id": "words/ko-fce33eef53",
+      "src": "assets/audio/ko/words/ko-fce33eef53.m4a",
+      "bytes": 17137
+    },
+    "소": {
+      "id": "syllables/ko-95471f6b0a",
+      "src": "assets/audio/ko/syllables/ko-95471f6b0a.m4a",
+      "bytes": 13646
+    },
+    "하": {
+      "id": "syllables/ko-ce05326dba",
+      "src": "assets/audio/ko/syllables/ko-ce05326dba.m4a",
+      "bytes": 12529
+    },
+    "누리": {
+      "id": "characters/nuri",
+      "src": "assets/audio/ko/characters/nuri.m4a",
+      "bytes": 17728
+    },
+    "포리": {
+      "id": "characters/pori",
+      "src": "assets/audio/ko/characters/pori.m4a",
+      "bytes": 17008
+    },
+    "지우개 몬스터": {
+      "id": "characters/eraser",
+      "src": "assets/audio/ko/characters/eraser.m4a",
+      "bytes": 31867
     }
   }
 }

@@ -1,13 +1,20 @@
 {
   "summary": {
-    "total": 560,
-    "ok": 545,
-    "short": 12,
-    "suspect": 0,
+    "total": 592,
+    "ok": 570,
+    "short": 18,
+    "suspect": 1,
     "swapped": 0,
     "fail": 0
   },
   "suspects": [
+    {
+      "id": "characters/eraser",
+      "text": "지우개 몬스터",
+      "heard": "지옥의 문다.",
+      "score": 0.2,
+      "verdict": "suspect"
+    },
     {
       "id": "words/ko-872e638f53",
       "text": "고래",
@@ -103,6 +110,48 @@
       "id": "jamo/ko-b8b2f2af85",
       "text": "워",
       "heard": "와",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "syllables/ko-2f4621ed19",
+      "text": "바",
+      "heard": "봐.",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "syllables/ko-ec488add9d",
+      "text": "사",
+      "heard": "4.",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "syllables/ko-e30db5c581",
+      "text": "고",
+      "heard": "구",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "syllables/ko-62e01cc977",
+      "text": "노",
+      "heard": "누",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "syllables/ko-15e22a52f3",
+      "text": "로",
+      "heard": "루",
+      "score": 0,
+      "verdict": "short"
+    },
+    {
+      "id": "syllables/ko-e5c60ff0a8",
+      "text": "기",
+      "heard": "키",
       "score": 0,
       "verdict": "short"
     },
@@ -2354,6 +2403,134 @@
     "893464504b3b5b7f1f9c30da73d772c51e441f34": {
       "heard": "나비의 나. 나를 찾아 공격해요.",
       "durationMs": 4309
+    },
+    "bfeec1dd2262de67d254c6c968b9d84ccceef829": {
+      "heard": "가",
+      "durationMs": 797
+    },
+    "9d5bc633cc2d83354df9f4e48aab82c5bc20e587": {
+      "heard": "나",
+      "durationMs": 867
+    },
+    "0db433f87f2bf2081e43c8d07a7d76b862f6bfcc": {
+      "heard": "다",
+      "durationMs": 887
+    },
+    "75fbcfbfb048738365842053f01d0dee4704e2b6": {
+      "heard": "라",
+      "durationMs": 877
+    },
+    "23867f1e53a2803de20c747d9b99fe74ee9fb1a1": {
+      "heard": "마",
+      "durationMs": 927
+    },
+    "e91e25665fcd5c1f5d6ea74c4b7c15a018b00c5d": {
+      "heard": "마늘",
+      "durationMs": 1139
+    },
+    "1581a8d5a320a33fe7210bbc2ef6c730e11b607d": {
+      "heard": "봐.",
+      "durationMs": 837
+    },
+    "2705917aeb0189642ba675dd9dc292f390979fe0": {
+      "heard": "4.",
+      "durationMs": 865
+    },
+    "de85881c1023370e3f102e8ab2b8a428f29fe63a": {
+      "heard": "자아",
+      "durationMs": 907
+    },
+    "d9b070a841e97f79bc66d2e21846e6c11fd48081": {
+      "heard": "차",
+      "durationMs": 837
+    },
+    "fe0c6841aaa79e118351f5a9c3cdd0f77ce2ddac": {
+      "heard": "카",
+      "durationMs": 787
+    },
+    "576f210b70fe223543623ab2daabbf395e1253ca": {
+      "heard": "카드",
+      "durationMs": 1059
+    },
+    "585fa0cd458b4823bc1783576bdc5a253d86197d": {
+      "heard": "구",
+      "durationMs": 827
+    },
+    "9c7a729707a975c075464c631be3102dbe0f3300": {
+      "heard": "누",
+      "durationMs": 937
+    },
+    "c8f5810e001837c9fafe6dc0046945b50ae4d27c": {
+      "heard": "노래",
+      "durationMs": 1017
+    },
+    "6b69393549f9bd756e871b6f1b24509c4ceddda0": {
+      "heard": "도우",
+      "durationMs": 747
+    },
+    "b82e573a33205f74b43c5d26b10a6c414fdf7c1f": {
+      "heard": "루",
+      "durationMs": 917
+    },
+    "e10ba6710109e9dbb5139bf2b875d9463afa40a1": {
+      "heard": "모",
+      "durationMs": 897
+    },
+    "4b356d7b047cb08661de51897741c21e9bd82781": {
+      "heard": "구",
+      "durationMs": 897
+    },
+    "5a7dc3f4cb22d5d6d85433c9d718787147fe9135": {
+      "heard": "구름",
+      "durationMs": 1075
+    },
+    "a6d8db2be4ace9941ca561b34b5e10139f29b685": {
+      "heard": "두",
+      "durationMs": 776
+    },
+    "f02fa74d1e476fe930dfea76f89aa2fc3e1a725c": {
+      "heard": "두부",
+      "durationMs": 1067
+    },
+    "13f90c953d3233f3c51b8ba87fc00568995d2394": {
+      "heard": "무",
+      "durationMs": 871
+    },
+    "cf1e36c901b198b7ff8261cbbffe182bdf985ba7": {
+      "heard": "키",
+      "durationMs": 866
+    },
+    "3789af66e35a14f98bd99ef9d574e83210259d4c": {
+      "heard": "기차",
+      "durationMs": 1127
+    },
+    "af740b63639df2ba7d39350063a6a4db7b79382e": {
+      "heard": "지",
+      "durationMs": 836
+    },
+    "17f0b3e0802ade994481c1ebc6b553670a1739c5": {
+      "heard": "지구",
+      "durationMs": 1147
+    },
+    "e850f3df1150ff97aaa33674453cf71ad8d07ad5": {
+      "heard": "소",
+      "durationMs": 833
+    },
+    "eecbefd2776dc951aa60d4568d4ef5d502064f04": {
+      "heard": "하아",
+      "durationMs": 767
+    },
+    "be0208d3e8596ae1008b58b173b5cfda1bf3ed0f": {
+      "heard": "누리",
+      "durationMs": 1197
+    },
+    "ff5d714eac56cf8ac82980fe89f691ffb4a47692": {
+      "heard": "포리",
+      "durationMs": 1097
+    },
+    "a17a8a69724bcd05187ae990086dac276507e979": {
+      "heard": "지옥의 문다.",
+      "durationMs": 2207
     }
   }
 }

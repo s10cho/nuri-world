@@ -7643,6 +7643,422 @@
         "tailClick": false,
         "silent": false
       }
+    },
+    "syllables/ko-efd23dd5ed": {
+      "src": "assets/audio/ko/syllables/ko-efd23dd5ed.m4a",
+      "text": "가",
+      "issues": [],
+      "stats": {
+        "durationMs": 670,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-811e029344": {
+      "src": "assets/audio/ko/syllables/ko-811e029344.m4a",
+      "text": "나",
+      "issues": [],
+      "stats": {
+        "durationMs": 741,
+        "leadMs": 80,
+        "tailMs": 180,
+        "peakDb": -2.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-c94aacfd94": {
+      "src": "assets/audio/ko/syllables/ko-c94aacfd94.m4a",
+      "text": "다",
+      "issues": [],
+      "stats": {
+        "durationMs": 760,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -3.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-0563a51431": {
+      "src": "assets/audio/ko/syllables/ko-0563a51431.m4a",
+      "text": "라",
+      "issues": [],
+      "stats": {
+        "durationMs": 750,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-9b7d34baf2": {
+      "src": "assets/audio/ko/syllables/ko-9b7d34baf2.m4a",
+      "text": "마",
+      "issues": [],
+      "stats": {
+        "durationMs": 800,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-7a83acced4": {
+      "src": "assets/audio/ko/words/ko-7a83acced4.m4a",
+      "text": "마늘",
+      "issues": [],
+      "stats": {
+        "durationMs": 1012,
+        "leadMs": 80,
+        "tailMs": 160,
+        "peakDb": -2.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-2f4621ed19": {
+      "src": "assets/audio/ko/syllables/ko-2f4621ed19.m4a",
+      "text": "바",
+      "issues": [],
+      "stats": {
+        "durationMs": 710,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-ec488add9d": {
+      "src": "assets/audio/ko/syllables/ko-ec488add9d.m4a",
+      "text": "사",
+      "issues": [],
+      "stats": {
+        "durationMs": 738,
+        "leadMs": 90,
+        "tailMs": 200,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-a862646b2e": {
+      "src": "assets/audio/ko/syllables/ko-a862646b2e.m4a",
+      "text": "자",
+      "issues": [],
+      "stats": {
+        "durationMs": 780,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-9e4bb560ba": {
+      "src": "assets/audio/ko/syllables/ko-9e4bb560ba.m4a",
+      "text": "차",
+      "issues": [],
+      "stats": {
+        "durationMs": 710,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-7dcadffb90": {
+      "src": "assets/audio/ko/syllables/ko-7dcadffb90.m4a",
+      "text": "카",
+      "issues": [],
+      "stats": {
+        "durationMs": 660,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -3.1,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-7dedeb8297": {
+      "src": "assets/audio/ko/words/ko-7dedeb8297.m4a",
+      "text": "카드",
+      "issues": [],
+      "stats": {
+        "durationMs": 933,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -3.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-e30db5c581": {
+      "src": "assets/audio/ko/syllables/ko-e30db5c581.m4a",
+      "text": "고",
+      "issues": [],
+      "stats": {
+        "durationMs": 700,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -5.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-62e01cc977": {
+      "src": "assets/audio/ko/syllables/ko-62e01cc977.m4a",
+      "text": "노",
+      "issues": [],
+      "stats": {
+        "durationMs": 810,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -9.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-8a04a60438": {
+      "src": "assets/audio/ko/words/ko-8a04a60438.m4a",
+      "text": "노래",
+      "issues": [],
+      "stats": {
+        "durationMs": 890,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -7.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-de8b6c7871": {
+      "src": "assets/audio/ko/syllables/ko-de8b6c7871.m4a",
+      "text": "도",
+      "issues": [],
+      "stats": {
+        "durationMs": 621,
+        "leadMs": 80,
+        "tailMs": 110,
+        "peakDb": -6.8,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-15e22a52f3": {
+      "src": "assets/audio/ko/syllables/ko-15e22a52f3.m4a",
+      "text": "로",
+      "issues": [],
+      "stats": {
+        "durationMs": 790,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -5.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-8f4dc1b65b": {
+      "src": "assets/audio/ko/syllables/ko-8f4dc1b65b.m4a",
+      "text": "모",
+      "issues": [],
+      "stats": {
+        "durationMs": 770,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -4.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-e8b701a283": {
+      "src": "assets/audio/ko/syllables/ko-e8b701a283.m4a",
+      "text": "구",
+      "issues": [],
+      "stats": {
+        "durationMs": 770,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -8.7,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-38fd921c75": {
+      "src": "assets/audio/ko/words/ko-38fd921c75.m4a",
+      "text": "구름",
+      "issues": [],
+      "stats": {
+        "durationMs": 948,
+        "leadMs": 80,
+        "tailMs": 150,
+        "peakDb": -9.5,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-402adcf5c0": {
+      "src": "assets/audio/ko/syllables/ko-402adcf5c0.m4a",
+      "text": "두",
+      "issues": [],
+      "stats": {
+        "durationMs": 649,
+        "leadMs": 80,
+        "tailMs": 80,
+        "peakDb": -9.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-07d25c799d": {
+      "src": "assets/audio/ko/words/ko-07d25c799d.m4a",
+      "text": "두부",
+      "issues": [],
+      "stats": {
+        "durationMs": 940,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -9.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-56c5af5b9b": {
+      "src": "assets/audio/ko/syllables/ko-56c5af5b9b.m4a",
+      "text": "무",
+      "issues": [],
+      "stats": {
+        "durationMs": 745,
+        "leadMs": 80,
+        "tailMs": 180,
+        "peakDb": -7.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-e5c60ff0a8": {
+      "src": "assets/audio/ko/syllables/ko-e5c60ff0a8.m4a",
+      "text": "기",
+      "issues": [],
+      "stats": {
+        "durationMs": 739,
+        "leadMs": 80,
+        "tailMs": 170,
+        "peakDb": -7.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-c008697771": {
+      "src": "assets/audio/ko/words/ko-c008697771.m4a",
+      "text": "기차",
+      "issues": [],
+      "stats": {
+        "durationMs": 1000,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-0cb419946b": {
+      "src": "assets/audio/ko/syllables/ko-0cb419946b.m4a",
+      "text": "지",
+      "issues": [],
+      "stats": {
+        "durationMs": 709,
+        "leadMs": 80,
+        "tailMs": 130,
+        "peakDb": -9.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "words/ko-fce33eef53": {
+      "src": "assets/audio/ko/words/ko-fce33eef53.m4a",
+      "text": "지구",
+      "issues": [],
+      "stats": {
+        "durationMs": 1020,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -11.6,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-95471f6b0a": {
+      "src": "assets/audio/ko/syllables/ko-95471f6b0a.m4a",
+      "text": "소",
+      "issues": [],
+      "stats": {
+        "durationMs": 706,
+        "leadMs": 80,
+        "tailMs": 160,
+        "peakDb": -6.4,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "syllables/ko-ce05326dba": {
+      "src": "assets/audio/ko/syllables/ko-ce05326dba.m4a",
+      "text": "하",
+      "issues": [],
+      "stats": {
+        "durationMs": 640,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -2.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "characters/nuri": {
+      "src": "assets/audio/ko/characters/nuri.m4a",
+      "text": "누리",
+      "issues": [],
+      "stats": {
+        "durationMs": 1070,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -8.9,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "characters/pori": {
+      "src": "assets/audio/ko/characters/pori.m4a",
+      "text": "포리",
+      "issues": [],
+      "stats": {
+        "durationMs": 970,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -7.2,
+        "tailClick": false,
+        "silent": false
+      }
+    },
+    "characters/eraser": {
+      "src": "assets/audio/ko/characters/eraser.m4a",
+      "text": "지우개 몬스터",
+      "issues": [],
+      "stats": {
+        "durationMs": 2080,
+        "leadMs": 80,
+        "tailMs": 200,
+        "peakDb": -1.7,
+        "tailClick": false,
+        "silent": false
+      }
     }
   },
   "summary": {
