@@ -334,12 +334,26 @@ export function hasTTS() {
   return 'speechSynthesis' in window;
 }
 
-// 한국어 음성이 실제로 설치돼 있는지 (없으면 게임에서 시각 대안을 노출)
+// 한국어 음성이 실제로 설치돼 있는지
 export function hasKoreanTTS() {
   if (NATIVE) return nativeKoOk;
   if (!('speechSynthesis' in window)) return false;
   if (!voicesReady) pickKoreanVoice();
   return !!koVoice;
+}
+
+/**
+ * 이 대사를 소리로 들려줄 수 있는가 — 녹음이 있으면 기기 TTS가 없어도 들려줄 수 있다.
+ *
+ * 게임이 '시각 대체'(목표 글자를 화면에 보여 주기)를 켤지 판단하는 기준이다. 시각 대체는
+ * 듣기 문제의 정답을 그대로 노출하므로, 소리를 낼 방법이 정말 하나도 없을 때만 켜야 한다.
+ * 예전에는 hasKoreanTTS() 만 봤는데, 한국어 TTS 데이터가 없는 기기에서는 녹음이 멀쩡히
+ * 재생되는데도 정답이 보여 게임이 무의미해졌다.
+ *
+ * @param {string} text @returns {boolean}
+ */
+export function canSpeak(text) {
+  return hasVoiceAsset(text) || hasKoreanTTS();
 }
 
 // ---- 합성 효과음 ---------------------------------------------------------

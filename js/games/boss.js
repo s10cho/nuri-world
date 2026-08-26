@@ -1,6 +1,6 @@
 // 최종 보스전 — 배운 글자로 지우개 몬스터 물리치기
 import { el, cardColor, shuffle, sample, fxBurstAt, fxConfetti, sleep } from '../ui.js';
-import { speak, sfx, hasKoreanTTS, hasVoiceAsset } from '../audio.js';
+import { speak, sfx, canSpeak, hasVoiceAsset } from '../audio.js';
 import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS, BATTLE_HERO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
 
@@ -44,7 +44,6 @@ export function runBoss({ area, signal }, _opts) {
     let qIdx = 0;
     let mistakes = 0;
     let seq = 0; // 문항 순번 — 지연 프롬프트가 다음 문항으로 넘어간 뒤 재생되는 것 방지
-    const showModel = !hasKoreanTTS(); // TTS 없으면 목표 글자를 시각적으로 표시
 
     // 보스전은 게이지·보스를 상단에 고정하고 아래 문제 영역만 바뀌도록 상단 정렬한다.
     // (문제 유형에 따라 2줄·3줄로 높이가 달라도 위쪽이 흔들리지 않게)
@@ -151,9 +150,10 @@ export function runBoss({ area, signal }, _opts) {
       return cards;
     }
 
-    // 목표 글자를 시각적으로 보여 주는 모델 (한국어 TTS 자체가 없을 때만)
-    /** @param {string} glyph @returns {HTMLElement | null} */
-    function modelBadge(glyph) {
+    // 목표 글자를 시각적으로 보여 주는 모델 — 그 문항을 소리로 들려줄 방법이 아예 없을 때만.
+    // 문항마다 판단이 다르다: 자모 이름은 녹음이 있고 음절 안내 문장은 없을 수 있다.
+    /** @param {string} glyph @param {boolean} showModel @returns {HTMLElement | null} */
+    function modelBadge(glyph, showModel) {
       if (!showModel) return null;
       return el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } },
         el('div', { class: 'ribbon', style: { padding: '4px 16px' } }, '이 글자로 공격!'),
@@ -170,13 +170,14 @@ export function runBoss({ area, signal }, _opts) {
       const prompt = () => nameRecorded
         ? speak(name, { signal })
         : speak(`${name}! ${name}${objectParticle(name)} 찾아서 몬스터를 공격해요!`, { signal });
+      const showModel = !canSpeak(name);
       const options = shuffle([q.target, ...pickDistractors(q.pool, q.target, 2)]);
       qArea.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' },
           el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊'),
           el('span', {}, showModel ? '같은 글자로 공격!' : '소리에 맞는 글자로 공격!'),
         ),
-        modelBadge(q.target),
+        modelBadge(q.target, showModel),
         el('div', { class: 'choices' }, buildChoices(options, o => o === q.target, o => `${JAMO[o].name}! 명중이에요!`)),
       ].filter(Boolean)));
       sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
@@ -186,7 +187,9 @@ export function runBoss({ area, signal }, _opts) {
     function askSyllable(q) {
       const mySeq = seq;
       const t = q.target; // {s, w, e}
-      const prompt = () => speak(`${t.w}의 ${t.s}! ${t.s}${objectParticle(t.s)} 찾아 공격해요!`, { signal });
+      const promptLine = `${t.w}의 ${t.s}! ${t.s}${objectParticle(t.s)} 찾아 공격해요!`;
+      const prompt = () => speak(promptLine, { signal });
+      const showModel = !canSpeak(promptLine);
       // 오답: 다른 음절 (헷갈리는 보기)
       /** @type {Set<string>} */
       const distractors = new Set();
@@ -200,7 +203,7 @@ export function runBoss({ area, signal }, _opts) {
           el('button', { class: 'btn-speaker pulse', onclick: () => { sfx('tap'); prompt(); } }, '🔊'),
           el('span', {}, `${t.e} ${t.w}${showModel ? ` — ${t.s}` : ''}! 글자로 공격!`),
         ),
-        modelBadge(t.s),
+        modelBadge(t.s, showModel),
         el('div', { class: 'choices' }, buildChoices(options, o => o === t.s, o => `${o}! 명중이에요!`)),
       ].filter(Boolean)));
       sleep(350, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });

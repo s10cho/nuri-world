@@ -1,6 +1,6 @@
 // 글자 조합 — 자음 + 모음 조각으로 글자 만들기 (글자 조각의 탑)
 import { el, cardColor, shuffle, fxBurstAt, sleep } from '../ui.js';
-import { speak, sfx, hasKoreanTTS } from '../audio.js';
+import { speak, sfx, canSpeak } from '../audio.js';
 import { store } from '../store.js';
 import { decompose, objectParticle, pickDistractors } from '../hangul.js';
 import { ALL_CONSONANTS, ALL_VOWELS } from '../data.js';
@@ -18,8 +18,12 @@ export function runBuild({ area, signal }, { targets }) {
     let idx = 0;
     let mistakes = 0;
     let seq = 0; // 문항 순번 — 지연 프롬프트가 다음 문항으로 넘어간 뒤 재생되는 것 방지
-    // 한국어 음성이 없으면 만들 목표 글자를 흐리게 보여 줘 안내 (음성 대체)
-    const showModel = !hasKoreanTTS();
+    // 안내 문장은 한 곳에서 만든다 — 아래 showModel 판단과 실제 재생이 어긋나지 않게.
+    /** @param {TowerTarget} t */
+    const promptLine = t => `${t.s}! ${t.w}의 ${t.s}. 조각을 모아 ${t.s}${objectParticle(t.s)} 만들어 보세요!`;
+    // 목표 글자를 흐리게 보여 주는 '시각 대체'는 소리를 낼 방법이 아예 없을 때만 켠다.
+    // 안내 문장 녹음이 있으면 기기에 한국어 TTS가 없어도 들려줄 수 있다.
+    const showModel = !targets.every(t => canSpeak(promptLine(t)));
 
     function ask() {
       const mySeq = ++seq;
@@ -28,9 +32,9 @@ export function runBuild({ area, signal }, { targets }) {
       if (!parts) return; // 커리큘럼은 유효 음절만 출제하므로 실제로는 도달하지 않음
       const { cho, jung } = parts;
 
-      const prompt = () => speak(`${t.s}! ${t.w}의 ${t.s}. 조각을 모아 ${t.s}${objectParticle(t.s)} 만들어 보세요!`, { signal });
+      const prompt = () => speak(promptLine(t), { signal });
 
-      // TTS가 없으면 목표 글자를 흐리게 표시, 있으면 '?'로 가려 소리로 유추
+      // 소리로 들려줄 수 없을 때만 목표 글자를 흐리게 표시, 아니면 '?'로 가려 소리로 유추
       const targetBox = el('div', {
         class: 'build-target',
         style: showModel ? { color: 'rgba(74,52,35,0.35)' } : {},

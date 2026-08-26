@@ -1,6 +1,6 @@
 // 소리 듣고 글자 찾기 — 듣기 변별 게임
 import { el, cardColor, shuffle, fxBurstAt, sleep } from '../ui.js';
-import { speak, sfx, hasKoreanTTS, hasVoiceAsset } from '../audio.js';
+import { speak, sfx, canSpeak, hasVoiceAsset } from '../audio.js';
 import { JAMO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
 
@@ -21,9 +21,10 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
     // 화면 이탈(signal abort) 시 게임을 종료해 stage 루프의 await가 멈추지 않게 한다
     signal.addEventListener('abort', () => resolve({ mistakes }), { once: true });
 
-    // 목표 글자를 화면에 보여 주는 '시각 대체'는 한국어 TTS 자체가 없어 소리를 낼 방법이
-    // 아예 없을 때만 켠다. 녹음이 없어도 TTS가 있으면 소리로 들려주는 게 듣기 문제의 취지다.
-    const showModel = !hasKoreanTTS();
+    // 목표 글자를 화면에 보여 주는 '시각 대체'는 소리를 낼 방법이 아예 없을 때만 켠다.
+    // 자모 이름 녹음이 있으면 기기에 한국어 TTS가 없어도 들려줄 수 있다 — 그 경우까지
+    // 시각 대체를 켜면 듣기 문제의 정답을 그냥 보여 주는 셈이 된다.
+    const showModel = !focus.every(ch => canSpeak(JAMO[ch].name));
 
     // 새로 배운 글자(focus)가 골고루 나오도록 출제 순서 구성
     /** @type {string[]} */
