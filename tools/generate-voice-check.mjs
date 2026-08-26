@@ -283,7 +283,7 @@ async function main() {
 
   <div class="toolbar">
     <div class="chips">
-      <button class="chip pending" type="button" data-filter="pending" aria-pressed="false">📥 미반입 녹음 ${pending.length}</button>
+      ${pending.length ? `<button class="chip pending" type="button" data-filter="pending" aria-pressed="false">📥 미반입 녹음 ${pending.length}</button>` : ''}
       <button class="chip need" type="button" data-filter="need" aria-pressed="false">🎙️ 육성 필요 ${counts.need || 0}</button>
       <button class="chip" type="button" data-filter="todo" aria-pressed="true">미확인</button>
       <button class="chip" type="button" data-filter="all" aria-pressed="false">전체 ${items.length}</button>
