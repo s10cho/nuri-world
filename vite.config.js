@@ -39,6 +39,10 @@ export default defineConfig({
     target: 'es2022',
     assetsInlineLimit: 0, // 배경 이미지는 인라인하지 않고 파일로 유지
   },
+  // vitest 는 저장소 전체를 훑는다. .claude/worktrees/ 에는 다른 세션이 만든 작업 사본이
+  // 들어 있어, 그대로 두면 같은 테스트가 여러 벌 돌고(13개 → 19개) 옛 코드의 실패까지
+  // 섞여 들어온다. 실제 테스트는 tests/ 하나뿐이므로 사본은 제외한다.
+  test: { exclude: ['**/node_modules/**', '**/dist/**', '**/.claude/**'] },
   server: { port: 5173, host: true },
   preview: { port: 4173, host: true },
   plugins: [
