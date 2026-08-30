@@ -124,8 +124,7 @@
 ### 개인정보처리방침 URL
 `https://s10cho.github.io/nuri-world/privacy.html`
 
-> 문서 안의 문의 이메일이 `sycho@spectra.co.kr`로 되어 있다. 개인 프로젝트이므로
-> 이 주소가 맞는지 확인하고 필요하면 바꿀 것.
+문의 이메일은 `csyull2287@gmail.com` — Play 개발자 계정(개인 유형)과 같은 주소로 통일했다.
 
 ---
 
@@ -146,4 +145,5 @@
 - [ ] 실기기에서 소리·조작 확인 (디버그 APK: `android/app/build/outputs/apk/debug/app-debug.apk`)
 - [ ] App Store용 스크린샷 재촬영(위 해상도)
 - [ ] 피처 그래픽 1024×500 제작
-- [ ] `privacy.html` 문의 이메일 확인
+- [x] `privacy.html` 문의 이메일 — 개인 주소로 통일 완료
+- [ ] 개인 개발자 계정은 프로덕션 출시 전 **테스터 12명 × 14일 연속 폐쇄 테스트**가 필요하다(Google Play)
