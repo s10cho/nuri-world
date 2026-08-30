@@ -98,12 +98,13 @@ npm run sync:ios
 
 ### 계정 (유료 — 본인이 발급)
 - [ ] Apple Developer Program ($99/년)
-- [ ] Google Play Console ($25 1회)
+- [ ] Google Play Console ($25 1회) — 개인 유형, 소유 계정 `csyull2287@gmail.com`, 개발자명 `s10cho`.
+      결제 프로필·$25 결제 단계 진행 중. 개인 계정이라 프로덕션 출시 전 **테스터 12명 × 14일 연속 폐쇄 테스트** 필요.
 
 ### 필수 문서/설정 (아동 대상이라 엄격)
 - [x] **개인정보처리방침** — `public/privacy.html` 작성 완료(한/영, 데이터 미수집).
       배포 후 URL: `https://s10cho.github.io/nuri-world/privacy.html`.
-      ⚠️ 문의 이메일(`sycho@spectra.co.kr`)이 맞는지 확인·수정할 것.
+      문의 이메일은 개인 주소 `csyull2287@gmail.com`으로 통일(Play 개발자 계정과 동일).
 - [x] **폰트 자체 호스팅** — Jua·Noto Serif KR을 앱이 쓰는 글자만 서브셋(각 ~160KB)해 `css/fonts/`에 자체 호스팅.
       외부(Google Fonts) 요청 제거 → "데이터 수집 없음" 선언 + 완전 오프라인.
       커리큘럼 글자가 늘면 재생성: 원본 폰트(google/fonts) + `pyftsubset --text-file=<쓰는 글자> --flavor=woff2`
