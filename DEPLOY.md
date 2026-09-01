@@ -123,8 +123,40 @@ npm run sync:ios
 
 ## 6. 버전 올리기
 
-새 릴리스마다 `android/app/build.gradle`의 `versionCode`(정수, 매번 +1)·`versionName`,
-그리고 iOS는 Xcode의 Build/Version을 올린다.
+`versionName` 은 `package.json` 의 `version` 을 읽는다 — 한 곳만 고치면 된다.
+`versionCode`(정수, 업로드마다 +1)는 `android/app/build.gradle` 에서 직접 올린다.
+iOS 는 Xcode 의 Build/Version 을 올린다.
+
+## 6-1. 빌드가 막아 주는 것
+
+`keystore.properties` 없이 `npm run build:aab` 를 돌리면 **빌드가 실패한다.** 예전에는
+BUILD SUCCESSFUL 과 함께 43MB 짜리 *미서명* AAB 가 나왔고, Play 에 올리는 순간에야
+거부당했다. 이제 시작 전에 무엇이 없는지 알려 준다(키스토어 파일 경로·빠진 항목까지).
+
+> `storeFile` 경로는 `android/` 기준이다(`keystore.properties` 가 있는 위치).
+> 예전에는 `android/app/` 기준으로 풀려서, DEPLOY.md 안내대로 `android/release.keystore` 를
+> 만들면 서명 단계에서 "Keystore file not found" 로 실패했다 — 지금은 고쳐졌다.
+
+## 6-2. 뒤로 가기
+
+Capacitor 에는 뒤로 가기 처리가 없어 기본 동작이 '화면과 무관하게 앱 종료'다.
+아이가 게임 도중 누르면 그대로 꺼지므로 다음과 같이 처리했다.
+
+- `js/app.js` 가 화면을 옮길 때 히스토리에 한 칸을 쌓는다. 로딩·이야기·게임처럼
+  '거쳐 가는' 화면은 쌓지 않는다(되돌아왔을 때 처음부터 다시 시작되면 안 되므로).
+- `MainActivity` 가 웹뷰에 남은 칸을 먼저 소비하고, 없을 때에만 앱을 끝낸다.
+  targetSdk 36 은 예측형 뒤로 가기가 기본이라 `onBackPressed()` 대신
+  `OnBackPressedDispatcher` 에 콜백을 등록한다.
+
+동작: 왕국 → 지도 → 타이틀 → (한 번 더) 종료. 이야기·게임에서는 직전 화면으로 빠져나온다.
+
+## 6-3. INTERNET 권한
+
+`AndroidManifest` 에 `android.permission.INTERNET` 이 선언돼 있다(Capacitor 기본값).
+앱은 외부로 통신하지 않지만(코드·빌드 산출물에 외부 URL 0건), Capacitor 는 웹뷰를
+`https://localhost` 로 띄우고 요청을 가로채는 구조라 이 권한을 전제로 한다.
+**빼려면 실기기에서 확인이 필요하다** — 확인 없이 지우면 흰 화면이 될 수 있다.
+데이터 안전 설문은 '수집' 여부를 묻는 것이라 이 권한이 답에 영향을 주지는 않는다.
 
 ---
 
