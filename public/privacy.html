@@ -5,78 +5,297 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>개인정보처리방침 — 누리의 한글 왕국</title>
   <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#fff6e3">
   <style>
-    :root { color-scheme: light dark; }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; padding: 24px 18px 64px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
-      line-height: 1.7; color: #222; background: #fff;
-      max-width: 760px; margin-inline: auto;
+    /* 라이트 모드 고정 — 기기가 다크 모드여도 이 문서는 밝게 보인다.
+       스토어 심사자와 보호자가 어떤 환경에서 열든 같은 화면을 보게 하려는 것.
+
+       색은 앱(css/style.css)의 팔레트를 그대로 가져왔다. 다만 글꼴은 앱의 Jua 를
+       쓰지 않는다 — 자체 호스팅 Jua 는 앱이 쓰는 글자만 담은 서브셋이라 '개인정보
+       처리방침' 같은 문서 어휘는 글자가 빠져 깨진다. 게다가 privacy.html 은 Vite 가
+       처리하지 않는 public/ 정적 파일이라 해시된 폰트 경로도 잡히지 않는다.
+       그래서 브랜드감은 색·모양·아이콘으로 내고 본문은 시스템 글꼴로 둔다.
+       (외부 요청 0 — 이 앱의 '데이터 수집 없음' 선언과 같은 원칙) */
+    :root {
+      color-scheme: light;
+
+      --cream: #fff6e3;
+      --cream-deep: #ffe9c2;
+      --paper: #fffdf8;
+      --ink: #4a3423;
+      --ink-soft: #8a7360;
+      --wood: #8b5e3c;
+      --wood-dark: #6b4a2b;
+      --gold: #ffc93c;
+      --gold-deep: #e8a812;
+      --grass: #57a83d;
+      --sky: #59b8f2;
+      --sky-deep: #2f8fd0;
+      --sky-wash: #eaf6fe;
+      --line: #ecdfc6;
     }
-    @media (prefers-color-scheme: dark) { body { color: #e6e6e6; background: #16181c; } a { color: #6db3ff; } code { background:#2a2d33; } }
-    h1 { font-size: 1.6rem; margin: 0 0 4px; }
-    h2 { font-size: 1.15rem; margin: 32px 0 8px; padding-top: 8px; border-top: 1px solid rgba(128,128,128,0.25); }
-    .meta { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
-    .lead { background: rgba(89,184,242,0.12); border-left: 4px solid #59b8f2; padding: 12px 16px; border-radius: 8px; }
-    ul { padding-left: 20px; } li { margin: 4px 0; }
-    code { background: #f0f0f0; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
-    .en { margin-top: 48px; color: inherit; }
-    .en h2 { border-top: none; }
-    footer { margin-top: 40px; color: #999; font-size: 0.85rem; }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0 18px 72px;
+      font-family: 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont,
+                   'Malgun Gothic', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink);
+      /* 위쪽만 크림빛이 번지고 아래로 갈수록 종이색 */
+      background:
+        radial-gradient(1200px 420px at 50% -140px,
+          var(--cream-deep) 0%, var(--cream) 55%, #fffefb 100%) no-repeat,
+        #fffefb;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .wrap { max-width: 760px; margin-inline: auto; }
+
+    /* ---- 머리말 ---------------------------------------------------------- */
+    .top { padding: 26px 0 0; }
+
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--wood); text-decoration: none;
+      font-size: 0.9rem; font-weight: 600;
+      padding: 6px 14px 6px 10px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+    .back:hover { background: #fff; color: var(--wood-dark); }
+
+    header.hero {
+      display: flex; align-items: center; gap: 18px;
+      margin: 22px 0 26px;
+    }
+    .mark {
+      width: 76px; height: 76px; flex: none;
+      border-radius: 20px;
+      border: 3px solid #fff;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(107, 74, 43, 0.18);
+    }
+    .hero h1 {
+      font-size: clamp(1.5rem, 4.5vw, 2rem);
+      line-height: 1.25; margin: 0 0 6px; letter-spacing: -0.5px;
+    }
+    .hero .meta { color: var(--ink-soft); font-size: 0.9rem; }
+    .hero .meta b { color: var(--wood); font-weight: 600; }
+
+    /* ---- 한눈 요약 ------------------------------------------------------- */
+    .lead {
+      background: var(--sky-wash);
+      border: 1px solid #cfe9fb;
+      border-left: 6px solid var(--sky);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin: 0 0 18px;
+    }
+    .lead strong { color: var(--sky-deep); }
+
+    .chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 0 0 34px; padding: 0; list-style: none;
+    }
+    .chips li {
+      font-size: 0.86rem; font-weight: 600;
+      color: var(--wood-dark);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      box-shadow: 0 1px 0 rgba(107, 74, 43, 0.06);
+    }
+    .chips li::before {
+      content: '✓'; color: var(--grass);
+      margin-right: 6px; font-weight: 700;
+    }
+
+    /* ---- 본문 카드 ------------------------------------------------------- */
+    section.card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 22px;
+      margin: 0 0 14px;
+      box-shadow: 0 2px 10px rgba(107, 74, 43, 0.05);
+    }
+    section.card h2 {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.08rem; margin: 0 0 8px; color: var(--wood-dark);
+    }
+    /* 조항 번호를 원형 배지로 — 눈으로 세기 쉽게 */
+    section.card h2 .no {
+      flex: none;
+      width: 28px; height: 28px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--gold); color: var(--wood-dark);
+      font-size: 0.85rem; font-weight: 700;
+      box-shadow: 0 2px 0 var(--gold-deep);
+    }
+    section.card p { margin: 0; }
+    section.card p + p { margin-top: 10px; }
+    section.card ul { margin: 0; padding-left: 22px; }
+    section.card li { margin: 6px 0; }
+
+    a { color: var(--sky-deep); }
+    a:hover { color: var(--wood-dark); }
+
+    .mailto {
+      display: inline-block;
+      font-weight: 600;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 3px 12px;
+      text-decoration: none;
+    }
+    .mailto:hover { background: var(--cream-deep); }
+
+    /* ---- 영문 ------------------------------------------------------------ */
+    .en {
+      margin-top: 44px;
+      padding-top: 30px;
+      border-top: 2px dashed var(--line);
+    }
+    .en > h1 { font-size: 1.35rem; margin: 0 0 6px; color: var(--wood-dark); }
+    .en .meta { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 18px; }
+    .en section.card h2 { font-size: 1rem; }
+
+    footer {
+      margin-top: 44px; padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft); font-size: 0.85rem;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+
+    @media (max-width: 480px) {
+      header.hero { gap: 14px; }
+      .mark { width: 60px; height: 60px; border-radius: 16px; }
+      section.card { padding: 17px 16px; border-radius: 15px; }
+    }
+
+    /* 인쇄하면 배경을 걷어내고 잉크만 남긴다 */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .back, .chips { display: none; }
+      section.card { box-shadow: none; break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
-  <h1>개인정보처리방침</h1>
-  <div class="meta">앱: 누리의 한글 왕국 · 시행일: 2026년 7월 8일</div>
+<div class="wrap">
+
+  <div class="top">
+    <a class="back" href="./">← 누리의 한글 왕국</a>
+  </div>
+
+  <header class="hero">
+    <img class="mark" src="assets/icons/icon-192.png" alt="" width="76" height="76">
+    <div>
+      <h1>개인정보처리방침</h1>
+      <div class="meta">누리의 한글 왕국 · 시행일 <b>2026년 7월 8일</b></div>
+    </div>
+  </header>
 
   <p class="lead"><strong>이 앱은 어떤 개인정보도 수집하거나 외부로 전송하지 않습니다.</strong> 아이가 안심하고 사용할 수 있도록 계정, 로그인, 광고, 추적이 전혀 없습니다.</p>
 
-  <h2>1. 수집하는 개인정보</h2>
-  <p>없습니다. 이름, 이메일, 전화번호, 위치, 연락처 등 어떤 개인정보도 수집하지 않습니다. 회원가입·로그인 절차가 없습니다.</p>
-
-  <h2>2. 학습 진행 정보</h2>
-  <p>배운 글자·별·설정 등 학습 진행 상황은 <strong>기기 안(브라우저/앱의 로컬 저장소)에만</strong> 저장되며, 서버나 제3자에게 전송되지 않습니다. 앱을 삭제하면 이 정보도 함께 사라집니다.</p>
-
-  <h2>3. 네트워크·외부 서비스</h2>
-  <p>앱은 실행에 필요한 파일 외에 어떤 데이터도 서버로 보내지 않습니다. 폰트를 포함한 모든 자원을 앱에 담아 제공하므로 <strong>외부 분석 도구, 광고 네트워크, 추적기를 사용하지 않습니다.</strong></p>
-
-  <h2>4. 아동의 개인정보 보호</h2>
-  <p>이 앱은 미취학 아동을 위한 학습 앱입니다. 만 14세 미만 아동을 포함해 어떤 이용자로부터도 개인정보를 수집하지 않으며, 미국 COPPA 및 대한민국 개인정보보호법의 아동 보호 원칙을 준수합니다.</p>
-
-  <h2>5. 권한</h2>
-  <ul>
-    <li><strong>음성 안내</strong>: 앱에 포함된 녹음 음성을 재생하며, 보조적으로 기기에 내장된 음성 합성(TTS) 기능을 사용할 수 있습니다. 사용자의 음성을 녹음하지 않으며 마이크를 사용하지 않습니다.</li>
-    <li>카메라, 마이크, 위치, 연락처, 사진 등 민감 권한을 요구하지 않습니다.</li>
+  <ul class="chips">
+    <li>수집 없음</li>
+    <li>광고 없음</li>
+    <li>추적 없음</li>
+    <li>로그인 없음</li>
   </ul>
 
-  <h2>6. 제3자 제공</h2>
-  <p>수집하는 정보가 없으므로 제3자에게 제공하거나 판매하는 정보도 없습니다.</p>
-
-  <h2>7. 방침 변경</h2>
-  <p>본 방침이 변경되면 이 페이지에 갱신된 내용과 시행일을 게시합니다.</p>
-
-  <h2>8. 문의</h2>
-  <p>개인정보 관련 문의: <a href="mailto:csyull2287@gmail.com">csyull2287@gmail.com</a></p>
-
-  <section class="en">
-    <h1>Privacy Policy</h1>
-    <div class="meta">App: Nuri's Hangul Kingdom · Effective: July 8, 2026</div>
-    <p class="lead"><strong>This app does not collect or transmit any personal information.</strong> There are no accounts, logins, ads, or tracking.</p>
-    <h2>What we collect</h2>
-    <p>Nothing. No names, emails, phone numbers, location, or contacts. No sign-up or login.</p>
-    <h2>Learning progress</h2>
-    <p>Progress (learned letters, stars, settings) is stored <strong>only on the device</strong> (local storage) and is never sent to any server or third party. Deleting the app removes it.</p>
-    <h2>Network &amp; third parties</h2>
-    <p>The app sends no data to any server beyond loading the app's own files. All resources, including fonts, are bundled. <strong>No analytics, ad networks, or trackers are used.</strong></p>
-    <h2>Children's privacy</h2>
-    <p>Designed for preschool children, the app collects no personal information from anyone, including children under 13, consistent with COPPA and applicable child-privacy laws.</p>
-    <h2>Permissions</h2>
-    <p>Voice guidance plays audio bundled with the app, with the device's built-in text-to-speech as a fallback. The app never records you, and requests no microphone, camera, or location access.</p>
-    <h2>Contact</h2>
-    <p><a href="mailto:csyull2287@gmail.com">csyull2287@gmail.com</a></p>
+  <section class="card">
+    <h2><span class="no">1</span>수집하는 개인정보</h2>
+    <p>없습니다. 이름, 이메일, 전화번호, 위치, 연락처 등 어떤 개인정보도 수집하지 않습니다. 회원가입·로그인 절차가 없습니다.</p>
   </section>
 
-  <footer>누리의 한글 왕국 (Nuri's Hangul Kingdom)</footer>
+  <section class="card">
+    <h2><span class="no">2</span>학습 진행 정보</h2>
+    <p>배운 글자·별·설정 등 학습 진행 상황은 <strong>기기 안(브라우저/앱의 로컬 저장소)에만</strong> 저장되며, 서버나 제3자에게 전송되지 않습니다. 앱을 삭제하면 이 정보도 함께 사라집니다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">3</span>네트워크·외부 서비스</h2>
+    <p>앱은 실행에 필요한 파일 외에 어떤 데이터도 서버로 보내지 않습니다. 폰트를 포함한 모든 자원을 앱에 담아 제공하므로 <strong>외부 분석 도구, 광고 네트워크, 추적기를 사용하지 않습니다.</strong></p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">4</span>아동의 개인정보 보호</h2>
+    <p>이 앱은 미취학 아동을 위한 학습 앱입니다. 만 14세 미만 아동을 포함해 어떤 이용자로부터도 개인정보를 수집하지 않으며, 미국 COPPA 및 대한민국 개인정보보호법의 아동 보호 원칙을 준수합니다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">5</span>권한</h2>
+    <ul>
+      <li><strong>음성 안내</strong>: 앱에 포함된 녹음 음성을 재생하며, 보조적으로 기기에 내장된 음성 합성(TTS) 기능을 사용할 수 있습니다. 사용자의 음성을 녹음하지 않으며 마이크를 사용하지 않습니다.</li>
+      <li>카메라, 마이크, 위치, 연락처, 사진 등 민감 권한을 요구하지 않습니다.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">6</span>제3자 제공</h2>
+    <p>수집하는 정보가 없으므로 제3자에게 제공하거나 판매하는 정보도 없습니다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">7</span>방침 변경</h2>
+    <p>본 방침이 변경되면 이 페이지에 갱신된 내용과 시행일을 게시합니다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">8</span>문의</h2>
+    <p>개인정보 관련 문의: <a class="mailto" href="mailto:csyull2287@gmail.com">csyull2287@gmail.com</a></p>
+  </section>
+
+  <div class="en">
+    <h1>Privacy Policy</h1>
+    <div class="meta">Nuri's Hangul Kingdom · Effective July 8, 2026</div>
+
+    <p class="lead"><strong>This app does not collect or transmit any personal information.</strong> There are no accounts, logins, ads, or tracking.</p>
+
+    <section class="card">
+      <h2>What we collect</h2>
+      <p>Nothing. No names, emails, phone numbers, location, or contacts. No sign-up or login.</p>
+    </section>
+
+    <section class="card">
+      <h2>Learning progress</h2>
+      <p>Progress (learned letters, stars, settings) is stored <strong>only on the device</strong> (local storage) and is never sent to any server or third party. Deleting the app removes it.</p>
+    </section>
+
+    <section class="card">
+      <h2>Network &amp; third parties</h2>
+      <p>The app sends no data to any server beyond loading the app's own files. All resources, including fonts, are bundled. <strong>No analytics, ad networks, or trackers are used.</strong></p>
+    </section>
+
+    <section class="card">
+      <h2>Children's privacy</h2>
+      <p>Designed for preschool children, the app collects no personal information from anyone, including children under 13, consistent with COPPA and applicable child-privacy laws.</p>
+    </section>
+
+    <section class="card">
+      <h2>Permissions</h2>
+      <p>Voice guidance plays audio bundled with the app, with the device's built-in text-to-speech as a fallback. The app never records you, and requests no microphone, camera, or location access.</p>
+    </section>
+
+    <section class="card">
+      <h2>Contact</h2>
+      <p><a class="mailto" href="mailto:csyull2287@gmail.com">csyull2287@gmail.com</a></p>
+    </section>
+  </div>
+
+  <footer>
+    <span>누리의 한글 왕국 (Nuri's Hangul Kingdom)</span>
+    <span>광고 없음 · 인앱 결제 없음</span>
+  </footer>
+
+</div>
 </body>
 </html>
