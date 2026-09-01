@@ -8,6 +8,49 @@ const screens = {};
 let current = null;
 let navToken = 0;
 
+// ---- 뒤로 가기 ---------------------------------------------------------------
+// 안드로이드는 뒤로 가기를 누르면 액티비티가 그대로 끝난다 — Capacitor 에는 처리가 없어서
+// 게임 도중이든 지도든 앱이 즉시 꺼진다. 유아용 앱에서 아이가 누르는 버튼이라 그냥 둘 수 없다.
+//
+// 화면을 옮길 때 히스토리에 한 칸을 쌓아 두고, 뒤로 가기가 그 칸을 소비하면 화면을 되돌린다.
+// 네이티브(MainActivity)는 웹뷰에 남은 칸이 있으면 그것부터 쓰고, 없을 때에만 앱을 끝낸다.
+// 브라우저·PWA 의 뒤로 가기도 같은 경로로 동작한다.
+//
+// '거쳐 가는' 화면은 이력에 남기지 않는다. 되돌아왔을 때 로딩 화면이 다시 뜨거나
+// 이야기·게임이 처음부터 다시 시작되면 곤란하기 때문이다.
+const TRANSIENT = new Set(['loading', 'story', 'stage']);
+/** @type {{ name: string, params: any }[]} 되돌아갈 화면 스택 */
+const trail = [];
+let currentName = '';
+let goingBack = false;
+/** 뒤로 가기가 소비할 히스토리 칸을 하나 확보해 뒀는지. */
+let spare = false;
+
+/** 지금 화면에서 뒤로 갈 곳이 있는가. */
+function canGoBack() {
+  return TRANSIENT.has(currentName) ? trail.length >= 1 : trail.length >= 2;
+}
+
+/** 뒤로 가기가 소비할 칸을 하나만 유지한다(소비되면 popstate에서 다시 채운다). */
+function keepSpare() {
+  if (canGoBack() && !spare) {
+    spare = true;
+    window.history.pushState({ nuri: trail.length }, '');
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('popstate', () => {
+    spare = false;
+    // 거쳐 가는 화면에서는 스택을 건드리지 않는다 — 스택 맨 위가 곧 돌아갈 곳이다.
+    if (!TRANSIENT.has(currentName)) trail.pop();
+    const target = trail[trail.length - 1];
+    if (!target) return; // 최상위 — 그대로 두면 앱이 종료된다(의도한 동작)
+    goingBack = true;
+    go(target.name, target.params).finally(() => { goingBack = false; });
+  });
+}
+
 // 화면 등록 (각 화면 모듈이 render(params) => AppScreen 제공)
 /** @param {string} name @param {ScreenRender} renderFn */
 export function register(name, renderFn) {
@@ -45,6 +88,13 @@ export async function go(name, params = {}) {
   // 화면의 시작 루틴(onShow)에 수명 signal을 주입. 전환 도중 다른 화면으로
   // 이동했다면(token 불일치) 시작 루틴을 건너뜀.
   if (next._onShow && token === navToken) next._onShow(ac.signal);
+
+  currentName = name;
+  if (!goingBack && !TRANSIENT.has(name)) {
+    // 같은 화면을 다시 열면 스택이 무한히 길어지지 않게 한 번만 남긴다.
+    if (trail[trail.length - 1]?.name !== name) trail.push({ name, params });
+  }
+  keepSpare();
 }
 
 // ---- 부팅 -------------------------------------------------------------------

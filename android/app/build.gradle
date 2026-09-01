@@ -16,8 +16,10 @@ android {
         applicationId "com.sycho.nuri.hangulkingdom"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        // versionName 은 package.json 하나만 고치면 되도록 여기서 읽는다.
+        // (두 곳에 손으로 적어 두면 릴리스마다 어긋난다 — 실제로 1.0 vs 1.0.0 으로 갈렸다)
+        versionCode 1  // 스토어 업로드마다 +1 (정수여야 하고 되돌릴 수 없다)
+        versionName new groovy.json.JsonSlurper().parse(rootProject.file("../package.json")).version
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -28,7 +30,10 @@ android {
     signingConfigs {
         release {
             if (keystorePropsFile.exists()) {
-                storeFile file(keystoreProps['storeFile'])
+                // 경로는 keystore.properties 가 있는 android/ 기준으로 푼다.
+                // file(...) 은 모듈 폴더(android/app/) 기준이라, DEPLOY.md 가 안내하는
+                // android/release.keystore 를 찾지 못하고 서명 단계에서 실패했다.
+                storeFile rootProject.file(keystoreProps['storeFile'])
                 storePassword keystoreProps['storePassword']
                 keyAlias keystoreProps['keyAlias']
                 keyPassword keystoreProps['keyPassword']
@@ -44,6 +49,35 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+
+// 키스토어가 없으면 릴리스 산출물이 '미서명'으로 조용히 만들어진다. Gradle 은 BUILD SUCCESSFUL 을
+// 찍고 43MB짜리 AAB 까지 내놓지만 Play 는 서명 없는 번들을 거부한다 — 업로드하는 순간에야 알게 된다.
+// 그래서 릴리스 산출물을 만드는 작업일 때만, 빌드를 시작하기 전에 끊는다.
+// (디버그 빌드와 CI 클론은 영향을 받지 않는다.)
+gradle.taskGraph.whenReady { graph ->
+    def buildsRelease = graph.allTasks.any {
+        it.path.endsWith(':bundleRelease') || it.path.endsWith(':assembleRelease')
+    }
+    if (!buildsRelease) return
+
+    if (!keystorePropsFile.exists()) {
+        throw new GradleException(
+            "릴리스 서명 설정이 없습니다: android/keystore.properties\n" +
+            "  서명하지 않은 AAB/APK 는 Play 에 올릴 수 없습니다.\n" +
+            "  1) cd android && keytool -genkey -v -keystore release.keystore -alias nuri -keyalg RSA -keysize 2048 -validity 10000\n" +
+            "  2) android/keystore.properties.example 를 복사해 keystore.properties 로 만들고 값 채우기\n" +
+            "  자세한 내용은 DEPLOY.md 3장 참조. (비밀번호를 잃으면 앱 업데이트가 영구 불가하니 백업할 것)")
+    }
+
+    def missing = ['storeFile', 'storePassword', 'keyAlias', 'keyPassword'].findAll { !keystoreProps[it] }
+    if (missing) {
+        throw new GradleException("android/keystore.properties 에 값이 빠졌습니다: ${missing.join(', ')}")
+    }
+    def store = rootProject.file(keystoreProps['storeFile'])
+    if (!store.exists()) {
+        throw new GradleException("키스토어 파일을 찾을 수 없습니다: ${store}\n  keystore.properties 의 storeFile 경로를 확인하세요.")
     }
 }
 
