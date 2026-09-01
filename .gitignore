@@ -10,6 +10,10 @@ dist
 .vscode/*
 !.vscode/extensions.json
 
+# 스토어에 올릴 빌드 산출물 보관소 — AAB 는 수십 MB 라 커밋하지 않는다.
+# 워크트리에서 빌드하면 워크트리와 함께 사라지므로, 업로드할 파일은 여기 둔다.
+store/build/
+
 # Capacitor 네이티브 — 서명 비밀키·로컬 설정은 커밋 금지 (android/ ios/ 소스는 커밋)
 *.keystore
 *.jks

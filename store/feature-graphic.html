@@ -1,0 +1,153 @@
+<!doctype html>
+<!--
+  Google Play 피처 그래픽 원본 (1024×500).
+
+  재생성 (2배로 찍고 줄여야 글자 가장자리가 곱게 나온다):
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --hide-scrollbars --allow-file-access-from-files \
+      --force-device-scale-factor=2 --window-size=1024,500 --virtual-time-budget=4000 \
+      --screenshot="$PWD/store/feature-graphic@2x.png" \
+      "file://$PWD/store/feature-graphic.html"
+    sips -z 500 1024 store/feature-graphic@2x.png --out store/feature-graphic.png
+    rm store/feature-graphic@2x.png
+
+  Play는 이 이미지 위에 재생 버튼/타이틀을 덧씌우거나 가장자리를 잘라낼 수 있다.
+  그래서 글자는 가운데 쪽에 모으고, 가장자리 40px 안쪽에는 중요한 것을 두지 않는다.
+  글꼴은 앱과 같은 자체 호스팅 Jua 서브셋을 쓴다 — 서브셋이라 앱에 없는 글자는 렌더되지 않으니
+  문구를 바꿀 때는 앱이 실제로 쓰는 글자인지 확인할 것.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'Jua';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../css/fonts/Jua-subset.woff2') format('woff2');
+  }
+
+  :root {
+    --cream: #fff6e3;
+    --wood-dark: #6b4a2b;
+    --gold: #ffc93c;
+    --gold-deep: #e8a812;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1024px;
+    height: 500px;
+    overflow: hidden;
+    background: #285c8c;
+  }
+
+  .frame {
+    position: relative;
+    width: 1024px;
+    height: 500px;
+    overflow: hidden;
+  }
+
+  /* 배경: 타이틀 화면 원본(1672×941)을 가로 기준으로 덮고 살짝 위쪽을 보여 준다 */
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+  }
+
+  /* 왼쪽에서 오는 따뜻한 어둠 — 글자 대비를 만든다. 오른쪽 캐릭터 쪽은 비워 둔다 */
+  .veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(100deg,
+        rgba(38, 22, 10, 0.82) 0%,
+        rgba(38, 22, 10, 0.68) 34%,
+        rgba(38, 22, 10, 0.20) 58%,
+        rgba(38, 22, 10, 0) 74%);
+  }
+
+  .title-block {
+    position: absolute;
+    left: 62px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 520px;
+  }
+
+  .title {
+    font-family: 'Jua', sans-serif;
+    font-size: 92px;
+    line-height: 1.12;
+    color: var(--cream);
+    -webkit-text-stroke: 9px var(--wood-dark);
+    paint-order: stroke fill;
+    text-shadow:
+      0 6px 0 var(--gold-deep),
+      0 10px 22px rgba(0, 0, 0, 0.45);
+    letter-spacing: -1px;
+  }
+
+  /* 두 줄로 끊어 세로 균형을 잡는다 */
+  .title .l2 { display: block; }
+
+  /* 제목 폭에 맞춰 깔리는 받침선 — 짧으면 흘린 선처럼 보인다 */
+  .rule {
+    margin-top: 22px;
+    width: 430px;
+    height: 9px;
+    border-radius: 5px;
+    background: var(--gold);
+    box-shadow: 0 3px 0 var(--gold-deep), 0 6px 14px rgba(0, 0, 0, 0.35);
+  }
+
+  /* 캐릭터: 누리를 앞, 포리를 뒤쪽에 겹쳐 둔다 */
+  .cast {
+    position: absolute;
+    right: 44px;
+    bottom: 0;
+    height: 100%;
+    width: 460px;
+  }
+
+  .cast img {
+    position: absolute;
+    bottom: -8px;
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.42));
+  }
+
+  .nuri {
+    right: 24px;
+    height: 430px;
+    z-index: 2;
+  }
+
+  .pori {
+    right: 232px;
+    height: 300px;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <img class="bg" src="../public/assets/images/backgrounds/title_screen.jpg" alt="">
+    <div class="veil"></div>
+
+    <div class="title-block">
+      <div class="title">누리의<span class="l2">한글 왕국</span></div>
+      <div class="rule"></div>
+    </div>
+
+    <div class="cast">
+      <img class="pori" src="../public/assets/images/characters/pori/pori_web.png" alt="">
+      <img class="nuri" src="../public/assets/images/characters/nuri/nuri_web.png" alt="">
+    </div>
+  </div>
+</body>
+</html>
