@@ -1,5 +1,5 @@
 // 앱 진입점 + 화면 라우터
-import { unlockAudio, stopSpeech } from './audio.js';
+import { unlockAudio, audioUnlocked, stopSpeech } from './audio.js';
 import { store } from './store.js';
 
 /** @type {Record<string, ScreenRender>} */
@@ -146,11 +146,15 @@ async function boot() {
 
   // 첫 사용자 제스처에서 오디오 잠금 해제 (iOS/안드로이드 필수).
   // 부팅 직후 자동 재생이 막힌 환영 음성(현재 화면의 _welcomeOnUnlock)을 이때 재생.
+  // once:true 로 한 번만 시도하면, 그 제스처에서 resume()이 실패했을 때(웹뷰가 아직
+  // 컨텍스트를 안 놔주는 등) 앱이 끝까지 무음으로 남는다. 실제로 running 이 될 때까지
+  // 제스처마다 다시 시도하고, 확인되면 리스너를 떼어 낸다.
   const unlock = () => {
     unlockAudio();
     current?._welcomeOnUnlock?.();
+    if (audioUnlocked()) document.removeEventListener('pointerdown', unlock);
   };
-  document.addEventListener('pointerdown', unlock, { once: true });
+  document.addEventListener('pointerdown', unlock);
 
   // 두 손가락 핀치 줌 방지 (iOS Safari는 maximum-scale을 무시함).
   // 더블탭 줌은 CSS touch-action: manipulation으로 이미 막으므로 여기선 멀티터치만 차단.

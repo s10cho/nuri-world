@@ -42,11 +42,22 @@ function audioCtx() {
   return ctx;
 }
 
-// 앱이 다시 보이거나 포커스를 얻으면 오디오 컨텍스트를 복구 (세션 중 인터럽션 대비)
+// 앱이 숨겨지면 소리를 멈추고, 다시 보이면 오디오 컨텍스트를 복구한다.
+//
+// 멈추는 쪽이 없으면 홈으로 나가거나 화면을 꺼도 대사가 계속 흘러나온다 — 아이가 앱을
+// 벗어난 뒤에도 폰이 혼자 떠드는 셈이라, 백그라운드로 가는 즉시 끊는다.
+// (돌아왔을 때 자동으로 이어 말하지는 않는다. 화면을 누르면 그 화면의 안내가 다시 나온다.)
 if (typeof document !== 'undefined') {
+  const silenceForBackground = () => {
+    stopSpeech();
+    ctx?.suspend().catch(() => {});
+  };
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
+    if (document.hidden) { silenceForBackground(); return; }
+    if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
   });
+  // 일부 안드로이드 웹뷰는 화면을 끌 때 visibilitychange 대신 pagehide 만 준다.
+  window.addEventListener('pagehide', silenceForBackground);
   window.addEventListener('focus', () => {
     if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
   });
@@ -413,6 +424,15 @@ const SFX = {
 export function sfx(name) {
   if (!store.get().sound) return;
   try { SFX[name]?.(); } catch { /* 오디오 불가 환경에서는 무음 */ }
+}
+
+/**
+ * 오디오가 실제로 소리를 낼 수 있는 상태인가 (WebAudio 컨텍스트가 running).
+ * 첫 제스처에서 resume()이 실패해도 다음 제스처에서 다시 시도하려고 쓴다.
+ * @returns {boolean}
+ */
+export function audioUnlocked() {
+  return !!ctx && ctx.state === 'running';
 }
 
 // 사용자 첫 제스처에서 오디오 잠금 해제 (iOS/모바일 필수)
