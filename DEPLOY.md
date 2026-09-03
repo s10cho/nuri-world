@@ -9,6 +9,8 @@
 
 ---
 
+함정과 증상별 진단은 [TROUBLESHOOTING.md](TROUBLESHOOTING.md) 에 따로 모았다.
+
 ## 1. 사전 설치된 툴체인 (이 맥에 구성 완료)
 
 | 도구 | 용도 | 설치 방법 |
