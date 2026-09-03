@@ -105,10 +105,10 @@ export function iconBtn(icon, label, onclick) {
 }
 
 // ---- 모달 ------------------------------------------------------------------
-/** @param {any} children @param {{ onClose?: () => void }} [opts] */
-export function modal(children, { onClose } = {}) {
+/** @param {any} children @param {{ onClose?: () => void, className?: string }} [opts] */
+export function modal(children, { onClose, className = '' } = {}) {
   const wrap = el('div', { class: 'modal-wrap' },
-    el('div', { class: 'panel modal' }, children),
+    el('div', { class: `panel modal ${className}`.trim() }, children),
   );
   const close = () => {
     wrap.remove();

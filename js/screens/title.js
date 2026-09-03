@@ -4,6 +4,7 @@ import { el, topbar, iconBtn, toggleFullscreen, fullscreenSupported } from '../u
 import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
 import { CHARACTERS } from '../data.js';
+import { NATIVE } from '../platform.js';
 import { openSettings } from './settings.js';
 import { floatingLetters } from './titleLetters.js';
 
@@ -20,7 +21,8 @@ function render() {
   });
 
   const rightBtns = [iconBtn('⚙️', '설정', () => { sfx('tap'); openSettings(); })];
-  if (fullscreenSupported()) {
+  // 앱은 이미 몰입형 전체화면이라 웹뷰에서 이 버튼을 눌러도 바뀌는 게 없다 — 웹에서만 보여 준다.
+  if (!NATIVE && fullscreenSupported()) {
     rightBtns.unshift(iconBtn('⛶', '전체화면', () => { sfx('tap'); toggleFullscreen(); }));
   }
 

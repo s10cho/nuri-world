@@ -1,12 +1,12 @@
 // 오디오 엔진: 녹음 음성 파일 우선 + 한국어 TTS(Web Speech API) + WebAudio 합성 효과음
 
+import { NATIVE } from './platform.js';
 import { store } from './store.js';
 
 // Capacitor 네이티브 앱(iOS/Android)에서는 브라우저 speechSynthesis 대신 네이티브 TTS 플러그인을
 // 쓴다 — 특히 Android WebView의 speechSynthesis는 기기 TTS 데이터·WebView 버전에 따라 불안정.
-// 웹/PWA는 이미 정교하게 튜닝된 기존 경로를 그대로 사용. window.Capacitor는 네이티브 런타임에서만
-// 주입되므로 정적 import 없이 감지하고, 플러그인은 네이티브에서만 lazy-load해 웹 번들 영향 최소화.
-const NATIVE = typeof window !== 'undefined' && /** @type {any} */ (window).Capacitor?.isNativePlatform?.() === true;
+// 웹/PWA는 이미 정교하게 튜닝된 기존 경로를 그대로 사용.
+// 플러그인은 네이티브에서만 lazy-load해 웹 번들 영향을 최소화한다.
 /** @type {any} */
 let nativeTTS = null;
 let nativeKoOk = false;
