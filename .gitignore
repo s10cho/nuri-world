@@ -42,3 +42,6 @@ public/assets/images/characters/generated/
 
 # 녹음 다듬기 전 원본 백업 (public/ 밖에 둬야 배포에 안 실린다)
 .voice-backup/
+
+# Play Developer API 서비스 계정 키 (절대 커밋 금지)
+android/play-service-account.json

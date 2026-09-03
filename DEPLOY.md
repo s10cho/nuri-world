@@ -78,6 +78,43 @@ npm run build:aab
 
 ---
 
+## 3-3. Firebase App Distribution (Play 심사 대기 중 테스트 배포)
+
+Play 심사는 며칠 걸린다. 그동안 테스터가 먼저 설치해 보게 하는 병행 경로다.
+Play 트랙 배포와 별개이며 서로 영향을 주지 않는다.
+
+```bash
+npm run release:firebase      # 릴리스 APK 빌드 + 배포 (한 번에)
+# 또는 나눠서
+npm run build:apk:release     # → android/app/build/outputs/apk/release/app-release.apk
+npm run dist:firebase
+```
+
+구성(2026-09-03 기준):
+
+| 항목 | 값 |
+|---|---|
+| Firebase/GCP 프로젝트 | `sycho-app-507317` ("sycho app") |
+| Android 앱 ID | `1:197519335220:android:3a2e31b39b9129b4d0cf61` |
+| 테스터 그룹 | `nuri-testers` ("누리 테스터") |
+| 인증 | 서비스 계정 `android/play-service-account.json` (`GOOGLE_APPLICATION_CREDENTIALS`) — `firebase login` 불필요 |
+
+테스터 추가·삭제:
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="$PWD/android/play-service-account.json"
+firebase appdistribution:testers:add a@x.com b@y.com --group-alias nuri-testers --project sycho-app-507317
+firebase appdistribution:testers:remove a@x.com --group-alias nuri-testers --project sycho-app-507317
+firebase appdistribution:groups:list --project sycho-app-507317
+```
+
+주의할 점:
+
+- 이 APK는 **업로드 키**로 서명된다. Play(앱 서명)에서 받는 빌드와 서명이 달라, 테스터가 Play 버전으로 갈아탈 때는 **먼저 삭제**해야 한다.
+- 앱에 Firebase SDK나 `google-services.json`을 넣지 않았다. App Distribution은 App ID만으로 동작하고, SDK를 넣으면 "데이터 수집 없음" 신고와 어긋난다. Google 애널리틱스도 프로젝트 생성 시 껐다.
+- 테스터는 초대 메일을 받고 **Firebase App Tester** 앱(또는 링크)으로 설치한다. 안드로이드 설정에서 "출처를 알 수 없는 앱" 허용이 필요할 수 있다.
+- iOS도 App Distribution을 쓸 수 있지만 **Apple Developer 계정 + 테스터 기기 UDID 등록(ad-hoc)** 이 필요하다. TestFlight가 더 수월한 경우가 많다.
+
 ## 4. iOS 릴리스 (Xcode 아카이브 — Apple 계정 필요)
 
 iOS는 서명·프로비저닝에 Apple Developer 계정이 필수라 완전 CLI가 어렵다. 순서:
@@ -150,9 +187,30 @@ npm run sync:ios
 
 ## 6. 버전 올리기
 
-`versionName` 은 `package.json` 의 `version` 을 읽는다 — 한 곳만 고치면 된다.
-`versionCode`(정수, 업로드마다 +1)는 `android/app/build.gradle` 에서 직접 올린다.
-iOS 는 Xcode 의 Build/Version 을 올린다.
+`versionName` 과 `versionCode` 는 각각 한 곳에서만 관리한다. 두 곳에 손으로 적으면 릴리스마다 어긋난다.
+
+| | 소스 | 올리는 법 |
+|---|---|---|
+| `versionName` (1.0.1) | `package.json` 의 `version` | 사람이 판단해 직접 수정 |
+| `versionCode` (정수) | `android/version-code.txt` | `npm run bump:code` (배포 스크립트가 자동 호출) |
+
+`android/app/build.gradle` 은 두 파일을 읽기만 한다.
+
+```bash
+npm run show:code             # 현재 versionCode
+npm run bump:code             # +1
+npm run release:firebase      # bump → 빌드 → Firebase 배포 (자동으로 +1)
+```
+
+versionCode 규칙: 정수, 되돌릴 수 없음, **스토어에 올리는 파일마다 이전보다 커야 한다**.
+번호가 건너뛰어도(1 → 5) 문제없다. 로컬에서 몇 번을 빌드하든 무관하고, **올릴 때만** 의미가 생긴다.
+Firebase App Distribution 은 같은 versionCode 로도 여러 번 받아 주지만, 테스터가 App Tester 에서
+빌드를 구분할 수 있도록 배포마다 올리는 편이 낫다.
+
+`version-code.txt` 는 **커밋한다** — gitignore 하면 클론할 때마다 번호가 리셋되어 Play 업로드가 막힌다.
+
+iOS 는 Xcode 의 Version(=versionName)/Build(=versionCode 에 해당) 를 올린다.
+Android 와 값을 맞춰 두면 나중에 크래시 리포트를 대조하기 쉽다.
 
 ## 6-1. 빌드가 막아 주는 것
 
