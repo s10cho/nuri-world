@@ -72,7 +72,7 @@ export function runLearn({ area, signal }, { jamoList }) {
 
       area.replaceChildren(
         el('div', { class: 'prompt-bar' },
-          el('button', { class: 'btn-speaker', onclick: () => speak(introLine(ch)) }, '🔊'),
+          el('button', { class: 'btn-speaker pulse', onclick: () => speak(introLine(ch)) }, '🔊'),
           el('span', {}, '글자를 눌러서 소리를 들어 보세요!'),
         ),
         card,

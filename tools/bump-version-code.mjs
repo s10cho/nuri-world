@@ -21,7 +21,7 @@ async function read() {
     throw new Error('정수가 아님');
   } catch (err) {
     if (/** @type {any} */ (err)?.code === 'ENOENT') return 0; // 파일이 없으면 1부터 시작
-    throw new Error(`${FILE} 를 읽을 수 없습니다: ${/** @type {Error} */ (err).message}`);
+    throw new Error(`${FILE} 를 읽을 수 없습니다`, { cause: err });
   }
 }
 

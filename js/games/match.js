@@ -75,7 +75,7 @@ export function runMatch({ area, signal }, { jamoList }) {
 
     area.replaceChildren(
       el('div', { class: 'prompt-bar' },
-        el('button', { class: 'btn-speaker', onclick: () => speak('카드를 뒤집어서 같은 글자 짝을 찾아 보세요!') }, '🔊'),
+        el('button', { class: 'btn-speaker pulse', onclick: () => speak('카드를 뒤집어서 같은 글자 짝을 찾아 보세요!') }, '🔊'),
         el('span', {}, '같은 글자 짝을 찾아 보세요!'),
       ),
       el('div', { class: 'memory-grid', style: { '--cols': cols } }, cards),
