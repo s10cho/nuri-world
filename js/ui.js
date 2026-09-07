@@ -14,7 +14,13 @@ export function el(tag, attrs = {}, ...children) {
     if (k.startsWith('on') && typeof v === 'function') {
       node.addEventListener(k.slice(2), v);
     } else if (k === 'style' && typeof v === 'object') {
-      Object.assign(node.style, v);
+      for (const [prop, val] of Object.entries(v)) {
+        // CSS 커스텀 속성(--x)은 style 객체에 대입해도 조용히 무시된다 — setProperty 로 넣어야 한다.
+        // 이걸 몰라서 색종이 회전·낙하시간(--rot/--dur), 친구들 파도타기(--i),
+        // 춤 프레임 딜레이(--f)가 전부 기본값으로 굳어 있었다(= 다 똑같이 움직였다).
+        if (prop.startsWith('--')) node.style.setProperty(prop, String(val));
+        else /** @type {any} */ (node.style)[prop] = val;
+      }
     } else if (k === 'dataset') {
       Object.assign(node.dataset, v);
     } else {

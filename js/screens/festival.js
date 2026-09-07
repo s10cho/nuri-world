@@ -7,7 +7,10 @@ import { register, go } from '../app.js';
 import { el, fxConfetti, fxBurstAt, sleep } from '../ui.js';
 import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
-import { FESTIVAL, CHARACTERS, VILLAGE_STAGES } from '../data.js';
+import { FESTIVAL, CELEBRATIONS, VILLAGE_STAGES } from '../data.js';
+
+/** 춤 프레임 — 함께 기뻐하는 일러스트를 번갈아 보여 준다 */
+const DANCE_FRAMES = CELEBRATIONS;
 
 /** 축제가 이어지는 동안 색종이를 터뜨리는 간격 */
 const CONFETTI_EVERY = 2400;
@@ -29,8 +32,14 @@ function render() {
     }, r.e),
   );
 
-  const nuri = el('img', { class: 'char enter char-nuri', src: CHARACTERS.nuri, alt: '누리', style: { left: '4%' } });
-  const pori = el('img', { class: 'char enter char-pori', src: CHARACTERS.pori, alt: '포리', style: { right: '4%' } });
+  // 축제에서는 둘이 따로 서 있는 정적 이미지 대신, 함께 기뻐하는 일러스트를 프레임처럼
+  // 번갈아 보여 주며 왈츠처럼 흔들어 '춤추는 한 쌍'으로 만든다.
+  // (손을 맞잡은 전용 그림이 없어 기존 축하 일러스트를 프레임으로 쓴다)
+  const dancers = el('div', { class: 'festival-dancers' },
+    DANCE_FRAMES.map((src, i) =>
+      el('img', { class: 'dance-frame', src, alt: i === 0 ? '함께 기뻐하는 누리와 포리' : '', style: { '--f': String(i) } }),
+    ),
+  );
 
   s.append(
     el('div', { class: 'scrim' }),
@@ -42,21 +51,12 @@ function render() {
         el('button', { class: 'btn-big', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 지도로'),
       ),
     ),
-    nuri,
-    pori,
+    dancers,
   );
 
   s._onShow = async signal => {
     store.markFestivalSeen();
     sfx('fanfare');
-
-    // 등장 애니메이션(charBounceIn 0.7s)이 끝난 뒤 기뻐하는 동작으로 넘긴다.
-    // 같은 transform 을 두 애니메이션이 다투지 않도록 클래스를 바꿔 준다.
-    setTimeout(() => {
-      if (signal.aborted) return;
-      nuri.classList.replace('enter', 'cheer');
-      pori.classList.replace('enter', 'cheer');
-    }, 750);
 
     // 대사가 끝나도 축제는 계속된다 — 화면을 떠날 때까지 색종이와 반짝임을 이어 간다.
     const party = (async () => {
