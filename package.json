@@ -1,6 +1,6 @@
 {
   "name": "nuri-hangul-kingdom",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "누리의 한글 왕국 — 미취학 아동을 위한 한글 학습 모험 웹앱",
   "type": "module",
   "private": true,
@@ -58,6 +58,8 @@
     "@capacitor-community/text-to-speech": "^8.0.2",
     "@capacitor/android": "^8.4.1",
     "@capacitor/core": "^8.4.1",
-    "@capacitor/ios": "^8.4.1"
+    "@capacitor/filesystem": "^8.1.3",
+    "@capacitor/ios": "^8.4.1",
+    "@capacitor/share": "^8.0.1"
   }
 }

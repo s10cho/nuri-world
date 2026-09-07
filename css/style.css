@@ -681,6 +681,23 @@ button {
 }
 .festival-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
+/* 기념 네컷 카드 */
+.modal.memento-modal { max-width: min(94vw, 520px); gap: 12px; }
+.memento-holder { display: flex; justify-content: center; min-height: 40px; }
+.memento-canvas {
+  width: 100%;
+  max-width: 360px;
+  max-height: 58vh;
+  object-fit: contain;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+}
+.memento-status { min-height: 1.3rem; font-size: 0.95rem; color: var(--wood); }
+.memento-actions { display: flex; gap: 12px; justify-content: center; }
+.memento-actions > button { flex: 1; min-height: clamp(44px, 7.5vh, 56px); font-size: clamp(1rem, 2.8vh, 1.2rem); white-space: nowrap; }
+.memento-actions > button:disabled { opacity: 0.45; filter: grayscale(0.4); }
+
 /* 함께 춤추는 누리·포리.
    손을 맞잡은 전용 그림이 없어, 함께 기뻐하는 축하 일러스트 3장을 프레임처럼 교차시키고
    전체를 왈츠처럼 흔들어 '둘이 춤춘다'로 읽히게 한다. */

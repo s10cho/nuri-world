@@ -6,6 +6,7 @@
 import { register, go } from '../app.js';
 import { el, fxConfetti, fxBurstAt, sleep } from '../ui.js';
 import { store } from '../store.js';
+import { openMemento } from './memento.js';
 import { speak, sfx } from '../audio.js';
 import { FESTIVAL, CELEBRATIONS, VILLAGE_STAGES } from '../data.js';
 
@@ -48,6 +49,7 @@ function render() {
       textBox,
       el('div', { class: 'festival-actions' },
         el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); go('dex'); } }, '📖 도감 보기'),
+        el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); openMemento(); } }, '📸 기념 네컷'),
         el('button', { class: 'btn-big', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 지도로'),
       ),
     ),
