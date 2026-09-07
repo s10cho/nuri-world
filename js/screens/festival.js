@@ -21,7 +21,7 @@ const SPARKLE_EVERY = 900;
 function render() {
   const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${FESTIVAL.bg})` } }));
 
-  const textBox = el('div', { class: 'panel story-text' });
+  const textBox = el('div', { class: 'panel story-text festival-line' });
   // 구출한 친구 전부. 예전에는 12명만 보였는데, 다 모은 아이에게는 그만큼이 성과다.
   const residents = VILLAGE_STAGES.flatMap(st => st.words).filter(w => store.get().residents.includes(w.w));
 
@@ -46,6 +46,7 @@ function render() {
     el('div', { class: 'scrim' }),
     el('div', { class: 'center-col festival-col' },
       el('div', { class: 'festival-parade' }, friends),
+      dancers,
       textBox,
       el('div', { class: 'festival-actions' },
         el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); go('dex'); } }, '📖 도감 보기'),
@@ -53,7 +54,6 @@ function render() {
         el('button', { class: 'btn-big', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 지도로'),
       ),
     ),
-    dancers,
   );
 
   s._onShow = async signal => {

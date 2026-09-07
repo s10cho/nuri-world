@@ -702,12 +702,14 @@ button {
    손을 맞잡은 전용 그림이 없어, 함께 기뻐하는 축하 일러스트 3장을 프레임처럼 교차시키고
    전체를 왈츠처럼 흔들어 '둘이 춤춘다'로 읽히게 한다. */
 .festival-dancers {
-  position: absolute;
-  /* 가운데 두면 대사 패널과 버튼을 가린다 — 원래 누리가 서 있던 왼쪽 아래를 무대로 쓴다 */
-  left: 1%;
-  bottom: 0;
-  width: clamp(240px, 46vmin, 520px);
+  /* 대사 바로 위 가운데가 무대다. 흐름 안에 두어 위쪽 친구들 줄을 자연스럽게 밀어 올린다
+     (예전엔 왼쪽 구석에 절대배치라 한쪽으로 치우쳐 보였다). */
+  position: relative;
+  /* 일러스트에 투명 여백이 많아 실제 캐릭터는 상자의 3분의 2쯤이다 — 넉넉히 잡는다 */
+  height: clamp(130px, 40vh, 380px);
   aspect-ratio: 3 / 2;
+  width: auto;
+  flex: none;
   z-index: 3;
   pointer-events: none;
   transform-origin: bottom center;
@@ -737,6 +739,123 @@ button {
   33.33% { opacity: 0; }
   100%   { opacity: 0; }
 }
+
+/* ============ 글자 별 모으기(점수 게임) ============ */
+.arena-hud {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.4vw, 22px);
+  padding: 0 clamp(12px, 4vw, 40px);
+}
+.arena-time {
+  flex: 1;
+  max-width: min(56vw, 460px);
+  height: clamp(14px, 2.6vh, 22px);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 3px solid #fff;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+/* 남은 시간은 자주 바뀌므로 전환을 짧게 — 보스 체력바처럼 늘어지면 실제와 어긋나 보인다 */
+.arena-time .fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #ffe07a, var(--gold-deep));
+  transition: width 0.12s linear;
+}
+.arena-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: clamp(1.1rem, 3.2vh, 1.7rem);
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+}
+.arena-combo { color: #ffd95e; }
+
+.arena-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 2vh, 16px);
+  text-align: center;
+  font-size: clamp(1rem, 2.8vh, 1.3rem);
+}
+.arena-result-score { font-size: clamp(1.8rem, 6vh, 3rem); color: var(--wood); }
+.arena-result-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+/* ---- 글자 놀이: 종류 고르기 ---- */
+.arena-hub { gap: clamp(10px, 2.4vh, 22px); }
+.arena-picks {
+  display: flex;
+  gap: clamp(10px, 2vw, 20px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.arena-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2px, 0.6vh, 6px);
+  width: clamp(150px, 24vw, 230px);
+  padding: clamp(10px, 2vh, 20px) clamp(8px, 1.4vw, 16px);
+  background: linear-gradient(180deg, var(--cream) 0%, #fdeecd 100%);
+  border: 4px solid var(--wood);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+  color: var(--ink);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.arena-pick:active { transform: translateY(3px); box-shadow: var(--shadow-soft); }
+.arena-pick.locked { opacity: 0.5; filter: grayscale(0.5); }
+.arena-pick-ico { font-size: clamp(2rem, 7vh, 3.4rem); line-height: 1; }
+.arena-pick-name { font-size: clamp(1rem, 2.9vh, 1.4rem); font-weight: 700; }
+.arena-pick-desc { font-size: clamp(0.8rem, 2.1vh, 1rem); opacity: 0.8; }
+.arena-pick-best { font-size: clamp(0.78rem, 2vh, 0.95rem); color: var(--wood); }
+
+/* ---- 떨어지는 글자 ---- */
+.fall-bar { gap: clamp(8px, 1.6vw, 16px); }
+.fall-target { display: flex; align-items: center; gap: 8px; }
+.fall-target-label { font-size: clamp(0.85rem, 2.2vh, 1.05rem); opacity: 0.75; }
+.fall-target-ch {
+  font-size: clamp(1.6rem, 5.4vh, 2.6rem);
+  font-weight: 700;
+  color: var(--wood);
+}
+.fall-field { position: relative; flex: 1; width: 100%; min-height: 0; overflow: hidden; }
+.fall-letter {
+  position: absolute;
+  top: 0;
+  width: clamp(52px, 11vh, 88px);
+  height: clamp(52px, 11vh, 88px);
+  font-size: clamp(1.6rem, 5.6vh, 2.6rem);
+  will-change: transform;
+}
+
+/* ---- 같은 글자 모으기 ---- */
+.find-target {
+  font-size: clamp(1.6rem, 5.4vh, 2.6rem);
+  font-weight: 700;
+  color: var(--wood);
+  margin-left: 4px;
+}
+.find-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(6px, 1.6vh, 14px);
+  justify-items: center;
+}
+.find-cell {
+  width: clamp(52px, 12vh, 96px);
+  height: clamp(52px, 12vh, 96px);
+  font-size: clamp(1.5rem, 5.6vh, 2.8rem);
+}
+.find-cell.found { opacity: 0.45; pointer-events: none; }
 
 /* ============ 보스전 ============ */
 .boss-hp {
@@ -907,6 +1026,15 @@ button {
   text-align: center;
   font-size: clamp(1.25rem, 3.2vmin, 2rem);
   line-height: 1.6;
+}
+/* 축제 대사는 한 줄짜리라 스토리 화면만큼 두꺼울 이유가 없다.
+   .panel 의 여백(22px)과 줄간격 1.6 이 겹쳐 덩어리처럼 보였다. */
+.story-text.festival-line {
+  padding: clamp(7px, 1.5vh, 13px) clamp(18px, 3vw, 30px);
+  border-width: 3px;
+  line-height: 1.3;
+  /* 두께만 줄이고 글자는 읽히게 — vmin 으로 잡으면 짧은 가로 화면에서 과하게 작아진다 */
+  font-size: clamp(1rem, 3.1vh, 1.5rem);
 }
 .tap-hint {
   font-size: 1rem;

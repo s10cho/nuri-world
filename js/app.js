@@ -142,6 +142,8 @@ async function boot() {
     import('./screens/result.js'),
     import('./screens/dex.js'),
     import('./screens/festival.js'),
+    import('./screens/arena.js'),
+    import('./screens/arena-play.js'),
   ]);
 
   // 첫 사용자 제스처에서 오디오 잠금 해제 (iOS/안드로이드 필수).

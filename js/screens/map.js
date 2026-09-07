@@ -51,6 +51,7 @@ function render() {
 
   // 왕국 축제 (모든 왕국 클리어 시)
   const allCleared = KINGDOM_ORDER.every(k => store.kingdomCleared(k));
+  const best = store.bestArenaAny();
   const fest = el('button', {
     class: `map-spot ${allCleared ? 'next' : 'locked'}`,
     style: { left: `${MAP_SPOTS.festival.x}%`, top: `${MAP_SPOTS.festival.y}%` },
@@ -65,6 +66,25 @@ function render() {
     },
   },
     el('span', { class: 'label' }, '🎉 왕국 축제', el('span', { class: 'sub' }, '엔딩 파티')),
+    allCleared ? null : el('span', { class: 'lock-ico' }, '🔒'),
+  );
+
+  // 글자 놀이 — 모든 왕국을 구하면 열리는 점수 게임(세 종류)
+  const arena = el('button', {
+    class: `map-spot ${allCleared ? 'next' : 'locked'}`,
+    style: { left: `${MAP_SPOTS.arena.x}%`, top: `${MAP_SPOTS.arena.y}%` },
+    onclick: () => {
+      if (!allCleared) {
+        sfx('wrong');
+        speak('몬스터를 물리치면 축제가 열려요!');
+        return;
+      }
+      sfx('tap');
+      go('arena');
+    },
+  },
+    el('span', { class: 'label' }, '⭐ 글자 놀이',
+      el('span', { class: 'sub' }, best ? `최고 ${best}점` : '세 가지 놀이가 있어요')),
     allCleared ? null : el('span', { class: 'lock-ico' }, '🔒'),
   );
 
@@ -86,6 +106,7 @@ function render() {
     ),
     ...spots,
     fest,
+    arena,
   );
 
   s._onShow = () => {

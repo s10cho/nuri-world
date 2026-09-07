@@ -7,6 +7,7 @@
  * @property {Record<string, number[]>} stars  왕국별 스테이지 별점(-1=미도전)
  * @property {boolean} festivalSeen
  * @property {string[]} residents  구출한 주민 id
+ * @property {Record<string, number>} bestArena  글자 놀이 모드별 최고 점수
  * @property {string[]} jamo  모은 글자
  */
 
@@ -16,6 +17,8 @@ const KEY = 'nuri-hangul-kingdom-v1';
 const DEFAULT = {
   sound: true,
   introSeen: false,
+  // 글자 놀이(모두 클리어 후 열리는 점수 게임) — 모드별 최고 점수
+  bestArena: {},
   // 왕국별 스테이지 별점: stars['meadow'][0] = 스테이지1 별 개수(0~3), -1 = 미도전
   stars: {
     meadow:  [-1, -1, -1, -1, -1],
@@ -69,6 +72,29 @@ export const store = {
 
   /** @param {boolean} on */
   setSound(on) { state.sound = on; save(); },
+
+  /**
+   * 모드별 최고 점수.
+   * @param {string} mode
+   * @returns {number}
+   */
+  bestArena(mode) { return state.bestArena?.[mode] || 0; },
+
+  /** 어느 모드든 통틀어 가장 높은 점수 (지도에 표시) @returns {number} */
+  bestArenaAny() { return Math.max(0, ...Object.values(state.bestArena || {})); },
+
+  /**
+   * 최고 점수 갱신 — 새 기록일 때만 저장한다.
+   * @param {string} mode @param {number} score
+   * @returns {boolean} 새 기록이면 true
+   */
+  setBestArena(mode, score) {
+    if (!state.bestArena) state.bestArena = {};
+    if (score <= (state.bestArena[mode] || 0)) return false;
+    state.bestArena[mode] = score;
+    save();
+    return true;
+  },
 
   markIntroSeen() { state.introSeen = true; save(); },
   markFestivalSeen() { state.festivalSeen = true; save(); },
