@@ -61,7 +61,7 @@ export function pickRound(pool, count = CHOICES) {
 export const MODES = [
   { id: 'listen', icon: '🔊', name: '소리 듣고 찾기',   desc: '들리는 글자를 골라요',     needsSound: true },
   { id: 'fall',   icon: '🌈', name: '떨어지는 글자',     desc: '내려오는 글자를 잡아요',   needsSound: false },
-  { id: 'find',   icon: '👀', name: '같은 글자 모으기',  desc: '같은 글자를 모두 찾아요',  needsSound: false },
+  { id: 'find',   icon: '👀', name: '같은 글자 모으기',  desc: '들려주는 글자를 모두 찾아요', needsSound: false },
 ];
 
 /** @param {string} id */

@@ -268,6 +268,10 @@ function runFind({ area, signal, pool, correct, wrong, isOver }) {
       ),
       el('div', { class: 'find-board' }, nodes),
     );
+    // 판이 바뀔 때마다 찾을 글자를 들려준다 — 글자를 눈으로만 보는 것보다
+    // 소리와 함께 익히는 편이 낫고, 아직 글자가 낯선 아이에게도 단서가 된다.
+    // (소리 없이도 화면의 목표 글자만 보고 할 수 있다 — 조용한 곳에서도 즐길 수 있게)
+    speak(target.line, { signal });
   }
 }
 
