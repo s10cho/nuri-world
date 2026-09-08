@@ -15,8 +15,8 @@
 
 | 도구 | 용도 | 설치 방법 |
 |------|------|-----------|
-| Xcode | iOS 빌드 | (이미 설치됨) |
-| CocoaPods 1.17 | iOS 의존성 | `brew install cocoapods` |
+| Xcode | iOS 빌드 | (이미 설치됨 — `xcode-select` 가 CommandLineTools 를 가리키면 4-1 참고) |
+| ~~CocoaPods~~ | — | Capacitor 8 은 **SPM** 을 쓴다. `.xcworkspace` 없이 `App.xcodeproj` 를 연다 |
 | Android SDK cmdline-tools | Android 빌드 | `brew install --cask android-commandlinetools` |
 | platform 36 · build-tools 36 · platform-tools | Android 빌드 | `sdkmanager` |
 | JDK 21 | Gradle | (이미 설치됨) |
@@ -115,21 +115,79 @@ firebase appdistribution:groups:list --project sycho-app-507317
 - 이 APK는 **업로드 키**로 서명된다. Play(앱 서명)에서 받는 빌드와 서명이 달라, 테스터가 Play 버전으로 갈아탈 때는 **먼저 삭제**해야 한다.
 - 앱에 Firebase SDK나 `google-services.json`을 넣지 않았다. App Distribution은 App ID만으로 동작하고, SDK를 넣으면 "데이터 수집 없음" 신고와 어긋난다. Google 애널리틱스도 프로젝트 생성 시 껐다.
 - 테스터는 초대 메일을 받고 **Firebase App Tester** 앱(또는 링크)으로 설치한다. 안드로이드 설정에서 "출처를 알 수 없는 앱" 허용이 필요할 수 있다.
-- iOS도 App Distribution을 쓸 수 있지만 **Apple Developer 계정 + 테스터 기기 UDID 등록(ad-hoc)** 이 필요하다. TestFlight가 더 수월한 경우가 많다.
+- iOS 는 Firebase App Distribution 을 쓰지 않는다. ad-hoc 배포는 테스터 기기 UDID 를 일일이 등록해야 하는데, TestFlight 내부 테스터는 심사 없이 바로 설치되므로 그쪽이 낫다 (4장).
 
-## 4. iOS 릴리스 (Xcode 아카이브 — Apple 계정 필요)
+## 4. iOS 릴리스 (TestFlight → App Store)
 
-iOS는 서명·프로비저닝에 Apple Developer 계정이 필수라 완전 CLI가 어렵다. 순서:
+### 4-1. 계정 없이 되는 것 — 시뮬레이터 스모크 테스트
 
 ```sh
-npm run sync:ios
+npm run build:ios:sim
 ```
 
-1. Xcode에서 `ios/App/App.xcworkspace` 열기 → Signing & Capabilities에서 팀 선택(자동 서명).
-2. 아카이브: Product ▸ Archive (또는 CLI: `xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release archive -archivePath build/App.xcarchive`).
-3. Organizer ▸ Distribute App ▸ App Store Connect 로 업로드 (또는 `xcrun altool`/Transporter).
+빌드·설치·실행하고 **웹뷰 콘솔을 15초 지켜본다.** 오류가 하나라도 찍히면 실패로 끝나고,
+스크린샷은 `store/build/ios-sim.png` 에 남는다.
 
-> 완전 CLI 자동화는 **fastlane**(`fastlane gym` + `fastlane pilot/deliver`)로 가능하나 인증서·프로파일 세팅이 선행돼야 한다.
+이걸 따로 둔 이유가 있다. 네이티브 브리지가 얽힌 문제는 **웹에서도 안드로이드에서도 안 잡힌다.**
+실제로 Capacitor 플러그인 객체를 `async` 함수에서 그대로 반환하는 코드가 있었는데, 그 객체는
+모든 속성 접근을 네이티브 호출로 바꾸는 프록시라 JS 가 thenable 인지 확인하려고 `.then` 을 읽는
+순간 `"TextToSpeech.then()" is not implemented on ios` 로 거절됐다. 아무도 받지 않는 거절이라
+`unhandledrejection` 으로 새어 나가 **부팅 직후 에러 화면**이 떴다. 안드로이드는 로딩 화면이
+먼저 그려져 우연히 가려졌을 뿐 같은 코드였다. 이 스크립트가 그걸 콘솔에서 바로 보여 준다.
+
+> Xcode 가 설치돼 있어도 `xcode-select` 가 CommandLineTools 를 가리키면 `xcodebuild` 가 안 돈다.
+> 스크립트가 `DEVELOPER_DIR` 을 알아서 채우므로 그대로 두어도 되고, 영구적으로 고치려면
+> `sudo xcode-select -s /Applications/Xcode.app` (관리자 권한 필요).
+
+### 4-2. 계정이 있어야 되는 것
+
+| 필요한 것 | 어디서 | 비고 |
+|---|---|---|
+| Apple Developer Program | developer.apple.com | **연 $99**, 가입 승인에 1~2일 |
+| App Store Connect 앱 등록 | appstoreconnect.apple.com | 번들 ID `com.sycho.nuri.hangulkingdom` |
+| App Store Connect API 키 | 사용자 및 액세스 ▸ 통합 ▸ 키 | `.p8` 은 **한 번만** 내려받을 수 있다 |
+
+받은 `.p8` 은 `ios/private_keys/` 에 둔다(gitignore 됨). 그리고 환경변수를 채운다:
+
+```sh
+export FASTLANE_TEAM_ID=XXXXXXXXXX          # Apple Developer 팀 ID (10자)
+export ASC_KEY_ID=XXXXXXXXXX
+export ASC_ISSUER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+export ASC_KEY_PATH="$PWD/ios/private_keys/AuthKey_XXXXXXXXXX.p8"
+```
+
+### 4-3. TestFlight 배포
+
+```sh
+npm run release:ios      # 빌드 번호 +1 → 빌드 → TestFlight 업로드
+```
+
+`fastlane ios beta` 가 하는 일: 웹 자산 동기화 → 버전 반영 → 서명된 `.ipa` 생성 → TestFlight 업로드.
+변경사항 노트는 `store/release-notes.txt` 를 그대로 쓴다.
+
+**내부 테스터(최대 100명)는 베타 심사 없이 바로 설치할 수 있다.** Play 의 "12명 × 14일" 같은
+요건이 없어서 안드로이드보다 테스트 배포가 훨씬 빠르다. 외부 테스터(최대 10,000명)에게
+뿌리려면 베타 심사를 한 번 통과해야 한다.
+
+### 4-4. App Store 심사 제출
+
+```sh
+fastlane ios release
+```
+
+승인돼도 **자동 출시하지 않는다**(`automatic_release: false`) — 출시 시점은 직접 고른다.
+스크린샷은 App Store Connect 에서 직접 올린다(iOS 는 기기 크기별 규격이 따로 있어
+안드로이드 것을 그대로 못 쓴다).
+
+### 4-5. 미리 처리해 둔 것
+
+- `ITSAppUsesNonExemptEncryption = false` — 수출 규정 질문이 업로드마다 뜨지 않는다.
+- `UIStatusBarHidden = true` — 가로 몰입형 게임이라 상태바를 항상 숨긴다(안드로이드 immersive 와 통일).
+  iPhone 가로는 iOS 가 알아서 숨기지만 **iPad 는 숨기지 않아** 명시했다.
+- 앱 아이콘(1024) · 스플래시는 `ios/App/App/Assets.xcassets` 에 이미 들어 있다.
+
+> **Kids 카테고리 주의** — 만 5세 이하를 타깃으로 선언하면 Apple 은 제3자 분석·광고 SDK 를
+> 전면 금지한다. 이 앱은 애초에 넣지 않았으므로(안드로이드 데이터 보안 선언과 동일) 문제없다.
 
 ---
 
@@ -211,8 +269,15 @@ Firebase App Distribution 은 같은 versionCode 로도 여러 번 받아 주지
 
 `version-code.txt` 는 **커밋한다** — gitignore 하면 클론할 때마다 번호가 리셋되어 Play 업로드가 막힌다.
 
-iOS 는 Xcode 의 Version(=versionName)/Build(=versionCode 에 해당) 를 올린다.
-Android 와 값을 맞춰 두면 나중에 크래시 리포트를 대조하기 쉽다.
+iOS 도 같은 방식이다. 카운터는 `ios/build-number.txt` 이고 `npm run bump:ios` 로 올린다.
+`npm run sync:ios` 가 빌드 전에 `tools/apply-ios-version.mjs` 를 돌려
+**package.json 의 version → `MARKETING_VERSION`**, **`ios/build-number.txt` → `CURRENT_PROJECT_VERSION`**
+을 `project.pbxproj` 에 써 넣는다. Xcode 는 빌드 설정 안에 값을 박아 두는 구조라 build.gradle 처럼
+파일을 직접 읽지 못해서 이렇게 한다.
+
+두 스토어는 **카운터가 따로다.** 안드로이드만 올려도 iOS 번호는 그대로고, 그래도 문제없다 —
+각 스토어는 자기 트랙 안에서만 증가하면 된다. 버전 이름(1.1.0)은 package.json 하나로 공유하므로
+크래시 리포트를 대조할 때는 그쪽을 보면 된다.
 
 ## 6-1. 빌드가 막아 주는 것
 

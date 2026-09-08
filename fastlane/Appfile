@@ -1,0 +1,7 @@
+# 앱 식별자는 저장소에 고정, 계정·팀 정보는 환경변수로 받는다.
+# (개인 Apple 계정 정보를 저장소에 남기지 않기 위해서다. 값은 .env.ios 에 두고
+#  DEPLOY.md 4장 참고 — 이 파일은 커밋하지 않는다.)
+app_identifier("com.sycho.nuri.hangulkingdom")
+apple_id(ENV["FASTLANE_APPLE_ID"])
+team_id(ENV["FASTLANE_TEAM_ID"])            # Apple Developer 멤버십 팀 ID (10자)
+itc_team_id(ENV["FASTLANE_ITC_TEAM_ID"])    # App Store Connect 팀 ID (있을 때만)

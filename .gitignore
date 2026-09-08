@@ -45,3 +45,20 @@ public/assets/images/characters/generated/
 
 # Play Developer API 서비스 계정 키 (절대 커밋 금지)
 android/play-service-account.json
+
+# App Store Connect API 키·서명 자산 (절대 커밋 금지)
+# .p8 은 App Store Connect 에서 한 번만 받을 수 있다 — 잃어버리면 키를 새로 만들어야 한다.
+ios/private_keys/
+*.p8
+*.p12
+*.cer
+*.mobileprovision
+
+# fastlane 이 실행 때마다 남기는 리포트
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/test_output/
+fastlane/README.md
+
+# iOS 로컬 빌드 산출물 (시뮬레이터 스모크 테스트의 DerivedData 포함)
+ios/App/build/

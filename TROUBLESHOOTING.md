@@ -109,3 +109,34 @@ Firebase 에 올리는 APK 는 **업로드 키**로 서명된다. Play 는 앱 �
 
 `setInputFiles` 가 `Path escapes Project and session roots` 로 거부한다. Aside 는 자기 세션/프로젝트
 루트 안의 파일만 첨부할 수 있다. Play 업로드는 `fastlane supply` 를 쓴다(DEPLOY.md 3-2).
+
+## iOS 에서 앱이 켜지자마자 "앗, 잠깐 문제가 생겼어요!" 화면
+
+**증상** — 시뮬레이터/기기에서 실행하면 로딩 화면 대신 곧바로 에러 화면. 콘솔에는
+`[nuri] unhandledrejection: {"code":"UNIMPLEMENTED"}` 가 두 번 찍힌다.
+
+**원인** — Capacitor 플러그인 객체는 **프록시**다. 모든 속성 접근을 네이티브 메서드 호출로
+바꾼다(`@capacitor/core` 8.4.1 의 `registerPlugin` 프록시에는 `then` 예외 처리가 없다).
+그래서 이 객체를 `async` 함수에서 그대로 반환하면 — 즉 Promise 에 담아 넘기면 — JS 가
+thenable 인지 확인하려고 `.then` 을 읽고, 프록시가 그것마저 네이티브 호출로 만들어
+`"TextToSpeech.then()" is not implemented on ios` 로 거절한다.
+
+이 거절은 **아무도 받지 못한다.** 바깥 Promise 는 영영 미결로 남고(그래서 체인 끝의
+`.catch()` 도 안 걸린다) 거절만 `unhandledrejection` 으로 새어 나가, 부팅 중이면
+에러 경계(`maybeFatal`)가 에러 화면을 띄운다.
+
+**고친 방법** — 프록시를 객체에 담아 넘긴다(`js/audio.js`):
+
+```js
+// 나쁨: async 함수가 프록시를 그대로 반환 → JS 가 .then 을 읽는다
+async function ensureNativeTTS() { return mod.TextToSpeech; }
+
+// 좋음: 객체로 감싸면 프록시가 Promise 해소 경로에 노출되지 않는다
+async function ensureNativeTTS() { return { tts: mod.TextToSpeech }; }
+```
+
+**주의** — 플랫폼 무관한 버그다. 안드로이드는 로딩 화면이 먼저 그려져
+(`maybeFatal` 이 `.screen` 유무를 보므로) 우연히 가려졌을 뿐, 타이밍이 바뀌면 똑같이 터진다.
+
+**재발 방지** — `npm run build:ios:sim` 이 웹뷰 콘솔을 지켜보다 오류가 찍히면 실패로 끝낸다.
+네이티브 브리지 문제는 웹에서도 안드로이드에서도 안 잡히므로 이 검사가 유일한 그물이다.

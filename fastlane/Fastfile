@@ -1,0 +1,83 @@
+# iOS 배포 레인. 안드로이드는 `fastlane supply` 를 직접 호출하므로 여기 두지 않는다
+# (DEPLOY.md 3장 참고).
+#
+# 인증은 App Store Connect API 키를 쓴다 — 2단계 인증 때문에 Apple ID 비밀번호
+# 방식은 CI 에서 계속 막힌다. 키는 App Store Connect ▸ 사용자 및 액세스 ▸ 통합
+# 에서 만들고, 내려받은 .p8 은 저장소 밖(ios/private_keys/)에 둔다.
+#
+#   ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_PATH
+#   FASTLANE_TEAM_ID  (Apple Developer 팀 ID)
+
+default_platform(:ios)
+
+APP_ID = "com.sycho.nuri.hangulkingdom"
+IPA = "store/build/nuri.ipa"
+
+# API 키가 있으면 쓰고, 없으면 nil 을 돌려 준다(대화형 로그인으로 넘어감).
+def asc_key
+  return nil unless ENV["ASC_KEY_ID"] && ENV["ASC_ISSUER_ID"] && ENV["ASC_KEY_PATH"]
+  app_store_connect_api_key(
+    key_id: ENV["ASC_KEY_ID"],
+    issuer_id: ENV["ASC_ISSUER_ID"],
+    key_filepath: ENV["ASC_KEY_PATH"],
+    in_house: false
+  )
+end
+
+platform :ios do
+  desc "웹 자산 동기화 + 버전 반영 (빌드 전 항상 실행)"
+  lane :prepare do
+    sh("cd .. && npm run build:native")
+    sh("cd .. && node tools/apply-ios-version.mjs")
+    sh("cd .. && npx cap sync ios")
+  end
+
+  desc "서명된 .ipa 를 만든다"
+  lane :build do
+    prepare
+    build_app(
+      project: "ios/App/App.xcodeproj",
+      scheme: "App",
+      configuration: "Release",
+      output_directory: "store/build",
+      output_name: "nuri.ipa",
+      clean: true,
+      export_method: "app-store",
+      # 자동 서명(CODE_SIGN_STYLE = Automatic)이라 필요한 프로파일을 그때그때 만들게 둔다.
+      xcargs: "-allowProvisioningUpdates DEVELOPMENT_TEAM=#{ENV['FASTLANE_TEAM_ID']}"
+    )
+  end
+
+  desc "TestFlight 에 올린다 (내부 테스터는 심사 없이 바로 설치)"
+  lane :beta do
+    build
+    upload_to_testflight(
+      api_key: asc_key,
+      app_identifier: APP_ID,
+      ipa: IPA,
+      # 내부 테스터용. 외부 테스터에게 뿌리려면 베타 심사가 따로 필요하다.
+      skip_waiting_for_build_processing: true,
+      changelog: File.read("../store/release-notes.txt")
+    )
+  end
+
+  desc "App Store 심사에 제출 (수동 출시)"
+  lane :release do
+    build
+    upload_to_app_store(
+      api_key: asc_key,
+      app_identifier: APP_ID,
+      ipa: IPA,
+      submit_for_review: true,
+      automatic_release: false,        # 승인돼도 자동 출시하지 않는다 — 출시 시점은 직접 고른다
+      force: true,                     # HTML 미리보기 확인 절차 생략
+      precheck_include_in_app_purchases: false,
+      skip_screenshots: true,          # 스크린샷은 App Store Connect 에서 직접 올린다
+      submission_information: {
+        # 광고 식별자·제3자 분석 없음. 안드로이드 데이터 보안 선언과 같은 내용이다.
+        add_id_info_uses_idfa: false,
+        export_compliance_uses_encryption: false
+      }
+    )
+  end
+end
