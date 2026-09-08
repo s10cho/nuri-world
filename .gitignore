@@ -65,3 +65,12 @@ ios/App/build/
 
 # 영상 제작 작업 폴더 — 앱 빌드와 무관한 개인 작업물이라 저장소에 두지 않는다.
 video/
+
+# App Store 스크린샷 (iPhone 6.9" 37MB · iPad 13" 48MB)
+# `npm run shots:store` 로 언제든 재생성되는 산출물이라 커밋하지 않는다.
+# PNG 는 델타 압축이 안 돼서, UI 가 바뀌어 다시 찍을 때마다 히스토리에 85MB 가
+# 통째로 새로 쌓인다 — 릴리스마다 반복되면 저장소가 감당하지 못한다.
+# (store/screenshots/ 의 Play 용 8장은 이미 커밋돼 있어 그대로 둔다. 지워도 히스토리는
+#  줄지 않으므로 실익이 없다. 앞으로 이쪽도 빼고 싶으면 git rm --cached 가 필요하다.)
+store/screenshots-ios-6.9/
+store/screenshots-ipad-13/

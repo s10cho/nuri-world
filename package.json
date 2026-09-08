@@ -34,6 +34,7 @@
     "convert:voice": "node tools/convert-recorded-voice.mjs",
     "audit:voice": "node tools/audit-voice-lines.mjs",
     "audit:layout": "node tools/audit-layout.mjs",
+    "shots:store": "node tools/capture-store-screenshots.mjs",
     "listen:voice": "node tools/listen-voice-lines.mjs",
     "trim:voice": "node tools/trim-recorded-voice.mjs",
     "verify:voice": "node tools/generate-voice-check.mjs",
