@@ -182,18 +182,22 @@ fastlane ios release
 ### 4-5. 스크린샷
 
 ```sh
-npm run build && npm run preview &          # 현재 코드로 로컬 서버
+npm run build && npm run preview &                                   # 현재 코드로 로컬 서버
 APP_URL=http://localhost:4173/nuri-world/ npm run shots:store ios-6.9 ipad-13
+fastlane ios screenshots                                             # 업로드
 ```
 
-| 규격 | 논리 크기 | 배율 | 결과 | 출력 |
-|---|---|---|---|---|
-| iPhone 6.9" (16/17 Pro Max) | 956×440 | @3x | **2868×1320** | `store/screenshots-ios-6.9/` |
-| iPad 13" (Pro M4) | 1376×1032 | @2x | **2752×2064** | `store/screenshots-ipad-13/` |
+| 규격 | 논리 크기 | 배율 | 결과 |
+|---|---|---|---|
+| iPhone 6.9" (16/17 Pro Max) | 956×440 | @3x | **2868×1320** |
+| iPad 13" (Pro M4) | 1376×1032 | @2x | **2752×2064** |
 
 App Store 는 지금 이 **두 규격만** 요구하고 나머지 기기 크기는 자동 축소해 준다.
 iPad 규격은 Info.plist 가 iPad 를 지원한다고 선언하므로 **필수**다. 앱이 가로 전용이라
 둘 다 가로로 찍는다. 안드로이드용 1920×1080 은 규격이 달라 재사용할 수 없다.
+
+캡처는 `fastlane/screenshots/ko/` 에 **JPEG q90** 으로 바로 떨어진다. `fastlane ios screenshots`
+가 그 자리를 그대로 읽으므로 옮기거나 변환할 것이 없다.
 
 주의할 점:
 
@@ -201,10 +205,16 @@ iPad 규격은 Info.plist 가 iPad 를 지원한다고 선언하므로 **필수*
   태블릿 레이아웃이 아이폰 스크린샷에 들어간다 — 미디어 쿼리는 CSS 픽셀로 걸리기 때문이다.
 - **반드시 로컬 미리보기로 찍는다.** 기본 대상은 배포된 GitHub Pages 인데, Pages 배포가
   밀려 있으면 옛 화면이 찍힌다.
-- 결과물은 **커밋하지 않는다**(gitignore). 두 규격 합쳐 85MB 이고, PNG 는 델타 압축이
-  안 돼서 UI 가 바뀌어 다시 찍을 때마다 히스토리에 그만큼이 통째로 새로 쌓인다.
-  제출 직전에 위 명령으로 다시 만들면 된다.
-- 업로드는 App Store Connect 에서 직접 한다(`fastlane ios release` 는 `skip_screenshots: true`).
+- **PNG 가 아니라 JPEG 다.** PNG 로 찍으면 16장이 85MB 인데 q90 JPEG 는 20MB 다.
+  배경이 사진 같은 일러스트라 JPEG 가 잘 맞고, 글자 윤곽·어두운 그라데이션 모두 손상이
+  눈에 띄지 않는다(q85 와 파일 크기가 같아 q90 을 쓴다). App Store 는 JPG·PNG 를 모두 받는다.
+- **투명도가 있으면 App Store 가 거부한다.** Chrome 캡처는 RGB(알파 없음)로 나오고
+  JPEG 는 애초에 알파가 없어 문제되지 않는다.
+- 결과물은 **커밋하지 않는다**(gitignore). 이미지는 델타 압축이 안 돼서 다시 찍을 때마다
+  히스토리에 20MB 가 통째로 새로 쌓인다. 제출 직전에 위 명령으로 다시 만들면 된다.
+- `fastlane ios screenshots` 는 `skip_metadata: true` 라 **스토어 문안·설명을 건드리지 않는다**
+  (deliver 의 `UploadMetadata#upload` 가 즉시 반환하고 스크린샷만 별도 경로로 올라간다).
+  deliver 는 파일명이 아니라 **해상도**로 기기를 판별하므로 두 규격을 한 폴더에 두어도 된다.
 
 ### 4-6. 미리 처리해 둔 것
 

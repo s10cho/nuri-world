@@ -26,21 +26,36 @@ import {
 
 // 검증용으로 다른 곳에 찍고 싶을 때: SHOT_OUT_DIR=/tmp/shots node tools/...
 const OUT_ROOT = process.env.SHOT_OUT_DIR
-  || fileURLToPath(new URL('../store/', import.meta.url));
+  || fileURLToPath(new URL('../', import.meta.url));
 
 // 스토어별 규격. w·h 는 CSS 픽셀(= 그 기기의 논리 해상도)이고, 실제 파일 크기는 w×dpr 이다.
 // CSS 픽셀로 잡아야 그 기기에서 실제로 적용되는 레이아웃(미디어 쿼리)이 그대로 찍힌다.
 // 단순히 큰 뷰포트로 찍어 늘리면 태블릿 레이아웃이 폰 스크린샷에 들어가 버린다.
+// App Store 컷은 fastlane 이 찾는 자리에 바로 떨군다 — `fastlane ios screenshots` 가
+// fastlane/screenshots/<로케일>/ 을 그대로 읽는다. deliver 는 파일명이 아니라 **해상도**로
+// 기기를 판별하므로, 두 규격이 한 폴더에 섞여도 되고 이름만 겹치지 않으면 된다.
+const IOS_DIR = 'fastlane/screenshots/ko';
+
+// PNG 로 찍으면 두 규격 합쳐 85MB 다. 배경이 사진 같은 일러스트라 JPEG 가 잘 맞고,
+// q90 이면 20MB 로 줄면서 글자 윤곽·어두운 그라데이션 모두 눈에 띄는 손상이 없다
+// (q85 와 파일 크기가 같아 q90 을 쓴다). App Store 는 JPG·PNG 를 모두 받는다.
 const DEVICES = {
   // Google Play — 짧은 변 1080px 이상 · 16:9 가로라야 큰 추천 영역에 노출된다.
-  'play': { dir: 'screenshots', w: 1920, h: 1080, dpr: 1, out: '1920×1080' },
+  'play': {
+    dir: 'store/screenshots', w: 1920, h: 1080, dpr: 1, fmt: 'png', out: '1920×1080',
+  },
   // App Store iPhone 6.9"(아이폰 16/17 Pro Max) 가로. 논리 956×440 @3x → 2868×1320.
-  'ios-6.9': { dir: 'screenshots-ios-6.9', w: 956, h: 440, dpr: 3, out: '2868×1320' },
+  'ios-6.9': {
+    dir: IOS_DIR, w: 956, h: 440, dpr: 3, fmt: 'jpeg', quality: 90,
+    prefix: 'iphone69-', out: '2868×1320',
+  },
   // App Store iPad 13"(아이패드 프로 M4) 가로. 논리 1376×1032 @2x → 2752×2064.
   // 앱이 iPad 를 지원한다고 선언하므로(Info.plist) 이 규격이 필수다.
-  'ipad-13': { dir: 'screenshots-ipad-13', w: 1376, h: 1032, dpr: 2, out: '2752×2064' },
+  'ipad-13': {
+    dir: IOS_DIR, w: 1376, h: 1032, dpr: 2, fmt: 'jpeg', quality: 90,
+    prefix: 'ipad13-', out: '2752×2064',
+  },
 };
-
 // 스토어에 올릴 컷과 파일명. SCENES 중 여기 없는 화면(예: 스테이지 선택)은 찍지 않는다.
 const FILES = {
   title:  '01-title.png',
@@ -84,11 +99,13 @@ for (const [name, dev] of TARGETS) {
 
       const where = await cdp.eval(probe);
       const { data } = await cdp.send('Page.captureScreenshot', {
-        format: 'png',
+        format: dev.fmt,
+        ...(dev.quality ? { quality: dev.quality } : {}),
         captureBeyondViewport: false,
       });
-      await writeFile(join(outDir, file), Buffer.from(data, 'base64'));
-      console.log(`✓ ${file}  ${scene.desc}  [${where}]`);
+      const name = (dev.prefix || '') + file.replace(/\.png$/, dev.fmt === 'jpeg' ? '.jpg' : '.png');
+      await writeFile(join(outDir, name), Buffer.from(data, 'base64'));
+      console.log(`✓ ${name}  ${scene.desc}  [${where}]`);
     }
   });
 }

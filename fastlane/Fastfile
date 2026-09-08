@@ -140,6 +140,25 @@ platform :ios do
     )
   end
 
+  desc "App Store 스크린샷만 올린다 (텍스트 메타데이터는 건드리지 않음)"
+  lane :screenshots do
+    # fastlane/screenshots/<로케일>/ 이 기본 위치라 경로를 따로 주지 않는다.
+    # deliver 는 파일명이 아니라 **해상도**로 기기를 판별한다:
+    #   2868×1320 → iPhone 6.9",  2752×2064 → iPad 13"
+    # skip_metadata: true 면 UploadMetadata#upload 가 즉시 반환하므로 스토어 문안·설명은
+    # 그대로 두고 스크린샷만 올라간다.
+    upload_to_app_store(
+      api_key: asc_key,
+      app_identifier: APP_ID,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_app_version_update: true,
+      overwrite_screenshots: true,
+      force: true,                      # HTML 미리보기 확인 프롬프트 생략(비대화식)
+      run_precheck_before_submit: false
+    )
+  end
+
   desc "App Store 심사에 제출 (수동 출시)"
   lane :release do
     build
