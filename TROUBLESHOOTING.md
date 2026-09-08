@@ -140,3 +140,55 @@ async function ensureNativeTTS() { return { tts: mod.TextToSpeech }; }
 
 **재발 방지** — `npm run build:ios:sim` 이 웹뷰 콘솔을 지켜보다 오류가 찍히면 실패로 끝낸다.
 네이티브 브리지 문제는 웹에서도 안드로이드에서도 안 잡히므로 이 검사가 유일한 그물이다.
+
+## iOS 첫 TestFlight 업로드 — 서명이 네 번 막힌다
+
+새로 만든 Apple 계정 + CLI 전용(맥에 Xcode GUI 로그인 없음) 조합에서 순서대로 터진다.
+넷 다 `fastlane/Fastfile` 에 대응이 들어가 있으므로 지금은 그냥 `npm run release:ios` 로 된다.
+아래는 왜 그렇게 짰는지에 대한 기록이다.
+
+### 1. `Unable to locate Xcode`
+`xcode-select` 가 CommandLineTools 를 가리키면 `xcodebuild` 가 없다고 나온다.
+Fastfile 이 `DEVELOPER_DIR` 을 채워 우회한다. 영구 수정은 `sudo xcode-select -s /Applications/Xcode.app`.
+
+### 2. `Your team has no devices from which to generate a provisioning profile`
+자동 서명(`CODE_SIGN_STYLE = Automatic`)은 아카이브를 **개발용**으로 서명하려 든다.
+그런데 개발용 프로파일은 팀에 등록된 기기가 최소 하나 있어야 Apple 이 발급한다 —
+갓 만든 계정에는 기기가 없다.
+
+Capacitor 템플릿이 프로젝트에 `CODE_SIGN_IDENTITY = "iPhone Developer"` (폐기된 옛 표기)를
+박아 두는 것도 여기에 한몫한다. 현행 이름인 `"Apple Development"` 로 고쳤다.
+
+### 3. `App has conflicting provisioning settings`
+2번을 피하려고 `CODE_SIGN_IDENTITY="Apple Distribution"` 로 덮으면 이번엔 이게 나온다.
+**자동 서명 상태에서는 서명 ID 를 수동 지정할 수 없다.** 즉 자동 서명으로는 이 계정에서
+빠져나갈 길이 없다.
+
+→ **수동 서명으로 간다.** App Store 배포용 프로파일은 기기 등록이 필요 없다.
+`get_certificates(development: false)` 로 배포용 인증서를, `get_provisioning_profile` 로
+App Store 프로파일을 만들어 `CODE_SIGN_STYLE=Manual` 로 아카이브한다.
+
+> `get_provisioning_profile` 에 `app_store:` 옵션은 **없다.**
+> `adhoc` / `development` / `developer_id` 중 아무것도 주지 않으면 App Store 가 기본값이다.
+> 프로파일 이름도 `lane_context` 가 아니라 환경변수
+> `sigh_<번들ID>_appstore_profile-name` 로 넘어온다.
+
+### 4. codesign 이 GUI 승인 팝업에서 멈춘다 (가장 고약함)
+인증서 개인키를 로그인 키체인에 넣으면 codesign 이 그 키를 쓸 때 macOS 가 승인 팝업을
+띄운다. 자동 빌드는 거기서 **영영 멈춘다** — 로그에 아무 오류도 안 남아서 "그냥 느린 것"과
+구분되지 않는다. fastlane 은 이때 이렇게만 경고한다:
+
+```
+Could not configure imported keychain item (certificate) to prevent UI permission popup
+```
+
+확인법(추측하지 말 것) — 더미 파일을 서명해 보고 시간 안에 안 끝나면 팝업이다:
+
+```sh
+codesign --force -s "<식별자>" /tmp/cstest &   # 12초 넘게 안 끝나면 팝업
+```
+
+팝업을 없애려면 키체인 비밀번호로 partition list 를 설정해야 하는데, 로그인 키체인이면
+**사용자의 로그인 비밀번호**가 필요하다. 그래서 빌드 때마다 **전용 임시 키체인**을 만들어
+(비밀번호는 `SecureRandom` 으로 생성) 거기에 인증서를 넣고, 끝나면 지운다.
+사용자 비밀번호를 만질 일이 없다.
