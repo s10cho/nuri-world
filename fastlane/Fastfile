@@ -140,6 +140,11 @@ platform :ios do
     )
   end
 
+  desc "App Store Connect 에 실제로 등록된 스크린샷을 기기별로 확인한다"
+  lane :shots_status do
+    report_screenshots(strict: false)
+  end
+
   desc "App Store 스크린샷만 올린다 (텍스트 메타데이터는 건드리지 않음)"
   lane :screenshots do
     # fastlane/screenshots/<로케일>/ 이 기본 위치라 경로를 따로 주지 않는다.
@@ -157,6 +162,11 @@ platform :ios do
       force: true,                      # HTML 미리보기 확인 프롬프트 생략(비대화식)
       run_precheck_before_submit: false
     )
+
+    # deliver 는 업로드 뒤 등록을 확인하고, 확인이 안 되면 다시 올린다. 그런데 App Store
+    # Connect 반영이 늦으면 이미 올라간 것을 "실패"로 보고 또 올려 **중복**이 생긴다.
+    # 실제로 첫 업로드 때 3장이 이렇게 중복됐고, 나중에야 발견했다. 바로 잡아낸다.
+    report_screenshots(strict: true)
   end
 
   desc "App Store 심사에 제출 (수동 출시)"
@@ -177,5 +187,46 @@ platform :ios do
         export_compliance_uses_encryption: false
       }
     )
+  end
+end
+
+# 등록된 스크린샷을 기기별로 세고 파일명을 찍는다. strict 면 중복이 있을 때 실패시킨다.
+def report_screenshots(strict:)
+  asc_key # Spaceship 토큰을 세운다
+  app = Spaceship::ConnectAPI::App.find(APP_ID)
+  UI.user_error!("앱을 찾지 못했다: #{APP_ID}") unless app
+
+  platform = Spaceship::ConnectAPI::Platform::IOS
+  version = app.get_edit_app_store_version(platform: platform)
+  state = "편집 중"
+  if version.nil?
+    version = app.get_live_app_store_version(platform: platform)
+    state = "게시본"
+  end
+  UI.user_error!("App Store 버전이 없다") unless version
+  UI.important("버전 #{version.version_string} (#{state}) — #{version.app_store_state}")
+
+  total = 0
+  dups = []
+  version.get_app_store_version_localizations.each do |loc|
+    loc.get_app_screenshot_sets.each do |set|
+      names = set.app_screenshots.map(&:file_name)
+      total += names.size
+      UI.message("  #{loc.locale}  #{set.screenshot_display_type}: #{names.size}장")
+      names.each_with_index { |nm, i| UI.message("      #{i + 1}. #{nm}") }
+      dup = names.tally.select { |_, c| c > 1 }
+      next if dup.empty?
+      dups << "#{loc.locale}/#{set.screenshot_display_type}: #{dup.map { |k, v| "#{k} ×#{v}" }.join(', ')}"
+      UI.error("      ↑ 중복: #{dup.map { |k, v| "#{k} ×#{v}" }.join(', ')}")
+    end
+  end
+
+  if dups.empty?
+    UI.success("합계 #{total}장 — 중복 없음")
+  elsif strict
+    UI.user_error!("스크린샷이 중복 등록됐다:\n  #{dups.join("\n  ")}\n" \
+                   "`fastlane ios screenshots` 를 다시 돌리면 전부 지우고 새로 올린다.")
+  else
+    UI.error("합계 #{total}장 — 중복 #{dups.size}건")
   end
 end
