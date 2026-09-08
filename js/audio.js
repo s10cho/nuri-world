@@ -7,14 +7,23 @@ import { store } from './store.js';
 // 쓴다 — 특히 Android WebView의 speechSynthesis는 기기 TTS 데이터·WebView 버전에 따라 불안정.
 // 웹/PWA는 이미 정교하게 튜닝된 기존 경로를 그대로 사용.
 // 플러그인은 네이티브에서만 lazy-load해 웹 번들 영향을 최소화한다.
-/** @type {any} */
-let nativeTTS = null;
+// 플러그인 객체는 Capacitor 프록시다 — 모든 속성 접근이 네이티브 메서드 호출로 바뀐다.
+// 그래서 이걸 Promise 에 담아 넘기면(= async 함수가 그대로 return 하면) JS 가 thenable 인지
+// 보려고 .then 을 읽고, 프록시는 그것마저 "TextToSpeech.then()" 네이티브 호출로 만들어
+// UNIMPLEMENTED 로 거절한다. 그 거절은 받아 줄 사람이 없어(바깥 Promise 는 영영 미결) 그대로
+// unhandledrejection 으로 새어 나가고, 부팅 중이면 에러 경계가 에러 화면까지 띄웠다.
+// (iOS 에서 재현. 안드로이드는 로딩 화면이 먼저 그려져 우연히 가려졌을 뿐 같은 코드다.)
+// 그래서 프록시는 반드시 객체에 담아 건넨다.
+/** @type {{ tts: any } | null} */
+let nativeTTSBox = null;
 let nativeKoOk = false;
+/** @returns {Promise<{ tts: any }>} */
 async function ensureNativeTTS() {
-  if (nativeTTS) return nativeTTS;
-  const mod = await import('@capacitor-community/text-to-speech');
-  nativeTTS = mod.TextToSpeech;
-  return nativeTTS;
+  if (!nativeTTSBox) {
+    const mod = await import('@capacitor-community/text-to-speech');
+    nativeTTSBox = { tts: mod.TextToSpeech };
+  }
+  return nativeTTSBox;
 }
 
 /** @type {AudioContext | null} */
@@ -95,7 +104,7 @@ if (NATIVE) {
   let settled = false;
   const finishNative = () => { if (!settled) { settled = true; voicesReady = true; markVoicesReady(); } };
   ensureNativeTTS()
-    .then(tts => tts.isLanguageSupported({ lang: 'ko-KR' }))
+    .then(({ tts }) => tts.isLanguageSupported({ lang: 'ko-KR' }))
     .then(res => { nativeKoOk = !!res?.supported; })
     .catch(() => { nativeKoOk = true; }) // 확인 실패 시 낙관적으로 음성 모드(대개 지원됨)
     .finally(finishNative);
@@ -322,7 +331,7 @@ export async function speak(text, { rate = 0.85, pitch = 1.1, interrupt = true, 
 async function speakNative(text, { rate = 0.9, pitch = 1.1, signal } = {}) {
   if (signal?.aborted) return;
   let tts;
-  try { tts = await ensureNativeTTS(); } catch { return; }
+  try { tts = (await ensureNativeTTS()).tts; } catch { return; }
   if (signal?.aborted) return;
   const onAbort = () => { tts.stop().catch(() => {}); };
   signal?.addEventListener('abort', onAbort, { once: true });
@@ -336,7 +345,7 @@ async function speakNative(text, { rate = 0.9, pitch = 1.1, signal } = {}) {
 export function stopSpeech() {
   flushPending();
   stopVoiceAsset();
-  if (NATIVE) { ensureNativeTTS().then(t => t.stop().catch(() => {})).catch(() => {}); return; }
+  if (NATIVE) { ensureNativeTTS().then(({ tts }) => tts.stop().catch(() => {})).catch(() => {}); return; }
   if ('speechSynthesis' in window) { speechSynthesis.cancel(); lastCancelAt = Date.now(); }
 }
 
