@@ -1,13 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  CHOSEONG,
-  JUNGSEONG,
-  compose,
-  decompose,
-  demoSyllable,
-  objectParticle,
-  subjectParticle,
-} from '../js/hangul.js';
+import { CHOSEONG, JUNGSEONG, buildTargets, compose, decompose, demoSyllable, objectParticle, subjectParticle } from '../js/hangul.js';
 
 describe('compose', () => {
   it('초성+중성을 받침 없는 음절로 조합', () => {
@@ -96,5 +88,62 @@ describe('demoSyllable', () => {
     expect(demoSyllable('ㅏ')).toBe('아');
     expect(demoSyllable('ㅗ')).toBe('오');
     expect(demoSyllable('ㅢ')).toBe('의');
+  });
+});
+
+describe('buildTargets', () => {
+  const CONSONANTS = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  /** 무작위라 한 번 통과한 것은 우연일 수 있다 — 여러 번 돌려 본다. */
+  const times = (n, fn) => { for (let i = 0; i < n; i++) fn(); };
+
+  it('요청한 라운드 수만큼 돌려준다', () => {
+    times(50, () => {
+      expect(buildTargets(['ㅎ'], CONSONANTS, 3)).toHaveLength(3);
+      expect(buildTargets(['ㄱ','ㄴ','ㅁ','ㅅ','ㅇ'], ['ㄱ','ㄴ','ㅁ','ㅅ','ㅇ'], 4)).toHaveLength(4);
+    });
+  });
+
+  it('같은 답이 연달아 나오지 않는다', () => {
+    times(200, () => {
+      for (const t of [
+        buildTargets(['ㅎ'], CONSONANTS, 3),                       // 자음 복습 단계
+        buildTargets(['ㅛ','ㅠ'], ['ㅡ','ㅣ','ㅏ','ㅓ','ㅗ','ㅜ','ㅑ','ㅕ','ㅛ','ㅠ'], 3), // 모음 복습 단계
+        buildTargets(['ㄱ','ㄴ','ㅁ','ㅅ','ㅇ'], ['ㄱ','ㄴ','ㅁ','ㅅ','ㅇ'], 4),
+      ]) {
+        for (let i = 1; i < t.length; i++) expect(t[i]).not.toBe(t[i - 1]);
+      }
+    });
+  });
+
+  it('새로 배운 글자는 반드시 나온다', () => {
+    times(100, () => {
+      // 복습 단계라도 그날 배운 ㅎ 이 빠지면 안 된다
+      expect(buildTargets(['ㅎ'], CONSONANTS, 3)).toContain('ㅎ');
+      const t = buildTargets(['ㅛ','ㅠ'], ['ㅗ','ㅜ','ㅛ','ㅠ'], 3);
+      expect(t).toContain('ㅛ');
+      expect(t).toContain('ㅠ');
+    });
+  });
+
+  it('복습 단계는 새 글자만 반복하지 않고 pool 에서 채운다', () => {
+    times(100, () => {
+      // ㅎ 하나로 3라운드를 채우던 것이 이 문제였다
+      const t = buildTargets(['ㅎ'], CONSONANTS, 3);
+      expect(new Set(t).size).toBe(3);
+    });
+  });
+
+  it('새 글자가 라운드보다 많으면 그 안에서만 낸다', () => {
+    times(100, () => {
+      const focus = ['ㅙ','ㅚ','ㅝ','ㅞ','ㅟ','ㅢ'];
+      const t = buildTargets(focus, focus, 4);
+      expect(new Set(t).size).toBe(4);
+      t.forEach(ch => expect(focus).toContain(ch));
+    });
+  });
+
+  it('글자가 하나뿐이면 반복을 허용한다 (막히지 않는다)', () => {
+    const t = buildTargets(['ㅎ'], ['ㅎ'], 3);
+    expect(t).toEqual(['ㅎ', 'ㅎ', 'ㅎ']);
   });
 });

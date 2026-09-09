@@ -2,10 +2,13 @@
 import { el, cardColor, shuffle, fxBurstAt, sleep } from '../ui.js';
 import { speak, sfx, canSpeak, hasVoiceAsset } from '../audio.js';
 import { JAMO } from '../data.js';
-import { objectParticle, pickDistractors } from '../hangul.js';
+import { buildTargets, objectParticle, pickDistractors } from '../hangul.js';
 
 const PRAISE = ['딩동댕! 잘 찾았어요!', '우와, 정말 잘 들었어요!', '맞아요! 멋져요!', '열심히 듣더니 해냈어요!'];
 const RETRY = ['괜찮아요, 다시 한번 들어 볼까요?', '음, 소리를 한 번 더 들어 보세요!'];
+// 화면에 띄우는 문구가 곧 녹음을 찾는 키다 — 문구를 바꾸면 녹음도 다시 만들어야 한다.
+const ASK_LINE = '어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!';
+const MODEL_LINE = '같은 글자를 찾아 보세요!';
 
 /**
  * @param {GameContext} ctx
@@ -26,11 +29,8 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
     // 시각 대체를 켜면 듣기 문제의 정답을 그냥 보여 주는 셈이 된다.
     const showModel = !focus.every(ch => canSpeak(JAMO[ch].name));
 
-    // 새로 배운 글자(focus)가 골고루 나오도록 출제 순서 구성
-    /** @type {string[]} */
-    const targets = [];
-    const focusShuffled = shuffle(focus);
-    for (let i = 0; i < rounds; i++) targets.push(focusShuffled[i % focusShuffled.length]);
+    // 새 글자를 먼저 한 번씩, 남는 라운드는 복습 대상에서 — 같은 답이 연달아 나오지 않게.
+    const targets = buildTargets(focus, pool, rounds);
 
     function ask() {
       const mySeq = ++seq;
@@ -39,9 +39,19 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
       // 자모 이름 단독 녹음(예: "이응")이 있으면 그걸 재생 — TTS가 불안정/무음인 기기에서도
       // 목표 소리가 확실히 들리게 한다. 녹음이 없는 자모(유·으·이)는 TTS로 문장을 읽어 준다.
       const nameRecorded = hasVoiceAsset(name);
-      const prompt = () => nameRecorded
-        ? speak(name, { signal })
-        : speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`, { signal });
+      // 다만 그러면 안내 문장이 한 번도 나오지 않아, 아이는 "기역" 소리만 듣고 무엇을 하라는
+      // 것인지 듣지 못했다(안내 문장은 녹음이 있는데도 쓰이지 않고 있었다). 첫 라운드에만
+      // 안내를 먼저 들려주고, 스피커 버튼은 지금까지처럼 글자 소리만 다시 들려준다.
+      const say = async (/** @type {boolean} */ withIntro) => {
+        if (withIntro) {
+          await speak(showModel ? MODEL_LINE : ASK_LINE, { signal });
+          if (signal.aborted || mySeq !== seq) return;
+        }
+        await (nameRecorded
+          ? speak(name, { signal })
+          : speak(`${name}! ${name}${objectParticle(name)} 찾아 주세요.`, { signal }));
+      };
+      const prompt = () => say(false);
 
       // 보기 3개: 정답 + 오답 2개. 오답은 정답과 발음이 비슷한 자모(예: ㅖ/ㅒ)를
       // 제외해 소리로 고르기 어려운 문제가 되지 않게 한다.
@@ -90,7 +100,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
 
       area.replaceChildren(.../** @type {HTMLElement[]} */ ([
         el('div', { class: 'prompt-bar' }, spk,
-          el('span', {}, showModel ? '같은 글자를 찾아 보세요!' : '어떤 글자의 소리일까요? 잘 듣고 찾아 보세요!')),
+          el('span', {}, showModel ? MODEL_LINE : ASK_LINE)),
         modelRow,
         el('div', { class: 'choices' }, cards),
         el('div', { class: 'round-dots' },
@@ -98,7 +108,7 @@ export function runListen({ area, signal }, { pool, focus, rounds = 4 }) {
         ),
       ].filter(Boolean)));
 
-      sleep(400, signal).then(() => { if (!signal.aborted && mySeq === seq) prompt(); });
+      sleep(400, signal).then(() => { if (!signal.aborted && mySeq === seq) say(round === 0); });
     }
 
     ask();

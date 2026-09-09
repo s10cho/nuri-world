@@ -94,6 +94,44 @@ export function confusableSet(jamo) {
 }
 
 /**
+ * 듣기 문제의 출제 순서를 만든다.
+ *
+ * 새로 배운 글자(focus)를 먼저 한 번씩 넣고, 남는 라운드는 복습 대상(pool)에서 채운다.
+ * focus 만 돌려 쓰면 '모두 모여' 같은 복습 단계에서 같은 답이 계속 나온다 — 새 글자가
+ * ㅎ 하나뿐인 자음 복습 단계는 3라운드 내내 정답이 ㅎ 이었고, 모음 쪽도 ㅛ·ㅠ 둘로
+ * 3라운드를 채우느라 하나가 반복됐다. 정작 그런 단계일수록 pool 이 넓다(자음 14 · 모음 10).
+ *
+ * 어떤 경우에도 같은 답이 연달아 나오지 않게 한다. 후보가 그 글자뿐이면 어쩔 수 없다.
+ *
+ * @param {string[]} focus 이 단계에서 새로 배운 글자 — 적어도 한 번은 나와야 한다
+ * @param {string[]} pool  복습까지 포함한 출제 가능 글자
+ * @param {number} rounds
+ * @returns {string[]}
+ */
+export function buildTargets(focus, pool, rounds) {
+  /** @param {string[]} arr @returns {string[]} */
+  const rand = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  const bag = [...rand(focus), ...rand(pool.filter(ch => !focus.includes(ch)))];
+  /** @type {string[]} */
+  const out = [];
+  for (let i = 0; i < rounds; i++) {
+    if (!bag.length) bag.push(...rand(pool.length ? pool : focus)); // 글자보다 라운드가 많은 단계
+    let idx = bag.findIndex(ch => ch !== out[out.length - 1]);
+    if (idx < 0) idx = 0;
+    out.push(bag.splice(idx, 1)[0]);
+  }
+  return out;
+}
+
+/**
  * 정답(target)과 발음이 비슷하지 않은 오답 보기 n개를 pool에서 무작위로 고른다.
  * 정답뿐 아니라 이미 고른 오답과도 발음이 겹치지 않게 해, 한 문제의 보기끼리 서로
  * 헷갈리는 발음이 함께 나오지 않도록 한다.
