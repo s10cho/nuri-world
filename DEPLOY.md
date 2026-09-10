@@ -147,13 +147,33 @@ npm run build:ios:sim
 | App Store Connect 앱 등록 | appstoreconnect.apple.com | 번들 ID `com.sycho.nuri.hangulkingdom` |
 | App Store Connect API 키 | 사용자 및 액세스 ▸ 통합 ▸ 키 | `.p8` 은 **한 번만** 내려받을 수 있다 |
 
-받은 `.p8` 은 `ios/private_keys/` 에 둔다(gitignore 됨). 그리고 환경변수를 채운다:
+받은 `.p8` 은 **저장소 밖 공통 자리**에 둔다. 배포 인증서와 App Store Connect API 키는
+**계정 단위**라 앱마다 만들지 않고 모든 앱이 같은 것을 쓴다 — 저장소마다 사본을 두면
+키를 교체할 때 프로젝트를 전부 고쳐야 하고, 하나 빠뜨리면 그 앱만 조용히 실패한다.
+
+```
+~/.keys/sycho-mobile/                 (디렉터리 700, 파일 600)
+  AuthKey_XXXXXXXXXX.p8               App Store Connect API 키
+  ios-certs/                          배포 인증서 — CERTS_DIR 이 여기를 가리킨다
+    XXXXXXXXXX.p12                    개인키. Apple 이 다시 주지 않는다
+  release.keystore                    Android 업로드 키
+  play-service-account.json           Play · Firebase 서비스 계정
+```
+
+> `.p12` 파일 이름은 **인증서 ID 와 같아야 한다.** fastlane 이 그 이름으로 기존 인증서를
+> 찾아 재사용하는데, 이름이 다르면 못 찾고 **새 인증서를 만들어** 슬롯(최대 3개)을 하나 더 쓴다.
+
+프로젝트 안에는 "어느 앱인지"만 남긴다 — `fastlane/.env.default`(번들 ID·팀 ID·키 경로)와
+`android/keystore.properties`(공통 키스토어의 **절대경로** + 그 앱의 alias). 상대경로로 두면
+다른 위치에서 빌드할 때 `Keystore file not found` 로 실패한다.
+
+환경변수는 다음과 같이 채운다:
 
 ```sh
 export FASTLANE_TEAM_ID=XXXXXXXXXX          # Apple Developer 팀 ID (10자)
 export ASC_KEY_ID=XXXXXXXXXX
 export ASC_ISSUER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-export ASC_KEY_PATH="$PWD/ios/private_keys/AuthKey_XXXXXXXXXX.p8"
+export ASC_KEY_PATH="$HOME/.keys/sycho-mobile/AuthKey_XXXXXXXXXX.p8"
 ```
 
 ### 4-3. TestFlight 배포

@@ -21,7 +21,7 @@
     "build:ios:sim": "npm run sync:ios && node tools/run-ios-sim.mjs",
     "release:ios": "npm run bump:ios && fastlane ios beta",
     "build:apk:release": "npm run sync:android && cd android && ./gradlew assembleRelease",
-    "dist:firebase": "GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/android/play-service-account.json\" firebase appdistribution:distribute android/app/build/outputs/apk/release/app-release.apk --app 1:197519335220:android:3a2e31b39b9129b4d0cf61 --groups nuri-testers --release-notes-file store/release-notes.txt",
+    "dist:firebase": "GOOGLE_APPLICATION_CREDENTIALS=\"/Users/sycho/.keys/sycho-mobile/play-service-account.json\" firebase appdistribution:distribute android/app/build/outputs/apk/release/app-release.apk --app 1:197519335220:android:3a2e31b39b9129b4d0cf61 --groups nuri-testers --release-notes-file store/release-notes.txt",
     "release:firebase": "npm run bump:code && npm run build:apk:release && npm run dist:firebase",
     "preview": "vite preview",
     "typecheck": "tsc -p jsconfig.json --noEmit",
