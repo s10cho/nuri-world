@@ -99,12 +99,12 @@ npm run dist:firebase
 | Firebase/GCP 프로젝트 | `sycho-app-507317` ("sycho app") |
 | Android 앱 ID | `1:197519335220:android:3a2e31b39b9129b4d0cf61` |
 | 테스터 그룹 | `nuri-testers` ("누리 테스터") |
-| 인증 | 서비스 계정 `android/play-service-account.json` (`GOOGLE_APPLICATION_CREDENTIALS`) — `firebase login` 불필요 |
+| 인증 | 서비스 계정 `~/.keys/sycho-mobile/play-service-account.json` (`GOOGLE_APPLICATION_CREDENTIALS`) — Play 업로드와 **같은 키**다 — `firebase login` 불필요 |
 
 테스터 추가·삭제:
 
 ```bash
-export GOOGLE_APPLICATION_CREDENTIALS="$PWD/android/play-service-account.json"
+export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.keys/sycho-mobile/play-service-account.json"
 firebase appdistribution:testers:add a@x.com b@y.com --group-alias nuri-testers --project sycho-app-507317
 firebase appdistribution:testers:remove a@x.com --group-alias nuri-testers --project sycho-app-507317
 firebase appdistribution:groups:list --project sycho-app-507317
