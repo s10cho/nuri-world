@@ -13,6 +13,13 @@ const PRAISE = {
   1: ['어려웠지만 끝까지 도전했어요! 대단해요!', '조금씩 계속 연습하면 더 잘하게 될 거예요!'],
 };
 
+// 다음 프레임의 페인트가 끝날 때까지 기다린다(rAF 두 번 = 한 프레임 그린 뒤).
+/** @returns {Promise<void>} */
+function afterPaint() {
+  if (typeof requestAnimationFrame !== 'function') return Promise.resolve();
+  return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => r())));
+}
+
 /** @param {{ kingdom: KingdomId, stageIdx: number, stars: number }} params */
 function render({ kingdom, stageIdx, stars }) {
   const k = KINGDOMS[kingdom];
@@ -36,10 +43,15 @@ function render({ kingdom, stageIdx, stars }) {
           onclick: () => { sfx('tap'); go('stage', { kingdom, stageIdx: Math.min(stageIdx + 1, k.stages.length - 1) }); },
         }, '▶ 다음 스테이지');
 
+  // 축하 일러스트는 1024px PNG 라 디코드·GPU 업로드 비용이 크다. 이 작업이 꽃가루 낙하
+  // 도중에 끼어들면 합성 프레임이 한 번 밀려, 꽃가루가 내려오다 툭 멈췄다 이어지는 것처럼
+  // 보였다. 미리 디코드하고 한 번 그려 둔 뒤에 꽃가루를 뿌린다(아래 _onShow).
+  const hero = /** @type {HTMLImageElement} */ (el('img', { class: 'celebrate-hero enter', src: celebration, alt: '누리와 포리가 축하해요' }));
+
   s.append(
     el('div', { class: 'scrim' }),
     el('div', { class: 'center-col' },
-      el('img', { class: 'celebrate-hero enter', src: celebration, alt: '누리와 포리가 축하해요' }),
+      hero,
       el('div', { class: 'panel', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '18px', textAlign: 'center', maxWidth: 'min(92vw, 640px)' } },
         el('div', { class: 'sign' }, `${k.stages[stageIdx].title} 완료!`),
         el('div', { class: 'result-stars' }, starEls),
@@ -52,9 +64,18 @@ function render({ kingdom, stageIdx, stars }) {
     ),
   );
 
+  // 이미지 디코드 + 두 프레임(첫 페인트까지) 대기. 어느 쪽이든 300ms 안에는 넘어가
+  // 연출이 늦어지지 않게 상한을 둔다.
+  const heroReady = Promise.race([
+    Promise.resolve(hero.decode?.()).catch(() => {}).then(afterPaint),
+    sleep(300),
+  ]);
+
   s._onShow = async signal => {
-    fxConfetti(stars * 18);
     sfx('fanfare');
+    await heroReady;
+    if (signal.aborted) return;
+    fxConfetti(stars * 18);
     for (let i = 0; i < stars; i++) {
       await sleep(450, signal);
       if (signal.aborted) return; // '다음 스테이지' 등으로 이미 이탈했으면 연출 중단

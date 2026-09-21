@@ -164,25 +164,35 @@ export function fxBurstAt(elem, emojis, count) {
   fxBurst(r.left + r.width / 2, r.top + r.height / 2, emojis, count);
 }
 
-// 화면 전체 색종이
+// 화면 전체 색종이.
+// 조각을 하나씩 append 하고 조각마다 타이머를 걸면, 낙하가 한창일 때 수십 번의 DOM 변경과
+// 타이머 콜백이 흩어져 메인 스레드를 잘게 쪼갠다. 조각은 fragment 로 한 번에 넣고,
+// 정리도 감싸는 상자 하나만 지운다(타이머 1개). 낙하 자체는 CSS 합성 레이어가 맡는다.
 /** @param {number} [count] */
 export function fxConfetti(count = 60) {
   const layer = fxLayer();
   const colors = ['#f2708a', '#59b8f2', '#ffb03a', '#6abf4b', '#9b6dd6', '#38c9b0', '#ffd95e'];
+  const box = el('div');
+  const frag = document.createDocumentFragment();
+  let last = 0; // 가장 늦게 끝나는 조각의 종료 시각(초) — 정리 타이머 기준
   for (let i = 0; i < count; i++) {
-    const p = el('span', {
+    const dur = 2 + Math.random() * 2.2;
+    const delay = Math.random() * 0.8;
+    if (dur + delay > last) last = dur + delay;
+    frag.append(el('span', {
       class: 'fx-confetti',
       style: {
         left: `${Math.random() * 100}vw`,
         background: colors[i % colors.length],
         '--rot': `${360 + Math.random() * 720}deg`,
-        '--dur': `${2 + Math.random() * 2.2}s`,
-        animationDelay: `${Math.random() * 0.8}s`,
+        '--dur': `${dur}s`,
+        animationDelay: `${delay}s`,
       },
-    });
-    layer.append(p);
-    setTimeout(() => p.remove(), 5200);
+    }));
   }
+  box.append(frag);
+  layer.append(box);
+  setTimeout(() => box.remove(), (last + 0.3) * 1000);
 }
 
 // ---- 전체화면 ---------------------------------------------------------------

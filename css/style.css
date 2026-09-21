@@ -918,7 +918,13 @@ button {
   position: absolute;
   left: max(0.5%, env(safe-area-inset-left));
   bottom: calc(1% + env(safe-area-inset-bottom));
-  height: clamp(170px, 34vmin, 460px);
+  /* 크기 기준을 높이(vmin)가 아니라 '폭'으로 잡는다. 높이 기준이면 가로가 넓은 태블릿에서
+     폭까지 같이 커져(원본 비율 3:2) 가운데 선택지 줄을 덮었다. 선택지 줄은 화면 폭의
+     절반 남짓을 차지하므로, 히어로를 좌우 여백(≈24vw) 안에 묶어 두면 겹치지 않는다.
+     height:auto + max-height 조합은 비율을 유지한 채 세로도 함께 제한한다. */
+  width: min(22vw, 280px);
+  height: auto;
+  max-height: 40vh;
   z-index: 1; /* 선택지(z-index:2) 뒤에 두어 카드 탭을 가리지 않음(포인터 통과) */
   pointer-events: none;
   filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
@@ -1080,26 +1086,38 @@ button {
 .dex-item.locked .g { filter: blur(2px); }
 
 /* ============ 이펙트: 별가루/폭죽 ============ */
-.fx-layer { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
+/* 파티클 수십 개를 한꺼번에 넣고 지우므로, 레이어 안에서 일어나는 스타일·레이아웃
+   무효화가 문서 전체로 번지지 않도록 가둔다. */
+.fx-layer {
+  position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden;
+  contain: layout style paint;
+}
+/* 파티클·색종이는 will-change 로 반드시 GPU 합성 레이어에 올린다.
+   합성되지 않으면 낙하가 메인 스레드 프레임에 묶여, 결과 화면이 만드는 작업
+   (큰 축하 일러스트 디코드·음성 재생 준비)에 걸려 '내려오다 툭 멈추는' 것처럼 보인다.
+   조각 하나가 14x20px 라 레이어 수십 개를 만들어도 텍스처 비용은 무시할 수준이다. */
 .fx-particle {
   position: absolute;
   font-size: 1.6rem;
+  will-change: transform, opacity;
   animation: flyUp var(--dur, 1.2s) ease-out both;
 }
 @keyframes flyUp {
-  0% { transform: translate(0, 0) scale(0.6) rotate(0); opacity: 1; }
-  100% { transform: translate(var(--dx, 0), var(--dy, -140px)) scale(1.2) rotate(var(--rot, 180deg)); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0) scale(0.6) rotate(0); opacity: 1; }
+  100% { transform: translate3d(var(--dx, 0), var(--dy, -140px), 0) scale(1.2) rotate(var(--rot, 180deg)); opacity: 0; }
 }
 .fx-confetti {
   position: absolute;
   top: -24px;
   width: 14px; height: 20px;
   border-radius: 4px;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   animation: confettiFall var(--dur, 2.8s) linear both;
 }
 @keyframes confettiFall {
-  0% { transform: translateY(0) rotate(0) rotateY(0); opacity: 1; }
-  100% { transform: translateY(110vh) rotate(var(--rot, 540deg)) rotateY(720deg); opacity: 0.9; }
+  0% { transform: translate3d(0, 0, 0) rotate(0) rotateY(0); opacity: 1; }
+  100% { transform: translate3d(0, 110vh, 0) rotate(var(--rot, 540deg)) rotateY(720deg); opacity: 0.9; }
 }
 
 /* ============ 설정 / 모달 ============ */
@@ -1352,7 +1370,7 @@ button {
   /* 보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡 — 모바일(짧은 화면)에선
      보스와 카드·타일의 큰 floor를 없애 vh 기준으로 더 작게 해 3줄 문제도 안 넘치게. */
   .boss-char { height: 26vh; }
-  .battle-hero { height: 34vh; }
+  .battle-hero { width: min(22vw, 200px); max-height: 34vh; }
   .game-area.boss-stage {
     --sz-card: max(14vh, 54px);
     --fs-card: max(7vh, 30px);
@@ -1425,6 +1443,8 @@ button {
   .stage-pad { width: clamp(160px, 20vmin, 240px); }
   .stage-pads { gap: clamp(20px, 3.4vmin, 44px); }
 
-  /* 보스전 배틀 히어로 — PC·태블릿에선 크게 (누리·포리가 또렷이 보이게) */
-  .battle-hero { height: clamp(300px, 46vmin, 620px); }
+  /* 보스전 배틀 히어로 — 넓은 화면에선 조금 크게. 다만 폭은 24vw 를 넘지 않게 묶어
+     가운데 선택지(3장, 화면 폭의 45~50%)와 겹치지 않도록 한다(22vw).
+     예) 1194x834 태블릿: 히어로 263px, 선택지 왼쪽 끝 343px → 74px 여백. */
+  .battle-hero { width: min(22vw, 340px); max-height: min(42vh, 440px); }
 }
