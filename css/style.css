@@ -694,7 +694,8 @@ button {
   box-shadow: var(--shadow-soft);
 }
 .memento-status { min-height: 1.3rem; font-size: 0.95rem; color: var(--wood); }
-.memento-actions { display: flex; gap: 12px; justify-content: center; }
+.memento-actions { display: flex; flex-wrap: wrap; gap: 10px 12px; justify-content: center; }
+.memento-actions > .memento-photo-btn { flex-basis: 100%; }
 .memento-actions > button { flex: 1; min-height: clamp(44px, 7.5vh, 56px); font-size: clamp(1rem, 2.8vh, 1.2rem); white-space: nowrap; }
 .memento-actions > button:disabled { opacity: 0.45; filter: grayscale(0.4); }
 
@@ -1447,4 +1448,64 @@ button {
      가운데 선택지(3장, 화면 폭의 45~50%)와 겹치지 않도록 한다(22vw).
      예) 1194x834 태블릿: 히어로 263px, 선택지 왼쪽 끝 343px → 74px 여백. */
   .battle-hero { width: min(22vw, 340px); max-height: min(42vh, 440px); }
+}
+/* 기념 네컷 — 카메라 촬영 */
+.memento-camera { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; flex-shrink: 0; }
+.memento-view {
+  position: relative;
+  /* 높이로 크기를 잡고 너비는 비율로 — 가로 폰처럼 낮은 화면에서도 찌그러지지 않는다 */
+  height: min(42vh, 300px);
+  max-width: 100%;
+  aspect-ratio: 393 / 330; /* 카드의 한 칸과 같은 비율 — 보이는 그대로 담긴다 */
+  flex-shrink: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #2b1f15;
+  border: 5px solid var(--wood);
+}
+.memento-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* 거울처럼 — 찍힌 사진도 같은 방향 */
+}
+.memento-count {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(4rem, 16vmin, 7rem);
+  color: #fff;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.memento-count.tick { animation: mementoTick 0.8s ease-out both; }
+@keyframes mementoTick {
+  0%   { transform: scale(1.6); opacity: 0; }
+  30%  { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.2; }
+}
+.memento-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+.memento-flash.on { animation: mementoFlash 0.45s ease-out both; }
+@keyframes mementoFlash { 0% { opacity: 0.95; } 100% { opacity: 0; } }
+.memento-thumbs { display: flex; gap: 8px; }
+.memento-thumb {
+  width: clamp(44px, 9vmin, 64px);
+  aspect-ratio: 393 / 330;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(185, 118, 47, 0.18);
+  border: 2px dashed rgba(185, 118, 47, 0.55);
+}
+.memento-thumb-img { width: 100%; height: 100%; display: block; object-fit: cover; }
+/* 모달이 넉넉하면 버튼 셋을 한 줄로 — 카드가 더 크게 보인다 */
+@media (min-width: 600px) {
+  .memento-actions > .memento-photo-btn { flex-basis: 0; order: 1; }
+  .memento-actions > :last-child { order: 2; }
+}
+/* 낮은 가로 화면(가로 폰) — 썸네일을 미리보기 옆 세로줄로 */
+@media (orientation: landscape) and (max-height: 520px) {
+  .memento-camera { flex-direction: row; justify-content: center; }
+  .memento-thumbs { flex-direction: column; }
+  .memento-thumb { width: auto; height: calc((min(42vh, 300px) - 24px) / 4); }
 }

@@ -30,6 +30,8 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSCameraUsageDescription</key>
+	<string>기념 네컷에 넣을 사진을 찍어요. 사진은 기기 안에서만 쓰이고 어디로도 보내지 않아요.</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

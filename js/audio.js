@@ -427,6 +427,8 @@ const SFX = {
   whoosh()  { tone(880, 0, 0.22, { type: 'sine', gain: 0.07, glide: 220 }); },
   // 축하 종소리
   chime()   { [1046.5, 1318.5, 1568].forEach((f, i) => tone(f, i * 0.15, 0.5, { type: 'sine', gain: 0.12 })); },
+  // 사진 찍기 '찰칵'
+  shutter() { tone(1500, 0, 0.04, { type: 'square', gain: 0.07 }); tone(750, 0.06, 0.07, { type: 'square', gain: 0.06 }); },
 };
 
 /** @param {keyof typeof SFX} name */

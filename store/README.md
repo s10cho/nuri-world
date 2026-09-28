@@ -128,6 +128,9 @@ Play는 이 이미지 위에 재생 버튼이나 제목을 덧씌우고 가장�
 - 소스·빌드 산출물 어디에도 외부 URL이 없다(폰트도 자체 호스팅).
 - 의존성은 Capacitor 코어/플랫폼과 TTS 플러그인뿐 — 광고·분석·결제 SDK가 없다.
 - 진행 상황은 기기의 localStorage에만 저장되고 앱 밖으로 나가지 않는다.
+- 기념 네컷의 카메라 촬영(선택)은 사진을 모달 안 캔버스에서만 합성하고 보관·전송하지 않는다.
+  Apple·Google 모두 "기기 밖으로 전송"을 수집으로 보므로 답안은 그대로 "수집 안 함"이다.
+  카메라 권한 설명: iOS `NSCameraUsageDescription`, Android `CAMERA`(`required=false`).
 
 ### Google Play — 데이터 안전
 
