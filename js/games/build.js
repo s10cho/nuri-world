@@ -54,8 +54,8 @@ export function runBuild({ area, signal }, { targets }) {
         fxBurstAt(targetBox, ['✨', '⭐', '🧩']);
         // 단어 연결 보여주기
         wordReveal.replaceChildren(
-          el('span', { class: 'word-emoji', style: { fontSize: 'clamp(3rem, 8vmin, 5rem)' } }, t.e),
-          el('span', { class: 'word-label', style: { fontSize: 'clamp(1.5rem, 3.6vmin, 2.2rem)' } }, t.w),
+          el('span', { class: 'word-emoji' }, t.e),
+          el('span', { class: 'word-label' }, t.w),
         );
         wordReveal.style.visibility = 'visible';
         wordReveal.animate(
@@ -108,14 +108,8 @@ export function runBuild({ area, signal }, { targets }) {
       const jungOptions = shuffle([jung, ...pickDistractors(ALL_VOWELS, jung, 2)]);
 
       // 단어 공개 카드 — 목표 글자 옆에 자리를 미리 잡아 두고 성공 시 표시
-      const wordReveal = el('div', {
-        class: 'panel',
-        style: {
-          visibility: 'hidden',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '6px',
-          width: 'clamp(110px, 17vmin, 170px)', height: 'clamp(140px, 24vmin, 230px)', padding: '10px',
-        },
-      });
+      // 크기는 style.css .build-reveal — 짧은 가로 폰에선 목표 칸 높이에 맞춘다
+      const wordReveal = el('div', { class: 'panel build-reveal', style: { visibility: 'hidden' } });
 
       area.replaceChildren(
         el('div', { class: 'prompt-bar' },

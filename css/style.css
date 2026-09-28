@@ -631,6 +631,15 @@ button {
   color: #fff;
 }
 .build-slot.filled { border-style: solid; background: rgba(255, 246, 227, 0.92); color: var(--ink); text-shadow: none; }
+/* 완성 뒤 보여 줄 낱말 카드 — 목표 칸 옆에 자리를 미리 잡아 둔다(숨긴 채로도 높이를 차지한다) */
+.build-reveal {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  width: clamp(110px, 17vmin, 170px);
+  height: clamp(140px, 24vmin, 230px);
+  padding: 10px;
+}
+.build-reveal .word-emoji { font-size: clamp(3rem, 8vmin, 5rem) !important; }
+.build-reveal .word-label { font-size: clamp(1.5rem, 3.6vmin, 2.2rem); }
 
 /* ============ 단어 완성(마을) ============ */
 .word-display {
@@ -1403,6 +1412,11 @@ button {
   .battle-hero { display: none; } /* 아주 짧은 화면에선 선택지 공간 확보 위해 숨김 */
   .celebrate-hero { max-height: 22vh; } /* 아주 짧은 화면에서도 패널과 함께 보이게 */
   .btn-big { min-height: 12vh; }
+  /* 글자 조각의 탑 — 낱말 카드의 최소 140px 가 목표 칸(24vh)보다 커서 가운데 줄을 키웠고,
+     360px 가로 폰에서 화면이 21px 넘쳐 스크롤이 생겼다. 목표 칸 높이에 맞추고 안의 글자만 줄인다. */
+  .build-reveal { height: var(--sz-target); padding: 1vh 1.4vh; gap: 0.6vh; border-width: 3px; }
+  .build-reveal .word-emoji { font-size: 11vh !important; }
+  .build-reveal .word-label { font-size: 5vh; line-height: 1.15; }
 }
 
 /* ============================================================
