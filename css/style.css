@@ -1122,7 +1122,9 @@ button {
   width: 14px; height: 20px;
   border-radius: 4px;
   will-change: transform, opacity;
-  backface-visibility: hidden;
+  /* backface-visibility: hidden 을 쓰면 안 된다 — 아래 rotateY 뒤집기에서 뒷면이 보이는
+     구간(한 바퀴에 절반)마다 조각이 통째로 사라진다(낙하 중 평균 37%가 안 보였다).
+     합성 레이어 승격은 will-change 가 맡는다. */
   animation: confettiFall var(--dur, 2.8s) linear both;
 }
 @keyframes confettiFall {
