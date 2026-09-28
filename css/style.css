@@ -1411,7 +1411,6 @@ button {
   .char { height: 24vh !important; }
   .char-nuri { height: 30vh !important; }
   .char-pori { height: 18vh !important; }
-  .battle-hero { display: none; } /* 아주 짧은 화면에선 선택지 공간 확보 위해 숨김 */
   .celebrate-hero { max-height: 22vh; } /* 아주 짧은 화면에서도 패널과 함께 보이게 */
   .btn-big { min-height: 12vh; }
   /* 글자 조각의 탑 — 낱말 카드의 최소 140px 가 목표 칸(24vh)보다 커서 가운데 줄을 키웠고,
