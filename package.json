@@ -60,6 +60,7 @@
     "vitest": "^4.1.9"
   },
   "dependencies": {
+    "@capacitor-community/media": "^9.1.0",
     "@capacitor-community/text-to-speech": "^8.0.2",
     "@capacitor/android": "^8.4.1",
     "@capacitor/core": "^8.4.1",

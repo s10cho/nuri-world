@@ -131,6 +131,8 @@ Play는 이 이미지 위에 재생 버튼이나 제목을 덧씌우고 가장�
 - 기념 네컷의 카메라 촬영(선택)은 사진을 모달 안 캔버스에서만 합성하고 보관·전송하지 않는다.
   Apple·Google 모두 "기기 밖으로 전송"을 수집으로 보므로 답안은 그대로 "수집 안 함"이다.
   카메라 권한 설명: iOS `NSCameraUsageDescription`, Android `CAMERA`(`required=false`).
+- 기념 네컷 저장은 기기 사진첩에 직접 쓴다(`@capacitor-community/media`). iOS 는 추가 전용
+  (`NSPhotoLibraryAddUsageDescription`), Android 는 앱 미디어 폴더 앨범이라 저장소 권한이 없다. 읽기 없음.
 
 ### Google Play — 데이터 안전
 

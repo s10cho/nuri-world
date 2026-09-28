@@ -9,8 +9,8 @@
 // 있어서, 이 약속이 깨지면 스토어 개인정보 답안(store/README.md)도 바꿔야 한다.
 // 모달을 닫으면 카메라도 곧바로 끈다.
 //
-// 저장: 웹은 곧바로 내려받고, 앱은 공유 시트로 넘겨 사용자가 사진에 저장한다
-// (둘 다 갤러리 쓰기 권한이 필요 없다).
+// 저장: 웹은 곧바로 내려받고, 앱은 기기 사진첩(갤러리)에 바로 넣는다.
+// iOS 는 '사진 추가' 권한만, Android 는 권한 없이 앱 앨범에 쓴다(사진첩을 읽지 않는다).
 import { el, modal, sleep } from '../ui.js';
 import { NATIVE } from '../platform.js';
 import { store } from '../store.js';
@@ -28,6 +28,8 @@ const H = 1020;
 const CREAM = '#fff6e3';
 const WOOD = '#b9762f';
 const INK = '#4a3423';
+/** Android 갤러리에 보일 앨범 이름 */
+const GALLERY_ALBUM = '누리의 한글 왕국';
 
 // 네 칸 배치 — 카드와 카메라 미리보기가 같은 비율을 써야 찍은 그대로 담긴다
 const PAD = 46;
@@ -254,15 +256,17 @@ function toBlob(canvas) {
 }
 
 /**
- * 저장 — 웹은 내려받기, 앱은 공유 시트(사용자가 사진에 저장)
+ * 저장 — 웹은 내려받기, 앱은 기기 사진첩(갤러리)에 곧바로 저장한다
  * @param {HTMLCanvasElement} canvas @param {HTMLElement} statusEl
  */
 async function saveCard(canvas, statusEl) {
   const blob = await toBlob(canvas);
   if (!blob) { statusEl.textContent = '이미지를 만들지 못했어요.'; return; }
-  const name = `누리의한글왕국-기념네컷-${new Date().toISOString().slice(0, 10)}.png`;
+  const base = `누리의한글왕국-기념네컷-${new Date().toISOString().slice(0, 10)}`;
+  const name = `${base}.png`;
 
   if (!NATIVE) {
+    // 브라우저는 사진첩에 직접 쓸 수 없다 — 내려받기가 최선이다
     const url = URL.createObjectURL(blob);
     const a = el('a', { href: url, download: name });
     document.body.append(a);
@@ -273,22 +277,49 @@ async function saveCard(canvas, statusEl) {
     return;
   }
 
-  // 네이티브: 파일로 쓴 뒤 공유 시트로 넘긴다. 갤러리 쓰기 권한이 필요 없다.
+  // 네이티브: 캐시에 파일로 쓴 뒤 그 파일을 사진첩에 넣는다.
+  // iOS 는 '추가 전용' 권한만 요청해 사진첩을 읽지 않는다. Android 는 앱 전용 미디어 폴더의
+  // 앨범에 저장하고 미디어 스캔을 걸어 갤러리에 나타나게 한다(저장소 권한 불필요).
+  statusEl.textContent = '사진첩에 저장하는 중…';
+  /** @type {string | null} */
+  let fileUri = null;
   try {
-    const [{ Filesystem, Directory }, { Share }] = await Promise.all([
-      import('@capacitor/filesystem'),
-      import('@capacitor/share'),
-    ]);
+    const { Filesystem, Directory } = await import('@capacitor/filesystem');
     const base64 = await /** @type {Promise<string>} */ (new Promise(res => {
       const r = new FileReader();
       r.onloadend = () => res(String(r.result).split(',')[1]);
       r.readAsDataURL(blob);
     }));
-    const written = await Filesystem.writeFile({ path: name, data: base64, directory: Directory.Cache });
-    await Share.share({ title: '누리의 한글 왕국 기념 네컷', files: [written.uri] });
-    statusEl.textContent = '';
-  } catch {
-    statusEl.textContent = '저장을 지원하지 않는 기기예요.';
+    // 캐시 파일명은 ASCII 로 — iOS 플러그인이 경로를 URL(string:)로 읽어 한글이 있으면 실패할 수 있다
+    const cacheName = `nuri-memento-${Date.now()}.png`;
+    fileUri = (await Filesystem.writeFile({ path: cacheName, data: base64, directory: Directory.Cache })).uri;
+
+    const { Media } = await import('@capacitor-community/media');
+    /** @type {{ path: string, albumIdentifier?: string, fileName?: string }} */
+    const opts = { path: fileUri };
+    if (/** @type {any} */ (window).Capacitor?.getPlatform?.() === 'android') {
+      const { path } = await Media.getAlbumsPath();
+      const album = `${path}/${GALLERY_ALBUM}`;
+      await Media.createAlbum({ name: GALLERY_ALBUM }).catch(() => { /* 이미 있으면 그대로 쓴다 */ });
+      opts.albumIdentifier = album;
+      opts.fileName = `${base}-${Date.now()}`;
+    }
+    await Media.savePhoto(opts);
+    statusEl.textContent = '사진첩에 저장했어요! 📸';
+  } catch (err) {
+    if (/** @type {any} */ (err)?.code === 'accessDenied') {
+      statusEl.textContent = '사진 저장이 허용되지 않았어요. 기기 설정에서 사진 접근을 허용해 주세요.';
+      return;
+    }
+    // 그 밖의 실패는 공유 시트로 넘겨 사용자가 직접 저장할 수 있게 한다
+    try {
+      if (!fileUri) throw err;
+      const { Share } = await import('@capacitor/share');
+      await Share.share({ title: '누리의 한글 왕국 기념 네컷', files: [fileUri] });
+      statusEl.textContent = '';
+    } catch {
+      statusEl.textContent = '저장을 지원하지 않는 기기예요.';
+    }
   }
 }
 
