@@ -9,6 +9,7 @@
  * @property {string[]} residents  구출한 주민 id
  * @property {Record<string, number>} bestArena  글자 놀이 모드별 최고 점수
  * @property {string[]} jamo  모은 글자
+ * @property {number} minStars  다음 스테이지로 가는 데 필요한 최소 별(1~3, 설정의 난이도)
  */
 
 const KEY = 'nuri-hangul-kingdom-v1';
@@ -32,7 +33,16 @@ const DEFAULT = {
   residents: [],
   // 모은 글자 (도감)
   jamo: [],
+  // 난이도 — 다음 스테이지·왕국으로 가려면 이 개수 이상의 별이 필요하다.
+  // 스테이지를 끝까지 하면 별은 최소 1개라, 1이면 예전처럼 '끝내기만 하면 통과'다.
+  minStars: 1,
 };
+
+/** @param {unknown} n @returns {number} 1~3 으로 맞춘 최소 별 */
+function clampMinStars(n) {
+  const v = Math.round(Number(n));
+  return Number.isFinite(v) ? Math.min(3, Math.max(1, v)) : 1;
+}
 
 // 깊은 복사 — structuredClone은 iOS/iPadOS 15.4 미만에서 미지원이라 흰 화면을 유발.
 // 상태가 순수 JSON(숫자/문자열/배열/객체)이므로 JSON 복사로 충분.
@@ -54,6 +64,7 @@ function load() {
     // 기본값과 병합 (버전업 대비)
     const merged = { ...clone(DEFAULT), ...data };
     merged.stars = { ...clone(DEFAULT.stars), ...(data.stars || {}) };
+    merged.minStars = clampMinStars(merged.minStars);
     return /** @type {State} */ (merged);
   } catch {
     return clone(DEFAULT);
@@ -96,6 +107,21 @@ export const store = {
     return true;
   },
 
+  /** 다음 단계로 가는 데 필요한 최소 별 @returns {number} */
+  minStars() { return clampMinStars(state.minStars); },
+
+  /** @param {number} n 1~3 */
+  setMinStars(n) { state.minStars = clampMinStars(n); save(); },
+
+  /**
+   * 이 스테이지를 통과했는가 — 최고 기록이 최소 별 이상.
+   * (다시 해서 별이 적게 나와도 최고 기록은 유지되므로 이미 넘은 단계는 막히지 않는다)
+   * @param {string} kingdom @param {number} stageIdx @returns {boolean}
+   */
+  stagePassed(kingdom, stageIdx) {
+    return (state.stars[kingdom]?.[stageIdx] ?? -1) >= this.minStars();
+  },
+
   markIntroSeen() { state.introSeen = true; save(); },
   markFestivalSeen() { state.festivalSeen = true; save(); },
 
@@ -129,10 +155,10 @@ export const store = {
     return false;
   },
 
-  // 왕국 클리어 여부 (모든 스테이지 별 1개 이상)
+  // 왕국 클리어 여부 (모든 스테이지가 최소 별 이상)
   /** @param {string} kingdom @returns {boolean} */
   kingdomCleared(kingdom) {
-    return state.stars[kingdom].every(s => s >= 1);
+    return state.stars[kingdom].every((_, i) => this.stagePassed(kingdom, i));
   },
 
   // 왕국 잠금 해제 여부: 이전 왕국 클리어 시 열림
@@ -144,11 +170,11 @@ export const store = {
     return this.kingdomCleared(order[i - 1]);
   },
 
-  // 스테이지 잠금: 이전 스테이지 클리어 시 열림
+  // 스테이지 잠금: 이전 스테이지를 최소 별 이상으로 통과하면 열림
   /** @param {string} kingdom @param {number} stageIdx @returns {boolean} */
   stageUnlocked(kingdom, stageIdx) {
     if (stageIdx === 0) return true;
-    return (state.stars[kingdom][stageIdx - 1] ?? -1) >= 1;
+    return this.stagePassed(kingdom, stageIdx - 1);
   },
 
   totalStars() {

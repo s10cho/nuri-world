@@ -34,14 +34,26 @@ function render({ kingdom, stageIdx, stars }) {
   // 누리·포리가 함께 기뻐하는 축하 일러스트 (매번 다르게 랜덤)
   const celebration = CELEBRATIONS[Math.floor(Math.random() * CELEBRATIONS.length)];
 
-  const nextBtn = isBoss
-    ? el('button', { class: 'btn-big', onclick: () => { sfx('fanfare'); go('festival'); } }, '🎉 왕국 축제로!')
-    : isLastStage && kingdomJustCleared
-      ? el('button', { class: 'btn-big', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 다음 왕국으로!')
-      : el('button', {
-          class: 'btn-big',
-          onclick: () => { sfx('tap'); go('stage', { kingdom, stageIdx: Math.min(stageIdx + 1, k.stages.length - 1) }); },
-        }, '▶ 다음 스테이지');
+  // 난이도(설정의 '다음 단계 조건') — 이 스테이지 최고 기록이 최소 별에 못 미치면 앞으로 못 간다.
+  // 왕국 화면·지도의 잠금도 같은 store.stagePassed 를 쓰므로 돌아가서 우회할 수 없다.
+  const need = store.minStars();
+  const passed = store.stagePassed(kingdom, stageIdx);
+
+  const nextBtn = !passed
+    ? el('button', { class: 'btn-big next-locked', disabled: 'true' }, `🔒 ${'⭐'.repeat(need)} 모으면 열려요`)
+    : isBoss
+      ? el('button', { class: 'btn-big', onclick: () => { sfx('fanfare'); go('festival'); } }, '🎉 왕국 축제로!')
+      : isLastStage && kingdomJustCleared
+        ? el('button', { class: 'btn-big', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 다음 왕국으로!')
+        : el('button', {
+            class: 'btn-big',
+            onclick: () => { sfx('tap'); go('stage', { kingdom, stageIdx: Math.min(stageIdx + 1, k.stages.length - 1) }); },
+          }, '▶ 다음 스테이지');
+  // 못 넘었으면 '다시 하기'가 주 버튼이 된다
+  const retryBtn = el('button', {
+    class: passed ? 'btn-big secondary' : 'btn-big retry-main',
+    onclick: () => { sfx('tap'); go('stage', { kingdom, stageIdx }); },
+  }, '🔄 다시 하기');
 
   // 축하 일러스트는 1024px PNG 라 디코드·GPU 업로드 비용이 크다. 이 작업이 꽃가루 낙하
   // 도중에 끼어들면 합성 프레임이 한 번 밀려, 꽃가루가 내려오다 툭 멈췄다 이어지는 것처럼
@@ -56,8 +68,9 @@ function render({ kingdom, stageIdx, stars }) {
         el('div', { class: 'sign' }, `${k.stages[stageIdx].title} 완료!`),
         el('div', { class: 'result-stars' }, starEls),
         el('div', { style: { fontSize: 'clamp(1.15rem, 2.8vmin, 1.6rem)', lineHeight: '1.5' } }, praise),
+        passed ? null : el('div', { class: 'need-stars' }, `별 ${need}개를 모으면 다음으로 갈 수 있어요. 다시 도전해 볼까요?`),
         el('div', { style: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' } },
-          el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); go('stage', { kingdom, stageIdx }); } }, '🔄 다시 하기'),
+          retryBtn,
           nextBtn,
         ),
       ),

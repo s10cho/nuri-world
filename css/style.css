@@ -1186,6 +1186,27 @@ button {
 .toggle.on { background: var(--grass); border-color: var(--grass-deep); }
 .toggle.on .knob { left: 37px; }
 
+/* 난이도(다음 단계 조건) — 별 1·2·3개 중 하나를 고르는 버튼 묶음 */
+.level-row > span { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.level-row small { font-size: 0.8rem; opacity: 0.7; }
+.level-group { display: flex; gap: 6px; flex: none; }
+.level-btn {
+  min-width: 52px; height: 46px;
+  padding: 0 10px;
+  border-radius: 12px;
+  border: 3px solid var(--wood-light);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  letter-spacing: -3px;
+  opacity: 0.6;
+}
+.level-btn.on { opacity: 1; background: var(--gold); border-color: var(--wood); box-shadow: 0 3px 0 var(--wood-dark); }
+
+/* 결과 화면 — 최소 별에 못 미쳤을 때 */
+.need-stars { font-size: clamp(0.95rem, 2.3vmin, 1.25rem); color: var(--wood); }
+.btn-big.next-locked { opacity: 0.5; filter: grayscale(0.6); cursor: not-allowed; }
+.btn-big.retry-main { animation: pulseSpk 1.4s ease-in-out infinite; }
+
 /* 보호자 안내 문단 */
 .guardian-note {
   font-size: 0.92rem;

@@ -71,3 +71,54 @@ describe('영속성 · 초기화', () => {
     expect(store.get().residents).toEqual([]);
   });
 });
+
+describe('난이도 — 다음 단계 조건(최소 별)', () => {
+  it('기본값은 별 1개 — 끝내기만 하면 통과', () => {
+    expect(store.minStars()).toBe(1);
+    store.setStars('meadow', 0, 1);
+    expect(store.stagePassed('meadow', 0)).toBe(true);
+    expect(store.stageUnlocked('meadow', 1)).toBe(true);
+  });
+
+  it('최소 별 3개면 별 2개로는 다음 스테이지가 열리지 않는다', () => {
+    store.setMinStars(3);
+    store.setStars('meadow', 0, 2);
+    expect(store.stagePassed('meadow', 0)).toBe(false);
+    expect(store.stageUnlocked('meadow', 1)).toBe(false);
+    store.setStars('meadow', 0, 3);
+    expect(store.stageUnlocked('meadow', 1)).toBe(true);
+  });
+
+  it('최고 기록 기준 — 이미 넘은 단계는 다시 해서 별이 적어도 막히지 않는다', () => {
+    store.setMinStars(2);
+    store.setStars('meadow', 0, 3);
+    store.setStars('meadow', 0, 1); // 낮은 점수는 기록되지 않는다
+    expect(store.stagePassed('meadow', 0)).toBe(true);
+  });
+
+  it('왕국 클리어·다음 왕국 열림도 최소 별을 따른다', () => {
+    store.setMinStars(2);
+    for (let i = 0; i < 4; i++) store.setStars('meadow', i, 2);
+    store.setStars('meadow', 4, 1); // 마지막 스테이지가 1개라 아직 클리어가 아니다
+    expect(store.kingdomCleared('meadow')).toBe(false);
+    expect(store.kingdomUnlocked('lake')).toBe(false);
+    store.setStars('meadow', 4, 2);
+    expect(store.kingdomCleared('meadow')).toBe(true);
+    expect(store.kingdomUnlocked('lake')).toBe(true);
+  });
+
+  it('설정값은 1~3 으로 맞추고, 저장 후 다시 읽어도 유지된다', () => {
+    store.setMinStars(5);
+    expect(store.minStars()).toBe(3);
+    store.setMinStars(0);
+    expect(store.minStars()).toBe(1);
+    store.setMinStars(2);
+    expect(JSON.parse(localStorage.getItem('nuri-hangul-kingdom-v1')).minStars).toBe(2);
+  });
+
+  it('초기화하면 기본값(1)으로 돌아간다', () => {
+    store.setMinStars(3);
+    store.reset();
+    expect(store.minStars()).toBe(1);
+  });
+});

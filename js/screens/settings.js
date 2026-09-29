@@ -28,6 +28,21 @@ export function openSettings() {
     ));
   }
 
+  // 난이도 — 다음 스테이지로 가는 데 필요한 최소 별. 1개면 끝까지 하기만 하면 통과(기본).
+  const levelBtns = [1, 2, 3].map(n => el('button', {
+    class: `level-btn ${store.minStars() === n ? 'on' : ''}`,
+    'aria-label': `별 ${n}개`,
+    onclick: () => {
+      sfx('tap');
+      store.setMinStars(n);
+      levelBtns.forEach((b, i) => b.classList.toggle('on', i + 1 === n));
+    },
+  }, '⭐'.repeat(n)));
+  rows.push(el('div', { class: 'setting-row level-row' },
+    el('span', {}, '🏅 다음 단계 조건', el('small', {}, '이만큼 별을 모아야 다음으로 가요')),
+    el('div', { class: 'level-group' }, levelBtns),
+  ));
+
   rows.push(el('div', { class: 'setting-row' },
     el('span', {}, '🗑️ 처음부터 다시 하기'),
     el('button', {
