@@ -1382,7 +1382,14 @@ button {
   /* 보스전은 게이지+보스+프롬프트+타일+선택지로 세로가 빡빡 — 모바일(짧은 화면)에선
      보스와 카드·타일의 큰 floor를 없애 vh 기준으로 더 작게 해 3줄 문제도 안 넘치게. */
   .boss-char { height: 26vh; }
-  .battle-hero { width: min(22vw, 200px); max-height: 34vh; }
+  /* 가로 폰: 가운데 문제 영역(안내 바·카드·타일)은 크기가 vh 기준이라 절반 폭이 높이에
+     비례한다(실측 최대 28.4vh). 왼쪽 빈 공간을 '화면 절반 − 30vh − 32px(공격 돌진 여유)'로 계산해
+     기기마다 가득 쓰되, 높이는 44vh(3:2 원본 → 폭 66vh)를 넘지 않게 한다.
+     예) 640×360 → 177px · 780×360 → 237px · 844×390 → 257px (예전 141·172·186px) */
+  .battle-hero {
+    width: clamp(120px, calc(50vw - 30vh - 32px - max(0.5vw, env(safe-area-inset-left))), 66vh);
+    max-height: 44vh;
+  }
   .game-area.boss-stage {
     --sz-card: max(14vh, 54px);
     --fs-card: max(7vh, 30px);
