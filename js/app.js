@@ -22,6 +22,8 @@ const TRANSIENT = new Set(['loading', 'story', 'stage']);
 /** @type {{ name: string, params: any }[]} 되돌아갈 화면 스택 */
 const trail = [];
 let currentName = '';
+/** @type {any} 지금 화면을 그린 params — refresh() 가 같은 화면을 다시 그릴 때 쓴다 */
+let currentParams = {};
 let goingBack = false;
 /** 뒤로 가기가 소비할 히스토리 칸을 하나 확보해 뒀는지. */
 let spare = false;
@@ -90,11 +92,23 @@ export async function go(name, params = {}) {
   if (next._onShow && token === navToken) next._onShow(ac.signal);
 
   currentName = name;
+  currentParams = params;
   if (!goingBack && !TRANSIENT.has(name)) {
     // 같은 화면을 다시 열면 스택이 무한히 길어지지 않게 한 번만 남긴다.
     if (trail[trail.length - 1]?.name !== name) trail.push({ name, params });
   }
   keepSpare();
+}
+
+/**
+ * 지금 화면을 저장소의 최신 상태로 다시 그린다. 설정(난이도 등)을 바꾼 뒤 뒤에 깔린
+ * 지도·왕국 화면이 옛 잠금 상태를 계속 보여 주지 않게 한다. 게임·이야기처럼 거쳐 가는
+ * 화면은 다시 그리면 처음부터 시작되므로 건드리지 않는다.
+ */
+export function refresh() {
+  if (!currentName || TRANSIENT.has(currentName)) return;
+  goingBack = true; // 같은 화면이라 뒤로 가기 스택에 새로 쌓지 않는다
+  go(currentName, currentParams).finally(() => { goingBack = false; });
 }
 
 // ---- 부팅 -------------------------------------------------------------------

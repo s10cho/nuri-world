@@ -1,11 +1,12 @@
 // 설정 모달 — 소리, 전체화면(웹 전용), 진행 초기화, 보호자 안내
-import { go } from '../app.js';
+import { go, refresh } from '../app.js';
 import { el, modal, toggleFullscreen, fullscreenSupported } from '../ui.js';
 import { NATIVE } from '../platform.js';
 import { store } from '../store.js';
 import { sfx, hasTTS } from '../audio.js';
 
 export function openSettings() {
+  const levelBefore = store.minStars();
   const soundToggle = el('button', {
     class: `toggle ${store.get().sound ? 'on' : ''}`,
     onclick: () => {
@@ -39,7 +40,7 @@ export function openSettings() {
     },
   }, '⭐'.repeat(n)));
   rows.push(el('div', { class: 'setting-row level-row' },
-    el('span', {}, '🏅 다음 단계 조건', el('small', {}, '이만큼 별을 모아야 다음으로 가요')),
+    el('span', {}, '🏅 다음 단계 조건', el('small', {}, '이만큼 별을 모아야 다음으로 가요 · 많을수록 보스전 에너지(💖)가 적어요')),
     el('div', { class: 'level-group' }, levelBtns),
   ));
 
@@ -70,7 +71,11 @@ export function openSettings() {
     ...rows,
     notice,
     el('button', { class: 'btn-big secondary', onclick: () => close() }, '닫기'),
-  ]);
+  ], {
+    // 난이도를 바꿨으면 뒤의 지도·왕국 화면을 새 기준으로 다시 그린다.
+    // 안 그러면 다른 화면을 다녀와야 잠금이 바뀌어 보여 들쭉날쭉했다.
+    onClose: () => { if (store.minStars() !== levelBefore) refresh(); },
+  });
 }
 
 // 보호자 확인 게이트 — 두 자리 곱셈을 풀어야 초기화가 진행된다 (아이 우발 조작 방지).

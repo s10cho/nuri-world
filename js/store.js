@@ -10,6 +10,7 @@
  * @property {Record<string, number>} bestArena  글자 놀이 모드별 최고 점수
  * @property {string[]} jamo  모은 글자
  * @property {number} minStars  다음 스테이지로 가는 데 필요한 최소 별(1~3, 설정의 난이도)
+ * @property {Record<string, boolean[]>} passed  스테이지 통과 기록 — 그때의 난이도로 한 번 넘으면 계속 통과
  */
 
 const KEY = 'nuri-hangul-kingdom-v1';
@@ -36,6 +37,15 @@ const DEFAULT = {
   // 난이도 — 다음 스테이지·왕국으로 가려면 이 개수 이상의 별이 필요하다.
   // 스테이지를 끝까지 하면 별은 최소 1개라, 1이면 예전처럼 '끝내기만 하면 통과'다.
   minStars: 1,
+  // 스테이지 통과 기록. 난이도를 나중에 올려도 이미 넘은 단계·왕국은 다시 잠그지 않는다
+  // (올린 난이도는 앞으로 할 단계에만 적용된다). stars 와 같은 모양.
+  passed: {
+    meadow:  [false, false, false, false, false],
+    lake:    [false, false, false, false, false],
+    tower:   [false, false, false, false, false],
+    village: [false, false, false, false, false],
+    castle:  [false],
+  },
 };
 
 /** @param {unknown} n @returns {number} 1~3 으로 맞춘 최소 별 */
@@ -65,6 +75,14 @@ function load() {
     const merged = { ...clone(DEFAULT), ...data };
     merged.stars = { ...clone(DEFAULT.stars), ...(data.stars || {}) };
     merged.minStars = clampMinStars(merged.minStars);
+    // 통과 기록이 없던 버전의 진행: 그때는 별 1개면 통과였으므로 별 1개 이상을 통과로 옮긴다.
+    // (없으면 난이도를 올린 사용자의 지난 진행이 전부 '안 깬 것'으로 잠긴다)
+    const passed = clone(DEFAULT.passed);
+    for (const k of Object.keys(passed)) {
+      const saved = data.passed?.[k];
+      passed[k] = passed[k].map((_, i) => saved ? saved[i] === true : (merged.stars[k]?.[i] ?? -1) >= 1);
+    }
+    merged.passed = passed;
     return /** @type {State} */ (merged);
   } catch {
     return clone(DEFAULT);
@@ -114,12 +132,14 @@ export const store = {
   setMinStars(n) { state.minStars = clampMinStars(n); save(); },
 
   /**
-   * 이 스테이지를 통과했는가 — 최고 기록이 최소 별 이상.
-   * (다시 해서 별이 적게 나와도 최고 기록은 유지되므로 이미 넘은 단계는 막히지 않는다)
+   * 이 스테이지를 통과했는가 — 통과 기록이 있거나, 최고 기록이 지금 최소 별 이상.
+   * 통과 기록 덕분에 난이도를 올려도 이미 넘은 단계는 다시 잠기지 않고,
+   * 최고 기록 조건 덕분에 난이도를 내리면 그 기준으로 곧바로 열린다.
    * @param {string} kingdom @param {number} stageIdx @returns {boolean}
    */
   stagePassed(kingdom, stageIdx) {
-    return (state.stars[kingdom]?.[stageIdx] ?? -1) >= this.minStars();
+    return state.passed[kingdom]?.[stageIdx] === true
+      || (state.stars[kingdom]?.[stageIdx] ?? -1) >= this.minStars();
   },
 
   markIntroSeen() { state.introSeen = true; save(); },
@@ -129,10 +149,17 @@ export const store = {
   /** @param {string} kingdom @param {number} stageIdx @param {number} stars */
   setStars(kingdom, stageIdx, stars) {
     const cur = state.stars[kingdom]?.[stageIdx] ?? -1;
+    let dirty = false;
     if (stars > cur) {
       state.stars[kingdom][stageIdx] = stars;
-      save();
+      dirty = true;
     }
+    // 지금 난이도로 넘었으면 통과를 남긴다 — 나중에 난이도를 올려도 유지된다
+    if (stars >= this.minStars() && state.passed[kingdom] && !state.passed[kingdom][stageIdx]) {
+      state.passed[kingdom][stageIdx] = true;
+      dirty = true;
+    }
+    if (dirty) save();
   },
 
   /** @param {string} id @returns {boolean} 새로 구출했으면 true */
