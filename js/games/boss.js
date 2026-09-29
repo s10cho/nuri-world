@@ -3,6 +3,8 @@ import { el, cardColor, shuffle, sample, fxBurstAt, fxConfetti, sleep } from '..
 import { speak, sfx, canSpeak, hasVoiceAsset } from '../audio.js';
 import { JAMO, ALL_CONSONANTS, ALL_VOWELS, TOWER_STAGES, VILLAGE_STAGES, CHARACTERS, BATTLE_HERO } from '../data.js';
 import { objectParticle, pickDistractors } from '../hangul.js';
+import { store } from '../store.js';
+import { heroEnergy } from '../difficulty.js';
 
 const HP_MAX = 8;
 
@@ -44,6 +46,10 @@ export function runBoss({ area, signal }, _opts) {
     let qIdx = 0;
     let mistakes = 0;
     let seq = 0; // 문항 순번 — 지연 프롬프트가 다음 문항으로 넘어간 뒤 재생되는 것 방지
+    // 누리·포리 에너지 — 틀릴 때마다 1씩 줄고 0이면 실패. 양은 설정의 난이도(최소 별)로 정한다.
+    const ENERGY_MAX = heroEnergy(store.minStars());
+    let energy = ENERGY_MAX;
+    let over = false; // 승리·실패로 끝났으면 더 이상 카드 입력을 받지 않는다
 
     // 보스전은 게이지·보스를 상단에 고정하고 아래 문제 영역만 바뀌도록 상단 정렬한다.
     // (문제 유형에 따라 2줄·3줄로 높이가 달라도 위쪽이 흔들리지 않게)
@@ -52,6 +58,12 @@ export function runBoss({ area, signal }, _opts) {
     const boss = el('img', { class: 'boss-char', src: CHARACTERS.eraser, alt: '지우개 몬스터' });
     // 누리·포리 배틀 히어로 — 왼쪽 아래에서 마법으로 몬스터를 공격(정답 명중 시 돌진 연출)
     const heroes = el('img', { class: 'battle-hero', src: BATTLE_HERO, alt: '누리와 포리' });
+    const hearts = Array.from({ length: ENERGY_MAX }, () => el('span', { class: 'heart' }, '💖'));
+    // 하트가 많으면(쉬움 8개) 4개씩 두 줄로 고르게 — 한 줄이면 좁은 폰에서 7+1로 어색하게 감긴다
+    const energyBar = el('div', {
+      class: `hero-energy ${ENERGY_MAX > 5 ? 'many' : ''}`, role: 'img', 'aria-label': `에너지 ${energy}`,
+    }, hearts);
+    const heroBox = el('div', { class: 'battle-hero-box' }, energyBar, heroes);
     const hpFill = el('div', { class: 'fill' });
     // 문제 영역: 보스 아래 남는 공간을 flex로 모두 차지하고 내용을 세로 중앙 정렬한다.
     // → 보스·게이지는 위에 고정, 문제는 항상 같은 중앙 밴드에 놓여 2줄·3줄이어도 덜 흔들린다.
@@ -60,7 +72,7 @@ export function runBoss({ area, signal }, _opts) {
     });
 
     area.replaceChildren(
-      heroes,
+      heroBox,
       el('div', { class: 'boss-top', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } },
         el('div', { class: 'boss-hp' }, hpFill),
         boss,
@@ -83,7 +95,38 @@ export function runBoss({ area, signal }, _opts) {
       if (btn) btn.classList.add('correct');
     }
 
+    // 틀렸다 — 하트 하나를 잃고, 다 잃으면 실패로 끝낸다. 끝났으면 true.
+    function loseEnergy() {
+      energy -= 1;
+      const lost = hearts[energy];
+      if (lost) lost.classList.add('lost');
+      energyBar.setAttribute('aria-label', `에너지 ${energy}`);
+      heroes.classList.remove('hurt');
+      void heroes.offsetWidth; // 연속으로 틀려도 휘청임을 다시 건다
+      heroes.classList.add('hurt');
+      setTimeout(() => heroes.classList.remove('hurt'), 600);
+      if (energy > 0) return false;
+      over = true;
+      defeat();
+      return true;
+    }
+
+    async function defeat() {
+      seq += 1; // 예약된 문제 안내 음성이 뒤늦게 나오지 않게
+      qArea.querySelectorAll('button').forEach(b => { /** @type {HTMLButtonElement} */ (b).disabled = true; });
+      qArea.prepend(el('div', { class: 'ribbon energy-out' }, '💔 에너지가 다 떨어졌어요'));
+      await sleep(500, signal);
+      if (signal.aborted) return;
+      sfx('laugh');
+      boss.classList.add('taunt');
+      heroes.classList.add('fainted');
+      await sleep(1800, signal);
+      if (signal.aborted) return;
+      resolve({ mistakes, failed: true });
+    }
+
     async function victory() {
+      over = true;
       await speak('안 돼요! 내가 지다니! 글자들을 모두 돌려줄게요!', { signal });
       if (signal.aborted) return;
       boss.classList.add('defeat');
@@ -125,7 +168,7 @@ export function runBoss({ area, signal }, _opts) {
           dataset: { ch: opt },
           style: { ...extraStyle },
           onclick: async (/** @type {Event} */ e) => {
-            if (solved || signal.aborted) return;
+            if (solved || over || signal.aborted) return;
             const btn = /** @type {HTMLElement} */ (e.currentTarget);
             if (isCorrect(opt)) {
               solved = true;
@@ -142,6 +185,7 @@ export function runBoss({ area, signal }, _opts) {
               btn.classList.add('wrong');
               // 이미 고른 오답은 흐리게 비활성화해 같은 실수 반복·부정 피드백 누적 방지
               setTimeout(() => { btn.classList.remove('wrong'); btn.classList.add('dim'); }, 500);
+              if (loseEnergy()) return; // 에너지가 바닥나 실패 — 격려 대신 실패 연출
               speak(RETRY[Math.floor(Math.random() * RETRY.length)], { signal });
             }
           },

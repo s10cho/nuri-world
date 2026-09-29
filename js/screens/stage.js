@@ -2,6 +2,7 @@
 import { register, go } from '../app.js';
 import { el, topbar, iconBtn } from '../ui.js';
 import { store } from '../store.js';
+import { starsFor } from '../difficulty.js';
 import { sfx, whenVoicesReady } from '../audio.js';
 import { KINGDOMS } from '../data.js';
 
@@ -88,14 +89,19 @@ function render({ kingdom, stageIdx }) {
       const result = await activities[i]({ area, kingdom, stage, signal });
       if (signal.aborted) return;
       mistakes += result?.mistakes || 0;
+      // 보스전에서 누리·포리 에너지가 바닥났다 — 별을 기록하지 않고 실패 화면으로
+      if (result?.failed) {
+        go('result', { kingdom, stageIdx, stars: 0, failed: true });
+        return;
+      }
     }
 
     // 이탈 후 게임 Promise가 뒤늦게 resolve된 경우 별점 기록·화면 이동을 하지 않음
     if (signal.aborted) return;
 
-    // 별점: 유아 대상이라 관대하게(노력·완주 보상) — 실수 0~1 → 3개, 2~4 → 2개, 그 이상 → 1개.
+    // 별점: 유아 대상이라 관대하게(노력·완주 보상) — 규칙은 difficulty.js(보스전 에너지와 공유).
     // 짝 맞추기 등 기억 게임의 뒤집기 실수까지 포함되므로 문턱을 넉넉히 둔다.
-    const stars = mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1;
+    const stars = starsFor(mistakes);
     store.setStars(kingdom, stageIdx, stars);
 
     go('result', { kingdom, stageIdx, stars });

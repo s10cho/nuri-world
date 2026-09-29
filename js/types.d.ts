@@ -140,6 +140,8 @@ interface Characters {
 interface GameResult {
   /** 이 활동에서의 실수 횟수 */
   mistakes: number;
+  /** 보스전 — 누리·포리 에너지가 바닥나 실패했다 */
+  failed?: boolean;
 }
 
 /** 게임/활동에 전달되는 컨텍스트 */

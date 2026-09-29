@@ -923,11 +923,56 @@ button {
 }
 .boss-char.defeat { animation: bossDefeat 1.6s ease-in both; }
 
-/* 보스전 배틀 히어로 — 누리·포리가 왼쪽 아래에서 마법으로 공격 */
-.battle-hero {
+/* 보스전 배틀 히어로 — 누리·포리가 왼쪽 아래에서 마법으로 공격.
+   위치(왼쪽 아래 고정)는 상자가, 크기는 이미지(.battle-hero)가 맡는다 — 에너지 하트를
+   캐릭터 바로 위에 붙이려고 감쌌다. 크기 규칙은 아래 미디어 쿼리들이 그대로 쓴다. */
+.battle-hero-box {
   position: absolute;
   left: max(0.5%, env(safe-area-inset-left));
   bottom: calc(1% + env(safe-area-inset-bottom));
+  z-index: 1; /* 선택지(z-index:2) 뒤에 두어 카드 탭을 가리지 않음(포인터 통과) */
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  /* 상자 폭 = 캐릭터 폭. 하트가 많아도(쉬움 8개) 상자를 넓혀 가운데 문제 쪽으로 밀지 않고 줄을 바꾼다 */
+  width: min-content;
+}
+/* 누리·포리 에너지(하트) — 틀리면 하나씩 빠진다. 개수는 난이도(difficulty.js heroEnergy) */
+.hero-energy {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(30, 18, 40, 0.5);
+  /* 아이가 한눈에 세도록 크게. 하트 8개(쉬움)도 좁은 폰의 캐릭터 폭 안에 들도록 5.5vh */
+  font-size: clamp(16px, 5.5vh, 32px);
+  line-height: 1.15;
+}
+.hero-energy.many { display: grid; grid-template-columns: repeat(4, auto); border-radius: 16px; }
+.hero-energy .heart { transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease; }
+.hero-energy .heart.lost { animation: heartLost 0.5s ease both; filter: grayscale(1); opacity: 0.35; }
+@keyframes heartLost {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.45) rotate(-12deg); }
+  100% { transform: scale(0.8); }
+}
+@keyframes heroHurt {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px) rotate(-4deg); filter: brightness(1.4) saturate(0.6); }
+  45% { transform: translateX(8px) rotate(3deg); }
+  70% { transform: translateX(-5px); }
+}
+.battle-hero.hurt { animation: heroHurt 0.55s ease both; }
+.battle-hero.fainted { animation: none; transform: rotate(-12deg) translateY(10px); filter: grayscale(0.8) brightness(0.8); transition: transform 0.6s ease, filter 0.6s ease; }
+@keyframes bossTaunt { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-14px) scale(1.06); } }
+.boss-char.taunt { animation: bossTaunt 0.5s ease-in-out 3; }
+.energy-out { background: #fde2e6; }
+
+.battle-hero {
   /* 크기 기준을 높이(vmin)가 아니라 '폭'으로 잡는다. 높이 기준이면 가로가 넓은 태블릿에서
      폭까지 같이 커져(원본 비율 3:2) 가운데 선택지 줄을 덮었다. 선택지 줄은 화면 폭의
      절반 남짓을 차지하므로, 히어로를 좌우 여백(≈24vw) 안에 묶어 두면 겹치지 않는다.
@@ -935,8 +980,6 @@ button {
   width: min(22vw, 280px);
   height: auto;
   max-height: 40vh;
-  z-index: 1; /* 선택지(z-index:2) 뒤에 두어 카드 탭을 가리지 않음(포인터 통과) */
-  pointer-events: none;
   filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
   animation: heroBob 2.4s ease-in-out infinite;
 }
@@ -980,6 +1023,54 @@ button {
   animation:
     celebratePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
     celebrateFloat 2.8s ease-in-out 0.7s infinite;
+}
+
+/* 결과 패널 */
+.result-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  max-width: min(92vw, 640px);
+}
+
+/* 응원 장면 — 통과하지 못했을 때(별 부족·보스전 에너지 소진). 서 있는 누리와 포리가
+   말풍선으로 "할 수 있어!" 하고 응원한다. 높이만 정하면 두 그림이 비율대로 따라온다. */
+.encourage-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2%;
+  height: min(30vh, 300px);
+  flex: none;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+}
+.encourage-hero img { height: 100%; width: auto; }
+.encourage-hero .pori { height: 76%; } /* 포리 ≈ 누리의 0.75 (캐릭터 화면 비율과 같게) */
+.encourage-hero.enter .nuri { animation: cheerBounce 1.6s ease-in-out infinite; }
+.encourage-hero.enter .pori { animation: cheerBounce 1.6s ease-in-out 0.3s infinite; }
+@keyframes cheerBounce {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  30% { transform: translateY(-6%) rotate(-3deg); }
+  60% { transform: translateY(0) rotate(2deg); }
+}
+.cheer-bubble {
+  position: absolute;
+  top: 0;
+  left: 58%;
+  transform: translateY(-10%);
+  padding: 0.25em 0.8em;
+  border-radius: 999px;
+  background: var(--cream);
+  border: 3px solid var(--wood);
+  color: var(--ink);
+  font-size: clamp(0.95rem, 4.4vh, 1.6rem);
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  animation: popCorrect 0.6s ease 0.3s both;
 }
 
 /* 로딩 화면 — 음성·이미지 프리로드 진행 표시 + 시작 버튼 */
@@ -1396,6 +1487,7 @@ button {
   .result-stars { font-size: 9vh; gap: 2vh; }
   /* 축하 일러스트 — 짧은 화면에선 패널과 함께 들어오도록 더 작게(스크롤 방지) */
   .celebrate-hero { max-height: 26vh; }
+  .encourage-hero { height: 26vh; }
   .center-col { gap: clamp(8px, 1.6vh, 20px); }
 
   /* 보스 HP·캐릭터 */
@@ -1551,4 +1643,14 @@ button {
   .memento-camera { flex-direction: row; justify-content: center; }
   .memento-thumbs { flex-direction: column; }
   .memento-thumb { width: auto; height: calc((min(42vh, 300px) - 24px) / 4); }
+}
+
+/* 결과 화면 — 낮은 가로 화면(가로 폰)에선 그림과 패널을 나란히. 세로로 쌓으면 패널이
+   높이의 70% 를 차지해 누리·포리 그림이 20vh 남짓으로 쪼그라들었다. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .center-col.result-col { flex-direction: row; justify-content: center; gap: 3vw; }
+  .result-col .celebrate-hero { width: min(38vw, 440px); max-height: 80vh; }
+  .result-col .encourage-hero { height: min(66vh, 320px); max-width: 38vw; }
+  .result-col .result-panel { max-width: min(54vw, 560px); gap: 2.6vh; padding: 3.6vh 3vw; }
+  .result-col .result-panel .btn-big { padding-left: 3vw; padding-right: 3vw; }
 }

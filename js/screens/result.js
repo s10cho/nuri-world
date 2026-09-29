@@ -3,7 +3,7 @@ import { register, go } from '../app.js';
 import { el, fxConfetti, sleep } from '../ui.js';
 import { store } from '../store.js';
 import { speak, sfx } from '../audio.js';
-import { KINGDOMS, CELEBRATIONS } from '../data.js';
+import { KINGDOMS, CELEBRATIONS, CHARACTERS } from '../data.js';
 
 // 노력 지향 칭찬 (능력 칭찬보다 학습 동기에 효과적)
 /** @type {Record<number, string[]>} */
@@ -20,8 +20,35 @@ function afterPaint() {
   return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => r())));
 }
 
-/** @param {{ kingdom: KingdomId, stageIdx: number, stars: number }} params */
-function render({ kingdom, stageIdx, stars }) {
+/**
+ * 응원 장면 — 통과하지 못했을 때는 기뻐하는 축하 그림 대신, 서 있는 누리·포리가
+ * "할 수 있어!" 하고 응원한다(축하 그림은 통과했을 때만).
+ * @param {string} line 말풍선 문구
+ * @returns {HTMLElement}
+ */
+function encourageScene(line) {
+  return el('div', { class: 'encourage-hero enter', role: 'img', 'aria-label': '누리와 포리가 응원해요' },
+    el('img', { class: 'nuri', src: CHARACTERS.nuri, alt: '' }),
+    el('img', { class: 'pori', src: CHARACTERS.pori, alt: '' }),
+    el('div', { class: 'cheer-bubble' }, line),
+  );
+}
+
+/**
+ * 결과 그림이 디코드되고 한 프레임 그려질 때까지 — 꽃가루가 도중에 끊기지 않게(아래 _onShow)
+ * @param {HTMLElement} hero @returns {Promise<void>}
+ */
+function heroPainted(hero) {
+  const imgs = hero instanceof HTMLImageElement ? [hero] : [...hero.querySelectorAll('img')];
+  return Promise.all(imgs.map(i => Promise.resolve(i.decode?.()).catch(() => {}))).then(afterPaint);
+}
+
+// 보스전 실패(에너지 소진) 때의 격려 — 녹음이 있는 문장만 쓴다(없는 문장은 기기 TTS 로 떨어진다)
+const FAIL_CHEER = '조금씩 계속 연습하면 더 잘하게 될 거예요!';
+
+/** @param {{ kingdom: KingdomId, stageIdx: number, stars: number, failed?: boolean }} params */
+function render({ kingdom, stageIdx, stars, failed = false }) {
+  if (failed) return renderFailed({ kingdom, stageIdx });
   const k = KINGDOMS[kingdom];
   const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${k.bg})` } }));
 
@@ -58,13 +85,15 @@ function render({ kingdom, stageIdx, stars }) {
   // 축하 일러스트는 1024px PNG 라 디코드·GPU 업로드 비용이 크다. 이 작업이 꽃가루 낙하
   // 도중에 끼어들면 합성 프레임이 한 번 밀려, 꽃가루가 내려오다 툭 멈췄다 이어지는 것처럼
   // 보였다. 미리 디코드하고 한 번 그려 둔 뒤에 꽃가루를 뿌린다(아래 _onShow).
-  const hero = /** @type {HTMLImageElement} */ (el('img', { class: 'celebrate-hero enter', src: celebration, alt: '누리와 포리가 축하해요' }));
+  const hero = passed
+    ? el('img', { class: 'celebrate-hero enter', src: celebration, alt: '누리와 포리가 축하해요' })
+    : encourageScene('할 수 있어! 💪');
 
   s.append(
     el('div', { class: 'scrim' }),
-    el('div', { class: 'center-col' },
+    el('div', { class: 'center-col result-col' },
       hero,
-      el('div', { class: 'panel', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '18px', textAlign: 'center', maxWidth: 'min(92vw, 640px)' } },
+      el('div', { class: 'panel result-panel' },
         el('div', { class: 'sign' }, `${k.stages[stageIdx].title} 완료!`),
         el('div', { class: 'result-stars' }, starEls),
         el('div', { style: { fontSize: 'clamp(1.15rem, 2.8vmin, 1.6rem)', lineHeight: '1.5' } }, praise),
@@ -79,10 +108,7 @@ function render({ kingdom, stageIdx, stars }) {
 
   // 이미지 디코드 + 두 프레임(첫 페인트까지) 대기. 어느 쪽이든 300ms 안에는 넘어가
   // 연출이 늦어지지 않게 상한을 둔다.
-  const heroReady = Promise.race([
-    Promise.resolve(hero.decode?.()).catch(() => {}).then(afterPaint),
-    sleep(300),
-  ]);
+  const heroReady = Promise.race([heroPainted(hero), sleep(300)]);
 
   s._onShow = async signal => {
     sfx('fanfare');
@@ -99,6 +125,38 @@ function render({ kingdom, stageIdx, stars }) {
     await speak(praise, { signal });
   };
 
+  return s;
+}
+
+/**
+ * 보스전 실패 — 누리·포리 에너지가 바닥났다. 별은 기록하지 않았다(stage.js).
+ * 실패를 탓하지 않고 다시 도전을 권한다: 축하 연출 없이 '다시 하기'를 주 버튼으로.
+ * @param {{ kingdom: KingdomId, stageIdx: number }} params
+ */
+function renderFailed({ kingdom, stageIdx }) {
+  const k = KINGDOMS[kingdom];
+  const s = /** @type {AppScreen} */ (el('div', { style: { backgroundImage: `url(${k.bg})` } }));
+  s.append(
+    el('div', { class: 'scrim' }),
+    el('div', { class: 'center-col result-col' },
+      encourageScene('다시 해 보자! 💖'),
+      el('div', { class: 'panel result-panel' },
+        el('div', { class: 'sign' }, '에너지가 다 떨어졌어요'),
+        el('div', { style: { fontSize: 'clamp(1.15rem, 2.8vmin, 1.6rem)', lineHeight: '1.5' } }, FAIL_CHEER),
+        el('div', { class: 'need-stars' }, '💖 에너지를 채워서 다시 도전해 볼까요?'),
+        el('div', { style: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' } },
+          el('button', { class: 'btn-big secondary', onclick: () => { sfx('tap'); go('map'); } }, '🗺️ 지도로'),
+          el('button', { class: 'btn-big retry-main', onclick: () => { sfx('tap'); go('stage', { kingdom, stageIdx }); } }, '🔄 다시 하기'),
+        ),
+      ),
+    ),
+  );
+  s._onShow = async signal => {
+    sfx('flip');
+    await sleep(400, signal);
+    if (signal.aborted) return;
+    await speak(FAIL_CHEER, { signal });
+  };
   return s;
 }
 
