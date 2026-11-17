@@ -153,7 +153,9 @@ Play는 이 이미지 위에 재생 버튼이나 제목을 덧씌우고 가장�
 ### 개인정보처리방침 URL
 `https://s10cho.github.io/nuri-world/privacy.html`
 
-문의 이메일은 `csyull2287@gmail.com` — Play 개발자 계정(개인 유형)과 같은 주소로 통일했다.
+고객 지원·개인정보 문의 이메일은 `s10cho.deon@gmail.com`을 사용합니다. 비용·계정 관리용 `csyull2287@gmail.com`과 구분합니다.
+
+2026-11-17: 정책 원본의 문의 주소를 수정했습니다. Play Console의 앱별 지원 이메일·공개 개발자 이메일과 App Store Connect의 TestFlight 피드백 이메일은 별도로 확인·수정해야 합니다. 현재 콘솔 반영 여부는 미확인입니다.
 
 ---
 
