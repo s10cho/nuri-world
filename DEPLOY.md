@@ -285,7 +285,7 @@ iPad 규격은 Info.plist 가 iPad 를 지원한다고 선언하므로 **필수*
 - [x] **개인정보처리방침** — `public/privacy.html` 작성 완료(한/영, 데이터 미수집).
       배포 후 URL: `https://s10cho.github.io/nuri-world/privacy.html`.
       고객 지원·개인정보 문의 이메일은 `s10cho.deon@gmail.com`을 사용합니다. 비용·계정 관리용 `csyull2287@gmail.com`은 유지합니다.
-      2026-11-17 정책 원본 수정. 스토어 공개 연락처와 TestFlight 피드백 이메일의 콘솔 반영은 별도 확인이 필요합니다.
+      2026-11-17 정책 원본 수정. 스토어 공개 연락처의 콘솔 반영은 별도 확인이 필요합니다. 비공개 심사·테스터·계정 연락처는 유지합니다.
 - [x] **폰트 자체 호스팅** — Jua·Noto Serif KR을 앱이 쓰는 글자만 서브셋(각 ~160KB)해 `css/fonts/`에 자체 호스팅.
       외부(Google Fonts) 요청 제거 → "데이터 수집 없음" 선언 + 완전 오프라인.
       커리큘럼 글자가 늘면 재생성: 원본 폰트(google/fonts) + `pyftsubset --text-file=<쓰는 글자> --flavor=woff2`
